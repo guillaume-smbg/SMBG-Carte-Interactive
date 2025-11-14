@@ -35,6 +35,7 @@ function formatReference(ref) {
 // Format valeurs (OPTION A)
 function formatValue(key, val) {
     if (["","-","/","0","O",0,0.0].includes(val)) return null;
+
     val = val.toString().trim();
 
     const euros = [
@@ -61,10 +62,8 @@ function formatValue(key, val) {
     return val;
 }
 
-// Colonnes G→AL
 const colonnes_info = [
-    "Adresse",
-    "Emplacement","Typologie","Type",
+    "Adresse","Emplacement","Typologie","Type",
     "Cession / Droit au bail","Numéro de lot",
     "Surface GLA","Répartition surface GLA",
     "Surface utile","Répartition surface utile",
@@ -78,7 +77,7 @@ const colonnes_info = [
     "Environnement Commercial","Commentaires","Honoraires"
 ];
 
-// Affichage du panneau droit
+// Panneau droit
 function afficherPanneauDroit(d) {
 
     document.getElementById("sidebar-right").scrollTop = 0;
@@ -88,7 +87,6 @@ function afficherPanneauDroit(d) {
 
     let html = "";
 
-    // Adresse + bouton Maps dans un bloc
     const adresse = d["Adresse"];
     const gmaps = (d["Lien Google Maps"] || "").trim();
 
@@ -99,12 +97,13 @@ function afficherPanneauDroit(d) {
                 <div class="info-value">${adresse}</div>
             </div>
         `;
+
         if (gmaps && !["-","/"].includes(gmaps)) {
             html += `
                 <button class="btn-maps" onclick="window.open('${gmaps}','_blank')">
                     Google Maps
                 </button>
-                <div class="info-line"></div>
+                <hr class="hr-smbg">
             `;
         }
     }
@@ -134,10 +133,13 @@ function afficherPanneauDroit(d) {
     photos.forEach(url=>{
         ph += `<img src="${url}">`;
     });
-    document.getElementById("photos-lot").innerHTML = ph;
+
+    document.getElementById("photos-lot").innerHTML = ph + `
+        <div style="height:50px;"></div>
+    `;
 }
 
-// Pins + sélection cuivre
+// PIN sélectionné
 let pinSelectionne = null;
 
 async function afficherPins() {
