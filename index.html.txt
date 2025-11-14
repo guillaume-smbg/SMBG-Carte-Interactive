@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SMBG Carte - Layout</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Police Futura -->
+    <style>
+        @font-face {
+            font-family: 'Futura';
+            src: url('assets/fonts/Futura.ttf') format('truetype');
+            font-weight: normal;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ──────────── VOLET GAUCHE ──────────── -->
+    <div id="sidebar-left">
+
+        <!-- LOGO -->
+        <img src="assets/Logo bleu crop.png" id="logo-smbg">
+
+        <!-- FILTRES -->
+        <div class="filter-block">
+
+            <!-- Régions -->
+            <h3 class="filter-title">Régions</h3>
+            <div id="filter-regions">
+                <!-- cases insérées dynamiquement -->
+            </div>
+
+            <!-- Départements -->
+            <h3 class="filter-title">Départements</h3>
+            <div id="filter-departements">
+                <!-- items décalés de 15 px, dynamiques -->
+            </div>
+
+            <!-- Surface -->
+            <h3 class="filter-title">Surface (m²)</h3>
+            <input type="range" id="surface-min">
+            <input type="range" id="surface-max">
+
+            <!-- Loyer -->
+            <h3 class="filter-title">Loyer (€)</h3>
+            <input type="range" id="loyer-min">
+            <input type="range" id="loyer-max">
+
+            <!-- Emplacement -->
+            <h3 class="filter-title">Emplacement</h3>
+            <div id="filter-emplacement"></div>
+
+            <!-- Typologie -->
+            <h3 class="filter-title">Typologie</h3>
+            <div id="filter-typologie"></div>
+
+            <!-- Extraction -->
+            <h3 class="filter-title">Extraction</h3>
+            <div id="filter-extraction"></div>
+
+            <!-- Restauration -->
+            <h3 class="filter-title">Restauration</h3>
+            <div id="filter-restauration"></div>
+
+            <!-- Bouton Réinitialiser -->
+            <button id="btn-reset">Réinitialiser</button>
+        </div>
+
+    </div>
+
+
+
+    <!-- ──────────── CARTE CENTRALE (VIDE POUR L’INSTANT) ──────────── -->
+    <div id="map-container">
+        <!-- La carte Leaflet sera injectée ici -->
+        <div id="map"></div>
+    </div>
+
+
+
+    <!-- ──────────── VOLET DROIT ──────────── -->
+    <div id="sidebar-right">
+
+        <!-- Référence annonce -->
+        <div id="ref-annonce">Référence</div>
+
+        <!-- Données G → AL -->
+        <div id="info-lot">
+            <!-- lignes dynamiques -->
+        </div>
+
+        <!-- Photos -->
+        <div id="photos-lot">
+            <!-- images Cloudflare -->
+        </div>
+
+    </div>
+
+</body>
+</html>

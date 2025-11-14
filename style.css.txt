@@ -1,0 +1,120 @@
+/* PAGE GLOBALE */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* page non scrollable */
+    font-family: 'Futura', sans-serif;
+}
+
+/* ──────────── 3 COLONNES FIXES ──────────── */
+#sidebar-left {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 275px;
+    height: 100%;
+    background-color: #05263d; /* bleu SMBG */
+    color: #C67B42; /* cuivre SMBG */
+    overflow-y: auto;
+    padding: 20px;
+}
+
+#sidebar-right {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 275px;
+    height: 100%;
+    background-color: #05263d; /* bleu SMBG */
+    color: #C67B42; /* cuivre SMBG */
+    overflow-y: auto;
+    padding: 20px;
+}
+
+#map-container {
+    position: fixed;
+    left: 275px;
+    right: 275px;
+    top: 0;
+    bottom: 0;
+    background: #dcdcdc;
+}
+
+/* La carte (sera remplie ensuite) */
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+
+/* ──────────── LOGO ──────────── */
+#logo-smbg {
+    width: 180px;
+    display: block;
+    margin: 25px auto 20px auto;
+}
+
+
+/* ──────────── FILTRES ──────────── */
+.filter-block {
+    margin-top: 10px;
+}
+
+.filter-title {
+    font-size: 16px;
+    color: #C67B42;
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+
+/* Départements décalés de 15 px */
+#filter-departements .dep-item {
+    margin-left: 15px;
+}
+
+
+/* Bouton Réinitialiser */
+#btn-reset {
+    width: 100%;
+    padding: 10px;
+    margin-top: 25px;
+    background-color: #C67B42;
+    color: #05263d;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+
+/* ──────────── PANEL DROIT ──────────── */
+#ref-annonce {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #C67B42;
+    margin-bottom: 20px;
+}
+
+#info-lot {
+    line-height: 1.6;
+}
+
+.info-line {
+    border-bottom: 1px solid rgba(198, 123, 66, 0.4); /* cuivre pâle */
+    padding: 8px 0;
+}
+
+
+/* Photos */
+#photos-lot img {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 4px;
+}
