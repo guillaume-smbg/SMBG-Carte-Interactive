@@ -9,115 +9,97 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity=""
         crossorigin="" />
 
-    <!-- Style principal -->
+    <!-- SMBG CSS -->
     <link rel="stylesheet" href="style.css">
-
-    <!-- Correctif immédiat de largeur (supprime le problème de cache GitHub) -->
-    <style>
-        #sidebar-left {
-            width: 300px !important;
-        }
-        #sidebar-right {
-            width: 300px !important;
-        }
-        #map-container {
-            left: 300px !important;
-            right: 300px !important;
-        }
-    </style>
-
 </head>
-
 
 <body>
 
-    <!-- ╔════════════════════════════════════════════╗ -->
-    <!--            PANNEAU GAUCHE FIXE (300 PX)       -->
-    <!-- ╚════════════════════════════════════════════╝ -->
+    <!-- ─────────────────────────────── -->
+    <!-- VOLET GAUCHE                   -->
+    <!-- ─────────────────────────────── -->
     <div id="sidebar-left">
 
-        <!-- Logo SMBG -->
-        <img id="logo-smbg" src="assets/Logo%20bleu%20crop.png" alt="SMBG CONSeil">
-
-        <!-- Filtres -->
         <div class="filter-block">
             <div class="filter-title">Régions</div>
+            <div id="filter-regions"></div>
         </div>
 
         <div class="filter-block">
             <div class="filter-title">Départements</div>
+            <div id="filter-departements"></div>
         </div>
 
         <div class="filter-block">
             <div class="filter-title">Surface (m²)</div>
-            <input type="range">
-            <input type="range">
+            <div id="surface-values"></div>
+            <input type="range" id="surface-min">
+            <input type="range" id="surface-max">
         </div>
 
         <div class="filter-block">
-            <div class="filter-title">Loyer (€)</div>
-            <input type="range">
-            <input type="range">
+            <div class="filter-title">Loyer annuel (€)</div>
+            <div id="loyer-values"></div>
+            <input type="range" id="loyer-min">
+            <input type="range" id="loyer-max">
         </div>
 
         <div class="filter-block">
             <div class="filter-title">Emplacement</div>
+            <div id="filter-emplacement"></div>
         </div>
 
         <div class="filter-block">
             <div class="filter-title">Typologie</div>
+            <div id="filter-typologie"></div>
         </div>
 
         <div class="filter-block">
             <div class="filter-title">Extraction</div>
+            <div id="filter-extraction"></div>
         </div>
 
         <div class="filter-block">
             <div class="filter-title">Restauration</div>
+            <div id="filter-restauration"></div>
         </div>
 
         <button id="btn-reset">Réinitialiser</button>
     </div>
 
 
-    <!-- ╔════════════════════════════════════════════╗ -->
-    <!--                CARTE CENTRALE                 -->
-    <!-- ╚════════════════════════════════════════════╝ -->
+    <!-- ─────────────────────────────── -->
+    <!-- CARTE CENTRALE                 -->
+    <!-- ─────────────────────────────── -->
     <div id="map-container">
         <div id="map"></div>
     </div>
 
 
-    <!-- ╔════════════════════════════════════════════╗ -->
-    <!--            PANNEAU DROIT FIXE (300 PX)        -->
-    <!-- ╚════════════════════════════════════════════╝ -->
+    <!-- ─────────────────────────────── -->
+    <!-- VOLET DROIT                    -->
+    <!-- ─────────────────────────────── -->
     <div id="sidebar-right">
-
         <div id="ref-annonce">Référence</div>
-
         <div id="info-lot"></div>
-
         <div id="photos-lot"></div>
-
     </div>
 
 
-    <!-- ╔════════════════════════════════════════════╗ -->
-    <!--              SCRIPTS JAVASCRIPT                -->
-    <!-- ╚════════════════════════════════════════════╝ -->
+    <!-- ─────────────────────────────── -->
+    <!-- SCRIPTS                        -->
+    <!-- ─────────────────────────────── -->
 
-    <!-- Leaflet JS -->
+    <!-- Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity=""
         crossorigin=""></script>
 
-    <!-- SheetJS pour lire l'Excel -->
+    <!-- SheetJS -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
-    <!-- Script principal -->
+    <!-- SMBG JS -->
     <script src="js/app.js"></script>
 
 </body>
