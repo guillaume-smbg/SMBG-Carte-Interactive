@@ -1,13 +1,15 @@
 // ─────────────────────────────────────────────
-// INITIALISATION LEAFLET - CARTE SMBG
+// SMBG – Carte Leaflet (Étape A : carte seule)
 // ─────────────────────────────────────────────
 
-// Création de la carte dans la zone #map
+// Création de la carte au centre
 var map = L.map('map', {
     zoomControl: true,
-    attributionControl: false,
+    scrollWheelZoom: true,
     dragging: true,
-    scrollWheelZoom: true
+    minZoom: 3,
+    maxZoom: 19,
+    attributionControl: false
 });
 
 // Fond OpenStreetMap
@@ -15,5 +17,11 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
 }).addTo(map);
 
-// Zoom initial sur la France
+// Vue initiale centrée sur la France
 map.setView([46.8, 2.4], 6);
+
+// Optionnel : empêche la carte de dépasser les colonnes
+map.invalidateSize(true);
+window.addEventListener('resize', () => {
+    map.invalidateSize();
+});
