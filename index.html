@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SMBG – Carte Interactive</title>
 
+    <!-- Leaflet CSS -->
     <link rel="stylesheet"
           href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          crossorigin="">
+          crossorigin="" />
 
+    <!-- Style SMBG -->
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -20,50 +22,70 @@
     <!-- ------------------------------------------------------------------ -->
     <div id="sidebar-left">
 
+        <!-- Régions -->
         <div class="filter-block">
             <div class="filter-title">Régions</div>
             <div id="filter-regions"></div>
         </div>
 
+        <!-- Départements -->
         <div class="filter-block">
             <div class="filter-title">Départements</div>
             <div id="filter-departements"></div>
         </div>
 
+        <!-- Surface -->
         <div class="filter-block">
             <div class="filter-title">Surface (m²)</div>
             <div id="surface-values"></div>
+
+            <!-- DOIT ÊTRE PRÉSENT POUR LE JS -->
+            <input type="range" id="surface-min" style="display:none">
+            <input type="range" id="surface-max" style="display:none">
+
+            <!-- Double slider -->
             <div id="surface-slider"></div>
         </div>
 
+        <!-- Loyer annuel -->
         <div class="filter-block">
             <div class="filter-title">Loyer annuel (€)</div>
             <div id="loyer-values"></div>
+
+            <!-- DOIT ÊTRE PRÉSENT POUR LE JS -->
+            <input type="range" id="loyer-min" style="display:none">
+            <input type="range" id="loyer-max" style="display:none">
+
+            <!-- Double slider -->
             <div id="loyer-slider"></div>
         </div>
 
+        <!-- Emplacement -->
         <div class="filter-block">
             <div class="filter-title">Emplacement</div>
             <div id="filter-emplacement"></div>
         </div>
 
+        <!-- Typologie -->
         <div class="filter-block">
             <div class="filter-title">Typologie</div>
             <div id="filter-typologie"></div>
         </div>
 
+        <!-- Extraction -->
         <div class="filter-block">
             <div class="filter-title">Extraction</div>
             <div id="filter-extraction"></div>
         </div>
 
+        <!-- Restauration -->
         <div class="filter-block">
             <div class="filter-title">Restauration</div>
             <div id="filter-restauration"></div>
         </div>
 
+        <!-- Bouton Reset -->
         <button id="btn-reset">Réinitialiser</button>
-
     </div>
 
     <!-- ------------------------------------------------------------------ -->
@@ -82,15 +104,18 @@
         <div id="photos-lot"></div>
     </div>
 
-
     <!-- ------------------------------------------------------------------ -->
     <!-- SCRIPTS                                                            -->
     <!-- ------------------------------------------------------------------ -->
+
+    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             crossorigin=""></script>
 
+    <!-- SheetJS -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
+    <!-- JS SMBG -->
     <script src="js/app.js"></script>
 
 </body>
