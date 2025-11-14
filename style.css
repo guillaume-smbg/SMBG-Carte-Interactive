@@ -22,18 +22,20 @@ html, body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 300px;                /* largeur du volet */
+    width: 300px;  /* largeur du volet */
     height: 100%;
     background-color: #05263d;
     color: #C67B42;
     overflow-y: auto;
     padding: 20px;
+    padding-bottom: 200px; /* empêche le bas d’être coupé */
 }
 
-/* Conteneur de paramètres limité à 250px */
+/* Largeur max des contenus */
 #sidebar-left .filter-block,
 #sidebar-left .checkbox-item,
-#sidebar-left .checkbox-sub {
+#sidebar-left .checkbox-sub,
+#sidebar-left input[type="range"] {
     max-width: 250px;
 }
 
@@ -44,23 +46,70 @@ html, body {
     margin-bottom: 10px;
 }
 
-/* Checkbox */
-.checkbox-item,
+/* Checkbox standard */
+.checkbox-item {
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Départements imbriqués */
+.region-group {
+    margin-top: 10px;
+    margin-bottom: 6px;
+}
+
+.region-label {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
 .checkbox-sub {
+    margin-left: 15px;
     margin-bottom: 4px;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-/* Départements imbriqués : indentation 15px */
-.checkbox-sub {
-    margin-left: 15px;
+/* -------------------------------------------------------------------------- */
+/* DOUBLE SLIDER                                                              */
+/* -------------------------------------------------------------------------- */
+.double-slider {
+    position: relative;
+    width: 250px;
+    height: 30px;
+    margin-top: 10px;
 }
 
-/* Sliders */
-input[type="range"] {
-    width: 250px; /* largeur réduite */
+.double-slider input[type="range"] {
+    position: absolute;
+    left: 0;
+    width: 250px;
+    appearance: none;
+    pointer-events: none;  /* important : une seule barre active */
+    height: 6px;
+    background: #c0c0c0;
+    border-radius: 3px;
+}
+
+.double-slider input::-webkit-slider-thumb {
+    pointer-events: auto;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #C67B42;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.double-slider input::-moz-range-thumb {
+    pointer-events: auto;
+    width: 18px;
+    height: 18px;
+    background: #C67B42;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 #surface-values,
@@ -69,7 +118,7 @@ input[type="range"] {
     margin-bottom: 6px;
 }
 
-/* Bouton reset */
+/* Bouton Reset */
 #btn-reset {
     width: 250px;
     padding: 10px;
@@ -79,19 +128,20 @@ input[type="range"] {
     border-radius: 5px;
     font-weight: bold;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 /* -------------------------------------------------------------------------- */
-/* CARTE                                                                      */
+/* CARTE AU CENTRE                                                            */
 /* -------------------------------------------------------------------------- */
 #map-container {
     position: fixed;
     top: 0;
-    left: 300px;
-    right: 300px;
+    left: 300px;     /* espace du volet gauche */
+    right: 300px;    /* espace du volet droit */
     bottom: 0;
 }
+
 #map {
     width: 100%;
     height: 100%;
@@ -110,7 +160,7 @@ input[type="range"] {
     color: #C67B42;
     overflow-y: auto;
     padding: 20px;
-    padding-bottom: 80px; /* empêche le bas d'être masqué */
+    padding-bottom: 220px; /* Grande marge d'affichage */
 }
 
 #ref-annonce {
@@ -120,7 +170,7 @@ input[type="range"] {
     margin-bottom: 20px;
 }
 
-/* Lignes d'infos */
+/* Ligne d’info */
 .info-line {
     display: flex;
     padding: 8px 0;
@@ -135,12 +185,13 @@ input[type="range"] {
     width: 40%;
     font-weight: bold;
 }
+
 .info-value {
     width: 60%;
     text-align: left;
 }
 
-/* Google Maps */
+/* Bouton Google Maps */
 .btn-maps {
     background-color: #C67B42;
     color: #05263d;
@@ -160,6 +211,7 @@ input[type="range"] {
     margin: 12px 0;
 }
 
+/* Photos */
 #photos-lot img {
     width: 100%;
     border-radius: 5px;
@@ -167,7 +219,7 @@ input[type="range"] {
 }
 
 /* -------------------------------------------------------------------------- */
-/* PINS                                                                       */
+/* PINS SMBG                                                                  */
 /* -------------------------------------------------------------------------- */
 .smbg-pin {
     background-color: #05263d;
