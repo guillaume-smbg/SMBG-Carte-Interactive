@@ -47,6 +47,7 @@ body { overflow-x: hidden !important; }
     color: #C67B42;
     overflow-y: auto;
     padding: 20px;
+    padding-bottom: 40px !important; /* Correction coupure bas */
 }
 
 #map-container {
@@ -140,7 +141,7 @@ input[type="range"] {
 
 .info-value {
     width: 60%;
-    text-align: right;
+    text-align: left !important;
 }
 
 /* Bouton Google Maps */
@@ -152,7 +153,8 @@ input[type="range"] {
     font-weight: bold;
     border: none;
     cursor: pointer;
-    width: 100%;
+    width: 60% !important;       /* largeur colonne valeurs */
+    margin-left: 40%;            /* alignement sous la colonne */
     margin-top: 6px;
 }
 
