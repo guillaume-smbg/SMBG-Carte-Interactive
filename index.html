@@ -6,20 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SMBG – Carte Interactive</title>
 
-    <!-- Leaflet CSS -->
     <link rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        crossorigin="" />
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          crossorigin="">
 
-    <!-- SMBG CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- ─────────────────────────────── -->
-    <!-- VOLET GAUCHE                   -->
-    <!-- ─────────────────────────────── -->
+    <!-- ------------------------------------------------------------------ -->
+    <!-- VOLET GAUCHE                                                       -->
+    <!-- ------------------------------------------------------------------ -->
     <div id="sidebar-left">
 
         <div class="filter-block">
@@ -35,15 +33,13 @@
         <div class="filter-block">
             <div class="filter-title">Surface (m²)</div>
             <div id="surface-values"></div>
-            <input type="range" id="surface-min">
-            <input type="range" id="surface-max">
+            <div id="surface-slider"></div>
         </div>
 
         <div class="filter-block">
             <div class="filter-title">Loyer annuel (€)</div>
             <div id="loyer-values"></div>
-            <input type="range" id="loyer-min">
-            <input type="range" id="loyer-max">
+            <div id="loyer-slider"></div>
         </div>
 
         <div class="filter-block">
@@ -67,20 +63,19 @@
         </div>
 
         <button id="btn-reset">Réinitialiser</button>
+
     </div>
 
-
-    <!-- ─────────────────────────────── -->
-    <!-- CARTE CENTRALE                 -->
-    <!-- ─────────────────────────────── -->
+    <!-- ------------------------------------------------------------------ -->
+    <!-- CARTE                                                              -->
+    <!-- ------------------------------------------------------------------ -->
     <div id="map-container">
         <div id="map"></div>
     </div>
 
-
-    <!-- ─────────────────────────────── -->
-    <!-- VOLET DROIT                    -->
-    <!-- ─────────────────────────────── -->
+    <!-- ------------------------------------------------------------------ -->
+    <!-- VOLET DROIT                                                        -->
+    <!-- ------------------------------------------------------------------ -->
     <div id="sidebar-right">
         <div id="ref-annonce">Référence</div>
         <div id="info-lot"></div>
@@ -88,20 +83,15 @@
     </div>
 
 
-    <!-- ─────────────────────────────── -->
-    <!-- SCRIPTS                        -->
-    <!-- ─────────────────────────────── -->
-
-    <!-- Leaflet -->
+    <!-- ------------------------------------------------------------------ -->
+    <!-- SCRIPTS                                                            -->
+    <!-- ------------------------------------------------------------------ -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        crossorigin=""></script>
+            crossorigin=""></script>
 
-    <!-- SheetJS -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
-    <!-- SMBG JS -->
     <script src="js/app.js"></script>
 
 </body>
-
 </html>
