@@ -1,26 +1,38 @@
-/* PAGE GLOBALE */
-* {
+/* ───────────────────────────────────────────────────────────── */
+/*                       POLICE FUTURA SMBG                      */
+/* ───────────────────────────────────────────────────────────── */
+@font-face {
+    font-family: 'Futura';
+    src: url('assets/fonts/FuturaLT.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Police globale */
+html, body {
+    font-family: 'Futura', sans-serif;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Pas de scroll global */
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* page non scrollable */
-    font-family: 'Futura', sans-serif;
-}
 
-/* ──────────── 3 COLONNES FIXES ──────────── */
+
+/* ───────────────────────────────────────────────────────────── */
+/*                     STRUCTURE EN 3 COLONNES                    */
+/* ───────────────────────────────────────────────────────────── */
+
 #sidebar-left {
     position: fixed;
     left: 0;
     top: 0;
     width: 275px;
     height: 100%;
-    background-color: #05263d; /* bleu SMBG */
-    color: #C67B42; /* cuivre SMBG */
+    background-color: #05263d; /* Bleu SMBG */
+    color: #C67B42; /* Cuivre SMBG */
     overflow-y: auto;
     padding: 20px;
 }
@@ -31,8 +43,8 @@ html, body {
     top: 0;
     width: 275px;
     height: 100%;
-    background-color: #05263d; /* bleu SMBG */
-    color: #C67B42; /* cuivre SMBG */
+    background-color: #05263d; /* Bleu SMBG */
+    color: #C67B42; /* Cuivre SMBG */
     overflow-y: auto;
     padding: 20px;
 }
@@ -43,79 +55,104 @@ html, body {
     right: 275px;
     top: 0;
     bottom: 0;
-    background: #dcdcdc;
+    background-color: #d0d0d0; /* Temporaire gris (sera remplacé par carte) */
 }
 
-/* La carte (sera remplie ensuite) */
 #map {
     width: 100%;
     height: 100%;
 }
 
 
-/* ──────────── LOGO ──────────── */
+
+/* ───────────────────────────────────────────────────────────── */
+/*                             LOGO                               */
+/* ───────────────────────────────────────────────────────────── */
+
 #logo-smbg {
     width: 180px;
     display: block;
-    margin: 12px auto 20px auto;
+    margin: 12px auto 20px auto; /* Marge haute réduite de 50% */
 }
 
 
-/* ──────────── FILTRES ──────────── */
+
+/* ───────────────────────────────────────────────────────────── */
+/*                            FILTRES                            */
+/* ───────────────────────────────────────────────────────────── */
+
 .filter-block {
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 .filter-title {
     font-size: 16px;
-    color: #C67B42;
-    margin-top: 20px;
+    color: #C67B42; /* Cuivre */
+    margin-top: 18px;
     margin-bottom: 8px;
+    font-weight: bold;
 }
 
-/* Départements décalés de 15 px */
+/* Départements décalés */
 #filter-departements .dep-item {
     margin-left: 15px;
 }
 
+/* Slider (temporaire, en attendant noUiSlider) */
+input[type="range"] {
+    width: 100%;
+    margin: 4px 0;
+}
 
-/* Bouton Réinitialiser */
+
+
+/* ───────────────────────────────────────────────────────────── */
+/*                      BOUTON REINITIALISER                     */
+/* ───────────────────────────────────────────────────────────── */
+
 #btn-reset {
     width: 100%;
     padding: 10px;
     margin-top: 25px;
     background-color: #C67B42;
     color: #05263d;
-    font-weight: bold;
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    font-weight: bold;
+}
+
+#btn-reset:hover {
+    opacity: 0.85;
 }
 
 
-/* ──────────── PANEL DROIT ──────────── */
+
+/* ───────────────────────────────────────────────────────────── */
+/*                      VOLET DROIT — DETAILS                    */
+/* ───────────────────────────────────────────────────────────── */
+
 #ref-annonce {
     font-size: 24px;
     font-weight: bold;
     text-align: center;
-    color: #C67B42;
+    color: #C67B42; /* Cuivre */
     margin-bottom: 20px;
 }
 
 #info-lot {
-    line-height: 1.6;
+    line-height: 1.5;
 }
 
+/* Ligne d'information */
 .info-line {
-    border-bottom: 1px solid rgba(198, 123, 66, 0.4); /* cuivre pâle */
-    padding: 8px 0;
+    border-bottom: 1px solid rgba(198, 123, 66, 0.4); /* Cuivre pâle */
+    padding: 7px 0;
 }
-
 
 /* Photos */
 #photos-lot img {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 12px;
     border-radius: 4px;
 }
-
