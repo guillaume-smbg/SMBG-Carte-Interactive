@@ -2,17 +2,36 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>SMBG Carte - Layout</title>
+    <title>SMBG Carte Interactive</title>
+
+    <!-- STYLE CSS -->
     <link rel="stylesheet" href="style.css">
 
     <!-- Police Futura -->
     <style>
         @font-face {
             font-family: 'Futura';
-            src: url('assets/fonts/Futura.ttf') format('truetype');
+            src: url('assets/fonts/FuturaLT.ttf') format('truetype');
             font-weight: normal;
+            font-style: normal;
         }
     </style>
+
+    <!-- Leaflet CSS -->
+    <link 
+        rel="stylesheet" 
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-o9N1j8Mk1zAu6RzP9gENhZYjKs1C6tE4nS0hKp8g1jM=" 
+        crossorigin=""
+    />
+
+    <!-- Leaflet JS -->
+    <script 
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-o8EeH8rJMTmPVYvFl+i2uqxu9IkM8IuXcQ+Y7Z1Zx3w=" 
+        crossorigin="">
+    </script>
+
 </head>
 
 <body>
@@ -23,20 +42,15 @@
         <!-- LOGO -->
         <img src="assets/Logo bleu crop.png" id="logo-smbg">
 
-        <!-- FILTRES -->
         <div class="filter-block">
 
             <!-- Régions -->
             <h3 class="filter-title">Régions</h3>
-            <div id="filter-regions">
-                <!-- cases insérées dynamiquement -->
-            </div>
+            <div id="filter-regions"></div>
 
             <!-- Départements -->
             <h3 class="filter-title">Départements</h3>
-            <div id="filter-departements">
-                <!-- items décalés de 15 px, dynamiques -->
-            </div>
+            <div id="filter-departements"></div>
 
             <!-- Surface -->
             <h3 class="filter-title">Surface (m²)</h3>
@@ -66,15 +80,14 @@
 
             <!-- Bouton Réinitialiser -->
             <button id="btn-reset">Réinitialiser</button>
-        </div>
 
+        </div>
     </div>
 
 
 
-    <!-- ──────────── CARTE CENTRALE (VIDE POUR L’INSTANT) ──────────── -->
+    <!-- ──────────── CARTE ──────────── -->
     <div id="map-container">
-        <!-- La carte Leaflet sera injectée ici -->
         <div id="map"></div>
     </div>
 
@@ -83,20 +96,20 @@
     <!-- ──────────── VOLET DROIT ──────────── -->
     <div id="sidebar-right">
 
-        <!-- Référence annonce -->
         <div id="ref-annonce">Référence</div>
 
-        <!-- Données G → AL -->
         <div id="info-lot">
             <!-- lignes dynamiques -->
         </div>
 
-        <!-- Photos -->
         <div id="photos-lot">
             <!-- images Cloudflare -->
         </div>
 
     </div>
+
+    <!-- SCRIPT JS PRINCIPAL -->
+    <script src="js/app.js"></script>
 
 </body>
 </html>
