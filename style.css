@@ -47,7 +47,7 @@ body { overflow-x: hidden !important; }
     color: #C67B42;
     overflow-y: auto;
     padding: 20px;
-    padding-bottom: 40px !important; /* Correction coupure bas */
+    padding-bottom: 80px !important; /* Correction scroll bas */
 }
 
 #map-container {
@@ -73,7 +73,7 @@ body { overflow-x: hidden !important; }
 }
 
 /* ───────────────────────────────────────────────────────────── */
-/*                         BLOCS DE FILTRES                      */
+/*                          FILTRES                              */
 /* ───────────────────────────────────────────────────────────── */
 
 .filter-block {
@@ -92,7 +92,6 @@ body { overflow-x: hidden !important; }
     font-weight: bold;
 }
 
-/* Sliders */
 input[type="range"] {
     width: 100%;
     max-width: 100%;
@@ -100,7 +99,6 @@ input[type="range"] {
     box-sizing: border-box;
 }
 
-/* Bouton Réinitialiser */
 #btn-reset {
     width: 100%;
     padding: 10px;
@@ -127,10 +125,11 @@ input[type="range"] {
     margin-bottom: 20px;
 }
 
+/* Ligne d'information */
 .info-line {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(198, 123, 66, 0.4);
+    border-bottom: 1px solid rgba(198,123,66,0.4);
     padding: 8px 0;
 }
 
@@ -144,7 +143,7 @@ input[type="range"] {
     text-align: left !important;
 }
 
-/* Bouton Google Maps */
+/* Bouton Google Maps — largeur colonne valeur */
 .btn-maps {
     background-color: #C67B42;
     color: #05263d;
@@ -153,12 +152,19 @@ input[type="range"] {
     font-weight: bold;
     border: none;
     cursor: pointer;
-    width: 60% !important;       /* largeur colonne valeurs */
-    margin-left: 40%;            /* alignement sous la colonne */
+    width: 60% !important;
+    margin-left: 40%;
     margin-top: 6px;
 }
 
 .btn-maps:hover { opacity: 0.9; }
+
+/* Ligne orange sous le bloc Adresse + bouton */
+.hr-smbg {
+    border: none;
+    border-bottom: 1px solid rgba(198,123,66,0.4);
+    margin: 12px 0;
+}
 
 /* Photos */
 #photos-lot img {
