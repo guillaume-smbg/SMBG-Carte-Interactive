@@ -90,14 +90,16 @@ function afficherPanneauDroit(d) {
     const adresse = d["Adresse"];
     const gmaps = (d["Lien Google Maps"] || "").trim();
 
+    // Adresse sans ligne
     if (adresse && !["-","/","0"].includes(adresse)) {
         html += `
-            <div class="info-line">
+            <div class="info-line info-line-no-border">
                 <div class="info-key">Adresse</div>
                 <div class="info-value">${adresse}</div>
             </div>
         `;
 
+        // Bouton Maps
         if (gmaps && !["-","/"].includes(gmaps)) {
             html += `
                 <button class="btn-maps" onclick="window.open('${gmaps}','_blank')">
@@ -108,6 +110,7 @@ function afficherPanneauDroit(d) {
         }
     }
 
+    // Autres lignes
     colonnes_info.forEach(col => {
         if (col === "Adresse") return;
 
