@@ -1,114 +1,125 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <title>SMBG Carte Interactive</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMBG – Carte Interactive</title>
 
-    <!-- STYLE CSS -->
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity=""
+        crossorigin="" />
+
+    <!-- Style principal -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Police Futura -->
+    <!-- Correctif immédiat de largeur (supprime le problème de cache GitHub) -->
     <style>
-        @font-face {
-            font-family: 'Futura';
-            src: url('assets/fonts/FuturaLT.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
+        #sidebar-left {
+            width: 300px !important;
+        }
+        #sidebar-right {
+            width: 300px !important;
+        }
+        #map-container {
+            left: 300px !important;
+            right: 300px !important;
         }
     </style>
 
-    <!-- Leaflet CSS (CORRIGÉ, SANS integrity) -->
-    <link 
-        rel="stylesheet" 
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    />
-
-    <!-- Leaflet JS (CORRIGÉ, SANS integrity) -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 </head>
+
 
 <body>
 
-    <!-- ──────────── VOLET GAUCHE ──────────── -->
+    <!-- ╔════════════════════════════════════════════╗ -->
+    <!--            PANNEAU GAUCHE FIXE (300 PX)       -->
+    <!-- ╚════════════════════════════════════════════╝ -->
     <div id="sidebar-left">
 
-        <!-- LOGO -->
-        <img src="assets/Logo bleu crop.png" id="logo-smbg">
+        <!-- Logo SMBG -->
+        <img id="logo-smbg" src="assets/Logo%20bleu%20crop.png" alt="SMBG CONSeil">
+
+        <!-- Filtres -->
+        <div class="filter-block">
+            <div class="filter-title">Régions</div>
+        </div>
 
         <div class="filter-block">
-
-            <!-- Régions -->
-            <h3 class="filter-title">Régions</h3>
-            <div id="filter-regions"></div>
-
-            <!-- Départements -->
-            <h3 class="filter-title">Départements</h3>
-            <div id="filter-departements"></div>
-
-            <!-- Surface -->
-            <h3 class="filter-title">Surface (m²)</h3>
-            <input type="range" id="surface-min">
-            <input type="range" id="surface-max">
-
-            <!-- Loyer -->
-            <h3 class="filter-title">Loyer (€)</h3>
-            <input type="range" id="loyer-min">
-            <input type="range" id="loyer-max">
-
-            <!-- Emplacement -->
-            <h3 class="filter-title">Emplacement</h3>
-            <div id="filter-emplacement"></div>
-
-            <!-- Typologie -->
-            <h3 class="filter-title">Typologie</h3>
-            <div id="filter-typologie"></div>
-
-            <!-- Extraction -->
-            <h3 class="filter-title">Extraction</h3>
-            <div id="filter-extraction"></div>
-
-            <!-- Restauration -->
-            <h3 class="filter-title">Restauration</h3>
-            <div id="filter-restauration"></div>
-
-            <!-- Bouton Réinitialiser -->
-            <button id="btn-reset">Réinitialiser</button>
-
+            <div class="filter-title">Départements</div>
         </div>
+
+        <div class="filter-block">
+            <div class="filter-title">Surface (m²)</div>
+            <input type="range">
+            <input type="range">
+        </div>
+
+        <div class="filter-block">
+            <div class="filter-title">Loyer (€)</div>
+            <input type="range">
+            <input type="range">
+        </div>
+
+        <div class="filter-block">
+            <div class="filter-title">Emplacement</div>
+        </div>
+
+        <div class="filter-block">
+            <div class="filter-title">Typologie</div>
+        </div>
+
+        <div class="filter-block">
+            <div class="filter-title">Extraction</div>
+        </div>
+
+        <div class="filter-block">
+            <div class="filter-title">Restauration</div>
+        </div>
+
+        <button id="btn-reset">Réinitialiser</button>
     </div>
 
 
-
-    <!-- ──────────── CARTE ──────────── -->
+    <!-- ╔════════════════════════════════════════════╗ -->
+    <!--                CARTE CENTRALE                 -->
+    <!-- ╚════════════════════════════════════════════╝ -->
     <div id="map-container">
         <div id="map"></div>
     </div>
 
 
-
-    <!-- ──────────── VOLET DROIT ──────────── -->
+    <!-- ╔════════════════════════════════════════════╗ -->
+    <!--            PANNEAU DROIT FIXE (300 PX)        -->
+    <!-- ╚════════════════════════════════════════════╝ -->
     <div id="sidebar-right">
 
         <div id="ref-annonce">Référence</div>
 
-        <div id="info-lot">
-            <!-- lignes dynamiques -->
-        </div>
+        <div id="info-lot"></div>
 
-        <div id="photos-lot">
-            <!-- images Cloudflare -->
-        </div>
+        <div id="photos-lot"></div>
 
     </div>
 
-<!-- Library pour lire l’Excel -->
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
-<!-- Ton script principal -->
-<script src="js/app.js"></script>
+    <!-- ╔════════════════════════════════════════════╗ -->
+    <!--              SCRIPTS JAVASCRIPT                -->
+    <!-- ╚════════════════════════════════════════════╝ -->
 
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity=""
+        crossorigin=""></script>
+
+    <!-- SheetJS pour lire l'Excel -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <!-- Script principal -->
+    <script src="js/app.js"></script>
 
 </body>
-</html>
 
+</html>
