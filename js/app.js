@@ -1,71 +1,90 @@
-/* -------------------------------------------------------------------------- */
-/* INITIALISATION CARTE                                                       */
-/* -------------------------------------------------------------------------- */
-var map = L.map("map", {
-    zoomControl: true,
-    scrollWheelZoom: true,
-});
+/* ========================================================================= */
+/*  SMBG CARTE INTERACTIVE – APP.JS STABILISÉ & COMPATIBLE EXCEL ACTUEL     */
+/* ========================================================================= */
 
+/* -------------------------------------------------------------------------- */
+/* CARTE                                                                      */
+/* -------------------------------------------------------------------------- */
+var map = L.map("map", { zoomControl: true, scrollWheelZoom: true });
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
 }).addTo(map);
-
 map.setView([46.8, 2.4], 6);
 
 
 /* -------------------------------------------------------------------------- */
-/* LECTURE EXCEL                                                              */
+/* CHARGEMENT EXCEL                                                           */
 /* -------------------------------------------------------------------------- */
 async function loadExcel() {
     const url =
         "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsx";
+
     const res = await fetch(url);
     const buf = await res.arrayBuffer();
-    const wb = XLSX.read(buf, { type: "array" });
-    return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {
+
+    const wb = XLSX.read(buf, { type: "array", cellDates: true });
+    const ws = wb.Sheets[wb.SheetNames[0]];
+
+    return XLSX.utils.sheet_to_json(ws, {
         defval: "",
+        raw: false,
+        blankrows: false,
     });
 }
 
 
 /* -------------------------------------------------------------------------- */
-/* FORMATAGE VALEURS SMBG                                                     */
+/* OUTILS : NETTOYAGE & CONVERSION                                            */
 /* -------------------------------------------------------------------------- */
-function cleanValue(v) {
-    if (!v) return null;
+function clean(v) {
+    if (!v) return "";
     v = v.toString().trim();
-    if (["-", "/", "0", "O"].includes(v)) return null;
+    if (["-", "/", "0", "O"].includes(v)) return "";
     return v;
 }
 
-function formatReference(r) {
+function toNumber(v) {
+    if (!v) return null;
+    return parseFloat(
+        v.toString()
+            .replace(/ /g, "")      // espaces insécables
+            .replace(/\s/g, "")     // espaces normales
+            .replace(/[€m²]/g, "")  // unités
+            .replace(/,/g, ".")     // virgules
+    );
+}
+
+function formatRef(r) {
     if (!r) return "";
     return r.toString().trim().replace(/^0+/, "").replace(/\.0$/, "");
 }
 
-function formatMoney(v) {
-    v = v.toString().replace(/\s/g, "");
-    const n = Math.round(parseFloat(v));
-    if (isNaN(n)) return v;
-    return n.toLocaleString("fr-FR") + " €";
+function money(v) {
+    const n = toNumber(v);
+    return n ? n.toLocaleString("fr-FR") + " €" : "-";
 }
-
-function formatArea(v) {
-    v = v.toString().replace(/\s/g, "");
-    const n = Math.round(parseFloat(v));
-    if (isNaN(n)) return v;
-    return n.toLocaleString("fr-FR") + " m²";
+function area(v) {
+    const n = toNumber(v);
+    return n ? n.toLocaleString("fr-FR") + " m²" : "-";
 }
 
 
 /* -------------------------------------------------------------------------- */
-/* PANNEAU DROIT – AFFICHAGE                                                  */
+/* GLOBALES                                                                    */
 /* -------------------------------------------------------------------------- */
-const colonnes_info = [
+let DATA = [];
+let MARKERS = [];
+let PIN_SELECTED = null;
+
+
+/* -------------------------------------------------------------------------- */
+/* AFFICHAGE PANNEAU DROIT                                                    */
+/* -------------------------------------------------------------------------- */
+const COLS = [
     "Adresse",
     "Emplacement",
     "Typologie",
-    "Type",
+    "Type (location pure / cession bail / cession fonds)",
     "Cession / Droit au bail",
     "Numéro de lot",
     "Surface GLA",
@@ -95,301 +114,274 @@ const colonnes_info = [
     "Honoraires",
 ];
 
-function afficherPanneauDroit(d) {
+function showPanel(d) {
     const panel = document.getElementById("sidebar-right");
     panel.scrollTop = 0;
 
-    const ref = formatReference(d["Référence annonce"]);
-    document.getElementById("ref-annonce").innerHTML = ref;
+    document.getElementById("ref-annonce").innerHTML =
+        formatRef(d["Référence annonce"]);
 
     let html = "";
 
-    // Adresse
-    const adresse = cleanValue(d["Adresse"]);
-    const gmaps = cleanValue(d["Lien Google Maps"]);
-
-    if (adresse) {
+    // Adresse + Google Maps
+    if (clean(d["Adresse"])) {
         html += `
         <div class="info-line info-line-no-border">
             <div class="info-key">Adresse</div>
-            <div class="info-value">${adresse}</div>
+            <div class="info-value">${clean(d["Adresse"])}</div>
         </div>
         `;
 
-        if (gmaps) {
+        if (clean(d["Lien Google Maps"])) {
             html += `
-                <button class="btn-maps" onclick="window.open('${gmaps}', '_blank')">
-                    Google Maps
-                </button>
-                <hr class="hr-smbg">
+            <button class="btn-maps" onclick="window.open('${d["Lien Google Maps"]}', '_blank')">
+                Google Maps
+            </button>
+            <hr class="hr-smbg">
             `;
         }
     }
 
-    colonnes_info.forEach((col) => {
-        if (col === "Adresse") return;
+    // Autres champs
+    COLS.forEach((c) => {
+        if (c === "Adresse") return;
+        let v = clean(d[c]);
+        if (!v) return;
 
-        let val = cleanValue(d[col]);
-        if (!val) return;
-
-        if (col.toLowerCase().includes("€")) val = formatMoney(val);
-        if (col.toLowerCase().includes("m²")) val = formatArea(val);
+        if (c.toLowerCase().includes("€")) v = money(v);
+        if (c.toLowerCase().includes("m²")) v = area(v);
 
         html += `
-            <div class="info-line">
-                <div class="info-key">${col}</div>
-                <div class="info-value">${val}</div>
-            </div>
-        `;
+        <div class="info-line">
+            <div class="info-key">${c}</div>
+            <div class="info-value">${v}</div>
+        </div>`;
     });
 
     document.getElementById("info-lot").innerHTML = html;
 
-    // PHOTOS
-    let urls = (d["AP"] || "").split(";").map((x) => x.trim()).filter((x) => x);
-    let ph = "";
-    urls.forEach((u) => (ph += `<img src="${u}">`));
-    document.getElementById("photos-lot").innerHTML = ph;
-}
-
-
-/* -------------------------------------------------------------------------- */
-/* VARIABLES                                                                  */
-/* -------------------------------------------------------------------------- */
-let DATA = [];
-let MARKERS = [];
-let pinSelectionne = null;
-
-
-/* -------------------------------------------------------------------------- */
-/* VALEURS UNIQUES                                                            */
-/* -------------------------------------------------------------------------- */
-function uniqueValues(col) {
-    return [...new Set(DATA.map((r) => cleanValue(r[col])))]
-        .filter((x) => x)
-        .sort();
+    // Photos (pour plus tard, colonne vide OK)
+    document.getElementById("photos-lot").innerHTML = "";
 }
 
 
 /* -------------------------------------------------------------------------- */
 /* GÉNÉRATION FILTRES                                                         */
 /* -------------------------------------------------------------------------- */
-function genererFiltres() {
-    // Régions
-    const regions = uniqueValues("Région");
-    let htmlR = "";
-    regions.forEach((r) => {
-        htmlR += `
-            <div class="checkbox-item">
-                <input type="checkbox" class="chk-region" value="${r}">
-                <label>${r}</label>
-            </div>
-        `;
-    });
-    document.getElementById("filter-regions").innerHTML = htmlR;
+function uniques(col) {
+    return [...new Set(DATA.map((x) => clean(x[col])))]
+        .filter((x) => x)
+        .sort();
+}
 
-    // Départements = vides au départ
+function genCheckboxes(list, target, cls) {
+    let html = "";
+    list.forEach((v) => {
+        html += `
+        <div class="checkbox-item">
+            <input type="checkbox" class="${cls}" value="${v}">
+            <label>${v}</label>
+        </div>`;
+    });
+    document.getElementById(target).innerHTML = html;
+}
+
+function generateFilters() {
+    genCheckboxes(uniques("Région"), "filter-regions", "chk-region");
+
+    // Les départements seront générés dynamiquement selon les régions cochées
     document.getElementById("filter-departements").innerHTML = "";
 
-    // Sliders Surface
-    const surfaces = DATA.map((r) => parseFloat(r["Surface GLA"])).filter(
-        (v) => !isNaN(v)
-    );
-    initDoubleSlider("surface", Math.min(...surfaces), Math.max(...surfaces), "m²");
+    // Surface
+    const s = DATA.map((x) => toNumber(x["Surface GLA"])).filter((v) => v > 0);
+    initDouble("surface", Math.min(...s), Math.max(...s), "m²");
 
-    // Sliders Loyer annuel
-    const loyers = DATA.map((r) => parseFloat(r["Loyer annuel"])).filter(
-        (v) => !isNaN(v)
-    );
-    initDoubleSlider("loyer", Math.min(...loyers), Math.max(...loyers), "€");
+    // Loyer annuel
+    const l = DATA.map((x) => toNumber(x["Loyer annuel"])).filter((v) => v > 0);
+    initDouble("loyer", Math.min(...l), Math.max(...l), "€");
 
-    // Autres filtres
-    generateCheckboxGroup("Emplacement", "filter-emplacement", "chk-emplacement");
-    generateCheckboxGroup("Typologie", "filter-typologie", "chk-typologie");
-    generateCheckboxGroup("Extraction", "filter-extraction", "chk-extraction");
-    generateCheckboxGroup(
-        "Restauration",
+    genCheckboxes(
+        uniques("Emplacement"),
+        "filter-emplacement",
+        "chk-emplacement"
+    );
+    genCheckboxes(
+        uniques("Typologie"),
+        "filter-typologie",
+        "chk-typologie"
+    );
+    genCheckboxes(
+        uniques("Extraction"),
+        "filter-extraction",
+        "chk-extraction"
+    );
+    genCheckboxes(
+        uniques("Restauration"),
         "filter-restauration",
         "chk-restauration"
     );
 }
 
-function generateCheckboxGroup(col, containerID, className) {
-    const vals = uniqueValues(col);
-    let html = "";
-    vals.forEach((v) => {
-        html += `
-            <div class="checkbox-item">
-                <input type="checkbox" class="${className}" value="${v}">
-                <label>${v}</label>
-            </div>
-        `;
-    });
-    document.getElementById(containerID).innerHTML = html;
-}
-
 
 /* -------------------------------------------------------------------------- */
-/* DÉPARTEMENTS IMBRIQUÉS PAR RÉGION                                          */
+/* DÉPARTEMENTS IMBRIQUÉS                                                     */
 /* -------------------------------------------------------------------------- */
-function mettreAJourDepartements() {
-    const container = document.getElementById("filter-departements");
-    container.innerHTML = "";
+function updateDepartments() {
+    const box = document.getElementById("filter-departements");
+    box.innerHTML = "";
 
-    const regions = [...document.querySelectorAll(".chk-region:checked")].map(
-        (x) => x.value
-    );
-
-    if (regions.length === 0) return;
-
-    regions.forEach((region) => {
-        let html = `
-            <div class="region-group">
-                <div class="region-label">${region}</div>
-        `;
-
-        let deps = DATA.filter((r) => r["Région"] === region)
-            .map((r) => cleanValue(r["Département"]))
-            .filter((v) => v);
-
-        deps = [...new Set(deps)].sort();
-
-        deps.forEach((d) => {
-            html += `
-                <div class="checkbox-sub">
-                    <input type="checkbox" class="chk-departement" value="${d}">
-                    <label>${d}</label>
-                </div>
-            `;
-        });
-
-        html += `</div>`;
-        container.innerHTML += html;
-    });
-}
-
-
-/* -------------------------------------------------------------------------- */
-/* DOUBLE SLIDER – VERSION PRO                                                */
-/* -------------------------------------------------------------------------- */
-function initDoubleSlider(name, min, max, unit) {
-    const target = document.getElementById(name + "-slider");
-
-    target.innerHTML = `
-        <div class="double-slider">
-            <input type="range" id="${name}-min" min="${min}" max="${max}" value="${min}">
-            <input type="range" id="${name}-max" min="${min}" max="${max}" value="${max}">
-        </div>
-    `;
-
-    const minInput = document.getElementById(name + "-min");
-    const maxInput = document.getElementById(name + "-max");
-    const output = document.getElementById(name + "-values");
-
-    function update() {
-        let v1 = parseFloat(minInput.value);
-        let v2 = parseFloat(maxInput.value);
-
-        if (v1 > v2) [v1, v2] = [v2, v1];
-
-        minInput.value = v1;
-        maxInput.value = v2;
-
-        const f1 =
-            unit === "€"
-                ? v1.toLocaleString("fr-FR") + " €"
-                : v1.toLocaleString("fr-FR") + " " + unit;
-        const f2 =
-            unit === "€"
-                ? v2.toLocaleString("fr-FR") + " €"
-                : v2.toLocaleString("fr-FR") + " " + unit;
-
-        output.innerHTML = `${f1} — ${f2}`;
-
-        afficherPinsFiltres();
-    }
-
-    minInput.oninput = update;
-    maxInput.oninput = update;
-
-    update();
-}
-
-
-/* -------------------------------------------------------------------------- */
-/* FILTRAGE MULTI CRITÈRES                                                     */
-/* -------------------------------------------------------------------------- */
-function passerFiltres(d) {
-    // Region
     const regs = [...document.querySelectorAll(".chk-region:checked")].map(
         (x) => x.value
     );
-    if (regs.length > 0 && !regs.includes(d["Région"])) return false;
+    if (regs.length === 0) return;
+
+    regs.forEach((reg) => {
+        let deps = DATA.filter((x) => x["Région"] === reg)
+            .map((x) => clean(x["Département"]))
+            .filter((x) => x);
+
+        deps = [...new Set(deps)].sort();
+
+        let html = `<div class="region-group"><div class="region-label">${reg}</div>`;
+
+        deps.forEach((d) => {
+            html += `
+            <div class="checkbox-sub">
+                <input type="checkbox" class="chk-departement" value="${d}">
+                <label>${d}</label>
+            </div>`;
+        });
+
+        html += `</div>`;
+        box.innerHTML += html;
+    });
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* DOUBLE SLIDER ROBUSTE                                                      */
+/* -------------------------------------------------------------------------- */
+function initDouble(name, minV, maxV, unit) {
+    if (!isFinite(minV) || !isFinite(maxV) || minV >= maxV) {
+        minV = 0;
+        maxV = 100000;
+    }
+
+    const box = document.getElementById(name + "-slider");
+
+    box.innerHTML = `
+    <div class="double-slider">
+        <input type="range" id="${name}-min" min="${minV}" max="${maxV}" value="${minV}">
+        <input type="range" id="${name}-max" min="${minV}" max="${maxV}" value="${maxV}">
+    </div>`;
+
+    const minI = document.getElementById(`${name}-min`);
+    const maxI = document.getElementById(`${name}-max`);
+    const out = document.getElementById(`${name}-values`);
+
+    function refresh() {
+        let v1 = parseFloat(minI.value);
+        let v2 = parseFloat(maxI.value);
+
+        if (v1 > v2) [v1, v2] = [v2, v1];
+
+        minI.value = v1;
+        maxI.value = v2;
+
+        const f1 = unit === "€"
+            ? v1.toLocaleString("fr-FR") + " €"
+            : v1.toLocaleString("fr-FR") + " m²";
+
+        const f2 = unit === "€"
+            ? v2.toLocaleString("fr-FR") + " €"
+            : v2.toLocaleString("fr-FR") + " m²";
+
+        out.innerHTML = `${f1} — ${f2}`;
+
+        displayPins();
+    }
+
+    minI.oninput = refresh;
+    maxI.oninput = refresh;
+
+    refresh();
+}
+
+
+/* -------------------------------------------------------------------------- */
+/* FILTRAGE                                                                   */
+/* -------------------------------------------------------------------------- */
+function pass(d) {
+    if (clean(d["Actif"]).toLowerCase() !== "oui") return false;
+
+    // Région
+    const regs = [...document.querySelectorAll(".chk-region:checked")].map(
+        (x) => x.value
+    );
+    if (regs.length && !regs.includes(d["Région"])) return false;
 
     // Département
     const deps = [...document.querySelectorAll(".chk-departement:checked")].map(
         (x) => x.value
     );
-    if (deps.length > 0 && !deps.includes(d["Département"])) return false;
+    if (deps.length && !deps.includes(d["Département"])) return false;
 
     // Surface
+    const sv = toNumber(d["Surface GLA"]);
     const sMin = parseFloat(document.getElementById("surface-min").value);
     const sMax = parseFloat(document.getElementById("surface-max").value);
-    const surf = parseFloat(d["Surface GLA"]);
-    if (isNaN(surf) || surf < sMin || surf > sMax) return false;
+    if (!sv || sv < sMin || sv > sMax) return false;
 
     // Loyer
+    const lv = toNumber(d["Loyer annuel"]);
     const lMin = parseFloat(document.getElementById("loyer-min").value);
     const lMax = parseFloat(document.getElementById("loyer-max").value);
-    const loy = parseFloat(d["Loyer annuel"]);
-    if (isNaN(loy) || loy < lMin || loy > lMax) return false;
+    if (!lv || lv < lMin || lv > lMax) return false;
 
     // Emplacement
-    const emp = [
-        ...document.querySelectorAll(".chk-emplacement:checked"),
-    ].map((x) => x.value);
-    if (emp.length > 0 && !emp.includes(d["Emplacement"])) return false;
+    const emp = [...document.querySelectorAll(".chk-emplacement:checked")].map(
+        (x) => x.value
+    );
+    if (emp.length && !emp.includes(d["Emplacement"])) return false;
 
     // Typologie
-    const typ = [
-        ...document.querySelectorAll(".chk-typologie:checked"),
-    ].map((x) => x.value);
-    if (typ.length > 0 && !typ.includes(d["Typologie"])) return false;
+    const typ = [...document.querySelectorAll(".chk-typologie:checked")].map(
+        (x) => x.value
+    );
+    if (typ.length && !typ.includes(d["Typologie"])) return false;
 
     // Extraction
-    const ext = [
-        ...document.querySelectorAll(".chk-extraction:checked"),
-    ].map((x) => x.value);
-    if (ext.length > 0 && !ext.includes(d["Extraction"])) return false;
+    const ext = [...document.querySelectorAll(".chk-extraction:checked")].map(
+        (x) => x.value
+    );
+    if (ext.length && !ext.includes(d["Extraction"])) return false;
 
     // Restauration
-    const res = [
-        ...document.querySelectorAll(".chk-restauration:checked"),
-    ].map((x) => x.value);
-    if (res.length > 0 && !res.includes(d["Restauration"])) return false;
+    const res = [...document.querySelectorAll(".chk-restauration:checked")].map(
+        (x) => x.value
+    );
+    if (res.length && !res.includes(d["Restauration"])) return false;
 
     return true;
 }
 
 
 /* -------------------------------------------------------------------------- */
-/* PINS FILTRÉS                                                                 */
+/* AFFICHAGE DES PINS                                                         */
 /* -------------------------------------------------------------------------- */
-function afficherPinsFiltres() {
+function displayPins() {
     MARKERS.forEach((m) => map.removeLayer(m));
     MARKERS = [];
 
-    const filtres = DATA.filter((d) => {
-        if ((d["Actif"] || "").toLowerCase() !== "oui") return false;
-        return passerFiltres(d);
-    });
+    const filtered = DATA.filter((d) => pass(d));
 
-    filtres.forEach((d) => {
-        const lat = parseFloat(d["Latitude"]);
-        const lng = parseFloat(d["Longitude"]);
+    filtered.forEach((d) => {
+        const lat = toNumber(d["Latitude"]);
+        const lng = toNumber(d["Longitude"]);
+
         if (!lat || !lng) return;
 
-        const ref = formatReference(d["Référence annonce"]);
+        const ref = formatRef(d["Référence annonce"]);
 
         const marker = L.marker([lat, lng], {
             icon: L.divIcon({
@@ -401,13 +393,13 @@ function afficherPinsFiltres() {
         });
 
         marker.on("click", () => {
-            if (pinSelectionne)
-                pinSelectionne._icon.classList.remove("smbg-pin-selected");
+            if (PIN_SELECTED)
+                PIN_SELECTED._icon.classList.remove("smbg-pin-selected");
 
-            pinSelectionne = marker;
+            PIN_SELECTED = marker;
             marker._icon.classList.add("smbg-pin-selected");
 
-            afficherPanneauDroit(d);
+            showPanel(d);
         });
 
         marker.addTo(map);
@@ -419,13 +411,13 @@ function afficherPinsFiltres() {
 /* -------------------------------------------------------------------------- */
 /* RESET                                                                      */
 /* -------------------------------------------------------------------------- */
-function resetFiltres() {
-    document
-        .querySelectorAll("#sidebar-left input[type=checkbox]")
-        .forEach((x) => (x.checked = false));
+function resetAll() {
+    document.querySelectorAll("#sidebar-left input[type=checkbox]").forEach(
+        (x) => (x.checked = false)
+    );
 
-    genererFiltres();
-    afficherPinsFiltres();
+    generateFilters();
+    displayPins();
 
     document.getElementById("info-lot").innerHTML = "";
     document.getElementById("photos-lot").innerHTML = "";
@@ -434,41 +426,31 @@ function resetFiltres() {
 
 
 /* -------------------------------------------------------------------------- */
-/* INIT                                                                        */
+/* INITIALISATION                                                             */
 /* -------------------------------------------------------------------------- */
 async function init() {
     DATA = await loadExcel();
 
-    genererFiltres();
-    afficherPinsFiltres();
+    generateFilters();
+    displayPins();
 
-    // Région → met à jour départements
     document
         .getElementById("filter-regions")
         .addEventListener("change", () => {
-            mettreAJourDepartements();
-            afficherPinsFiltres();
+            updateDepartments();
+            displayPins();
         });
 
-    // Sous-départements → filtrage
     document
         .getElementById("filter-departements")
-        .addEventListener("change", () => {
-            afficherPinsFiltres();
-        });
+        .addEventListener("change", () => displayPins());
 
-    // Autres filtres
-    ["filter-emplacement", "filter-typologie", "filter-extraction", "filter-restauration"].forEach(
-        (id) => {
-            document.getElementById(id).addEventListener("change", () => {
-                afficherPinsFiltres();
-            });
-        }
-    );
+    ["filter-emplacement", "filter-typologie", "filter-extraction", "filter-restauration"]
+        .forEach((id) =>
+            document.getElementById(id).addEventListener("change", () => displayPins())
+        );
 
-    document
-        .getElementById("btn-reset")
-        .addEventListener("click", () => resetFiltres());
+    document.getElementById("btn-reset").addEventListener("click", resetAll);
 }
 
 init();
