@@ -47,9 +47,9 @@ function toNumber(v) {
     if (!v) return null;
     return parseFloat(
         v.toString()
-            .replace(/\s+/g, "")     // espaces, insécables
-            .replace(/[€m²]/g, "")   // unités
-            .replace(/,/g, ".")      // virgule => point
+            .replace(/\s+/g, "") 
+            .replace(/[€m²]/g, "")
+            .replace(/,/g, ".")
     );
 }
 
@@ -159,7 +159,6 @@ function showPanel(d) {
 
     document.getElementById("info-lot").innerHTML = html;
 
-    // Photos (pour futur)
     document.getElementById("photos-lot").innerHTML = "";
 }
 
@@ -196,14 +195,11 @@ function genCheckboxes(list, target, cls) {
 function generateFilters() {
     genCheckboxes(uniques("Région"), "filter-regions", "chk-region");
 
-    // Départements (dynamiques)
     document.getElementById("filter-departements").innerHTML = "";
 
-    // SURFACE
     const sList = DATA.map((x) => toNumber(x["Surface GLA"])).filter((v) => v > 0);
     initDouble("surface", Math.min(...sList), Math.max(...sList), "m²");
 
-    // LOYER ANNUEL
     const lList = DATA.map((x) => toNumber(x["Loyer annuel"])).filter((v) => v > 0);
     initDouble("loyer", Math.min(...lList), Math.max(...lList), "€");
 
@@ -305,59 +301,50 @@ function initDouble(name, minV, maxV, unit) {
 /* FILTRAGE                                                                   */
 /* -------------------------------------------------------------------------- */
 function pass(d) {
-    /* ---------- FILTRE ACTIF ULTRA-ROBUSTE ---------- */
     let actif = (d["Actif"] || "")
         .toString()
         .normalize("NFKD")
-        .replace(/\s+/g, "")       // espaces + insécables
-        .replace(/[^\w]/g, "")     // parasites
+        .replace(/\s+/g, "")
+        .replace(/[^\w]/g, "")
         .toLowerCase();
 
     if (actif !== "oui") return false;
 
-    /* ---------- Région ---------- */
     const regs = [...document.querySelectorAll(".chk-region:checked")].map(
         (x) => x.value
     );
     if (regs.length && !regs.includes(d["Région"])) return false;
 
-    /* ---------- Département ---------- */
     const deps = [...document.querySelectorAll(".chk-departement:checked")].map(
         (x) => x.value
     );
     if (deps.length && !deps.includes(d["Département"])) return false;
 
-    /* ---------- Surface ---------- */
     const sv = toNumber(d["Surface GLA"]);
     const sMin = parseFloat(document.getElementById("surface-min").value);
     const sMax = parseFloat(document.getElementById("surface-max").value);
     if (!sv || sv < sMin || sv > sMax) return false;
 
-    /* ---------- Loyer ---------- */
     const lv = toNumber(d["Loyer annuel"]);
     const lMin = parseFloat(document.getElementById("loyer-min").value);
     const lMax = parseFloat(document.getElementById("loyer-max").value);
     if (!lv || lv < lMin || lv > lMax) return false;
 
-    /* ---------- Emplacement ---------- */
     const emp = [...document.querySelectorAll(".chk-emplacement:checked")].map(
         (x) => x.value
     );
     if (emp.length && !emp.includes(d["Emplacement"])) return false;
 
-    /* ---------- Typologie ---------- */
     const typ = [...document.querySelectorAll(".chk-typologie:checked")].map(
         (x) => x.value
     );
     if (typ.length && !typ.includes(d["Typologie"])) return false;
 
-    /* ---------- Extraction ---------- */
     const ext = [...document.querySelectorAll(".chk-extraction:checked")].map(
         (x) => x.value
     );
     if (ext.length && !ext.includes(d["Extraction"])) return false;
 
-    /* ---------- Restauration ---------- */
     const res = [...document.querySelectorAll(".chk-restauration:checked")].map(
         (x) => x.value
     );
@@ -377,10 +364,15 @@ function displayPins() {
     const filtered = DATA.filter((d) => pass(d));
 
     filtered.forEach((d) => {
-        const lat = toNumber(d["Latitude"]);
-        const lng = toNumber(d["Longitude"]);
+        /** 🔥 CORRECTION LAT/LNG ICI */
+        const lat = parseFloat(
+            (d["Latitude"] || "").toString().trim().replace(",", ".")
+        );
+        const lng = parseFloat(
+            (d["Longitude"] || "").toString().trim().replace(",", ".")
+        );
 
-        if (!lat || !lng) return;
+        if (!isFinite(lat) || !isFinite(lng)) return;
 
         const ref = formatRef(d["Référence annonce"]);
 
