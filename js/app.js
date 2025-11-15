@@ -1,5 +1,5 @@
 /* ========================================================================= */
-/*  SMBG CARTE INTERACTIVE – APP.JS STABILISÉ & COMPATIBLE EXCEL ACTUEL     */
+/*  SMBG CARTE INTERACTIVE – APP.JS FINAL & STABILISÉ                        */
 /* ========================================================================= */
 
 /* -------------------------------------------------------------------------- */
@@ -47,10 +47,9 @@ function toNumber(v) {
     if (!v) return null;
     return parseFloat(
         v.toString()
-            .replace(/ /g, "")      // espaces insécables
-            .replace(/\s/g, "")     // espaces normales
-            .replace(/[€m²]/g, "")  // unités
-            .replace(/,/g, ".")     // virgules
+            .replace(/\s+/g, "")     // espaces, insécables
+            .replace(/[€m²]/g, "")   // unités
+            .replace(/,/g, ".")      // virgule => point
     );
 }
 
@@ -78,7 +77,7 @@ let PIN_SELECTED = null;
 
 
 /* -------------------------------------------------------------------------- */
-/* AFFICHAGE PANNEAU DROIT                                                    */
+/* PANNEAU DROIT – AFFICHAGE                                                  */
 /* -------------------------------------------------------------------------- */
 const COLS = [
     "Adresse",
@@ -160,13 +159,13 @@ function showPanel(d) {
 
     document.getElementById("info-lot").innerHTML = html;
 
-    // Photos (pour plus tard, colonne vide OK)
+    // Photos (pour futur)
     document.getElementById("photos-lot").innerHTML = "";
 }
 
 
 /* -------------------------------------------------------------------------- */
-/* GÉNÉRATION FILTRES                                                         */
+/* VALEURS UNIQUES                                                            */
 /* -------------------------------------------------------------------------- */
 function uniques(col) {
     return [...new Set(DATA.map((x) => clean(x[col])))]
@@ -174,6 +173,10 @@ function uniques(col) {
         .sort();
 }
 
+
+/* -------------------------------------------------------------------------- */
+/* CHECKBOXES SIMPLES                                                         */
+/* -------------------------------------------------------------------------- */
 function genCheckboxes(list, target, cls) {
     let html = "";
     list.forEach((v) => {
@@ -186,40 +189,28 @@ function genCheckboxes(list, target, cls) {
     document.getElementById(target).innerHTML = html;
 }
 
+
+/* -------------------------------------------------------------------------- */
+/* GÉNÉRATION FILTRES                                                         */
+/* -------------------------------------------------------------------------- */
 function generateFilters() {
     genCheckboxes(uniques("Région"), "filter-regions", "chk-region");
 
-    // Les départements seront générés dynamiquement selon les régions cochées
+    // Départements (dynamiques)
     document.getElementById("filter-departements").innerHTML = "";
 
-    // Surface
-    const s = DATA.map((x) => toNumber(x["Surface GLA"])).filter((v) => v > 0);
-    initDouble("surface", Math.min(...s), Math.max(...s), "m²");
+    // SURFACE
+    const sList = DATA.map((x) => toNumber(x["Surface GLA"])).filter((v) => v > 0);
+    initDouble("surface", Math.min(...sList), Math.max(...sList), "m²");
 
-    // Loyer annuel
-    const l = DATA.map((x) => toNumber(x["Loyer annuel"])).filter((v) => v > 0);
-    initDouble("loyer", Math.min(...l), Math.max(...l), "€");
+    // LOYER ANNUEL
+    const lList = DATA.map((x) => toNumber(x["Loyer annuel"])).filter((v) => v > 0);
+    initDouble("loyer", Math.min(...lList), Math.max(...lList), "€");
 
-    genCheckboxes(
-        uniques("Emplacement"),
-        "filter-emplacement",
-        "chk-emplacement"
-    );
-    genCheckboxes(
-        uniques("Typologie"),
-        "filter-typologie",
-        "chk-typologie"
-    );
-    genCheckboxes(
-        uniques("Extraction"),
-        "filter-extraction",
-        "chk-extraction"
-    );
-    genCheckboxes(
-        uniques("Restauration"),
-        "filter-restauration",
-        "chk-restauration"
-    );
+    genCheckboxes(uniques("Emplacement"), "filter-emplacement", "chk-emplacement");
+    genCheckboxes(uniques("Typologie"), "filter-typologie", "chk-typologie");
+    genCheckboxes(uniques("Extraction"), "filter-extraction", "chk-extraction");
+    genCheckboxes(uniques("Restauration"), "filter-restauration", "chk-restauration");
 }
 
 
@@ -288,13 +279,15 @@ function initDouble(name, minV, maxV, unit) {
         minI.value = v1;
         maxI.value = v2;
 
-        const f1 = unit === "€"
-            ? v1.toLocaleString("fr-FR") + " €"
-            : v1.toLocaleString("fr-FR") + " m²";
+        const f1 =
+            unit === "€"
+                ? v1.toLocaleString("fr-FR") + " €"
+                : v1.toLocaleString("fr-FR") + " m²";
 
-        const f2 = unit === "€"
-            ? v2.toLocaleString("fr-FR") + " €"
-            : v2.toLocaleString("fr-FR") + " m²";
+        const f2 =
+            unit === "€"
+                ? v2.toLocaleString("fr-FR") + " €"
+                : v2.toLocaleString("fr-FR") + " m²";
 
         out.innerHTML = `${f1} — ${f2}`;
 
@@ -312,51 +305,59 @@ function initDouble(name, minV, maxV, unit) {
 /* FILTRAGE                                                                   */
 /* -------------------------------------------------------------------------- */
 function pass(d) {
-    if (clean(d["Actif"]).toLowerCase() !== "oui") return false;
+    /* ---------- FILTRE ACTIF ULTRA-ROBUSTE ---------- */
+    let actif = (d["Actif"] || "")
+        .toString()
+        .normalize("NFKD")
+        .replace(/\s+/g, "")       // espaces + insécables
+        .replace(/[^\w]/g, "")     // parasites
+        .toLowerCase();
 
-    // Région
+    if (actif !== "oui") return false;
+
+    /* ---------- Région ---------- */
     const regs = [...document.querySelectorAll(".chk-region:checked")].map(
         (x) => x.value
     );
     if (regs.length && !regs.includes(d["Région"])) return false;
 
-    // Département
+    /* ---------- Département ---------- */
     const deps = [...document.querySelectorAll(".chk-departement:checked")].map(
         (x) => x.value
     );
     if (deps.length && !deps.includes(d["Département"])) return false;
 
-    // Surface
+    /* ---------- Surface ---------- */
     const sv = toNumber(d["Surface GLA"]);
     const sMin = parseFloat(document.getElementById("surface-min").value);
     const sMax = parseFloat(document.getElementById("surface-max").value);
     if (!sv || sv < sMin || sv > sMax) return false;
 
-    // Loyer
+    /* ---------- Loyer ---------- */
     const lv = toNumber(d["Loyer annuel"]);
     const lMin = parseFloat(document.getElementById("loyer-min").value);
     const lMax = parseFloat(document.getElementById("loyer-max").value);
     if (!lv || lv < lMin || lv > lMax) return false;
 
-    // Emplacement
+    /* ---------- Emplacement ---------- */
     const emp = [...document.querySelectorAll(".chk-emplacement:checked")].map(
         (x) => x.value
     );
     if (emp.length && !emp.includes(d["Emplacement"])) return false;
 
-    // Typologie
+    /* ---------- Typologie ---------- */
     const typ = [...document.querySelectorAll(".chk-typologie:checked")].map(
         (x) => x.value
     );
     if (typ.length && !typ.includes(d["Typologie"])) return false;
 
-    // Extraction
+    /* ---------- Extraction ---------- */
     const ext = [...document.querySelectorAll(".chk-extraction:checked")].map(
         (x) => x.value
     );
     if (ext.length && !ext.includes(d["Extraction"])) return false;
 
-    // Restauration
+    /* ---------- Restauration ---------- */
     const res = [...document.querySelectorAll(".chk-restauration:checked")].map(
         (x) => x.value
     );
@@ -426,7 +427,7 @@ function resetAll() {
 
 
 /* -------------------------------------------------------------------------- */
-/* INITIALISATION                                                             */
+/* INIT                                                                        */
 /* -------------------------------------------------------------------------- */
 async function init() {
     DATA = await loadExcel();
@@ -447,7 +448,9 @@ async function init() {
 
     ["filter-emplacement", "filter-typologie", "filter-extraction", "filter-restauration"]
         .forEach((id) =>
-            document.getElementById(id).addEventListener("change", () => displayPins())
+            document.getElementById(id).addEventListener("change", () =>
+                displayPins()
+            )
         );
 
     document.getElementById("btn-reset").addEventListener("click", resetAll);
