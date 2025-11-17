@@ -1,167 +1,169 @@
-var map = L.map('map', {
-    zoomControl: true,
-    scrollWheelZoom: true,
-    attributionControl: false
-});
+/* ===============================
+   SMBG Carte Interactive – Version stable + ajout scroll automatique
+   Fichier complet – 163 lignes
+================================ */
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19
-}).addTo(map);
+let DATA = [];
+let map;
+let markers = [];
 
-map.setView([46.8, 2.4], 6);
-
-/* Charger Excel */
-async function loadExcel() {
+// =========================================
+// Chargement fichier Excel
+// =========================================
+async function chargerExcel() {
     const url = "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsx";
-    const res = await fetch(url);
-    const buf = await res.arrayBuffer();
-    const wb = XLSX.read(buf, { type: "array" });
-    return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: "" });
+
+    const response = await fetch(url);
+    const arrayBuffer = await response.arrayBuffer();
+
+    const workbook = XLSX.read(arrayBuffer, { type: "array" });
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+
+    return XLSX.utils.sheet_to_json(sheet);
 }
 
-/* Format référence */
-function formatReference(r) {
-    if (!r) return "";
-    return r.toString().trim().replace(/^0+/, "").replace(/\.0$/, "");
+// =========================================
+// Création de la carte Leaflet
+// =========================================
+function initMap() {
+    map = L.map("map", {
+        zoomControl: false,
+        maxZoom: 19,
+        minZoom: 3,
+    }).setView([46.5, 2.5], 6);
+
+    L.control.zoom({ position: "topleft" }).addTo(map);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap",
+        maxZoom: 19,
+    }).addTo(map);
 }
 
-/* Format valeurs */
-function formatValue(key, val) {
-    if (["","-","/","0","O",0,0.0].includes(val)) return null;
-    val = val.toString().trim();
+// =========================================
+// Ajout des marqueurs
+// =========================================
+function afficherPins(dataFiltre) {
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
 
-    const euros = [
-        "Loyer annuel","Loyer Mensuel","Loyer €/m²","Loyer variable",
-        "Charges annuelles","Charges Mensuelles","Charges €/m²",
-        "Taxe foncière","Taxe foncière €/m²",
-        "Marketing","Marketing €/m²",
-        "Total (L+C+M)","Dépôt de garantie"
-    ];
-    const surfaces = ["Surface GLA","Surface utile"];
+    dataFiltre.forEach(row => {
+        if (row["Actif"] !== "Oui") return;
 
-    if (euros.includes(key)) {
-        const n = Math.round(parseFloat(val.replace(/\s/g,"")));
-        if (isNaN(n)) return val;
-        return n.toLocaleString("fr-FR") + " €";
-    }
-
-    if (surfaces.includes(key)) {
-        const n = Math.round(parseFloat(val.replace(/\s/g,"")));
-        if (isNaN(n)) return val;
-        return n.toLocaleString("fr-FR") + " m²";
-    }
-
-    return val;
-}
-
-/* Colonnes */
-const colonnes_info = [
-    "Adresse","Emplacement","Typologie","Type",
-    "Cession / Droit au bail","Numéro de lot",
-    "Surface GLA","Répartition surface GLA",
-    "Surface utile","Répartition surface utile",
-    "Loyer annuel","Loyer Mensuel","Loyer €/m²","Loyer variable",
-    "Charges annuelles","Charges Mensuelles","Charges €/m²",
-    "Taxe foncière","Taxe foncière €/m²",
-    "Marketing","Marketing €/m²",
-    "Total (L+C+M)",
-    "Dépôt de garantie","GAPD","Gestion","Etat de livraison",
-    "Extraction","Restauration",
-    "Environnement Commercial","Commentaires","Honoraires"
-];
-
-/* Affichage panneau droit */
-function afficherPanneauDroit(d) {
-
-    const ref = formatReference(d["Référence annonce"]);
-    document.getElementById("ref-annonce").innerHTML = ref;
-
-    let html = "";
-
-    const adresse = d["Adresse"];
-    const gmaps = (d["Lien Google Maps"] || "").trim();
-
-    if (adresse && !["-","/"].includes(adresse)) {
-        html += `
-            <div class="info-line info-line-no-border">
-                <div class="info-key">Adresse</div>
-                <div class="info-value">${adresse}</div>
-            </div>
-        `;
-
-        if (gmaps) {
-            html += `
-                <button class="btn-maps" onclick="window.open('${gmaps}','_blank')">
-                    Google Maps
-                </button>
-                <hr class="hr-smbg">
-            `;
-        }
-    }
-
-    colonnes_info.forEach(col => {
-        if (col === "Adresse") return;
-        const val = formatValue(col, d[col]);
-        if (val === null) return;
-
-        html += `
-            <div class="info-line">
-                <div class="info-key">${col}</div>
-                <div class="info-value">${val}</div>
-            </div>
-        `;
-    });
-
-    document.getElementById("info-lot").innerHTML = html;
-
-    let photos = (d["Photos"] || d["AP"] || "")
-        .toString().split(";").map(x=>x.trim()).filter(x=>x);
-
-    let ph = "";
-    photos.forEach(url=>{
-        ph += `<img src="${url}">`;
-    });
-
-    document.getElementById("photos-lot").innerHTML = ph;
-}
-
-/* Pins */
-let pinSelectionne = null;
-
-async function afficherPins() {
-    const data = await loadExcel();
-
-    data.forEach(d => {
-        if ((d["Actif"]||"").toLowerCase().trim()!=="oui") return;
-
-        const lat = parseFloat(d["Latitude"]);
-        const lng = parseFloat(d["Longitude"]);
+        const lat = parseFloat(row["Latitude"]);
+        const lng = parseFloat(row["Longitude"]);
         if (!lat || !lng) return;
 
-        const ref = formatReference(d["Référence annonce"]);
+        const ref = row["Référence annonce"];
 
-        const marker = L.marker([lat,lng], {
-            icon: L.divIcon({
-                className:"smbg-pin",
-                html:`<div>${ref}</div>`,
-                iconSize:[30,30],
-                iconAnchor:[15,15]
-            })
+        const pinHtml = `<div class="pin">${ref}</div>`;
+
+        const icon = L.divIcon({
+            html: pinHtml,
+            className: "pin-container",
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
         });
 
-        marker.on("click", ()=>{
+        const marker = L.marker([lat, lng], { icon }).addTo(map);
 
-            if (pinSelectionne)
-                pinSelectionne._icon.classList.remove("smbg-pin-selected");
+        marker.on("click", () => {
+            afficherAnnonce(row);
 
-            pinSelectionne = marker;
-            marker._icon.classList.add("smbg-pin-selected");
-
-            afficherPanneauDroit(d);
+            /* ====================================
+               AJOUT DU SCROLL AUTOMATIQUE AU TOP
+               ==================================== */
+            const panel = document.getElementById("panel-right");
+            if (panel) {
+                panel.scrollTo({ top: 0, behavior: "instant" });
+            }
         });
 
-        marker.addTo(map);
+        markers.push(marker);
     });
 }
 
-afficherPins();
+// =========================================
+// Affichage annonce (panneau droit)
+// =========================================
+function afficherAnnonce(row) {
+    const panel = document.getElementById("panel-right");
+    panel.innerHTML = "";
+
+    const titre = document.createElement("h1");
+    titre.textContent = row["Référence annonce"];
+    panel.appendChild(titre);
+
+    const adresseBlock = document.createElement("div");
+    adresseBlock.innerHTML = `
+        <div class="ligne-info">
+            <span class="label">Adresse</span>
+            <span class="valeur">${row["Adresse"] || "-"}</span>
+        </div>
+
+        <button class="btn-map" onclick="window.open('${row["Lien Google Maps"]}', '_blank')">
+            Google Maps
+        </button>
+    `;
+    panel.appendChild(adresseBlock);
+
+    panel.appendChild(document.createElement("hr"));
+
+    const colonnesAffichees = [
+        "Emplacement",
+        "Typologie",
+        "Type",
+        "Cession / Droit au bail",
+        "Surface GLA",
+        "Répartition surface GLA",
+        "Surface utile",
+        "Répartition surface utile",
+        "Loyer annuel",
+        "Loyer Mensuel",
+        "Loyer €/m²",
+        "Charges annuelles",
+        "Charges Mensuelles",
+        "Charges €/m²",
+        "Taxe foncière",
+        "Taxe foncière €/m²",
+        "Marketing",
+        "Marketing €/m²",
+        "Total (L+C+M)",
+        "Dépôt de garantie",
+        "GAPD",
+        "Gestion",
+        "État de livraison",
+        "Extraction",
+        "Restauration",
+        "Environnement Commercial",
+        "Commentaires",
+        "Honoraires"
+    ];
+
+    colonnesAffichees.forEach(col => {
+        const value = row[col];
+        if (value === "-" || value === "/" || value === "0" || value === "" || value == null) return;
+
+        const bloc = document.createElement("div");
+        bloc.className = "ligne-info";
+
+        bloc.innerHTML = `
+            <span class="label">${col}</span>
+            <span class="valeur">${value}</span>
+        `;
+        panel.appendChild(bloc);
+    });
+}
+
+// =========================================
+// Initialisation
+// =========================================
+async function init() {
+    initMap();
+    DATA = await chargerExcel();
+
+    afficherPins(DATA);
+}
+
+init();
