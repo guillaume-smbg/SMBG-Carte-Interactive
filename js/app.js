@@ -37,7 +37,7 @@ function initialiserCarte() {
 }
 
 // =========================
-// PINS
+// AFFICHAGE DES PINS
 // =========================
 function afficherPins(liste) {
     markersLayer.clearLayers();
@@ -57,8 +57,84 @@ function afficherPins(liste) {
             iconAnchor: [20, 20],
         });
 
-        L.marker([lat, lon], { icon }).addTo(markersLayer);
+        const marker = L.marker([lat, lon], { icon }).addTo(markersLayer);
+
+        marker.on("click", () => {
+            afficherAnnonce(item);
+        });
     });
+}
+
+// =========================
+// PANEL DROIT
+// =========================
+function afficherAnnonce(item) {
+    const panel = document.getElementById("panel-right");
+    panel.innerHTML = "";
+
+    let ref = item["Référence annonce"] || "";
+    ref = ref.replace(/^0+/, "");
+
+    panel.innerHTML += `
+        <div class="ref-annonce">${ref}</div>
+    `;
+
+    // Google Maps
+    panel.innerHTML += `
+        <div class="ligne">
+            <div class="cle">Adresse</div>
+            <div class="val">${item["Adresse"] || "-"}</div>
+        </div>
+        <div class="googlemaps-btn">
+            <a href="${item["Lien Google Maps"]}" target="_blank">Google Maps</a>
+        </div>
+    `;
+
+    const champs = [
+        ["Emplacement", "Emplacement"],
+        ["Typologie", "Typologie"],
+        ["Type", "Type"],
+        ["Cession / Droit au bail", "Cession / Droit au bail"],
+        ["Surface GLA", "Surface GLA"],
+        ["Répartition surface GLA", "Répartition surface GLA"],
+        ["Surface utile", "Surface utile"],
+        ["Répartition surface utile", "Répartition surface utile"],
+        ["Loyer annuel", "Loyer annuel"],
+        ["Loyer Mensuel", "Loyer Mensuel"],
+        ["Loyer €/m²", "Loyer €/m²"],
+        ["Loyer variable", "Loyer variable"],
+        ["Charges annuelles", "Charges annuelles"],
+        ["Charges Mensuelles", "Charges Mensuelles"],
+        ["Charges €/m²", "Charges €/m²"],
+        ["Taxe foncière", "Taxe foncière"],
+        ["Taxe foncière €/m²", "Taxe foncière €/m²"],
+        ["Marketing", "Marketing"],
+        ["Marketing €/m²", "Marketing €/m²"],
+        ["Total (L+C+M)", "Total (L+C+M)"],
+        ["Dépôt de garantie", "Dépôt de garantie"],
+        ["GAPD", "GAPD"],
+        ["Gestion", "Gestion"],
+        ["Etat de livraison", "Etat de livraison"],
+        ["Extraction", "Extraction"],
+        ["Restauration", "Restauration"],
+        ["Environnement Commercial", "Environnement Commercial"],
+        ["Commentaires", "Commentaires"],
+        ["Honoraires", "Honoraires"]
+    ];
+
+    champs.forEach(([label, key]) => {
+        const val = item[key];
+        if (!val || val === "-" || val === "/" || val === "0") return;
+
+        panel.innerHTML += `
+            <div class="ligne">
+                <div class="cle">${label}</div>
+                <div class="val">${val}</div>
+            </div>
+        `;
+    });
+
+    panel.scrollTop = 0;
 }
 
 // =========================
@@ -96,15 +172,12 @@ function genererFiltres() {
     injecterCases("filter-regions", uniques("Région"));
     injecterCases("filter-departements", uniques("Département"));
 
-    // 🔥 AJOUT DES 4 PARAMÈTRES
     injecterCases("filter-emplacement", uniques("Emplacement"));
     injecterCases("filter-typologie", uniques("Typologie"));
     injecterCases("filter-extraction", uniques("Extraction"));
     injecterCases("filter-restauration", uniques("Restauration"));
 
-    document
-        .getElementById("reset-btn")
-        .addEventListener("click", resetFiltres);
+    document.getElementById("reset-btn").addEventListener("click", resetFiltres);
 
     appliquerFiltres();
 }
@@ -115,13 +188,11 @@ function cochés(id) {
     );
 }
 
-// =========================
-// FILTRAGE DES PINS
-// =========================
 function appliquerFiltres() {
     const f = {
         regions: cochés("filter-regions"),
         deps: cochés("filter-departements"),
+
         emp: cochés("filter-emplacement"),
         typo: cochés("filter-typologie"),
         ext: cochés("filter-extraction"),
@@ -131,6 +202,7 @@ function appliquerFiltres() {
     const out = DATA.filter((row) => {
         if (f.regions.length && !f.regions.includes(row["Région"])) return false;
         if (f.deps.length && !f.deps.includes(row["Département"])) return false;
+
         if (f.emp.length && !f.emp.includes(row["Emplacement"])) return false;
         if (f.typo.length && !f.typo.includes(row["Typologie"])) return false;
         if (f.ext.length && !f.ext.includes(row["Extraction"])) return false;
