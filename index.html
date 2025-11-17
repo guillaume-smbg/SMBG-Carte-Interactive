@@ -1,67 +1,75 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <title>SMBG Carte Interactive</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMBG – Carte Interactive</title>
 
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin="" />
+
+    <!-- Style SMBG -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 
 <body>
 
-<!-- ======================== -->
-<!-- VOLET GAUCHE            -->
-<!-- ======================== -->
-<div id="sidebar-left">
+    <!-- VOLET GAUCHE -->
+    <div id="sidebar-left">
 
-    <div class="titre-section">Régions</div>
-    <div id="filter-regions"></div>
+        <!-- (Tu as ensuite demandé à retirer le logo, donc version stable SANS) -->
 
-    <div class="titre-section">Départements</div>
-    <div id="filter-departements"></div>
+        <div class="filter-block">
+            <div class="filter-title">Régions</div>
+        </div>
 
-    <div class="titre-section">Surface (m²)</div>
-    <div class="slider-container">
-        <input type="range" id="surface-slider">
-        <div id="surface-values"></div>
+        <div class="filter-block">
+            <div class="filter-title">Départements</div>
+        </div>
+
+        <div class="filter-block">
+            <div class="filter-title">Surface (m²)</div>
+            <input type="range">
+            <input type="range">
+        </div>
+
+        <div class="filter-block">
+            <div class="filter-title">Loyer (€)</div>
+            <input type="range">
+            <input type="range">
+        </div>
+
+        <div class="filter-block"><div class="filter-title">Emplacement</div></div>
+        <div class="filter-block"><div class="filter-title">Typologie</div></div>
+        <div class="filter-block"><div class="filter-title">Extraction</div></div>
+        <div class="filter-block"><div class="filter-title">Restauration</div></div>
+
+        <button id="btn-reset">Réinitialiser</button>
     </div>
 
-    <div class="titre-section">Loyer (€)</div>
-    <div class="slider-container">
-        <input type="range" id="loyer-slider">
-        <div id="loyer-values"></div>
+    <!-- CARTE -->
+    <div id="map-container">
+        <div id="map"></div>
     </div>
 
-    <div class="titre-section">Emplacement</div>
-    <div id="filter-emplacement"></div>
+    <!-- VOLET DROIT FIXE -->
+    <div id="sidebar-right">
+        <div id="ref-annonce">Référence</div>
+        <div id="info-lot"></div>
+        <div id="photos-lot"></div>
+    </div>
 
-    <div class="titre-section">Typologie</div>
-    <div id="filter-typologie"></div>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
-    <div class="titre-section">Extraction</div>
-    <div id="filter-extraction"></div>
+    <!-- Excel Reader -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
-    <div class="titre-section">Restauration</div>
-    <div id="filter-restauration"></div>
-
-    <button id="reset-btn">Réinitialiser</button>
-
-</div>
-
-<!-- ======================== -->
-<!-- CARTE                    -->
-<!-- ======================== -->
-<div id="map"></div>
-
-<!-- ======================== -->
-<!-- VOLET DROIT              -->
-<!-- ======================== -->
-<div id="panel-right"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="js/app.js"></script>
+    <!-- Script -->
+    <script src="js/app.js"></script>
 
 </body>
 </html>
