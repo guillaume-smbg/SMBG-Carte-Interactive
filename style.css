@@ -23,7 +23,7 @@ html, body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 300px; /* Validé ! */
+    width: 300px; /* NE PAS CHANGER */
     height: 100%;
     background-color: #05263d;
     color: #C67B42;
@@ -31,11 +31,17 @@ html, body {
     overflow-y: auto;
 }
 
+/* Tout le contenu interne doit tenir dans 250 px */
+.filter-block,
+.slider-block {
+    max-width: 250px;
+}
+
 .filter-title {
     font-size: 16px;
     font-weight: bold;
     color: #C67B42;
-    margin-top: 18px;
+    margin-top: 16px;
     margin-bottom: 8px;
 }
 
@@ -58,7 +64,7 @@ html, body {
     cursor: pointer;
 }
 
-/* Indentation de 15 px pour les départements */
+/* Indentation des départements */
 .departement-indent {
     margin-left: 15px !important;
 }
@@ -74,50 +80,58 @@ html, body {
     color: #C67B42;
     font-size: 14px;
     margin-bottom: 6px;
+    font-weight: bold;
 }
 
 .slider-track {
     position: relative;
     width: 100%;
-    height: 20px;
+    height: 22px;
 }
 
+/* On superpose les deux sliders */
 .slider-track input[type="range"] {
     -webkit-appearance: none;
-    position: absolute;
     width: 100%;
-    pointer-events: none;
-    background: none;
-}
-
-/* Track invisible */
-.slider-track input[type="range"]::-webkit-slider-runnable-track {
     height: 6px;
-    background: transparent;
+    background: none;
+    position: absolute;
+    pointer-events: none;
+    margin: 0;
 }
 
-/* Curseur */
-.slider-track input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    height: 16px;
-    width: 16px;
-    background: #C67B42;
-    border-radius: 50%;
-    cursor: pointer;
-    pointer-events: all;
-    margin-top: -5px;
-}
-
-/* Trait central */
+/* Couleur de la ligne */
 .slider-track::before {
     content: "";
     position: absolute;
-    top: 8px;
+    top: 9px;
     left: 0;
     right: 0;
     height: 4px;
-    background: rgba(198,123,66,0.4);
+    background: rgba(198, 123, 66, 0.4);
     border-radius: 100px;
+}
+
+/* Curseur (thumb) */
+.slider-track input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: #C67B42;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    pointer-events: all;
+    cursor: pointer;
+    border: 2px solid #05263d;
+}
+
+.slider-track input[type="range"]::-moz-range-thumb {
+    background: #C67B42;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    pointer-events: all;
+    cursor: pointer;
+    border: 2px solid #05263d;
 }
 
 /* ───────────────────────────────────────────── */
@@ -141,7 +155,7 @@ html, body {
 #map-container {
     position: fixed;
     left: 300px;
-    right: 300px; /* Panneau droit fixe */
+    right: 300px; 
     top: 0;
     bottom: 0;
 }
@@ -158,7 +172,7 @@ html, body {
     position: fixed;
     top: 0;
     right: 0;
-    width: 300px; /* Validé */
+    width: 300px; 
     height: 100%;
     background-color: #05263d;
     color: #C67B42;
