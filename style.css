@@ -1,42 +1,45 @@
 @font-face {
     font-family: 'Futura';
     src: url('assets/fonts/FuturaLT.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
 }
 
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
     overflow: hidden;
     font-family: 'Futura', sans-serif;
 }
 
-/* ───────────────────────────────────────────────────────────── */
-/*    VOLET GAUCHE FIXE (largeur 275 px stabilisée)              */
-/* ───────────────────────────────────────────────────────────── */
-#sidebar-left {
+/* ▼▼ VOLETS FIXES ▼▼ */
+#sidebar-left, #sidebar-right {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 275px;
-    min-height: 100%;        /* ← corrige le scroll bloqué */
-    height: 100%;
+    bottom: 0;
+    width: 300px;
     background-color: #05263d;
     color: #C67B42;
-    padding: 20px;
-    padding-bottom: 120px;  /* ← AJOUT POUR ENLEVER LE BAS COUPÉ */
-    overflow-y: auto;
+    padding: 0;
 }
 
-/* Titres */
+#sidebar-left { left: 0; }
+#sidebar-right { right: 0; }
+
+/* ▼▼ CONTENU SCROLLABLE ▼▼ */
+.sidebar-inner {
+    height: 100%;
+    overflow-y: auto;
+    padding: 20px;
+    padding-bottom: 160px !important;
+    box-sizing: border-box;
+}
+
+/* ▼▼ TEXTE ET TITRES ▼▼ */
 .filter-title {
-    font-size: 16px;
     font-weight: bold;
-    color: #C67B42;
+    font-size: 16px;
     margin-top: 18px;
     margin-bottom: 8px;
+    color: #C67B42;
 }
 
 .checkbox-line {
@@ -50,17 +53,19 @@ html, body {
     margin-left: 15px;
 }
 
-input[type="range"] {
-    width: 100%;
-    margin: 4px 0;
-}
-
-.slider-values {
-    font-size: 14px;
+/* ▼▼ SLIDERS ▼▼ */
+#surface-values,
+#loyer-values {
     margin-bottom: 6px;
-    color: #C67B42;
+    font-size: 14px;
 }
 
+input[type=range] {
+    width: 100%;
+    margin: 3px 0 10px 0;
+}
+
+/* ▼▼ BOUTON RÉINITIALISER ▼▼ */
 #btn-reset {
     width: 100%;
     padding: 10px;
@@ -73,15 +78,13 @@ input[type="range"] {
     cursor: pointer;
 }
 
-/* ───────────────────────────────────────────────────────────── */
-/*                       CARTE CENTRALE                          */
-/* ───────────────────────────────────────────────────────────── */
+/* ▼▼ CARTE ▼▼ */
 #map-container {
     position: fixed;
-    left: 275px;
-    right: 300px; /* panneau droit fixe */
     top: 0;
     bottom: 0;
+    left: 300px;
+    right: 300px;
 }
 
 #map {
@@ -89,23 +92,7 @@ input[type="range"] {
     height: 100%;
 }
 
-/* ───────────────────────────────────────────────────────────── */
-/*                     VOLET DROIT FIXE                          */
-/* ───────────────────────────────────────────────────────────── */
-#sidebar-right {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 300px;
-    min-height: 100%;        /* ← même correctif */
-    height: 100%;
-    background-color: #05263d;
-    color: #C67B42;
-    padding: 20px;
-    padding-bottom: 120px; /* ← AJOUT POUR ENLEVER LE BAS COUPÉ */
-    overflow-y: auto;
-}
-
+/* ▼▼ VOLET DROIT : INFO LIGNES ▼▼ */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
@@ -113,11 +100,10 @@ input[type="range"] {
     margin-bottom: 20px;
 }
 
-/* Deux colonnes */
 .info-line {
     display: flex;
-    padding: 8px 0;
     border-bottom: 1px solid rgba(198,123,66,0.4);
+    padding: 7px 0;
 }
 
 .info-line-no-border {
@@ -135,50 +121,47 @@ input[type="range"] {
 
 /* Bouton Google Maps */
 .btn-maps {
+    width: 60%;
+    margin-left: 40%;
+    padding: 8px 14px;
     background-color: #C67B42;
     color: #05263d;
-    padding: 8px 14px;
+    font-weight: bold;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    width: 60%;
-    margin-left: 40%;
-    margin-top: 6px;
-    font-weight: bold;
 }
 
+/* Ligne séparatrice */
 .hr-smbg {
     border: none;
     border-bottom: 1px solid rgba(198,123,66,0.4);
-    margin: 12px 0;
+    margin: 14px 0;
 }
 
-/* Photos */
+/* Images */
 #photos-lot img {
     width: 100%;
     margin-top: 12px;
     border-radius: 4px;
 }
 
-/* ───────────────────────────────────────────────────────────── */
-/*                           PINS                                */
-/* ───────────────────────────────────────────────────────────── */
+/* ▼▼ PINS ▼▼ */
 .smbg-pin {
     background-color: #05263d;
-    color: white;
+    color: #ffffff;
     border: 2px solid white;
     border-radius: 50%;
     width: 30px;
     height: 30px;
+    font-family: Futura, sans-serif;
+    font-weight: bold;
     text-align: center;
     line-height: 26px;
-    font-weight: bold;
     font-size: 13px;
-    font-family: 'Futura', sans-serif; /* ← Futura sur les pins */
 }
 
 .smbg-pin-selected {
     border-color: #C67B42 !important;
     color: #C67B42 !important;
 }
-
