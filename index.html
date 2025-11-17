@@ -7,11 +7,9 @@
     <title>SMBG – Carte Interactive</title>
 
     <!-- Leaflet CSS -->
-    <link
-        rel="stylesheet"
+    <link rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        crossorigin=""
-    />
+        crossorigin="" />
 
     <!-- Style SMBG -->
     <link rel="stylesheet" href="style.css">
@@ -19,100 +17,66 @@
 
 <body>
 
-    <!-- ─────────────────────────────────────────── -->
-    <!--              VOLET GAUCHE                   -->
-    <!-- ─────────────────────────────────────────── -->
+    <!-- ▼▼▼ VOLET GAUCHE AVEC CONTENEUR SCROLLABLE ▼▼▼ -->
     <div id="sidebar-left">
+        <div class="sidebar-inner">
 
-        <!-- Régions -->
-        <div class="filter-title">Régions</div>
-        <div id="filter-regions" class="filter-block"></div>
+            <div class="filter-title">Régions</div>
+            <div id="filter-regions"></div>
 
-        <!-- Départements -->
-        <div class="filter-title">Départements</div>
-        <div id="filter-departements" class="filter-block"></div>
+            <div class="filter-title">Départements</div>
+            <div id="filter-departements"></div>
 
-        <!-- Surface -->
-        <div class="filter-title">Surface (m²)</div>
+            <div class="filter-title">Surface (m²)</div>
+            <div id="surface-values"></div>
+            <input id="surface-min" type="range">
+            <input id="surface-max" type="range">
 
-        <!-- Slider double curseur -->
-        <div id="slider-surface" class="slider-block filter-block">
-            <div class="slider-values" id="surface-values">0 — 0</div>
+            <div class="filter-title">Loyer (€)</div>
+            <div id="loyer-values"></div>
+            <input id="loyer-min" type="range">
+            <input id="loyer-max" type="range">
 
-            <div class="slider-track">
-                <input type="range" id="surface-min" min="0" max="100" value="0">
-                <input type="range" id="surface-max" min="0" max="100" value="100">
-            </div>
+            <div class="filter-title">Emplacement</div>
+            <div id="filter-emplacement"></div>
+
+            <div class="filter-title">Typologie</div>
+            <div id="filter-typologie"></div>
+
+            <div class="filter-title">Extraction</div>
+            <div id="filter-extraction"></div>
+
+            <div class="filter-title">Restauration</div>
+            <div id="filter-restauration"></div>
+
+            <button id="btn-reset">Réinitialiser</button>
+
         </div>
-
-        <!-- Case spéciale grands locaux -->
-        <div class="filter-title">Très grands lots</div>
-        <div id="filter-grand-surface" class="filter-block">
-            <div class="checkbox-line">
-                <input type="checkbox" id="checkbox-grand-surface" value="big">
-                <label for="checkbox-grand-surface">> 2000 m²</label>
-            </div>
-        </div>
-
-        <!-- Loyer -->
-        <div class="filter-title">Loyer (€)</div>
-        <div id="slider-loyer" class="slider-block filter-block">
-            <div class="slider-values" id="loyer-values">0 — 0</div>
-
-            <div class="slider-track">
-                <input type="range" id="loyer-min" min="0" max="100" value="0">
-                <input type="range" id="loyer-max" min="0" max="100" value="100">
-            </div>
-        </div>
-
-        <!-- Emplacement -->
-        <div class="filter-title">Emplacement</div>
-        <div id="filter-emplacement" class="filter-block"></div>
-
-        <!-- Typologie -->
-        <div class="filter-title">Typologie</div>
-        <div id="filter-typologie" class="filter-block"></div>
-
-        <!-- Extraction -->
-        <div class="filter-title">Extraction</div>
-        <div id="filter-extraction" class="filter-block"></div>
-
-        <!-- Restauration -->
-        <div class="filter-title">Restauration</div>
-        <div id="filter-restauration" class="filter-block"></div>
-
-        <button id="btn-reset">Réinitialiser</button>
-
     </div>
 
-    <!-- ─────────────────────────────────────────── -->
-    <!--                   CARTE                      -->
-    <!-- ─────────────────────────────────────────── -->
+    <!-- CARTE CENTRALE -->
     <div id="map-container">
         <div id="map"></div>
     </div>
 
-    <!-- ─────────────────────────────────────────── -->
-    <!--                 VOLET DROIT                 -->
-    <!-- ─────────────────────────────────────────── -->
+    <!-- ▼▼▼ VOLET DROIT AVEC CONTENEUR SCROLLABLE ▼▼▼ -->
     <div id="sidebar-right">
-        <div id="ref-annonce">Référence</div>
-        <div id="info-lot"></div>
-        <div id="photos-lot"></div>
+        <div class="sidebar-inner">
+
+            <div id="ref-annonce">Référence</div>
+            <div id="info-lot"></div>
+            <div id="photos-lot"></div>
+
+        </div>
     </div>
 
     <!-- Leaflet JS -->
-    <script
-        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        crossorigin="">
-    </script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
     <!-- Excel Reader -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
-    <!-- Script -->
+    <!-- Script principal -->
     <script src="js/app.js"></script>
 
 </body>
