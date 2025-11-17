@@ -23,69 +23,68 @@
     <!--              VOLET GAUCHE                   -->
     <!-- ─────────────────────────────────────────── -->
     <div id="sidebar-left">
+        <div class="sidebar-inner"> <!-- AJOUT -->
 
-        <!-- Régions -->
-        <div class="filter-title">Régions</div>
-        <div id="filter-regions" class="filter-block"></div>
+            <!-- Régions -->
+            <div class="filter-title">Régions</div>
+            <div id="filter-regions" class="filter-block"></div>
 
-        <!-- Départements -->
-        <div class="filter-title">Départements</div>
-        <div id="filter-departements" class="filter-block"></div>
+            <!-- Départements -->
+            <div class="filter-title">Départements</div>
+            <div id="filter-departements" class="filter-block"></div>
 
-        <!-- Surface -->
-        <div class="filter-title">Surface (m²)</div>
+            <!-- Surface -->
+            <div class="filter-title">Surface (m²)</div>
 
-        <!-- Slider double curseur -->
-        <div id="slider-surface" class="slider-block filter-block">
-            <div class="slider-values" id="surface-values">0 — 0</div>
+            <!-- Slider double curseur -->
+            <div id="slider-surface" class="slider-block filter-block">
+                <div class="slider-values" id="surface-values">0 — 0</div>
 
-            <div class="slider-track">
-                <input type="range" id="surface-min" min="0" max="100" value="0">
-                <input type="range" id="surface-max" min="0" max="100" value="100">
+                <div class="slider-track">
+                    <input type="range" id="surface-min" min="0" max="100" value="0">
+                    <input type="range" id="surface-max" min="0" max="100" value="100">
+                </div>
             </div>
-        </div>
 
-        <!-- Case spéciale grands locaux -->
-        <div class="filter-title">Très grands lots</div>
-        <div id="filter-grand-surface" class="filter-block">
-            <div class="checkbox-line">
-                <input type="checkbox" id="checkbox-grand-surface" value="big">
-                <label for="checkbox-grand-surface">> 2000 m²</label>
+            <!-- Case spéciale grands locaux -->
+            <div class="filter-title">Très grands lots</div>
+            <div id="filter-grand-surface" class="filter-block">
+                <div class="checkbox-line">
+                    <input type="checkbox" id="checkbox-grand-surface" value="big">
+                    <label for="checkbox-grand-surface">> 2000 m²</label>
+                </div>
             </div>
-        </div>
 
-        <!-- Loyer -->
-        <div class="filter-title">Loyer (€)</div>
-        <div id="slider-loyer" class="slider-block filter-block">
-            <div class="slider-values" id="loyer-values">0 — 0</div>
+            <!-- Loyer -->
+            <div class="filter-title">Loyer (€)</div>
+            <div id="slider-loyer" class="slider-block filter-block">
+                <div class="slider-values" id="loyer-values">0 — 0</div>
 
-            <div class="slider-track">
-                <input type="range" id="loyer-min" min="0" max="100" value="0">
-                <input type="range" id="loyer-max" min="0" max="100" value="100">
+                <div class="slider-track">
+                    <input type="range" id="loyer-min" min="0" max="100" value="0">
+                    <input type="range" id="loyer-max" min="0" max="100" value="100">
+                </div>
             </div>
-        </div>
 
-        <!-- Emplacement -->
-        <div class="filter-title">Emplacement</div>
-        <div id="filter-emplacement" class="filter-block"></div>
+            <!-- Emplacement -->
+            <div class="filter-title">Emplacement</div>
+            <div id="filter-emplacement" class="filter-block"></div>
 
-        <!-- Typologie -->
-        <div class="filter-title">Typologie</div>
-        <div id="filter-typologie" class="filter-block"></div>
+            <!-- Typologie -->
+            <div class="filter-title">Typologie</div>
+            <div id="filter-typologie" class="filter-block"></div>
 
-        <!-- Extraction -->
-        <div class="filter-title">Extraction</div>
-        <div id="filter-extraction" class="filter-block"></div>
+            <!-- Extraction -->
+            <div class="filter-title">Extraction</div>
+            <div id="filter-extraction" class="filter-block"></div>
 
-        <!-- Restauration -->
-        <div class="filter-title">Restauration</div>
-        <div id="filter-restauration" class="filter-block"></div>
+            <!-- Restauration -->
+            <div class="filter-title">Restauration</div>
+            <div id="filter-restauration" class="filter-block"></div>
 
-        <button id="btn-reset">Réinitialiser</button>
+            <button id="btn-reset">Réinitialiser</button>
 
-        <!-- AJOUT : espace en bas -->
-        <div class="scroll-spacer"></div>
-
+        </div> <!-- FIN sidebar-inner -->
     </div>
 
     <!-- ─────────────────────────────────────────── -->
@@ -99,12 +98,13 @@
     <!--                 VOLET DROIT                 -->
     <!-- ─────────────────────────────────────────── -->
     <div id="sidebar-right">
-        <div id="ref-annonce">Référence</div>
-        <div id="info-lot"></div>
-        <div id="photos-lot"></div>
+        <div class="sidebar-inner"> <!-- AJOUT -->
 
-        <!-- AJOUT : espace en bas -->
-        <div class="scroll-spacer"></div>
+            <div id="ref-annonce">Référence</div>
+            <div id="info-lot"></div>
+            <div id="photos-lot"></div>
+
+        </div> <!-- FIN sidebar-inner -->
     </div>
 
     <!-- Leaflet JS -->
