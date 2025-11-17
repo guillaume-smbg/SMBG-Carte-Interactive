@@ -21,11 +21,12 @@ html, body {
     top: 0;
     left: 0;
     width: 275px;
+    min-height: 100%;        /* ← corrige le scroll bloqué */
     height: 100%;
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
-    padding-bottom: 80px;  /* ← AJOUT POUR ENLEVER LE BAS COUPÉ */
+    padding-bottom: 120px;  /* ← AJOUT POUR ENLEVER LE BAS COUPÉ */
     overflow-y: auto;
 }
 
@@ -96,11 +97,12 @@ input[type="range"] {
     top: 0;
     right: 0;
     width: 300px;
+    min-height: 100%;        /* ← même correctif */
     height: 100%;
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
-    padding-bottom: 80px; /* ← AJOUT POUR ENLEVER LE BAS COUPÉ */
+    padding-bottom: 120px; /* ← AJOUT POUR ENLEVER LE BAS COUPÉ */
     overflow-y: auto;
 }
 
@@ -179,3 +181,4 @@ input[type="range"] {
     border-color: #C67B42 !important;
     color: #C67B42 !important;
 }
+
