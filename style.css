@@ -24,7 +24,7 @@ html, body {
     top: 0;
     left: 0;
     width: 300px; /* NE PAS MODIFIER */
-    min-height: 100%;
+    height: 100%;
     background-color: #05263d;
     color: #C67B42;
     padding: 80px;
@@ -173,7 +173,7 @@ html, body {
     top: 0;
     right: 0;
     width: 300px; 
-    min-height: 100%;
+    height: 100%;
     background-color: #05263d;
     color: #C67B42;
     padding: 80px;
@@ -262,5 +262,6 @@ html, body {
 .smbg-pin-selected div {
     color: #C67B42 !important;
 }
+
 
 
