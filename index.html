@@ -1,72 +1,106 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SMBG Carte Interactive</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMBG – Carte Interactive</title>
 
-    <link rel="stylesheet" href="style.css" />
-
-    <!-- Leaflet -->
-    <link 
+    <!-- Leaflet CSS -->
+    <link
         rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin=""
     />
 
-    <script 
-        src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js">
-    </script>
-
-    <!-- XLSX -->
-    <script 
-        src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js">
-    </script>
-
+    <!-- Style SMBG -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- ========== VOLET GAUCHE (275px) ========== -->
+    <!-- ─────────────────────────────────────────── -->
+    <!--              VOLET GAUCHE                   -->
+    <!-- ─────────────────────────────────────────── -->
     <div id="sidebar-left">
 
-        <div class="titre-section">Régions</div>
-        <div id="regions"></div>
+        <!-- Régions -->
+        <div class="filter-title">Régions</div>
+        <div id="filter-regions"></div>
 
-        <div class="titre-section">Départements</div>
-        <div id="departements"></div>
+        <!-- Départements -->
+        <div class="filter-title">Départements</div>
+        <div id="filter-departements"></div>
 
-        <div class="titre-section">Surface (m²)</div>
-        <div class="slider-container" id="surface-container"></div>
+        <!-- Surface -->
+        <div class="filter-title">Surface (m²)</div>
+        <div id="slider-surface" class="slider-block">
+            <div class="slider-values" id="surface-values">0 — 0</div>
+            <div class="slider-track">
+                <input type="range" id="surface-min" min="0" max="100" value="0">
+                <input type="range" id="surface-max" min="0" max="100" value="100">
+            </div>
+        </div>
 
-        <div class="titre-section">Loyer (€)</div>
-        <div class="slider-container" id="loyer-container"></div>
+        <!-- Loyer -->
+        <div class="filter-title">Loyer (€)</div>
+        <div id="slider-loyer" class="slider-block">
+            <div class="slider-values" id="loyer-values">0 — 0</div>
+            <div class="slider-track">
+                <input type="range" id="loyer-min" min="0" max="100" value="0">
+                <input type="range" id="loyer-max" min="0" max="100" value="100">
+            </div>
+        </div>
 
-        <div class="titre-section">Emplacement</div>
-        <div id="emplacement"></div>
+        <!-- Emplacement -->
+        <div class="filter-title">Emplacement</div>
+        <div id="filter-emplacement"></div>
 
-        <div class="titre-section">Typologie</div>
-        <div id="typologie"></div>
+        <!-- Typologie -->
+        <div class="filter-title">Typologie</div>
+        <div id="filter-typologie"></div>
 
-        <div class="titre-section">Extraction</div>
-        <div id="extraction"></div>
+        <!-- Extraction -->
+        <div class="filter-title">Extraction</div>
+        <div id="filter-extraction"></div>
 
-        <div class="titre-section">Restauration</div>
-        <div id="restauration"></div>
+        <!-- Restauration -->
+        <div class="filter-title">Restauration</div>
+        <div id="filter-restauration"></div>
 
-        <button id="reset-btn">Réinitialiser</button>
+        <button id="btn-reset">Réinitialiser</button>
 
     </div>
 
-    <!-- ========== CARTE ========== -->
-    <div id="map"></div>
-
-    <!-- ========== PANNEAU DROIT (300px) ========== -->
-    <div id="panel-right">
-        <h1>Référence</h1>
+    <!-- ─────────────────────────────────────────── -->
+    <!--                   CARTE                      -->
+    <!-- ─────────────────────────────────────────── -->
+    <div id="map-container">
+        <div id="map"></div>
     </div>
 
+    <!-- ─────────────────────────────────────────── -->
+    <!--                 VOLET DROIT                 -->
+    <!-- ─────────────────────────────────────────── -->
+    <div id="sidebar-right">
+        <div id="ref-annonce">Référence</div>
+        <div id="info-lot"></div>
+        <div id="photos-lot"></div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        crossorigin="">
+    </script>
+
+    <!-- Excel Reader -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
+    </script>
+
+    <!-- Script -->
     <script src="js/app.js"></script>
+
 </body>
 </html>
-
-
