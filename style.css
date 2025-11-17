@@ -59,6 +59,43 @@ body {
     color: #C67B42;
 }
 
+.ref-annonce {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.ligne {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #1d3a52;
+    padding-bottom: 6px;
+}
+
+.cle {
+    font-weight: bold;
+}
+
+.val {
+    text-align: right;
+}
+
+.googlemaps-btn {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.googlemaps-btn a {
+    background: #C67B42;
+    padding: 8px 15px;
+    color: #05263d;
+    font-weight: bold;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
 .pin-container {
     background: transparent;
 }
