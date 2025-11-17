@@ -23,7 +23,7 @@ html, body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 300px; /* NE PAS CHANGER */
+    width: 300px; /* NE PAS MODIFIER */
     height: 100%;
     background-color: #05263d;
     color: #C67B42;
@@ -112,7 +112,7 @@ html, body {
     border-radius: 100px;
 }
 
-/* Curseur (thumb) */
+/* Curseur */
 .slider-track input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background: #C67B42;
@@ -239,18 +239,26 @@ html, body {
 /* ───────────────────────────────────────────── */
 .smbg-pin {
     background-color: #05263d;
-    color: white;
     border: 2px solid white;
     border-radius: 50%;
     width: 30px;
     height: 30px;
     text-align: center;
     line-height: 26px;
-    font-weight: bold;
+    font-family: 'Futura';
+}
+
+.smbg-pin div {
+    font-family: 'Futura';
+    font-weight: bold; /* ✔ AJOUT FUTURA BOLD */
+    color: white;
     font-size: 13px;
 }
 
 .smbg-pin-selected {
     border-color: #C67B42 !important;
+}
+
+.smbg-pin-selected div {
     color: #C67B42 !important;
 }
