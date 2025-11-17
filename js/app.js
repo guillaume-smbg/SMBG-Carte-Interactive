@@ -1,12 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive
-   Version reconstruite et stabilisée
-   - Pins identiques (ronds bleu SMBG)
-   - Sélection cuivrée inchangée
-   - Panneau droit intact
-   - Filtres complets : Région, Département, Emplacement, Typologie, Extraction, Restauration
-   - Sliders double curseur Surface + Loyer
-   - Scroll auto dans le panneau droit
+   SMBG – Carte interactive (VERSION STABLE + SLIDER 2000 m²)
    ============================================================ */
 
 /* ============================================================
@@ -26,23 +19,23 @@ map.setView([46.8, 2.4], 6);
 
 
 /* ============================================================
-   2. CHARGEMENT FICHIER EXCEL
+   2. CHARGEMENT EXCEL
    ============================================================ */
 async function loadExcel() {
-    const url = "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsx";
+    const url =
+      "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsx";
     const res = await fetch(url);
     const buf = await res.arrayBuffer();
     const wb = XLSX.read(buf, { type: "array" });
     return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: "" });
 }
 
-let DATA = []; 
+let DATA = [];
 
 
 /* ============================================================
    3. FORMATAGE
    ============================================================ */
-
 function formatReference(r) {
     if (!r) return "";
     return r.toString().trim().replace(/^0+/, "").replace(/\.0$/, "");
@@ -59,16 +52,17 @@ function formatValue(key, val) {
         "Marketing","Marketing €/m²",
         "Total (L+C+M)","Dépôt de garantie"
     ];
+
     const surfaces = ["Surface GLA","Surface utile"];
 
     if (euros.includes(key)) {
-        const n = Math.round(parseFloat(val.replace(/\s/g, "")));
+        const n = Math.round(parseFloat(val.replace(/\s/g,"")));
         if (isNaN(n)) return val;
         return n.toLocaleString("fr-FR") + " €";
     }
 
     if (surfaces.includes(key)) {
-        const n = Math.round(parseFloat(val.replace(/\s/g, "")));
+        const n = Math.round(parseFloat(val.replace(/\s/g,"")));
         if (isNaN(n)) return val;
         return n.toLocaleString("fr-FR") + " m²";
     }
@@ -98,13 +92,11 @@ const colonnes_info = [
 
 function afficherPanneauDroit(d) {
 
-    // Référence
     const ref = formatReference(d["Référence annonce"]);
     document.getElementById("ref-annonce").innerHTML = ref;
 
     let html = "";
 
-    // Adresse + bouton Gmaps
     const adresse = d["Adresse"];
     const gmaps = (d["Lien Google Maps"] || "").trim();
 
@@ -126,7 +118,6 @@ function afficherPanneauDroit(d) {
         }
     }
 
-    // Autres colonnes
     colonnes_info.forEach(col => {
         if (col === "Adresse") return;
         const val = formatValue(col, d[col]);
@@ -142,16 +133,14 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("info-lot").innerHTML = html;
 
-    // Photos
     let photos = (d["Photos"] || d["AP"] || "")
-        .toString().split(";").map(x=>x.trim()).filter(x=>x);
+        .toString().split(";").map(x => x.trim()).filter(x => x);
 
     let ph = "";
     photos.forEach(url => { ph += `<img src="${url}">`; });
 
     document.getElementById("photos-lot").innerHTML = ph;
 
-    // Scroll auto ↑↑↑
     document.getElementById("sidebar-right").scrollTop = 0;
 }
 
@@ -176,16 +165,17 @@ function afficherPinsFiltrés(donnees) {
 
         const ref = formatReference(d["Référence annonce"]);
 
-        const marker = L.marker([lat, lng], {
+        const marker = L.marker([lat,lng], {
             icon: L.divIcon({
                 className: "smbg-pin",
                 html: `<div>${ref}</div>`,
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
+                iconSize: [30,30],
+                iconAnchor: [15,15]
             })
         });
 
-        marker.on("click", () => {
+        marker.on("click", ()=>{
+
             if (pinSelectionne)
                 pinSelectionne._icon.classList.remove("smbg-pin-selected");
 
@@ -202,26 +192,23 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   6. FILTRES
+   6. FILTRES – VALEURS UNIQUES
    ============================================================ */
-
 function valeursUniques(key) {
     const set = new Set();
     DATA.forEach(d => {
         const v = (d[key] || "").toString().trim();
-        if (v && v !== "-" && v !== "/" && v !== "0") set.add(v);
+        if (v && v !== "-" && v !== "/") set.add(v);
     });
     return [...set].sort();
 }
 
-function remplirCheckbox(id, valeurs, indent=false) {
+function remplirCheckbox(id, valeurs) {
     const zone = document.getElementById(id);
     zone.innerHTML = "";
-
     valeurs.forEach(v => {
         const div = document.createElement("div");
-        div.className = "checkbox-line" + (indent ? " departement-indent" : "");
-
+        div.className = "checkbox-line";
         div.innerHTML = `
             <input type="checkbox" value="${v}">
             <label>${v}</label>
@@ -236,16 +223,56 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   7. SLIDERS DOUBLE CURSEUR
+   7. DOUBLE SLIDER (Surface = limité à 2000)
    ============================================================ */
-function initSliderDouble(minId, maxId, values, displayId) {
 
-    const min = Math.min(...values);
-    const max = Math.max(...values);
+function initSliderSurface(values) {
 
-    const minInput = document.getElementById(minId);
-    const maxInput = document.getElementById(maxId);
-    const display = document.getElementById(displayId);
+    const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
+
+    const MAX_LIMIT = 2000; // ✔ limite haute slider
+    const min = Math.min(...uniq);
+    const maxSlider = MAX_LIMIT;
+
+    const minInput = document.getElementById("surface-min");
+    const maxInput = document.getElementById("surface-max");
+    const display = document.getElementById("surface-values");
+
+    minInput.min = maxInput.min = min;
+    minInput.max = maxInput.max = maxSlider;
+
+    minInput.value = min;
+    maxInput.value = maxSlider;
+
+    function aff() {
+        let a = parseInt(minInput.value);
+        let b = parseInt(maxInput.value);
+        if (a > b) minInput.value = b;
+
+        display.innerHTML =
+            a.toLocaleString("fr-FR") + " m² — " +
+            b.toLocaleString("fr-FR") + " m²";
+    }
+
+    minInput.oninput = aff;
+    maxInput.oninput = aff;
+    aff();
+}
+
+
+/* ============================================================
+   8. DOUBLE SLIDER LOYER (inchangé)
+   ============================================================ */
+function initSliderLoyer(values) {
+
+    const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
+
+    const min = Math.min(...uniq);
+    const max = Math.max(...uniq);
+
+    const minInput = document.getElementById("loyer-min");
+    const maxInput = document.getElementById("loyer-max");
+    const display = document.getElementById("loyer-values");
 
     minInput.min = maxInput.min = min;
     minInput.max = maxInput.max = max;
@@ -253,25 +280,24 @@ function initSliderDouble(minId, maxId, values, displayId) {
     minInput.value = min;
     maxInput.value = max;
 
-    function updateDisplay() {
-        const a = parseInt(minInput.value);
-        const b = parseInt(maxInput.value);
-
+    function aff() {
+        let a = parseInt(minInput.value);
+        let b = parseInt(maxInput.value);
         if (a > b) minInput.value = b;
 
         display.innerHTML =
-            a.toLocaleString("fr-FR") + " — " + b.toLocaleString("fr-FR");
+            a.toLocaleString("fr-FR") + " € — " +
+            b.toLocaleString("fr-FR") + " €";
     }
 
-    minInput.oninput = updateDisplay;
-    maxInput.oninput = updateDisplay;
-
-    updateDisplay();
+    minInput.oninput = aff;
+    maxInput.oninput = aff;
+    aff();
 }
 
 
 /* ============================================================
-   8. APPLICATION DES FILTRES
+   9. APPLICATION DES FILTRES (inclut >2000 m²)
    ============================================================ */
 function appliquerFiltres() {
 
@@ -281,13 +307,15 @@ function appliquerFiltres() {
     const ft = valeursCochées("filter-typologie");
     const fx = valeursCochées("filter-extraction");
     const frs = valeursCochées("filter-restauration");
+    const big = document.getElementById("checkbox-grand-surface").checked;
 
     const surfMin = parseInt(document.getElementById("surface-min").value);
     const surfMax = parseInt(document.getElementById("surface-max").value);
+
     const loyMin = parseInt(document.getElementById("loyer-min").value);
     const loyMax = parseInt(document.getElementById("loyer-max").value);
 
-    const out = DATA.filter(d => {
+    const OUT = DATA.filter(d => {
 
         if (fr.length && !fr.includes(d["Région"])) return false;
         if (fd.length && !fd.includes(d["Département"])) return false;
@@ -297,28 +325,31 @@ function appliquerFiltres() {
         if (fx.length && !fx.includes(d["Extraction"])) return false;
         if (frs.length && !frs.includes(d["Restauration"])) return false;
 
-        const surf = parseInt(d["Surface GLA"] || "0");
-        if (surf < surfMin || surf > surfMax) return false;
+        const surf = parseInt(d["Surface GLA"] || 0);
 
-        const loy = parseInt(d["Loyer annuel"] || "0");
+        if (surf <= 2000) {
+            if (surf < surfMin || surf > surfMax) return false;
+        } else {
+            if (!big) return false;
+        }
+
+        const loy = parseInt(d["Loyer annuel"] || 0);
         if (loy < loyMin || loy > loyMax) return false;
 
         return true;
     });
 
-    afficherPinsFiltrés(out);
+    afficherPinsFiltrés(OUT);
 }
 
 
-
 /* ============================================================
-   9. INITIALISATION GLOBALE
+   10. INITIALISATION
    ============================================================ */
 async function init() {
 
     DATA = await loadExcel();
 
-    /* Filtres Région / Département / etc. */
     remplirCheckbox("filter-regions", valeursUniques("Région"));
     remplirCheckbox("filter-departements", valeursUniques("Département"));
 
@@ -327,35 +358,23 @@ async function init() {
     remplirCheckbox("filter-extraction", valeursUniques("Extraction"));
     remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
 
-    /* Sliders double curseur */
-    initSliderDouble("surface-min", "surface-max",
-        DATA.map(d => parseInt(d["Surface GLA"] || "0")),
-        "surface-values"
-    );
+    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
+    initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
 
-    initSliderDouble("loyer-min", "loyer-max",
-        DATA.map(d => parseInt(d["Loyer annuel"] || "0")),
-        "loyer-values"
-    );
-
-    /* Events */
-    document.querySelectorAll("#sidebar-left input[type=checkbox]").forEach(chk => {
-        chk.addEventListener("change", appliquerFiltres);
+    document.querySelectorAll("#sidebar-left input").forEach(el => {
+        el.addEventListener("input", appliquerFiltres);
     });
 
-    document.getElementById("surface-min").addEventListener("input", appliquerFiltres);
-    document.getElementById("surface-max").addEventListener("input", appliquerFiltres);
-    document.getElementById("loyer-min").addEventListener("input", appliquerFiltres);
-    document.getElementById("loyer-max").addEventListener("input", appliquerFiltres);
-
     document.getElementById("btn-reset").addEventListener("click", () => {
-        document.querySelectorAll("#sidebar-left input[type=checkbox]").forEach(x => x.checked = false);
-        initSliderDouble("surface-min", "surface-max", DATA.map(d => parseInt(d["Surface GLA"] || "0")), "surface-values");
-        initSliderDouble("loyer-min", "loyer-max", DATA.map(d => parseInt(d["Loyer annuel"] || "0")), "loyer-values");
+        document.querySelectorAll("#sidebar-left input[type=checkbox]")
+            .forEach(x => x.checked = false);
+
+        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
+        initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
+
         afficherPinsFiltrés(DATA);
     });
 
-    /* Affichage initial */
     afficherPinsFiltrés(DATA);
 }
 
