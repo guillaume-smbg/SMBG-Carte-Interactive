@@ -34,12 +34,23 @@
 
         <!-- Surface -->
         <div class="filter-title">Surface (m²)</div>
+
+        <!-- Slider double curseur -->
         <div id="slider-surface" class="slider-block filter-block">
             <div class="slider-values" id="surface-values">0 — 0</div>
 
             <div class="slider-track">
                 <input type="range" id="surface-min" min="0" max="100" value="0">
                 <input type="range" id="surface-max" min="0" max="100" value="100">
+            </div>
+        </div>
+
+        <!-- Case spéciale grands locaux -->
+        <div class="filter-title">Très grands lots</div>
+        <div id="filter-grand-surface" class="filter-block">
+            <div class="checkbox-line">
+                <input type="checkbox" id="checkbox-grand-surface" value="big">
+                <label for="checkbox-grand-surface">> 2000 m²</label>
             </div>
         </div>
 
