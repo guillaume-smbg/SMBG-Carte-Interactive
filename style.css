@@ -1,3 +1,6 @@
+/* ───────────────────────────────────────────── */
+/*                 FONTS SMBG                    */
+/* ───────────────────────────────────────────── */
 @font-face {
     font-family: 'Futura';
     src: url('assets/fonts/FuturaLT.ttf') format('truetype');
@@ -13,14 +16,14 @@ html, body {
     font-family: 'Futura', sans-serif;
 }
 
-/* ───────────────────────────────────────────────────────────── */
-/*    VOLET GAUCHE FIXE (version stable validée : 300 px)       */
-/* ───────────────────────────────────────────────────────────── */
+/* ───────────────────────────────────────────── */
+/*                VOLET GAUCHE                   */
+/* ───────────────────────────────────────────── */
 #sidebar-left {
     position: fixed;
     top: 0;
     left: 0;
-    width: 300px;
+    width: 300px; /* Validé ! */
     height: 100%;
     background-color: #05263d;
     color: #C67B42;
@@ -28,7 +31,6 @@ html, body {
     overflow-y: auto;
 }
 
-/* Titres */
 .filter-title {
     font-size: 16px;
     font-weight: bold;
@@ -37,11 +39,90 @@ html, body {
     margin-bottom: 8px;
 }
 
-input[type="range"] {
-    width: 100%;
-    margin: 4px 0;
+/* ───────────────────────────────────────────── */
+/*                CHECKBOXES                     */
+/* ───────────────────────────────────────────── */
+.checkbox-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
 }
 
+.checkbox-line label {
+    margin-left: 6px;
+    color: #C67B42;
+    cursor: pointer;
+}
+
+.checkbox-line input {
+    cursor: pointer;
+}
+
+/* Indentation de 15 px pour les départements */
+.departement-indent {
+    margin-left: 15px !important;
+}
+
+/* ───────────────────────────────────────────── */
+/*            SLIDERS DOUBLE CURSEUR             */
+/* ───────────────────────────────────────────── */
+.slider-block {
+    margin-bottom: 18px;
+}
+
+.slider-values {
+    color: #C67B42;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.slider-track {
+    position: relative;
+    width: 100%;
+    height: 20px;
+}
+
+.slider-track input[type="range"] {
+    -webkit-appearance: none;
+    position: absolute;
+    width: 100%;
+    pointer-events: none;
+    background: none;
+}
+
+/* Track invisible */
+.slider-track input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: transparent;
+}
+
+/* Curseur */
+.slider-track input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    background: #C67B42;
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: all;
+    margin-top: -5px;
+}
+
+/* Trait central */
+.slider-track::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(198,123,66,0.4);
+    border-radius: 100px;
+}
+
+/* ───────────────────────────────────────────── */
+/*                  BOUTON RESET                 */
+/* ───────────────────────────────────────────── */
 #btn-reset {
     width: 100%;
     padding: 10px;
@@ -54,13 +135,13 @@ input[type="range"] {
     cursor: pointer;
 }
 
-/* ───────────────────────────────────────────────────────────── */
-/*                       CARTE CENTRALE                          */
-/* ───────────────────────────────────────────────────────────── */
+/* ───────────────────────────────────────────── */
+/*                  CARTE CENTRALE               */
+/* ───────────────────────────────────────────── */
 #map-container {
     position: fixed;
     left: 300px;
-    right: 300px; /* panneau droit fixe */
+    right: 300px; /* Panneau droit fixe */
     top: 0;
     bottom: 0;
 }
@@ -70,14 +151,14 @@ input[type="range"] {
     height: 100%;
 }
 
-/* ───────────────────────────────────────────────────────────── */
-/*                     VOLET DROIT FIXE                          */
-/* ───────────────────────────────────────────────────────────── */
+/* ───────────────────────────────────────────── */
+/*                VOLET DROIT FIXE               */
+/* ───────────────────────────────────────────── */
 #sidebar-right {
     position: fixed;
     top: 0;
     right: 0;
-    width: 300px;
+    width: 300px; /* Validé */
     height: 100%;
     background-color: #05263d;
     color: #C67B42;
@@ -139,9 +220,9 @@ input[type="range"] {
     border-radius: 4px;
 }
 
-/* ───────────────────────────────────────────────────────────── */
-/*                           PINS                                */
-/* ───────────────────────────────────────────────────────────── */
+/* ───────────────────────────────────────────── */
+/*                        PINS                    */
+/* ───────────────────────────────────────────── */
 .smbg-pin {
     background-color: #05263d;
     color: white;
