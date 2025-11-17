@@ -27,7 +27,7 @@ html, body {
     height: 100%;
     background-color: #05263d;
     color: #C67B42;
-    padding: 80px;
+    padding: 20px;
     overflow-y: hidden; /* ← désactivé ici */
 }
 
@@ -176,7 +176,7 @@ html, body {
     height: 100%;
     background-color: #05263d;
     color: #C67B42;
-    padding: 80px;
+    padding: 20px;
     overflow-y: hidden; /* ← désactivé ici */
 }
 
@@ -272,4 +272,3 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px; /* marge bas visible */
 }
-
