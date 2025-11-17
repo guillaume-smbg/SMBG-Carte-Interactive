@@ -1,6 +1,3 @@
-/* ───────────────────────────────────────────── */
-/*                 FONTS SMBG                    */
-/* ───────────────────────────────────────────── */
 @font-face {
     font-family: 'Futura';
     src: url('assets/fonts/FuturaLT.ttf') format('truetype');
@@ -16,128 +13,53 @@ html, body {
     font-family: 'Futura', sans-serif;
 }
 
-/* ───────────────────────────────────────────── */
-/*                VOLET GAUCHE                   */
-/* ───────────────────────────────────────────── */
+/* ───────────────────────────────────────────────────────────── */
+/*    VOLET GAUCHE FIXE (largeur 275 px stabilisée)              */
+/* ───────────────────────────────────────────────────────────── */
 #sidebar-left {
     position: fixed;
     top: 0;
     left: 0;
-    width: 300px; /* NE PAS MODIFIER */
+    width: 275px;
     height: 100%;
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
-    padding-bottom: 80px;
+    padding-bottom: 80px;  /* ← AJOUT POUR ENLEVER LE BAS COUPÉ */
     overflow-y: auto;
 }
 
-/* Tout le contenu interne doit tenir dans 250 px */
-.filter-block,
-.slider-block {
-    max-width: 250px;
-}
-
+/* Titres */
 .filter-title {
     font-size: 16px;
     font-weight: bold;
     color: #C67B42;
-    margin-top: 16px;
+    margin-top: 18px;
     margin-bottom: 8px;
 }
 
-/* ───────────────────────────────────────────── */
-/*                CHECKBOXES                     */
-/* ───────────────────────────────────────────── */
 .checkbox-line {
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
+    gap: 6px;
+    margin-bottom: 4px;
 }
 
-.checkbox-line label {
-    margin-left: 6px;
-    color: #C67B42;
-    cursor: pointer;
-}
-
-.checkbox-line input {
-    cursor: pointer;
-}
-
-/* Indentation des départements */
 .departement-indent {
-    margin-left: 15px !important;
+    margin-left: 15px;
 }
 
-/* ───────────────────────────────────────────── */
-/*            SLIDERS DOUBLE CURSEUR             */
-/* ───────────────────────────────────────────── */
-.slider-block {
-    margin-bottom: 18px;
+input[type="range"] {
+    width: 100%;
+    margin: 4px 0;
 }
 
 .slider-values {
-    color: #C67B42;
     font-size: 14px;
     margin-bottom: 6px;
-    font-weight: bold;
+    color: #C67B42;
 }
 
-.slider-track {
-    position: relative;
-    width: 100%;
-    height: 22px;
-}
-
-/* On superpose les deux sliders */
-.slider-track input[type="range"] {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 6px;
-    background: none;
-    position: absolute;
-    pointer-events: none;
-    margin: 0;
-}
-
-/* Couleur de la ligne */
-.slider-track::before {
-    content: "";
-    position: absolute;
-    top: 9px;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: rgba(198, 123, 66, 0.4);
-    border-radius: 100px;
-}
-
-/* Curseur */
-.slider-track input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    background: #C67B42;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    pointer-events: all;
-    cursor: pointer;
-    border: 2px solid #05263d;
-}
-
-.slider-track input[type="range"]::-moz-range-thumb {
-    background: #C67B42;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    pointer-events: all;
-    cursor: pointer;
-    border: 2px solid #05263d;
-}
-
-/* ───────────────────────────────────────────── */
-/*                  BOUTON RESET                 */
-/* ───────────────────────────────────────────── */
 #btn-reset {
     width: 100%;
     padding: 10px;
@@ -150,13 +72,13 @@ html, body {
     cursor: pointer;
 }
 
-/* ───────────────────────────────────────────── */
-/*                  CARTE CENTRALE               */
-/* ───────────────────────────────────────────── */
+/* ───────────────────────────────────────────────────────────── */
+/*                       CARTE CENTRALE                          */
+/* ───────────────────────────────────────────────────────────── */
 #map-container {
     position: fixed;
-    left: 300px;
-    right: 300px; 
+    left: 275px;
+    right: 300px; /* panneau droit fixe */
     top: 0;
     bottom: 0;
 }
@@ -166,19 +88,19 @@ html, body {
     height: 100%;
 }
 
-/* ───────────────────────────────────────────── */
-/*                VOLET DROIT FIXE               */
-/* ───────────────────────────────────────────── */
+/* ───────────────────────────────────────────────────────────── */
+/*                     VOLET DROIT FIXE                          */
+/* ───────────────────────────────────────────────────────────── */
 #sidebar-right {
     position: fixed;
     top: 0;
     right: 0;
-    width: 300px; 
+    width: 300px;
     height: 100%;
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
-    padding-bottom: 80px;
+    padding-bottom: 80px; /* ← AJOUT POUR ENLEVER LE BAS COUPÉ */
     overflow-y: auto;
 }
 
@@ -236,32 +158,24 @@ html, body {
     border-radius: 4px;
 }
 
-/* ───────────────────────────────────────────── */
-/*                        PINS                    */
-/* ───────────────────────────────────────────── */
+/* ───────────────────────────────────────────────────────────── */
+/*                           PINS                                */
+/* ───────────────────────────────────────────────────────────── */
 .smbg-pin {
     background-color: #05263d;
+    color: white;
     border: 2px solid white;
     border-radius: 50%;
     width: 30px;
     height: 30px;
     text-align: center;
     line-height: 26px;
-    font-family: 'Futura';
-}
-
-.smbg-pin div {
-    font-family: 'Futura';
-    font-weight: bold; /* ✔ AJOUT FUTURA BOLD */
-    color: white;
+    font-weight: bold;
     font-size: 13px;
+    font-family: 'Futura', sans-serif; /* ← Futura sur les pins */
 }
 
 .smbg-pin-selected {
     border-color: #C67B42 !important;
-}
-
-.smbg-pin-selected div {
     color: #C67B42 !important;
 }
-
