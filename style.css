@@ -29,6 +29,10 @@ html, body {
     color: #C67B42;
     padding: 20px;
     overflow-y: auto;
+
+    /* ✔ AJOUT POUR CORRIGER LE BAS COUPÉ */
+    padding-bottom: 120px !important;
+    min-height: calc(100vh + 120px);
 }
 
 /* Tout le contenu interne doit tenir dans 250 px */
@@ -178,6 +182,10 @@ html, body {
     color: #C67B42;
     padding: 20px;
     overflow-y: auto;
+
+    /* ✔ AJOUT POUR CORRIGER LE BAS COUPÉ */
+    padding-bottom: 140px !important;
+    min-height: calc(100vh + 140px);
 }
 
 #ref-annonce {
