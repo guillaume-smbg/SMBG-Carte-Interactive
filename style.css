@@ -28,6 +28,7 @@ html, body {
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
+    padding-bottom: 80px;
     overflow-y: auto;
 }
 
@@ -177,6 +178,7 @@ html, body {
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
+    padding-bottom: 80px;
     overflow-y: auto;
 }
 
@@ -262,3 +264,4 @@ html, body {
 .smbg-pin-selected div {
     color: #C67B42 !important;
 }
+
