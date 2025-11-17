@@ -28,11 +28,7 @@ html, body {
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
-    overflow-y: auto;
-
-    /* ✔ AJOUT POUR CORRIGER LE BAS COUPÉ */
-    padding-bottom: 120px !important;
-    min-height: calc(100vh + 120px);
+    overflow-y: hidden; /* ← désactivé ici */
 }
 
 /* Tout le contenu interne doit tenir dans 250 px */
@@ -181,11 +177,7 @@ html, body {
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
-    overflow-y: auto;
-
-    /* ✔ AJOUT POUR CORRIGER LE BAS COUPÉ */
-    padding-bottom: 140px !important;
-    min-height: calc(100vh + 140px);
+    overflow-y: hidden; /* ← désactivé ici */
 }
 
 #ref-annonce {
@@ -258,7 +250,7 @@ html, body {
 
 .smbg-pin div {
     font-family: 'Futura';
-    font-weight: bold; /* ✔ AJOUT FUTURA BOLD */
+    font-weight: bold;
     color: white;
     font-size: 13px;
 }
@@ -269,4 +261,14 @@ html, body {
 
 .smbg-pin-selected div {
     color: #C67B42 !important;
+}
+
+/* ───────────────────────────────────────────── */
+/*        AJOUT MINIMAL : CONTENEUR INTERNE      */
+/* ───────────────────────────────────────────── */
+
+.sidebar-inner {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 140px; /* marge bas visible */
 }
