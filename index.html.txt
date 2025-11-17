@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMBG – Carte Interactive</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        crossorigin="" />
+
+    <!-- Style SMBG -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- VOLET GAUCHE -->
+    <div id="sidebar-left">
+
+        <!-- (Tu as ensuite demandé à retirer le logo, donc version stable SANS) -->
+
+        <div class="filter-block">
+            <div class="filter-title">Régions</div>
+        </div>
+
+        <div class="filter-block">
+            <div class="filter-title">Départements</div>
+        </div>
+
+        <div class="filter-block">
+            <div class="filter-title">Surface (m²)</div>
+            <input type="range">
+            <input type="range">
+        </div>
+
+        <div class="filter-block">
+            <div class="filter-title">Loyer (€)</div>
+            <input type="range">
+            <input type="range">
+        </div>
+
+        <div class="filter-block"><div class="filter-title">Emplacement</div></div>
+        <div class="filter-block"><div class="filter-title">Typologie</div></div>
+        <div class="filter-block"><div class="filter-title">Extraction</div></div>
+        <div class="filter-block"><div class="filter-title">Restauration</div></div>
+
+        <button id="btn-reset">Réinitialiser</button>
+    </div>
+
+    <!-- CARTE -->
+    <div id="map-container">
+        <div id="map"></div>
+    </div>
+
+    <!-- VOLET DROIT FIXE -->
+    <div id="sidebar-right">
+        <div id="ref-annonce">Référence</div>
+        <div id="info-lot"></div>
+        <div id="photos-lot"></div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+    <!-- Excel Reader -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <!-- Script -->
+    <script src="js/app.js"></script>
+
+</body>
+</html>
