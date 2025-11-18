@@ -22,13 +22,13 @@ html, body {
 #sidebar-left {
     position: fixed;
     top: 0;
+    bottom: 0; /* ✔ remplace height:100% — corrige scroll Windows */
     left: 0;
     width: 300px; /* NE PAS MODIFIER */
-    height: 100%;
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
-    overflow-y: hidden; /* ← désactivé ici */
+    overflow: hidden; /* scroll géré dans .sidebar-inner */
 }
 
 /* Tout le contenu interne doit tenir dans 250 px */
@@ -171,13 +171,13 @@ html, body {
 #sidebar-right {
     position: fixed;
     top: 0;
+    bottom: 0; /* ✔ remplace height:100% — corrige scroll Windows */
     right: 0;
     width: 300px; 
-    height: 100%;
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
-    overflow-y: hidden; /* ← désactivé ici */
+    overflow: hidden; /* scroll géré dans .sidebar-inner */
 }
 
 #ref-annonce {
@@ -264,9 +264,8 @@ html, body {
 }
 
 /* ───────────────────────────────────────────── */
-/*        AJOUT MINIMAL : CONTENEUR INTERNE      */
+/*        CONTENEUR INTERNE POUR LE SCROLL       */
 /* ───────────────────────────────────────────── */
-
 .sidebar-inner {
     height: 100%;
     overflow-y: auto;
