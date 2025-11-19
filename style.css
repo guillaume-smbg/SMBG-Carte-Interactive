@@ -22,16 +22,15 @@ html, body {
 #sidebar-left {
     position: fixed;
     top: 0;
-    bottom: 0; /* ✔ remplace height:100% — corrige scroll Windows */
+    bottom: 0; /* ✔ corrige le scroll Windows */
     left: 0;
-    width: 300px; /* NE PAS MODIFIER */
+    width: 300px;
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
     overflow: hidden; /* scroll géré dans .sidebar-inner */
 }
 
-/* Tout le contenu interne doit tenir dans 250 px */
 .filter-block,
 .slider-block {
     max-width: 250px;
@@ -64,7 +63,6 @@ html, body {
     cursor: pointer;
 }
 
-/* Indentation des départements */
 .departement-indent {
     margin-left: 15px !important;
 }
@@ -89,7 +87,7 @@ html, body {
     height: 22px;
 }
 
-/* On superpose les deux sliders */
+/* superposition */
 .slider-track input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
@@ -100,7 +98,7 @@ html, body {
     margin: 0;
 }
 
-/* Couleur de la ligne */
+/* ligne */
 .slider-track::before {
     content: "";
     position: absolute;
@@ -112,7 +110,7 @@ html, body {
     border-radius: 100px;
 }
 
-/* Curseur */
+/* Boutons centrés verticalement */
 .slider-track input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background: #C67B42;
@@ -122,6 +120,7 @@ html, body {
     pointer-events: all;
     cursor: pointer;
     border: 2px solid #05263d;
+    margin-top: -5px !important;
 }
 
 .slider-track input[type="range"]::-moz-range-thumb {
@@ -132,13 +131,14 @@ html, body {
     pointer-events: all;
     cursor: pointer;
     border: 2px solid #05263d;
+    margin-top: -5px !important;
 }
 
 /* ───────────────────────────────────────────── */
 /*                  BOUTON RESET                 */
 /* ───────────────────────────────────────────── */
 #btn-reset {
-    width: 100%;
+    width: 250px !important;   /* ✔ même largeur que les sliders */
     padding: 10px;
     background-color: #C67B42;
     color: #05263d;
@@ -171,13 +171,13 @@ html, body {
 #sidebar-right {
     position: fixed;
     top: 0;
-    bottom: 0; /* ✔ remplace height:100% — corrige scroll Windows */
+    bottom: 0;
     right: 0;
     width: 300px; 
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
-    overflow: hidden; /* scroll géré dans .sidebar-inner */
+    overflow: hidden;
 }
 
 #ref-annonce {
@@ -187,7 +187,7 @@ html, body {
     margin-bottom: 20px;
 }
 
-/* Deux colonnes */
+/* infos */
 .info-line {
     display: flex;
     padding: 8px 0;
@@ -207,7 +207,7 @@ html, body {
     width: 60%;
 }
 
-/* Bouton Google Maps */
+/* bouton gmaps */
 .btn-maps {
     background-color: #C67B42;
     color: #05263d;
@@ -269,5 +269,5 @@ html, body {
 .sidebar-inner {
     height: 100%;
     overflow-y: auto;
-    padding-bottom: 140px; /* marge bas visible */
+    padding-bottom: 140px;
 }
