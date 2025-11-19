@@ -1,6 +1,11 @@
+/* ───────────────────────────────────────────── */
+/*                 FONTS SMBG                    */
+/* ───────────────────────────────────────────── */
 @font-face {
     font-family: 'Futura';
     src: url('assets/fonts/FuturaLT.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 html, body {
@@ -21,19 +26,9 @@ html, body {
     left: 0;
     width: 300px;
     background-color: #05263d;
+    color: #C67B42;
     padding: 20px;
     overflow: hidden;
-}
-
-.sidebar-inner {
-    height: 100%;
-    overflow-y: auto;
-    padding-bottom: 140px;
-    scrollbar-width: none;
-}
-
-.sidebar-inner::-webkit-scrollbar {
-    display: none;
 }
 
 .filter-block,
@@ -42,118 +37,121 @@ html, body {
 }
 
 .filter-title {
-    color: #C67B42;
     font-size: 16px;
     font-weight: bold;
+    color: #C67B42;
     margin-top: 16px;
     margin-bottom: 8px;
 }
 
 /* ───────────────────────────────────────────── */
-/*                CHECKBOXES                     */
+/*             SLIDERS RESTAURÉS                 */
 /* ───────────────────────────────────────────── */
-.checkbox-line,
-.checkbox-inline {
-    display: flex;
-    align-items: center;
-}
-
-.checkbox-inline {
-    margin-left: 15px;
-}
-
-.checkbox-inline label,
-.checkbox-line label {
-    margin-left: 6px;
-    color: #C67B42;
-    cursor: pointer;
-}
-
-/* ───────────────────────────────────────────── */
-/*            SLIDERS DOUBLE CURSEUR             */
-/* ───────────────────────────────────────────── */
-.slider-block { margin-bottom: 18px; }
-
-.slider-values-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.slider-values {
-    color: #C67B42;
-    font-size: 14px;
-    font-weight: bold;
-}
 
 .slider-track {
     position: relative;
     width: 100%;
-    height: 24px;
-    margin-top: 6px;
+    height: 22px;
 }
 
 .slider-track::before {
     content: "";
     position: absolute;
+    top: 10px;
     left: 0;
     right: 0;
-    top: 10px;
     height: 4px;
-    background: rgba(198,123,66,0.4);
+    background: rgba(198, 123, 66, 0.4);
     border-radius: 100px;
 }
 
+/* slider superposé */
 .slider-track input[type="range"] {
     -webkit-appearance: none;
+    appearance: none;
     width: 100%;
     height: 4px;
+    background: transparent;
     position: absolute;
-    background: none;
+    top: 10px;
     pointer-events: none;
 }
 
+/* bouton du slider */
 .slider-track input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
-    pointer-events: all;
+    appearance: none;
     background: #C67B42;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     border: 2px solid #05263d;
-    margin-top: -6px;
+    cursor: pointer;
+    pointer-events: all;
+    margin-top: -7px;
 }
 
-/* ───────────────────────────────────────────── */
-/*                  BOUTON RESET                 */
-/* ───────────────────────────────────────────── */
-#btn-reset {
-    width: 250px;
-    padding: 10px;
-    margin-top: 25px;
-    background-color: #C67B42;
-    color: #05263d;
-    border: none;
-    border-radius: 6px;
+.slider-track input[type="range"]::-moz-range-thumb {
+    background: #C67B42;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid #05263d;
+    cursor: pointer;
+    pointer-events: all;
+}
+
+/* texte valeurs */
+.slider-values {
+    font-size: 14px;
     font-weight: bold;
+    color: #C67B42;
+    margin-bottom: 4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Alignement parfait des cases à droite */
+.inline-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 10px;
+}
+
+.inline-checkbox input {
     cursor: pointer;
 }
 
-/* ───────────────────────────────────────────── */
-/*                  CARTE CENTRALE               */
-/* ───────────────────────────────────────────── */
-#map-container {
-    position: fixed;
-    left: 300px;
-    right: 300px;
-    top: 0;
-    bottom: 0;
+.inline-checkbox label {
+    cursor: pointer;
+    color: #C67B42;
 }
 
-#map { width: 100%; height: 100%; }
+/* ───────────────────────────────────────────── */
+/*            CHECKBOXES (texte cliquable)       */
+/* ───────────────────────────────────────────── */
+.checkbox-line {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.checkbox-line input {
+    cursor: pointer;
+}
+
+.checkbox-line label {
+    margin-left: 6px;
+    cursor: pointer;
+    color: #C67B42;
+}
 
 /* ───────────────────────────────────────────── */
-/*                VOLET DROIT                    */
+/*             BARRE DE DROITE SCROLL HIDE       */
 /* ───────────────────────────────────────────── */
 #sidebar-right {
     position: fixed;
@@ -161,90 +159,52 @@ html, body {
     bottom: 0;
     right: 0;
     width: 300px;
-    background-color: #05263d;
     padding: 20px;
+    background: #05263d;
+    color: #C67B42;
     overflow: hidden;
 }
 
 #sidebar-right .sidebar-inner {
     height: 100%;
     overflow-y: auto;
-    padding-bottom: 100px;
-    scrollbar-width: none;
+    padding-bottom: 140px;
+    scrollbar-width: thin;
 }
 
 #sidebar-right .sidebar-inner::-webkit-scrollbar {
-    display: none;
+    width: 8px;
 }
 
-#ref-annonce {
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    color: #C67B42;
-    margin-bottom: 20px;
+#sidebar-right .sidebar-inner::-webkit-scrollbar-thumb {
+    background: transparent;
 }
 
-.info-line {
-    display: flex;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(198,123,66,0.4);
-}
-
-.info-line-no-border {
-    border-bottom: none;
-}
-
-.info-key {
-    width: 40%;
-    font-weight: bold;
-    color: #C67B42;
-}
-
-.info-value {
-    width: 60%;
-    color: #C67B42;
-}
-
-.btn-maps {
-    width: 60%;
-    margin-left: 40%;
-    background-color: #C67B42;
-    color: #05263d;
-    font-weight: bold;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-#photos-lot img {
-    width: 100%;
-    margin-top: 12px;
-    border-radius: 4px;
-}
-
-/* PINS */
+/* ───────────────────────────────────────────── */
+/*                        PINS                    */
+/* ───────────────────────────────────────────── */
 .smbg-pin {
     background-color: #05263d;
-    border-radius: 50%;
     border: 2px solid white;
+    border-radius: 50%;
     width: 30px;
     height: 30px;
     text-align: center;
     line-height: 26px;
-    font-family: "Futura";
+    font-family: 'Futura';
 }
 
 .smbg-pin div {
-    color: white;
+    font-family: 'Futura';
     font-weight: bold;
+    color: white;
     font-size: 13px;
 }
 
 .smbg-pin-selected {
     border-color: #C67B42 !important;
 }
+
 .smbg-pin-selected div {
     color: #C67B42 !important;
 }
