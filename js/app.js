@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE RÉPARÉE)
+   SMBG – Carte interactive (VERSION STABLE + SLIDER 2000 m²)
    ============================================================ */
 
 /* ============================================================
@@ -74,7 +74,6 @@ function formatValue(key, val) {
 /* ============================================================
    4. PANNEAU DROIT
    ============================================================ */
-
 const colonnes_info = [
     "Adresse","Emplacement","Typologie","Type",
     "Cession / Droit au bail","Numéro de lot",
@@ -141,6 +140,7 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("photos-lot").innerHTML = ph;
 
+    /* REMONTER LE PANNEAU EN HAUT */
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
 
@@ -151,7 +151,7 @@ function afficherPanneauDroit(d) {
 let pinSelectionne = null;
 let markers = [];
 
-function afficherPins(donnees) {
+function afficherPinsFiltrés(donnees) {
 
     markers.forEach(m => map.removeLayer(m));
     markers = [];
@@ -192,7 +192,7 @@ function afficherPins(donnees) {
 
 
 /* ============================================================
-   6. VALEURS UNIQUES + TEXTE CLIQUABLE
+   6. FILTRES
    ============================================================ */
 function valeursUniques(key) {
     const set = new Set();
@@ -207,12 +207,11 @@ function remplirCheckbox(id, valeurs) {
     const zone = document.getElementById(id);
     zone.innerHTML = "";
     valeurs.forEach(v => {
-        const uid = id+"-"+v.replace(/\s+/g,"_");
         const div = document.createElement("div");
         div.className = "checkbox-line";
         div.innerHTML = `
-            <input type="checkbox" id="${uid}" value="${v}">
-            <label for="${uid}">${v}</label>
+            <input type="checkbox" value="${v}">
+            <label>${v}</label>
         `;
         zone.appendChild(div);
     });
@@ -224,7 +223,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   7. DOUBLE SLIDER SURFACE
+   7. SLIDER SURFACE (MAX 2000)
    ============================================================ */
 function initSliderSurface(values) {
 
@@ -232,19 +231,17 @@ function initSliderSurface(values) {
 
     const MAX_LIMIT = 2000;
     const min = Math.min(...uniq);
+    const maxSlider = MAX_LIMIT;
 
     const minInput = document.getElementById("surface-min");
     const maxInput = document.getElementById("surface-max");
     const display = document.getElementById("surface-values");
 
-    minInput.min = min;
-    maxInput.min = min;
-
-    minInput.max = MAX_LIMIT;
-    maxInput.max = MAX_LIMIT;
+    minInput.min = maxInput.min = min;
+    minInput.max = maxInput.max = maxSlider;
 
     minInput.value = min;
-    maxInput.value = MAX_LIMIT;
+    maxInput.value = maxSlider;
 
     function aff() {
         let a = parseInt(minInput.value);
@@ -263,7 +260,7 @@ function initSliderSurface(values) {
 
 
 /* ============================================================
-   8. DOUBLE SLIDER LOYER
+   8. SLIDER LOYER
    ============================================================ */
 function initSliderLoyer(values) {
 
@@ -276,11 +273,8 @@ function initSliderLoyer(values) {
     const maxInput = document.getElementById("loyer-max");
     const display = document.getElementById("loyer-values");
 
-    minInput.min = min;
-    maxInput.min = min;
-
-    minInput.max = max;
-    maxInput.max = max;
+    minInput.min = maxInput.min = min;
+    minInput.max = maxInput.max = max;
 
     minInput.value = min;
     maxInput.value = max;
@@ -312,15 +306,13 @@ function appliquerFiltres() {
     const ft = valeursCochées("filter-typologie");
     const fx = valeursCochées("filter-extraction");
     const frs = valeursCochées("filter-restauration");
+    const big = document.getElementById("checkbox-grand-surface").checked;
 
-    const bigSurface = document.getElementById("checkbox-big-surface").checked;
-    const bigLoyer = document.getElementById("checkbox-big-loyer").checked;
+    const surfMin = parseInt(document.getElementById("surface-min").value);
+    const surfMax = parseInt(document.getElementById("surface-max").value);
 
-    const sMin = parseInt(document.getElementById("surface-min").value);
-    const sMax = parseInt(document.getElementById("surface-max").value);
-
-    const lMin = parseInt(document.getElementById("loyer-min").value);
-    const lMax = parseInt(document.getElementById("loyer-max").value);
+    const loyMin = parseInt(document.getElementById("loyer-min").value);
+    const loyMax = parseInt(document.getElementById("loyer-max").value);
 
     const OUT = DATA.filter(d => {
 
@@ -334,24 +326,19 @@ function appliquerFiltres() {
 
         const surf = parseInt(d["Surface GLA"] || 0);
 
-        if (surf > 2000) {
-            if (!bigSurface) return false;
+        if (surf <= 2000) {
+            if (surf < surfMin || surf > surfMax) return false;
         } else {
-            if (surf < sMin || surf > sMax) return false;
+            if (!big) return false;
         }
 
         const loy = parseInt(d["Loyer annuel"] || 0);
-
-        if (loy > 200000) {
-            if (!bigLoyer) return false;
-        } else {
-            if (loy < lMin || loy > lMax) return false;
-        }
+        if (loy < loyMin || loy > loyMax) return false;
 
         return true;
     });
 
-    afficherPins(OUT);
+    afficherPinsFiltrés(OUT);
 }
 
 
@@ -364,6 +351,7 @@ async function init() {
 
     remplirCheckbox("filter-regions", valeursUniques("Région"));
     remplirCheckbox("filter-departements", valeursUniques("Département"));
+
     remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie", valeursUniques("Typologie"));
     remplirCheckbox("filter-extraction", valeursUniques("Extraction"));
@@ -377,20 +365,16 @@ async function init() {
     });
 
     document.getElementById("btn-reset").addEventListener("click", () => {
-
         document.querySelectorAll("#sidebar-left input[type=checkbox]")
             .forEach(x => x.checked = false);
-
-        document.getElementById("checkbox-big-surface").checked = true;
-        document.getElementById("checkbox-big-loyer").checked = true;
 
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
         initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
 
-        afficherPins(DATA);
+        afficherPinsFiltrés(DATA);
     });
 
-    afficherPins(DATA);
+    afficherPinsFiltrés(DATA);
 }
 
 init();
