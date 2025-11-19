@@ -1,9 +1,6 @@
-/* FONTS */
 @font-face {
     font-family: 'Futura';
     src: url('assets/fonts/FuturaLT.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
 }
 
 html, body {
@@ -15,9 +12,8 @@ html, body {
 }
 
 /* ───────────────────────────────────────────── */
-/* VOLET GAUCHE */
+/*                VOLET GAUCHE                   */
 /* ───────────────────────────────────────────── */
-
 #sidebar-left {
     position: fixed;
     top: 0;
@@ -25,9 +21,19 @@ html, body {
     left: 0;
     width: 300px;
     background-color: #05263d;
-    color: #C67B42;
     padding: 20px;
     overflow: hidden;
+}
+
+.sidebar-inner {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 140px;
+    scrollbar-width: none;
+}
+
+.sidebar-inner::-webkit-scrollbar {
+    display: none;
 }
 
 .filter-block,
@@ -36,53 +42,42 @@ html, body {
 }
 
 .filter-title {
+    color: #C67B42;
     font-size: 16px;
     font-weight: bold;
-    color: #C67B42;
     margin-top: 16px;
     margin-bottom: 8px;
 }
 
 /* ───────────────────────────────────────────── */
-/* CHECKBOXES */
+/*                CHECKBOXES                     */
 /* ───────────────────────────────────────────── */
-
-.checkbox-line {
+.checkbox-line,
+.checkbox-inline {
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
 }
 
+.checkbox-inline {
+    margin-left: 15px;
+}
+
+.checkbox-inline label,
 .checkbox-line label {
     margin-left: 6px;
     color: #C67B42;
     cursor: pointer;
 }
 
-.departement-indent {
-    margin-left: 15px !important;
-}
-
 /* ───────────────────────────────────────────── */
-/* SLIDERS */
+/*            SLIDERS DOUBLE CURSEUR             */
 /* ───────────────────────────────────────────── */
+.slider-block { margin-bottom: 18px; }
 
-.slider-block {
-    margin-bottom: 18px;
-}
-
-.slider-flex {
+.slider-values-row {
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    align-items: center;
-}
-
-.inline-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 14px;
-    color: #C67B42;
 }
 
 .slider-values {
@@ -101,63 +96,52 @@ html, body {
 .slider-track::before {
     content: "";
     position: absolute;
-    top: 10px;
     left: 0;
     right: 0;
+    top: 10px;
     height: 4px;
-    background: rgba(198, 123, 66, 0.4);
+    background: rgba(198,123,66,0.4);
     border-radius: 100px;
 }
 
 .slider-track input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
-    height: 6px;
-    background: none;
+    height: 4px;
     position: absolute;
-    top: 2px;
+    background: none;
     pointer-events: none;
 }
 
 .slider-track input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    background: #C67B42;
     width: 16px;
     height: 16px;
-    border-radius: 50%;
     pointer-events: all;
-    cursor: pointer;
-    border: 2px solid #05263d;
-    margin-top: -5px;
-}
-
-.slider-track input[type="range"]::-moz-range-thumb {
     background: #C67B42;
-    width: 16px;
-    height: 16px;
     border-radius: 50%;
-    pointer-events: all;
-    cursor: pointer;
     border: 2px solid #05263d;
+    margin-top: -6px;
 }
 
-/* BOUTON RESET */
+/* ───────────────────────────────────────────── */
+/*                  BOUTON RESET                 */
+/* ───────────────────────────────────────────── */
 #btn-reset {
     width: 250px;
     padding: 10px;
+    margin-top: 25px;
     background-color: #C67B42;
     color: #05263d;
-    font-weight: bold;
     border: none;
     border-radius: 6px;
-    margin-top: 25px;
+    font-weight: bold;
     cursor: pointer;
 }
 
 /* ───────────────────────────────────────────── */
-/* CARTE */
+/*                  CARTE CENTRALE               */
 /* ───────────────────────────────────────────── */
-
 #map-container {
     position: fixed;
     left: 300px;
@@ -166,15 +150,11 @@ html, body {
     bottom: 0;
 }
 
-#map {
-    width: 100%;
-    height: 100%;
-}
+#map { width: 100%; height: 100%; }
 
 /* ───────────────────────────────────────────── */
-/* VOLET DROIT */
+/*                VOLET DROIT                    */
 /* ───────────────────────────────────────────── */
-
 #sidebar-right {
     position: fixed;
     top: 0;
@@ -182,27 +162,26 @@ html, body {
     right: 0;
     width: 300px;
     background-color: #05263d;
-    color: #C67B42;
     padding: 20px;
     overflow: hidden;
 }
 
-.sidebar-inner {
+#sidebar-right .sidebar-inner {
     height: 100%;
     overflow-y: auto;
-    padding-bottom: 140px;
+    padding-bottom: 100px;
+    scrollbar-width: none;
 }
 
-/* Scrollbar masquée */
 #sidebar-right .sidebar-inner::-webkit-scrollbar {
     display: none;
 }
 
-/* Reste du panneau droit (inchangé) */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
     font-weight: bold;
+    color: #C67B42;
     margin-bottom: 20px;
 }
 
@@ -212,40 +191,60 @@ html, body {
     border-bottom: 1px solid rgba(198,123,66,0.4);
 }
 
-.info-key { width: 40%; font-weight: bold; }
-.info-value { width: 60%; }
+.info-line-no-border {
+    border-bottom: none;
+}
+
+.info-key {
+    width: 40%;
+    font-weight: bold;
+    color: #C67B42;
+}
+
+.info-value {
+    width: 60%;
+    color: #C67B42;
+}
 
 .btn-maps {
+    width: 60%;
+    margin-left: 40%;
     background-color: #C67B42;
     color: #05263d;
+    font-weight: bold;
     padding: 8px 14px;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    width: 60%;
-    margin-left: 40%;
-    margin-top: 6px;
-    font-weight: bold;
+}
+
+#photos-lot img {
+    width: 100%;
+    margin-top: 12px;
+    border-radius: 4px;
 }
 
 /* PINS */
 .smbg-pin {
     background-color: #05263d;
-    border: 2px solid white;
     border-radius: 50%;
+    border: 2px solid white;
     width: 30px;
     height: 30px;
     text-align: center;
     line-height: 26px;
-    font-family: 'Futura';
+    font-family: "Futura";
 }
 
 .smbg-pin div {
-    font-family: 'Futura';
-    font-weight: bold;
     color: white;
+    font-weight: bold;
     font-size: 13px;
 }
 
-.smbg-pin-selected { border-color: #C67B42 !important; }
-.smbg-pin-selected div { color: #C67B42 !important; }
+.smbg-pin-selected {
+    border-color: #C67B42 !important;
+}
+.smbg-pin-selected div {
+    color: #C67B42 !important;
+}
