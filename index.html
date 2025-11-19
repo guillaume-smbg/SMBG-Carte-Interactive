@@ -23,7 +23,7 @@
     <!--              VOLET GAUCHE                   -->
     <!-- ─────────────────────────────────────────── -->
     <div id="sidebar-left">
-        <div class="sidebar-inner">
+        <div class="sidebar-inner"><!-- ★★★ AJOUT OBLIGATOIRE ★★★ -->
 
             <!-- Régions -->
             <div class="filter-title">Régions</div>
@@ -37,15 +37,7 @@
             <div class="filter-title">Surface (m²)</div>
 
             <div id="slider-surface" class="slider-block filter-block">
-
-                <div class="slider-values">
-                    <span id="surface-values">0 — 0</span>
-
-                    <span class="inline-checkbox">
-                        <input type="checkbox" id="checkbox-big-surface" checked>
-                        <label for="checkbox-big-surface">> 2000 m²</label>
-                    </span>
-                </div>
+                <div class="slider-values" id="surface-values">0 — 0</div>
 
                 <div class="slider-track">
                     <input type="range" id="surface-min" min="0" max="100" value="0">
@@ -53,19 +45,19 @@
                 </div>
             </div>
 
+            <!-- Grands lots -->
+            <div class="filter-title">Très grands lots</div>
+            <div id="filter-grand-surface" class="filter-block">
+                <div class="checkbox-line">
+                    <input type="checkbox" id="checkbox-grand-surface" value="big">
+                    <label for="checkbox-grand-surface">> 2000 m²</label>
+                </div>
+            </div>
+
             <!-- Loyer -->
             <div class="filter-title">Loyer (€)</div>
-
             <div id="slider-loyer" class="slider-block filter-block">
-
-                <div class="slider-values">
-                    <span id="loyer-values">0 — 0</span>
-
-                    <span class="inline-checkbox">
-                        <input type="checkbox" id="checkbox-big-loyer" checked>
-                        <label for="checkbox-big-loyer">> 200k €</label>
-                    </span>
-                </div>
+                <div class="slider-values" id="loyer-values">0 — 0</div>
 
                 <div class="slider-track">
                     <input type="range" id="loyer-min" min="0" max="100" value="0">
@@ -91,29 +83,28 @@
 
             <button id="btn-reset">Réinitialiser</button>
 
-        </div>
+        </div><!-- FIN sidebar-inner -->
     </div>
 
 
     <!-- ─────────────────────────────────────────── -->
-    <!--                   CARTE                     -->
+    <!--                   CARTE                      -->
     <!-- ─────────────────────────────────────────── -->
     <div id="map-container">
         <div id="map"></div>
     </div>
 
-
     <!-- ─────────────────────────────────────────── -->
-    <!--                 VOLET DROIT                -->
+    <!--                 VOLET DROIT                 -->
     <!-- ─────────────────────────────────────────── -->
     <div id="sidebar-right">
-        <div class="sidebar-inner">
+        <div class="sidebar-inner"><!-- ★★★ AJOUT OBLIGATOIRE ★★★ -->
 
             <div id="ref-annonce">Référence</div>
             <div id="info-lot"></div>
             <div id="photos-lot"></div>
 
-        </div>
+        </div><!-- FIN sidebar-inner -->
     </div>
 
     <!-- Leaflet JS -->
