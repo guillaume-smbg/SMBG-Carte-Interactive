@@ -22,7 +22,7 @@ html, body {
 #sidebar-left {
     position: fixed;
     top: 0;
-    bottom: 0; /* ✔ corrige le scroll Windows */
+    bottom: 0; /* ✔ remplace height:100% — corrige scroll Windows */
     left: 0;
     width: 300px;
     background-color: #05263d;
@@ -98,7 +98,7 @@ html, body {
     margin: 0;
 }
 
-/* ligne */
+/* ligne du slider */
 .slider-track::before {
     content: "";
     position: absolute;
@@ -110,7 +110,7 @@ html, body {
     border-radius: 100px;
 }
 
-/* Boutons centrés verticalement */
+/* ❗ Curseur parfaitement centré */
 .slider-track input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background: #C67B42;
@@ -120,7 +120,7 @@ html, body {
     pointer-events: all;
     cursor: pointer;
     border: 2px solid #05263d;
-    margin-top: -5px !important;
+    margin-top: 3px !important; /* ✔ centrage parfait */
 }
 
 .slider-track input[type="range"]::-moz-range-thumb {
@@ -131,14 +131,14 @@ html, body {
     pointer-events: all;
     cursor: pointer;
     border: 2px solid #05263d;
-    margin-top: -5px !important;
+    margin-top: 3px !important; /* ✔ centrage parfait */
 }
 
 /* ───────────────────────────────────────────── */
 /*                  BOUTON RESET                 */
 /* ───────────────────────────────────────────── */
 #btn-reset {
-    width: 250px !important;   /* ✔ même largeur que les sliders */
+    width: 250px; /* ✔ identique aux sliders */
     padding: 10px;
     background-color: #C67B42;
     color: #05263d;
@@ -155,7 +155,7 @@ html, body {
 #map-container {
     position: fixed;
     left: 300px;
-    right: 300px; 
+    right: 300px;
     top: 0;
     bottom: 0;
 }
@@ -173,7 +173,7 @@ html, body {
     top: 0;
     bottom: 0;
     right: 0;
-    width: 300px; 
+    width: 300px;
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
@@ -187,7 +187,6 @@ html, body {
     margin-bottom: 20px;
 }
 
-/* infos */
 .info-line {
     display: flex;
     padding: 8px 0;
@@ -227,7 +226,6 @@ html, body {
     margin: 12px 0;
 }
 
-/* Photos */
 #photos-lot img {
     width: 100%;
     margin-top: 12px;
