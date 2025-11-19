@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + SLIDERS + FIX)
+   SMBG – Carte interactive (VERSION STABLE RÉPARÉE)
    ============================================================ */
 
 /* ============================================================
@@ -23,15 +23,11 @@ map.setView([46.8, 2.4], 6);
    ============================================================ */
 async function loadExcel() {
     const url =
-        "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsx";
-
+      "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsx";
     const res = await fetch(url);
     const buf = await res.arrayBuffer();
     const wb = XLSX.read(buf, { type: "array" });
-
-    return XLSX.utils.sheet_to_json(
-        wb.Sheets[wb.SheetNames[0]], { defval: "" }
-    );
+    return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: "" });
 }
 
 let DATA = [];
@@ -40,7 +36,6 @@ let DATA = [];
 /* ============================================================
    3. FORMATAGE
    ============================================================ */
-
 function formatReference(r) {
     if (!r) return "";
     return r.toString().trim().replace(/^0+/, "").replace(/\.0$/, "");
@@ -125,7 +120,6 @@ function afficherPanneauDroit(d) {
 
     colonnes_info.forEach(col => {
         if (col === "Adresse") return;
-
         const val = formatValue(col, d[col]);
         if (val === null) return;
 
@@ -140,16 +134,13 @@ function afficherPanneauDroit(d) {
     document.getElementById("info-lot").innerHTML = html;
 
     let photos = (d["Photos"] || d["AP"] || "")
-        .toString().split(";")
-        .map(x => x.trim())
-        .filter(x => x);
+        .toString().split(";").map(x => x.trim()).filter(x => x);
 
     let ph = "";
-    photos.forEach(url => ph += `<img src="${url}">`);
+    photos.forEach(url => { ph += `<img src="${url}">`; });
 
     document.getElementById("photos-lot").innerHTML = ph;
 
-    // Remonte automatiquement le panneau droit (fix demandé)
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
 
@@ -160,7 +151,7 @@ function afficherPanneauDroit(d) {
 let pinSelectionne = null;
 let markers = [];
 
-function afficherPinsFiltrés(donnees) {
+function afficherPins(donnees) {
 
     markers.forEach(m => map.removeLayer(m));
     markers = [];
@@ -174,16 +165,16 @@ function afficherPinsFiltrés(donnees) {
 
         const ref = formatReference(d["Référence annonce"]);
 
-        const marker = L.marker([lat, lng], {
+        const marker = L.marker([lat,lng], {
             icon: L.divIcon({
                 className: "smbg-pin",
                 html: `<div>${ref}</div>`,
-                iconSize: [30, 30],
-                iconAnchor: [15, 15]
+                iconSize: [30,30],
+                iconAnchor: [15,15]
             })
         });
 
-        marker.on("click", () => {
+        marker.on("click", ()=>{
 
             if (pinSelectionne)
                 pinSelectionne._icon.classList.remove("smbg-pin-selected");
@@ -201,7 +192,7 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   6. FILTRES – VALEURS UNIQUES
+   6. VALEURS UNIQUES + TEXTE CLIQUABLE
    ============================================================ */
 function valeursUniques(key) {
     const set = new Set();
@@ -216,46 +207,44 @@ function remplirCheckbox(id, valeurs) {
     const zone = document.getElementById(id);
     zone.innerHTML = "";
     valeurs.forEach(v => {
+        const uid = id+"-"+v.replace(/\s+/g,"_");
         const div = document.createElement("div");
         div.className = "checkbox-line";
         div.innerHTML = `
-            <input type="checkbox" value="${v}">
-            <label>${v}</label>
+            <input type="checkbox" id="${uid}" value="${v}">
+            <label for="${uid}">${v}</label>
         `;
         zone.appendChild(div);
     });
 }
 
 function valeursCochées(id) {
-    return [...document.querySelectorAll(`#${id} input:checked`)]
-        .map(x => x.value);
+    return [...document.querySelectorAll(`#${id} input:checked`)].map(x => x.value);
 }
 
 
 /* ============================================================
-   7. DOUBLE SLIDER – SURFACE (MAX 2000)
+   7. DOUBLE SLIDER SURFACE
    ============================================================ */
-
 function initSliderSurface(values) {
 
-    const uniq = values
-        .map(v => parseInt(v || 0))
-        .filter(v => !isNaN(v));
+    const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
 
     const MAX_LIMIT = 2000;
-
     const min = Math.min(...uniq);
-    const maxSlider = MAX_LIMIT;
 
     const minInput = document.getElementById("surface-min");
     const maxInput = document.getElementById("surface-max");
     const display = document.getElementById("surface-values");
 
-    minInput.min = maxInput.min = min;
-    minInput.max = maxInput.max = maxSlider;
+    minInput.min = min;
+    maxInput.min = min;
+
+    minInput.max = MAX_LIMIT;
+    maxInput.max = MAX_LIMIT;
 
     minInput.value = min;
-    maxInput.value = maxSlider;
+    maxInput.value = MAX_LIMIT;
 
     function aff() {
         let a = parseInt(minInput.value);
@@ -265,8 +254,6 @@ function initSliderSurface(values) {
         display.innerHTML =
             a.toLocaleString("fr-FR") + " m² — " +
             b.toLocaleString("fr-FR") + " m²";
-
-        appliquerFiltres();
     }
 
     minInput.oninput = aff;
@@ -276,13 +263,11 @@ function initSliderSurface(values) {
 
 
 /* ============================================================
-   8. DOUBLE SLIDER – LOYER
+   8. DOUBLE SLIDER LOYER
    ============================================================ */
 function initSliderLoyer(values) {
 
-    const uniq = values
-        .map(v => parseInt(v || 0))
-        .filter(v => !isNaN(v));
+    const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
 
     const min = Math.min(...uniq);
     const max = Math.max(...uniq);
@@ -291,8 +276,11 @@ function initSliderLoyer(values) {
     const maxInput = document.getElementById("loyer-max");
     const display = document.getElementById("loyer-values");
 
-    minInput.min = maxInput.min = min;
-    minInput.max = maxInput.max = max;
+    minInput.min = min;
+    maxInput.min = min;
+
+    minInput.max = max;
+    maxInput.max = max;
 
     minInput.value = min;
     maxInput.value = max;
@@ -305,8 +293,6 @@ function initSliderLoyer(values) {
         display.innerHTML =
             a.toLocaleString("fr-FR") + " € — " +
             b.toLocaleString("fr-FR") + " €";
-
-        appliquerFiltres();
     }
 
     minInput.oninput = aff;
@@ -330,15 +316,17 @@ function appliquerFiltres() {
     const bigSurface = document.getElementById("checkbox-big-surface").checked;
     const bigLoyer = document.getElementById("checkbox-big-loyer").checked;
 
-    const surfMin = parseInt(document.getElementById("surface-min").value);
-    const surfMax = parseInt(document.getElementById("surface-max").value);
-    const loyMin = parseInt(document.getElementById("loyer-min").value);
-    const loyMax = parseInt(document.getElementById("loyer-max").value);
+    const sMin = parseInt(document.getElementById("surface-min").value);
+    const sMax = parseInt(document.getElementById("surface-max").value);
+
+    const lMin = parseInt(document.getElementById("loyer-min").value);
+    const lMax = parseInt(document.getElementById("loyer-max").value);
 
     const OUT = DATA.filter(d => {
 
         if (fr.length && !fr.includes(d["Région"])) return false;
         if (fd.length && !fd.includes(d["Département"])) return false;
+
         if (fe.length && !fe.includes(d["Emplacement"])) return false;
         if (ft.length && !ft.includes(d["Typologie"])) return false;
         if (fx.length && !fx.includes(d["Extraction"])) return false;
@@ -346,24 +334,24 @@ function appliquerFiltres() {
 
         const surf = parseInt(d["Surface GLA"] || 0);
 
-        if (surf <= 2000) {
-            if (surf < surfMin || surf > surfMax) return false;
-        } else {
+        if (surf > 2000) {
             if (!bigSurface) return false;
+        } else {
+            if (surf < sMin || surf > sMax) return false;
         }
 
         const loy = parseInt(d["Loyer annuel"] || 0);
 
-        if (loy <= 200000) {
-            if (loy < loyMin || loy > loyMax) return false;
-        } else {
+        if (loy > 200000) {
             if (!bigLoyer) return false;
+        } else {
+            if (loy < lMin || loy > lMax) return false;
         }
 
         return true;
     });
 
-    afficherPinsFiltrés(OUT);
+    afficherPins(OUT);
 }
 
 
@@ -376,14 +364,13 @@ async function init() {
 
     remplirCheckbox("filter-regions", valeursUniques("Région"));
     remplirCheckbox("filter-departements", valeursUniques("Département"));
-
     remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie", valeursUniques("Typologie"));
     remplirCheckbox("filter-extraction", valeursUniques("Extraction"));
     remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
 
-    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"] || 0)));
-    initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"] || 0)));
+    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
+    initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
 
     document.querySelectorAll("#sidebar-left input").forEach(el => {
         el.addEventListener("input", appliquerFiltres);
@@ -397,13 +384,13 @@ async function init() {
         document.getElementById("checkbox-big-surface").checked = true;
         document.getElementById("checkbox-big-loyer").checked = true;
 
-        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"] || 0)));
-        initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"] || 0)));
+        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
+        initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
 
-        afficherPinsFiltrés(DATA);
+        afficherPins(DATA);
     });
 
-    afficherPinsFiltrés(DATA);
+    afficherPins(DATA);
 }
 
 init();
