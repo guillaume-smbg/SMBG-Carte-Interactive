@@ -22,15 +22,25 @@ html, body {
 #sidebar-left {
     position: fixed;
     top: 0;
-    bottom: 0; /* ✔ remplace height:100% — corrige scroll Windows */
+    bottom: 0;
     left: 0;
     width: 300px;
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
-    overflow: hidden; /* scroll géré dans .sidebar-inner */
+    overflow: hidden; /* Scroll masqué ici */
 }
 
+/* Masquer scrollbar gauche */
+#sidebar-left .sidebar-inner::-webkit-scrollbar {
+    width: 0;
+}
+#sidebar-left .sidebar-inner {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* Largeur interne */
 .filter-block,
 .slider-block {
     max-width: 250px;
@@ -44,9 +54,7 @@ html, body {
     margin-bottom: 8px;
 }
 
-/* ───────────────────────────────────────────── */
-/*                CHECKBOXES                     */
-/* ───────────────────────────────────────────── */
+/* Checkboxes */
 .checkbox-line {
     display: flex;
     align-items: center;
@@ -87,22 +95,23 @@ html, body {
     height: 22px;
 }
 
-/* superposition */
+/* Alignement vertical parfait */
 .slider-track input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
     height: 6px;
     background: none;
     position: absolute;
-    pointer-events: none;
+    top: 8px; /* ✔ centre le thumb */
     margin: 0;
+    pointer-events: none;
 }
 
-/* ligne du slider */
+/* Ligne des sliders */
 .slider-track::before {
     content: "";
     position: absolute;
-    top: 9px;
+    top: 10px; /* ✔ centré avec le thumb */
     left: 0;
     right: 0;
     height: 4px;
@@ -110,17 +119,17 @@ html, body {
     border-radius: 100px;
 }
 
-/* ❗ Curseur parfaitement centré */
+/* Bouton du slider — centré sur la ligne */
 .slider-track input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background: #C67B42;
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    pointer-events: all;
-    cursor: pointer;
     border: 2px solid #05263d;
-    margin-top: 3px !important; /* ✔ centrage parfait */
+    cursor: pointer;
+    pointer-events: all;
+    margin-top: -5px; /* ✔ adjustment pour alignement parfait */
 }
 
 .slider-track input[type="range"]::-moz-range-thumb {
@@ -128,17 +137,16 @@ html, body {
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    pointer-events: all;
-    cursor: pointer;
     border: 2px solid #05263d;
-    margin-top: 3px !important; /* ✔ centrage parfait */
+    cursor: pointer;
+    pointer-events: all;
 }
 
 /* ───────────────────────────────────────────── */
 /*                  BOUTON RESET                 */
 /* ───────────────────────────────────────────── */
 #btn-reset {
-    width: 250px; /* ✔ identique aux sliders */
+    width: 250px; /* ✔ même largeur que sliders */
     padding: 10px;
     background-color: #C67B42;
     color: #05263d;
@@ -177,9 +185,19 @@ html, body {
     background-color: #05263d;
     color: #C67B42;
     padding: 20px;
-    overflow: hidden;
+    overflow: hidden; /* Scroll masqué ici */
 }
 
+/* Masquer scrollbar droite */
+#sidebar-right .sidebar-inner::-webkit-scrollbar {
+    width: 0;
+}
+#sidebar-right .sidebar-inner {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* TITRE */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
@@ -187,6 +205,7 @@ html, body {
     margin-bottom: 20px;
 }
 
+/* Info lines */
 .info-line {
     display: flex;
     padding: 8px 0;
@@ -206,7 +225,7 @@ html, body {
     width: 60%;
 }
 
-/* bouton gmaps */
+/* Bouton Google Maps */
 .btn-maps {
     background-color: #C67B42;
     color: #05263d;
@@ -226,6 +245,7 @@ html, body {
     margin: 12px 0;
 }
 
+/* Photos */
 #photos-lot img {
     width: 100%;
     margin-top: 12px;
@@ -267,5 +287,5 @@ html, body {
 .sidebar-inner {
     height: 100%;
     overflow-y: auto;
-    padding-bottom: 140px;
+    padding-bottom: 140px; /* marge bas visible */
 }
