@@ -74,7 +74,6 @@ function formatValue(key, val) {
 /* ============================================================
    4. PANNEAU DROIT
    ============================================================ */
-
 const colonnes_info = [
     "Adresse","Emplacement","Typologie","Type",
     "Cession / Droit au bail","Numéro de lot",
@@ -141,7 +140,8 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("photos-lot").innerHTML = ph;
 
-    document.getElementById("sidebar-right").scrollTop = 0;
+    /* REMONTER LE PANNEAU EN HAUT */
+    document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
 
 
@@ -192,7 +192,7 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   6. FILTRES – VALEURS UNIQUES
+   6. FILTRES
    ============================================================ */
 function valeursUniques(key) {
     const set = new Set();
@@ -223,14 +223,13 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   7. DOUBLE SLIDER (Surface = limité à 2000)
+   7. SLIDER SURFACE (MAX 2000)
    ============================================================ */
-
 function initSliderSurface(values) {
 
     const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
 
-    const MAX_LIMIT = 2000; // ✔ limite haute slider
+    const MAX_LIMIT = 2000;
     const min = Math.min(...uniq);
     const maxSlider = MAX_LIMIT;
 
@@ -261,7 +260,7 @@ function initSliderSurface(values) {
 
 
 /* ============================================================
-   8. DOUBLE SLIDER LOYER (inchangé)
+   8. SLIDER LOYER
    ============================================================ */
 function initSliderLoyer(values) {
 
@@ -297,7 +296,7 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   9. APPLICATION DES FILTRES (inclut >2000 m²)
+   9. APPLICATION DES FILTRES
    ============================================================ */
 function appliquerFiltres() {
 
