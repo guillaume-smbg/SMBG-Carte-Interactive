@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + RÉGION/DÉPARTEMENT)
+   SMBG – Carte interactive (VERSION FINALISÉE)
    ============================================================ */
 
 /* ============================================================
@@ -24,9 +24,11 @@ map.setView([46.8, 2.4], 6);
 async function loadExcel() {
     const url =
       "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsx";
+
     const res = await fetch(url);
     const buf = await res.arrayBuffer();
     const wb = XLSX.read(buf, { type: "array" });
+
     return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: "" });
 }
 
@@ -34,16 +36,7 @@ let DATA = [];
 
 
 /* ============================================================
-   FORMATAGE
-   ============================================================ */
-function formatReference(r) {
-    if (!r) return "";
-    return r.toString().trim().replace(/^0+/, "").replace(/\.0$/, "");
-}
-
-
-/* ============================================================
-   3. CONSTRUCTION RÉGIONS → DÉPARTEMENTS (DYNAMIQUE)
+   CONSTRUCTION RÉGIONS → DÉPARTEMENTS
    ============================================================ */
 function construireRegionsDepartements() {
 
@@ -51,75 +44,77 @@ function construireRegionsDepartements() {
     cont.innerHTML = "";
 
     let regions = {};
-    
+
     DATA.forEach(d => {
         const reg = (d["Région"] || "").trim();
-        const dep = (d["Département"] || "").trim();
+        const depNom = (d["Département"] || "").trim();
+        const depNum = (d["N° Département"] || "").toString().trim();
 
-        if (!reg || reg === "-" || reg === "/") return;
-        if (!regions[reg]) regions[reg] = new Set();
+        if (!reg) return;
+        if (!regions[reg]) regions[reg] = {};
 
-        if (dep && dep !== "-" && dep !== "/") {
-            regions[reg].add(dep);
+        if (depNom && depNum) {
+            regions[reg][depNom] = depNum; // { "Charente": "16" }
         }
     });
 
     Object.keys(regions).sort().forEach(reg => {
 
-        let div = document.createElement("div");
+        const idR = "reg-" + reg.replace(/\s+/g, "-");
+
+        const div = document.createElement("div");
         div.className = "region-item";
-
-        const idr = "reg-" + reg.replace(/\s+/g, "-");
-
         div.innerHTML = `
             <div class="checkbox-line">
-                <input type="checkbox" id="${idr}" class="region-checkbox" data-region="${reg}">
-                <label for="${idr}">${reg}</label>
+                <input type="checkbox" id="${idR}" class="region-checkbox" data-region="${reg}">
+                <label for="${idR}">${reg}</label>
             </div>
             <div class="departements-container" data-parent="${reg}"></div>
         `;
-
         cont.appendChild(div);
 
-        const contDep = div.querySelector(".departements-container");
+        const depContainer = div.querySelector(".departements-container");
 
-        [...regions[reg]].sort().forEach(dep => {
-
-            const idd = "dep-" + dep;
+        Object.keys(regions[reg]).sort().forEach(depNom => {
+            const num = regions[reg][depNom];
+            const idD = "dep-" + num;
 
             const el = document.createElement("div");
-            el.className = "departement-item checkbox-line departement-indent";
+            el.className = "departement-item checkbox-line";
 
             el.innerHTML = `
-                <input type="checkbox" id="${idd}" class="departement-checkbox" data-dep="${dep}" data-region="${reg}">
-                <label for="${idd}">${dep}</label>
+                <input type="checkbox" id="${idD}"
+                       class="departement-checkbox"
+                       data-dep="${num}" data-region="${reg}">
+                <label for="${idD}">${depNom} (${num})</label>
             `;
 
-            contDep.appendChild(el);
+            depContainer.appendChild(el);
         });
     });
 
-    // ACTIVATION DU COMPORTEMENT
     activerRegionDepartements();
 }
 
 
 /* ============================================================
-   4. COMPORTEMENT RÉGION / DÉPARTEMENT
+   COMPORTEMENT RÉGIONS / DÉPARTEMENTS
    ============================================================ */
 function activerRegionDepartements() {
 
     document.querySelectorAll(".region-checkbox").forEach(box => {
         box.addEventListener("change", function () {
-            
+
             const reg = this.dataset.region;
-            const bloc = document.querySelector(`.departements-container[data-parent="${reg}"]`);
+            const bloc = document.querySelector(
+                `.departements-container[data-parent="${reg}"]`
+            );
 
             if (!bloc) return;
 
-            if (this.checked) {
+            if (this.checked)
                 bloc.style.display = "block";
-            } else {
+            else {
                 bloc.style.display = "none";
                 bloc.querySelectorAll("input").forEach(i => i.checked = false);
             }
@@ -135,13 +130,58 @@ function activerRegionDepartements() {
 
 
 /* ============================================================
-   5. PANNEAU DROIT (inchangé)
+   PINS
    ============================================================ */
-/* … (IDENTIQUE À TA VERSION ACTUELLE, J’AI TOUT LAISSÉ) … */
+let markers = [];
+let pinSelectionne = null;
+
+function afficherPinsFiltrés(data) {
+
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+
+    pinSelectionne = null;
+
+    data.forEach(d => {
+
+        if ((d["Actif"] || "").toLowerCase() !== "oui") return;
+
+        const lat = parseFloat(d["Latitude"]);
+        const lng = parseFloat(d["Longitude"]);
+        if (!lat || !lng) return;
+
+        const ref = (d["Référence annonce"] + "")
+            .replace(/\.0$/, "")
+            .trim();
+
+        const marker = L.marker([lat, lng], {
+            icon: L.divIcon({
+                className: "smbg-pin",
+                html: `<div>${ref}</div>`,
+                iconSize: [30,30],
+                iconAnchor: [15,15]
+            })
+        });
+
+        marker.on("click", () => {
+
+            if (pinSelectionne)
+                pinSelectionne._icon.classList.remove("smbg-pin-selected");
+
+            pinSelectionne = marker;
+            marker._icon.classList.add("smbg-pin-selected");
+
+            afficherPanneauDroit(d);
+        });
+
+        marker.addTo(map);
+        markers.push(marker);
+    });
+}
 
 
 /* ============================================================
-   6. FILTRES AMÉLIORÉS AVEC RÉGIONS / DÉPARTEMENTS
+   FILTRES COMBINES
    ============================================================ */
 function appliquerFiltres() {
 
@@ -157,7 +197,7 @@ function appliquerFiltres() {
     const frs = valeursCochées("filter-restauration");
 
     const bigSurf = document.getElementById("checkbox-grand-surface").checked;
-    const bigLoy = document.getElementById("checkbox-grand-loyer").checked;
+    const bigLoy  = document.getElementById("checkbox-grand-loyer").checked;
 
     const surfMin = parseInt(document.getElementById("surface-min").value);
     const surfMax = parseInt(document.getElementById("surface-max").value);
@@ -168,7 +208,7 @@ function appliquerFiltres() {
     const OUT = DATA.filter(d => {
 
         const reg = (d["Région"] || "").trim();
-        const dep = (d["Département"] || "").trim();
+        const dep = (d["N° Département"] || "").toString().trim();
 
         if (fr.length && !fr.includes(reg)) return false;
         if (fd.length && !fd.includes(dep)) return false;
@@ -179,13 +219,13 @@ function appliquerFiltres() {
         if (frs.length && !frs.includes(d["Restauration"])) return false;
 
         const surf = parseInt(d["Surface GLA"] || 0);
-        const loy = parseInt(d["Loyer annuel"] || 0);
+        const loy  = parseInt(d["Loyer annuel"] || 0);
 
         if (surf > 2000 && !bigSurf) return false;
-        if (loy > 200000 && !bigLoy) return false;
+        if (loy  > 200000 && !bigLoy) return false;
 
         if (surf <= 2000 && (surf < surfMin || surf > surfMax)) return false;
-        if (loy <= 200000 && (loy < loyMin || loy > loyMax)) return false;
+        if (loy  <= 200000 && (loy < loyMin  || loy > loyMax))  return false;
 
         return true;
     });
@@ -195,29 +235,24 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   7. INIT
+   INIT
    ============================================================ */
 async function init() {
 
     DATA = await loadExcel();
 
-    // REGION + DÉPARTEMENTS (HIÉRARCHIQUES)
     construireRegionsDepartements();
 
-    // Filtres simples
     remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie", valeursUniques("Typologie"));
     remplirCheckbox("filter-extraction", valeursUniques("Extraction"));
     remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
 
-    // Sliders
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
     initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
 
-    // Écouteurs
-    document.querySelectorAll("#sidebar-left input").forEach(el => {
-        el.addEventListener("input", appliquerFiltres);
-    });
+    document.querySelectorAll("#sidebar-left input")
+        .forEach(el => el.addEventListener("input", appliquerFiltres));
 
     document.getElementById("btn-reset").addEventListener("click", () => {
 
@@ -225,7 +260,7 @@ async function init() {
             .forEach(x => x.checked = false);
 
         document.getElementById("checkbox-grand-surface").checked = true;
-        document.getElementById("checkbox-grand-loyer").checked = true;
+        document.getElementById("checkbox-grand-loyer").checked   = true;
 
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
         initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
