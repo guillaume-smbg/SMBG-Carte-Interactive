@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + cases inline)
+   SMBG – Carte interactive (VERSION STABLE + CORRECTIONS)
    ============================================================ */
 
 /* ============================================================
@@ -140,6 +140,7 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("photos-lot").innerHTML = ph;
 
+    /* Scroll auto en haut */
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
 
@@ -306,7 +307,7 @@ function appliquerFiltres() {
     const frs = valeursCochées("filter-restauration");
 
     const big = document.getElementById("checkbox-grand-surface").checked;
-    const over200k = document.getElementById("checkbox-loyer-200k").checked;
+    const grandLoyer = document.getElementById("checkbox-grand-loyer").checked;
 
     const surfMin = parseInt(document.getElementById("surface-min").value);
     const surfMax = parseInt(document.getElementById("surface-max").value);
@@ -334,14 +335,16 @@ function appliquerFiltres() {
 
         const loy = parseInt(d["Loyer annuel"] || 0);
 
-        if (loy > 200000 && !over200k) return false;
-
+        if (!grandLoyer && loy > 200000) return false;
         if (loy < loyMin || loy > loyMax) return false;
 
         return true;
     });
 
     afficherPinsFiltrés(OUT);
+
+    /* IMPORTANT : réinitialiser la sélection pour que le panneau se mette à jour */
+    pinSelectionne = null;
 }
 
 
@@ -360,21 +363,28 @@ async function init() {
     remplirCheckbox("filter-extraction", valeursUniques("Extraction"));
     remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
 
+    /* Sliders */
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
     initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
 
-    document.querySelectorAll("#sidebar-left input").forEach(el => {
+    /* Events */
+    document.querySelectorAll("#sidebar-left input[type=checkbox]").forEach(el => {
+        el.addEventListener("change", appliquerFiltres);
+    });
+
+    document.querySelectorAll("#sidebar-left input[type=range]").forEach(el => {
         el.addEventListener("input", appliquerFiltres);
     });
 
+    /* Bouton reset */
     document.getElementById("btn-reset").addEventListener("click", () => {
 
         document.querySelectorAll("#sidebar-left input[type=checkbox]")
             .forEach(x => x.checked = false);
 
-        // Réactiver cases par défaut
+        /* Réactiver cases par défaut */
         document.getElementById("checkbox-grand-surface").checked = true;
-        document.getElementById("checkbox-loyer-200k").checked = true;
+        document.getElementById("checkbox-grand-loyer").checked = true;
 
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
         initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
