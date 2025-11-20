@@ -37,7 +37,6 @@ html, body {
     -ms-overflow-style: none;
 }
 
-/* Largeur interne */
 .filter-block,
 .slider-block { max-width: 250px; }
 
@@ -49,7 +48,7 @@ html, body {
     margin-bottom: 8px;
 }
 
-/* Checkboxes */
+/* checkboxes */
 .checkbox-line {
     display: flex;
     align-items: center;
@@ -64,13 +63,11 @@ html, body {
 
 .departement-indent { margin-left: 15px !important; }
 
-/* ───────────────────────────────────────────── */
-/*        LIGNE DU SLIDER + CASE ALIGNÉE         */
-/* ───────────────────────────────────────────── */
+/* ALIGNEMENT SLIDER + CASE */
 .slider-row {
     display: flex;
     justify-content: space-between;
-    align-items: center;      /* ✔ alignement vertical parfait */
+    align-items: center;
     margin-bottom: 6px;
 }
 
@@ -78,13 +75,11 @@ html, body {
     font-size: 14px;
     color: #C67B42;
     display: flex;
-    align-items: center;      /* ✔ centre le texte et la case */
-    gap: 4px;                 /* ✔ rapproche case et texte */
+    align-items: center;
+    gap: 4px;
 }
 
-/* ───────────────────────────────────────────── */
-/*            SLIDERS DOUBLE CURSEUR             */
-/* ───────────────────────────────────────────── */
+/* SLIDERS */
 .slider-block { margin-bottom: 18px; }
 
 .slider-values {
@@ -105,7 +100,7 @@ html, body {
     height: 6px;
     background: none;
     position: absolute;
-    top: 8px; 
+    top: 8px;
     margin: 0;
     pointer-events: none;
 }
@@ -117,7 +112,7 @@ html, body {
     left: 0;
     right: 0;
     height: 4px;
-    background: rgba(198, 123, 66, 0.4);
+    background: rgba(198,123,66,0.4);
     border-radius: 100px;
 }
 
@@ -129,7 +124,7 @@ html, body {
     border-radius: 50%;
     border: 2px solid #05263d;
     cursor: pointer;
-    pointer-events: all;
+    pointer-events: all !important; /* ✔ RÉACTIVÉ */
     margin-top: -5px;
 }
 
@@ -140,11 +135,10 @@ html, body {
     border-radius: 50%;
     border: 2px solid #05263d;
     cursor: pointer;
+    pointer-events: all !important; /* ✔ RÉACTIVÉ */
 }
 
-/* ───────────────────────────────────────────── */
-/* BOUTON RESET */
-/* ───────────────────────────────────────────── */
+/* bouton reset */
 #btn-reset {
     width: 250px;
     padding: 10px;
@@ -157,9 +151,7 @@ html, body {
     cursor: pointer;
 }
 
-/* ───────────────────────────────────────────── */
 /* CARTE */
-/* ───────────────────────────────────────────── */
 #map-container {
     position: fixed;
     left: 300px;
@@ -167,12 +159,9 @@ html, body {
     top: 0;
     bottom: 0;
 }
-
 #map { width: 100%; height: 100%; }
 
-/* ───────────────────────────────────────────── */
 /* VOLET DROIT */
-/* ───────────────────────────────────────────── */
 #sidebar-right {
     position: fixed;
     top: 0;
@@ -191,6 +180,7 @@ html, body {
     -ms-overflow-style: none;
 }
 
+/* panneau droit */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
@@ -198,18 +188,16 @@ html, body {
     margin-bottom: 20px;
 }
 
-/* info lines */
 .info-line {
     display: flex;
     padding: 8px 0;
     border-bottom: 1px solid rgba(198,123,66,0.4);
 }
 .info-line-no-border { border-bottom: none !important; }
-
 .info-key { width: 40%; font-weight: bold; }
 .info-value { width: 60%; }
 
-/* google maps button */
+/* maps button */
 .btn-maps {
     background-color: #C67B42;
     color: #05263d;
@@ -221,12 +209,6 @@ html, body {
     margin-left: 40%;
     margin-top: 6px;
     font-weight: bold;
-}
-
-.hr-smbg {
-    border: none;
-    border-bottom: 1px solid rgba(198,123,66,0.4);
-    margin: 12px 0;
 }
 
 /* photos */
@@ -247,14 +229,12 @@ html, body {
     line-height: 26px;
     font-family: 'Futura';
 }
-
 .smbg-pin div {
     font-family: 'Futura';
     font-weight: bold;
     color: white;
     font-size: 13px;
 }
-
 .smbg-pin-selected { border-color: #C67B42 !important; }
 .smbg-pin-selected div { color: #C67B42 !important; }
 
