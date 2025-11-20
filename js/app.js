@@ -206,7 +206,6 @@ function valeursUniques(key) {
 
 function remplirCheckbox(id, valeurs) {
     const zone = document.getElementById(id);
-    if (!zone) return;
     zone.innerHTML = "";
     valeurs.forEach(v => {
         const div = document.createElement("div");
@@ -219,9 +218,14 @@ function remplirCheckbox(id, valeurs) {
     });
 }
 
+function valeursCochées(id) {
+    return [...document.querySelectorAll(`#${id} input:checked`)]
+        .map(x => x.value);
+}
+
 
 /* ============================================================
-   HIÉRARCHIE RÉGIONS → DÉPARTEMENTS
+   HIÉRARCHIE RÉGIONS → DÉPARTEMENTS (AJOUT)
    ============================================================ */
 function construireRegionsDepartements() {
 
@@ -277,8 +281,9 @@ function construireRegionsDepartements() {
     });
 }
 
+
 /* ============================================================
-   RECONNEXION DES ÉVÉNEMENTS (FIX CRITIQUE)
+   RECONNEXION DES ÉVÈNEMENTS (AJOUT)
    ============================================================ */
 function reconnectFilterEvents() {
     document.querySelectorAll("#sidebar-left input").forEach(el => {
@@ -288,7 +293,7 @@ function reconnectFilterEvents() {
 
 
 /* ============================================================
-   ACTIVE L’IMBRICATION
+   ACTIVER IMBRICATION (AJOUT)
    ============================================================ */
 function activerImbriquation() {
 
@@ -317,15 +322,12 @@ function activerImbriquation() {
 
 
 /* ============================================================
-   APPLY FILTERS (modif limitée)
+   APPLY FILTERS (MODIFICATIONS MINIMALES)
    ============================================================ */
 function appliquerFiltres() {
 
-    const fr = [...document.querySelectorAll(".region-checkbox:checked")]
-        .map(x => x.dataset.value);
-
-    const fd = [...document.querySelectorAll(".departement-checkbox:checked")]
-        .map(x => x.dataset.value);
+    const fr = [...document.querySelectorAll(".region-checkbox:checked")].map(x => x.dataset.value);
+    const fd = [...document.querySelectorAll(".departement-checkbox:checked")].map(x => x.dataset.value);
 
     const fe = valeursCochées("filter-emplacement");
     const ft = valeursCochées("filter-typologie");
@@ -333,13 +335,14 @@ function appliquerFiltres() {
     const frs = valeursCochées("filter-restauration");
 
     const bigSurf = document.getElementById("checkbox-grand-surface").checked;
-    const bigLoy  = document.getElementById("checkbox-grand-loyer").checked;
+    const bigLoy = document.getElementById("checkbox-grand-loyer").checked;
 
     const surfMin = parseInt(document.getElementById("surface-min").value);
     const surfMax = parseInt(document.getElementById("surface-max").value);
 
     const loyMin = parseInt(document.getElementById("loyer-min").value);
     const loyMax = parseInt(document.getElementById("loyer-max").value);
+
 
     const OUT = DATA.filter(d => {
 
@@ -355,13 +358,13 @@ function appliquerFiltres() {
         if (frs.length && !frs.includes(d["Restauration"])) return false;
 
         const surf = parseInt(d["Surface GLA"] || 0);
-        const loy  = parseInt(d["Loyer annuel"] || 0);
+        const loy = parseInt(d["Loyer annuel"] || 0);
 
         if (surf > 2000 && !bigSurf) return false;
-        if (loy  > 200000 && !bigLoy) return false;
+        if (loy > 200000 && !bigLoy) return false;
 
         if (surf <= 2000 && (surf < surfMin || surf > surfMax)) return false;
-        if (loy <= 200000 && (loy < loyMin  || loy > loyMax)) return false;
+        if (loy <= 200000 && (loy < loyMin || loy > loyMax)) return false;
 
         return true;
     });
@@ -371,29 +374,31 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   INIT
+   INIT (modifié uniquement pour ajout hiérarchie)
    ============================================================ */
 async function init() {
 
     DATA = await loadExcel();
 
+    // Ajout hiérarchie
     construireRegionsDepartements();
     activerImbriquation();
+    reconnectFilterEvents();
 
-    reconnectFilterEvents();  /* ⭐ FIX CRITIQUE ⭐ */
-
+    // Filtres normaux (inchangés)
     remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie", valeursUniques("Typologie"));
     remplirCheckbox("filter-extraction", valeursUniques("Extraction"));
     remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
 
+    // Sliders normaux (inchangés)
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
     initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
 
+    // Listeners généraux
     document.getElementById("btn-reset").addEventListener("click", () => {
 
-        document.querySelectorAll("#sidebar-left input[type=checkbox]")
-            .forEach(x => x.checked = false);
+        document.querySelectorAll("#sidebar-left input[type=checkbox]").forEach(x => x.checked = false);
 
         document.getElementById("checkbox-grand-surface").checked = true;
         document.getElementById("checkbox-grand-loyer").checked = true;
