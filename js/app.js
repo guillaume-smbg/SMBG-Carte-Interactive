@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + SLIDER 2000 m²)
+   SMBG – Carte interactive (VERSION STABLE + cases inline)
    ============================================================ */
 
 /* ============================================================
@@ -140,7 +140,6 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("photos-lot").innerHTML = ph;
 
-    /* REMONTER LE PANNEAU EN HAUT */
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
 
@@ -175,7 +174,6 @@ function afficherPinsFiltrés(donnees) {
         });
 
         marker.on("click", ()=>{
-
             if (pinSelectionne)
                 pinSelectionne._icon.classList.remove("smbg-pin-selected");
 
@@ -306,7 +304,9 @@ function appliquerFiltres() {
     const ft = valeursCochées("filter-typologie");
     const fx = valeursCochées("filter-extraction");
     const frs = valeursCochées("filter-restauration");
+
     const big = document.getElementById("checkbox-grand-surface").checked;
+    const over200k = document.getElementById("checkbox-loyer-200k").checked;
 
     const surfMin = parseInt(document.getElementById("surface-min").value);
     const surfMax = parseInt(document.getElementById("surface-max").value);
@@ -333,6 +333,9 @@ function appliquerFiltres() {
         }
 
         const loy = parseInt(d["Loyer annuel"] || 0);
+
+        if (loy > 200000 && !over200k) return false;
+
         if (loy < loyMin || loy > loyMax) return false;
 
         return true;
@@ -365,8 +368,13 @@ async function init() {
     });
 
     document.getElementById("btn-reset").addEventListener("click", () => {
+
         document.querySelectorAll("#sidebar-left input[type=checkbox]")
             .forEach(x => x.checked = false);
+
+        // Réactiver cases par défaut
+        document.getElementById("checkbox-grand-surface").checked = true;
+        document.getElementById("checkbox-loyer-200k").checked = true;
 
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
         initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
