@@ -33,7 +33,10 @@ html, body {
 
 /* Masquer scrollbar gauche */
 #sidebar-left .sidebar-inner::-webkit-scrollbar { width: 0; }
-#sidebar-left .sidebar-inner { scrollbar-width: none; -ms-overflow-style: none; }
+#sidebar-left .sidebar-inner {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
 
 /* Largeur interne */
 .filter-block,
@@ -49,9 +52,26 @@ html, body {
     margin-bottom: 8px;
 }
 
-/* ───────────────────────────────────────────── */
-/*                CHECKBOXES                     */
-/* ───────────────────────────────────────────── */
+/* CASES INLINE (version A option 2) */
+.slider-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 250px;
+}
+
+.checkbox-inline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.checkbox-inline label {
+    cursor: pointer;
+    color: #C67B42;
+}
+
+/* Checkboxes globales */
 .checkbox-line {
     display: flex;
     align-items: center;
@@ -64,49 +84,12 @@ html, body {
     cursor: pointer;
 }
 
-.checkbox-line input {
-    cursor: pointer;
-}
-
-.departement-indent {
-    margin-left: 15px !important;
-}
-
-/* ───────────────────────────────────────────── */
-/*      ALIGNEMENT SPÉCIAL  >2000 & >200k        */
-/* ───────────────────────────────────────────── */
-
-.slider-label-group {
-    display: flex;
-    align-items: center;
-    gap: 12px; /* espace parfait */
-    margin-bottom: 6px;
-}
-
-.slider-label-group .slider-values {
-    margin-bottom: 0;
-}
-
-.slider-label-group .checkbox-line {
-    margin-bottom: 0;
-}
-
-.slider-label-group input[type="checkbox"] {
-    margin-top: 0;
-    vertical-align: middle;
-}
-
-.slider-label-group label {
-    line-height: 18px;
-    vertical-align: middle;
-}
+.checkbox-line input { cursor: pointer; }
 
 /* ───────────────────────────────────────────── */
 /*            SLIDERS DOUBLE CURSEUR             */
 /* ───────────────────────────────────────────── */
-.slider-block {
-    margin-bottom: 18px;
-}
+.slider-block { margin-bottom: 18px; }
 
 .slider-values {
     color: #C67B42;
@@ -120,7 +103,6 @@ html, body {
     height: 22px;
 }
 
-/* On superpose les deux sliders */
 .slider-track input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
@@ -129,22 +111,20 @@ html, body {
     position: absolute;
     top: 8px;
     margin: 0;
-    pointer-events: auto; /* ✔ permet à nouveau de bouger le slider */
+    pointer-events: none;
 }
 
-/* Ligne des sliders */
 .slider-track::before {
     content: "";
     position: absolute;
     top: 10px;
-    left: 0;
-    right: 0;
+    left: 0; right: 0;
     height: 4px;
     background: rgba(198, 123, 66, 0.4);
     border-radius: 100px;
 }
 
-/* Bouton */
+/* Thumb */
 .slider-track input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background: #C67B42;
@@ -153,20 +133,11 @@ html, body {
     border-radius: 50%;
     border: 2px solid #05263d;
     cursor: pointer;
+    pointer-events: all;
+    margin-top: -5px;
 }
 
-.slider-track input[type="range"]::-moz-range-thumb {
-    background: #C67B42;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid #05263d;
-    cursor: pointer;
-}
-
-/* ───────────────────────────────────────────── */
-/*                  BOUTON RESET                 */
-/* ───────────────────────────────────────────── */
+/* Reset */
 #btn-reset {
     width: 250px;
     padding: 10px;
@@ -180,7 +151,7 @@ html, body {
 }
 
 /* ───────────────────────────────────────────── */
-/*                  CARTE CENTRALE               */
+/*                CARTE CENTRALE                 */
 /* ───────────────────────────────────────────── */
 #map-container {
     position: fixed;
@@ -189,11 +160,7 @@ html, body {
     top: 0;
     bottom: 0;
 }
-
-#map {
-    width: 100%;
-    height: 100%;
-}
+#map { width: 100%; height: 100%; }
 
 /* ───────────────────────────────────────────── */
 /*                VOLET DROIT                    */
@@ -210,9 +177,12 @@ html, body {
     overflow: hidden;
 }
 
-/* Masquer scrollbar droite */
+/* Scrollbar masquée */
 #sidebar-right .sidebar-inner::-webkit-scrollbar { width: 0; }
-#sidebar-right .sidebar-inner { scrollbar-width: none; -ms-overflow-style: none; }
+#sidebar-right .sidebar-inner {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
 
 #ref-annonce {
     text-align: center;
@@ -221,9 +191,13 @@ html, body {
     margin-bottom: 20px;
 }
 
-.info-line { display: flex; padding: 8px 0; border-bottom: 1px solid rgba(198,123,66,0.4); }
+/* Info panel */
+.info-line {
+    display: flex;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(198,123,66,0.4);
+}
 .info-line-no-border { border-bottom: none !important; }
-
 .info-key { width: 40%; font-weight: bold; }
 .info-value { width: 60%; }
 
@@ -238,12 +212,6 @@ html, body {
     margin-left: 40%;
     margin-top: 6px;
     font-weight: bold;
-}
-
-.hr-smbg {
-    border: none;
-    border-bottom: 1px solid rgba(198,123,66,0.4);
-    margin: 12px 0;
 }
 
 #photos-lot img {
@@ -267,8 +235,8 @@ html, body {
 
 .smbg-pin div {
     font-family: 'Futura';
-    font-weight: bold;
     color: white;
+    font-weight: bold;
     font-size: 13px;
 }
 
