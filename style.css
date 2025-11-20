@@ -63,17 +63,6 @@ html, body {
 
 .departement-indent { margin-left: 15px !important; }
 
-/* ADD — Départements imbriqués */
-.departements-container {
-    margin-left: 15px !important;
-    display: none;
-}
-/* ADD */
-.departement-item label,
-.departement-item input {
-    cursor: pointer;
-}
-
 /* ALIGNEMENT SLIDER + CASE */
 .slider-row {
     display: flex;
