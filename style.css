@@ -31,12 +31,20 @@ html, body {
     overflow: hidden;
 }
 
+/* Scrollbar masquée */
 #sidebar-left .sidebar-inner::-webkit-scrollbar { width: 0; }
-#sidebar-left .sidebar-inner { scrollbar-width: none; -ms-overflow-style: none; }
+#sidebar-left .sidebar-inner {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
 
+/* Largeur interne */
 .filter-block,
-.slider-block { max-width: 250px; }
+.slider-block {
+    max-width: 250px;
+}
 
+/* Titres */
 .filter-title {
     font-size: 16px;
     font-weight: bold;
@@ -45,7 +53,7 @@ html, body {
     margin-bottom: 8px;
 }
 
-/* Checkbox */
+/* Checkboxes */
 .checkbox-line {
     display: flex;
     align-items: center;
@@ -58,35 +66,43 @@ html, body {
     cursor: pointer;
 }
 
-.checkbox-line input { cursor: pointer; }
+.checkbox-line input {
+    cursor: pointer;
+}
 
-.departement-indent { margin-left: 15px !important; }
+/* La nouvelle ligne checkbox à droite du slider */
+.checkbox-inline {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #C67B42;
+    font-size: 14px;
+}
 
-/* ───────────────────────────────────────────── */
-/*    ALIGNEMENT SUR UNE LIGNE SLIDER + CASE     */
-/* ───────────────────────────────────────────── */
+.checkbox-inline input {
+    cursor: pointer;
+}
+
+/* Ligne contenant valeurs + case */
 .slider-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 250px;
 }
 
-.inline-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.inline-checkbox label {
-    cursor: pointer;
-    color: #C67B42;
+/* Indentation départements */
+.departement-indent {
+    margin-left: 15px !important;
 }
 
 /* ───────────────────────────────────────────── */
 /*            SLIDERS DOUBLE CURSEUR             */
 /* ───────────────────────────────────────────── */
-.slider-block { margin-bottom: 18px; }
+.slider-block {
+    margin-bottom: 18px;
+}
 
 .slider-values {
     color: #C67B42;
@@ -94,30 +110,34 @@ html, body {
     font-weight: bold;
 }
 
+/* Conteneur du slider */
 .slider-track {
     position: relative;
     width: 100%;
     height: 22px;
 }
 
+/* POSITION PARFAITE DU THUMB — Version stable */
 .slider-track input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
     height: 6px;
-    position: absolute;
-    top: 8px;
     background: none;
+    position: absolute;
+    top: 8px;            /* ✔ repositionne les sliders comme avant */
+    margin: 0;
     pointer-events: none;
 }
 
+/* Ligne de fond */
 .slider-track::before {
     content: "";
     position: absolute;
-    top: 10px;
+    top: 10px;          /* ✔ aligné avec le centre */
     left: 0;
     right: 0;
     height: 4px;
-    background: rgba(198,123,66,0.4);
+    background: rgba(198, 123, 66, 0.4);
     border-radius: 100px;
 }
 
@@ -129,9 +149,8 @@ html, body {
     height: 16px;
     border-radius: 50%;
     border: 2px solid #05263d;
-    pointer-events: all;
     cursor: pointer;
-    margin-top: -5px;
+    pointer-events: all;
 }
 
 .slider-track input[type="range"]::-moz-range-thumb {
@@ -141,16 +160,19 @@ html, body {
     border-radius: 50%;
     border: 2px solid #05263d;
     cursor: pointer;
+    pointer-events: all;
 }
 
-/* Reset */
+/* ───────────────────────────────────────────── */
+/*                  BOUTON RESET                 */
+/* ───────────────────────────────────────────── */
 #btn-reset {
     width: 250px;
     padding: 10px;
     background-color: #C67B42;
     color: #05263d;
-    border: none;
     font-weight: bold;
+    border: none;
     border-radius: 6px;
     margin-top: 25px;
     cursor: pointer;
@@ -167,7 +189,10 @@ html, body {
     bottom: 0;
 }
 
-#map { width: 100%; height: 100%; }
+#map {
+    width: 100%;
+    height: 100%;
+}
 
 /* ───────────────────────────────────────────── */
 /*                VOLET DROIT FIXE               */
@@ -184,9 +209,14 @@ html, body {
     overflow: hidden;
 }
 
+/* Scroll masqué */
 #sidebar-right .sidebar-inner::-webkit-scrollbar { width: 0; }
-#sidebar-right .sidebar-inner { scrollbar-width: none; -ms-overflow-style: none; }
+#sidebar-right .sidebar-inner {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
 
+/* TITRE */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
@@ -194,16 +224,27 @@ html, body {
     margin-bottom: 20px;
 }
 
-/* Info */
+/* Infos */
 .info-line {
     display: flex;
     padding: 8px 0;
     border-bottom: 1px solid rgba(198,123,66,0.4);
 }
 
-.info-key { width: 40%; font-weight: bold; }
-.info-value { width: 60%; }
+.info-line-no-border {
+    border-bottom: none !important;
+}
 
+.info-key {
+    width: 40%;
+    font-weight: bold;
+}
+
+.info-value {
+    width: 60%;
+}
+
+/* Bouton Google Maps */
 .btn-maps {
     background-color: #C67B42;
     color: #05263d;
@@ -217,13 +258,16 @@ html, body {
     font-weight: bold;
 }
 
+/* Photos */
 #photos-lot img {
     width: 100%;
     margin-top: 12px;
     border-radius: 4px;
 }
 
-/* PINS */
+/* ───────────────────────────────────────────── */
+/*                        PINS                    */
+/* ───────────────────────────────────────────── */
 .smbg-pin {
     background-color: #05263d;
     border: 2px solid white;
@@ -236,14 +280,23 @@ html, body {
 }
 
 .smbg-pin div {
+    font-family: 'Futura';
     font-weight: bold;
+    color: white;     /* ✔ pins remis en BLANC */
     font-size: 13px;
 }
 
-.smbg-pin-selected { border-color: #C67B42 !important; }
-.smbg-pin-selected div { color: #C67B42 !important; }
+.smbg-pin-selected {
+    border-color: #C67B42 !important;
+}
 
-/* Scroll interne */
+.smbg-pin-selected div {
+    color: #C67B42 !important;
+}
+
+/* ───────────────────────────────────────────── */
+/*        CONTENEUR INTERNE POUR LE SCROLL       */
+/* ───────────────────────────────────────────── */
 .sidebar-inner {
     height: 100%;
     overflow-y: auto;
