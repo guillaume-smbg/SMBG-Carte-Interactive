@@ -45,7 +45,8 @@ html, body {
     display: flex;
     justify-content: center;
     margin-top: 10px; /* MARGE DEMANDÉE */
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
 #logo-smbg {
@@ -261,4 +262,5 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
+
 
