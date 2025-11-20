@@ -193,7 +193,7 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   FILTRES — OUTILS
+   OUTILS FILTRES
    ============================================================ */
 function valeursUniques(key) {
     const set = new Set();
@@ -206,7 +206,7 @@ function valeursUniques(key) {
 
 function remplirCheckbox(id, valeurs) {
     const zone = document.getElementById(id);
-    if (!zone) return;  /* sécurité */
+    if (!zone) return;
     zone.innerHTML = "";
     valeurs.forEach(v => {
         const div = document.createElement("div");
@@ -219,16 +219,10 @@ function remplirCheckbox(id, valeurs) {
     });
 }
 
-function valeursCochéesHierarchie(cssSelector) {
-    return [...document.querySelectorAll(cssSelector + ":checked")]
-        .map(x => x.dataset.value);
-}
-
 
 /* ============================================================
-   DÉPARTEMENTS IMBRIQUÉS (AJOUT UNIQUE)
+   HIÉRARCHIE RÉGIONS → DÉPARTEMENTS
    ============================================================ */
-
 function construireRegionsDepartements() {
 
     const cont = document.getElementById("filter-regions-hierarchie");
@@ -244,9 +238,7 @@ function construireRegionsDepartements() {
         if (!reg) return;
         if (!regions[reg]) regions[reg] = {};
 
-        if (depNom && depNum) {
-            regions[reg][depNom] = depNum;
-        }
+        if (depNom && depNum) regions[reg][depNom] = depNum;
     });
 
     Object.keys(regions).sort().forEach(reg => {
@@ -268,30 +260,36 @@ function construireRegionsDepartements() {
 
         const depContainer = div.querySelector(".departements-container");
 
-        Object.keys(regions[reg])
-            .sort()
-            .forEach(depNom => {
-                const num = regions[reg][depNom];
-                const idD = "dep-" + num;
+        Object.keys(regions[reg]).sort().forEach(depNom => {
+            const num = regions[reg][depNom];
+            const idD = "dep-" + num;
 
-                const el = document.createElement("div");
-                el.className = "departement-item checkbox-line";
+            const el = document.createElement("div");
+            el.className = "departement-item checkbox-line";
 
-                el.innerHTML = `
-                    <input type="checkbox"
-                        class="departement-checkbox"
-                        data-value="${num}"
-                        id="${idD}">
-                    <label for="${idD}">${depNom} (${num})</label>
-                `;
+            el.innerHTML = `
+                <input type="checkbox" class="departement-checkbox" data-value="${num}" id="${idD}">
+                <label for="${idD}">${depNom} (${num})</label>
+            `;
 
-                depContainer.appendChild(el);
-            });
+            depContainer.appendChild(el);
+        });
     });
-
-    activerImbriquation();
 }
 
+/* ============================================================
+   RECONNEXION DES ÉVÉNEMENTS (FIX CRITIQUE)
+   ============================================================ */
+function reconnectFilterEvents() {
+    document.querySelectorAll("#sidebar-left input").forEach(el => {
+        el.addEventListener("input", appliquerFiltres);
+    });
+}
+
+
+/* ============================================================
+   ACTIVE L’IMBRICATION
+   ============================================================ */
 function activerImbriquation() {
 
     document.querySelectorAll(".region-checkbox").forEach(box => {
@@ -319,7 +317,7 @@ function activerImbriquation() {
 
 
 /* ============================================================
-   APPLY FILTERS (MODIFIÉ UNIQUEMENT POUR RÉG/DEP)
+   APPLY FILTERS (modif limitée)
    ============================================================ */
 function appliquerFiltres() {
 
@@ -380,6 +378,9 @@ async function init() {
     DATA = await loadExcel();
 
     construireRegionsDepartements();
+    activerImbriquation();
+
+    reconnectFilterEvents();  /* ⭐ FIX CRITIQUE ⭐ */
 
     remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie", valeursUniques("Typologie"));
@@ -388,10 +389,6 @@ async function init() {
 
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
     initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
-
-    document.querySelectorAll("#sidebar-left input").forEach(el => {
-        el.addEventListener("input", appliquerFiltres);
-    });
 
     document.getElementById("btn-reset").addEventListener("click", () => {
 
