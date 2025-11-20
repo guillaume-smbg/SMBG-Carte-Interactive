@@ -44,12 +44,12 @@ html, body {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 15px; /* MARGE DEMANDÉE */
+    margin-top: 10px; /* MARGE DEMANDÉE */
     margin-bottom: 20px;
 }
 
 #logo-smbg {
-    width: 140px;
+    width: 161px;
     height: auto;
     display: block;
 }
@@ -261,3 +261,4 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
+
