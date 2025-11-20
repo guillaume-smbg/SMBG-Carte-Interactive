@@ -193,8 +193,9 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   FILTRES
+   FILTRES — VERSION CLIQUABLE
    ============================================================ */
+
 function valeursUniques(key) {
     const set = new Set();
     DATA.forEach(d => {
@@ -208,12 +209,18 @@ function remplirCheckbox(id, valeurs) {
     const zone = document.getElementById(id);
     zone.innerHTML = "";
     valeurs.forEach(v => {
+
+        /* ID unique et propre (clé + nom filtré) */
+        const safeId = id + "_" + v.replace(/[^a-zA-Z0-9]/g, "_");
+
         const div = document.createElement("div");
         div.className = "checkbox-line";
+
         div.innerHTML = `
-            <input type="checkbox" value="${v}">
-            <label>${v}</label>
+            <input type="checkbox" id="${safeId}" value="${v}">
+            <label for="${safeId}">${v}</label>
         `;
+
         zone.appendChild(div);
     });
 }
