@@ -48,7 +48,7 @@ html, body {
     margin-bottom: 8px;
 }
 
-/* checkboxes */
+/* checkbox + label */
 .checkbox-line {
     display: flex;
     align-items: center;
@@ -61,7 +61,15 @@ html, body {
 }
 .checkbox-line input { cursor: pointer; }
 
-.departement-indent { margin-left: 15px !important; }
+/* DÉPARTEMENTS indentés */
+.departements-container {
+    margin-left: 15px;
+    display: none;
+}
+.departement-item input,
+.departement-item label {
+    cursor: pointer;
+}
 
 /* ALIGNEMENT SLIDER + CASE */
 .slider-row {
@@ -124,18 +132,8 @@ html, body {
     border-radius: 50%;
     border: 2px solid #05263d;
     cursor: pointer;
-    pointer-events: all !important; /* ✔ RÉACTIVÉ */
+    pointer-events: all !important;
     margin-top: -5px;
-}
-
-.slider-track input[type="range"]::-moz-range-thumb {
-    background: #C67B42;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid #05263d;
-    cursor: pointer;
-    pointer-events: all !important; /* ✔ RÉACTIVÉ */
 }
 
 /* bouton reset */
