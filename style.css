@@ -1,11 +1,7 @@
-/* ───────────────────────────────────────────── */
-/*                 FONTS SMBG                    */
-/* ───────────────────────────────────────────── */
+/* FONTS SMBG */
 @font-face {
     font-family: 'Futura';
     src: url('assets/fonts/FuturaLT.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
 }
 
 html, body {
@@ -16,9 +12,7 @@ html, body {
     font-family: 'Futura', sans-serif;
 }
 
-/* ───────────────────────────────────────────── */
-/*                VOLET GAUCHE                   */
-/* ───────────────────────────────────────────── */
+/* VOLET GAUCHE */
 #sidebar-left {
     position: fixed;
     top: 0;
@@ -31,18 +25,12 @@ html, body {
     overflow: hidden;
 }
 
-/* Masquer scrollbar gauche */
+/* Scroll masqué */
 #sidebar-left .sidebar-inner::-webkit-scrollbar { width: 0; }
-#sidebar-left .sidebar-inner {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
+#sidebar-left .sidebar-inner { scrollbar-width: none; }
 
-/* Largeur interne */
 .filter-block,
-.slider-block {
-    max-width: 250px;
-}
+.slider-block { max-width: 250px; }
 
 .filter-title {
     font-size: 16px;
@@ -52,51 +40,26 @@ html, body {
     margin-bottom: 8px;
 }
 
-/* CASES INLINE (version A option 2) */
-.slider-row {
+/* Case à droite du slider */
+.slider-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 250px;
+    margin-bottom: 4px;
 }
 
-.checkbox-inline {
+/* Case compacte */
+.bigcheck {
     display: flex;
     align-items: center;
-    gap: 6px;
-}
-
-.checkbox-inline label {
-    cursor: pointer;
-    color: #C67B42;
-}
-
-/* Checkboxes globales */
-.checkbox-line {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-.checkbox-line label {
-    margin-left: 6px;
-    color: #C67B42;
-    cursor: pointer;
-}
-
-.checkbox-line input { cursor: pointer; }
-
-/* ───────────────────────────────────────────── */
-/*            SLIDERS DOUBLE CURSEUR             */
-/* ───────────────────────────────────────────── */
-.slider-block { margin-bottom: 18px; }
-
-.slider-values {
-    color: #C67B42;
+    gap: 4px;
     font-size: 14px;
-    font-weight: bold;
+    color: #C67B42;
+    cursor: pointer;
 }
+.bigcheck input { cursor: pointer; }
 
+/* SLIDERS */
 .slider-track {
     position: relative;
     width: 100%;
@@ -110,17 +73,18 @@ html, body {
     background: none;
     position: absolute;
     top: 8px;
-    margin: 0;
     pointer-events: none;
 }
 
+/* Ligne */
 .slider-track::before {
     content: "";
     position: absolute;
     top: 10px;
-    left: 0; right: 0;
+    left: 0;
+    right: 0;
     height: 4px;
-    background: rgba(198, 123, 66, 0.4);
+    background: rgba(198,123,66,0.4);
     border-radius: 100px;
 }
 
@@ -137,11 +101,20 @@ html, body {
     margin-top: -5px;
 }
 
-/* Reset */
+.slider-track input[type="range"]::-moz-range-thumb {
+    background: #C67B42;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #05263d;
+    cursor: pointer;
+}
+
+/* BOUTON RESET */
 #btn-reset {
     width: 250px;
     padding: 10px;
-    background-color: #C67B42;
+    background: #C67B42;
     color: #05263d;
     font-weight: bold;
     border: none;
@@ -150,9 +123,7 @@ html, body {
     cursor: pointer;
 }
 
-/* ───────────────────────────────────────────── */
-/*                CARTE CENTRALE                 */
-/* ───────────────────────────────────────────── */
+/* CARTE */
 #map-container {
     position: fixed;
     left: 300px;
@@ -160,29 +131,24 @@ html, body {
     top: 0;
     bottom: 0;
 }
+
 #map { width: 100%; height: 100%; }
 
-/* ───────────────────────────────────────────── */
-/*                VOLET DROIT                    */
-/* ───────────────────────────────────────────── */
+/* VOLET DROIT */
 #sidebar-right {
     position: fixed;
     top: 0;
     bottom: 0;
     right: 0;
     width: 300px;
-    background-color: #05263d;
+    background: #05263d;
     color: #C67B42;
     padding: 20px;
     overflow: hidden;
 }
 
-/* Scrollbar masquée */
 #sidebar-right .sidebar-inner::-webkit-scrollbar { width: 0; }
-#sidebar-right .sidebar-inner {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
+#sidebar-right .sidebar-inner { scrollbar-width: none; }
 
 #ref-annonce {
     text-align: center;
@@ -191,18 +157,19 @@ html, body {
     margin-bottom: 20px;
 }
 
-/* Info panel */
+/* Info lines */
 .info-line {
     display: flex;
     padding: 8px 0;
     border-bottom: 1px solid rgba(198,123,66,0.4);
 }
-.info-line-no-border { border-bottom: none !important; }
+
 .info-key { width: 40%; font-weight: bold; }
 .info-value { width: 60%; }
 
+/* Google Maps Button */
 .btn-maps {
-    background-color: #C67B42;
+    background: #C67B42;
     color: #05263d;
     padding: 8px 14px;
     border: none;
@@ -211,32 +178,23 @@ html, body {
     width: 60%;
     margin-left: 40%;
     margin-top: 6px;
-    font-weight: bold;
 }
 
-#photos-lot img {
-    width: 100%;
-    margin-top: 12px;
-    border-radius: 4px;
-}
-
-/* ───────────────────────────────────────────── */
-/*                        PINS                    */
-/* ───────────────────────────────────────────── */
+/* PINS */
 .smbg-pin {
-    background-color: #05263d;
+    background: #05263d;
     border: 2px solid white;
     border-radius: 50%;
     width: 30px;
     height: 30px;
     text-align: center;
     line-height: 26px;
+    font-family: 'Futura';
 }
 
 .smbg-pin div {
-    font-family: 'Futura';
-    color: white;
     font-weight: bold;
+    color: white;
     font-size: 13px;
 }
 
