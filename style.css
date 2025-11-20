@@ -31,12 +31,9 @@ html, body {
     overflow: hidden;
 }
 
-/* Scrollbar masquée */
+/* Masquer scrollbar gauche */
 #sidebar-left .sidebar-inner::-webkit-scrollbar { width: 0; }
-#sidebar-left .sidebar-inner {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
+#sidebar-left .sidebar-inner { scrollbar-width: none; -ms-overflow-style: none; }
 
 /* Largeur interne */
 .filter-block,
@@ -44,7 +41,6 @@ html, body {
     max-width: 250px;
 }
 
-/* Titres */
 .filter-title {
     font-size: 16px;
     font-weight: bold;
@@ -53,7 +49,9 @@ html, body {
     margin-bottom: 8px;
 }
 
-/* Checkboxes */
+/* ───────────────────────────────────────────── */
+/*                CHECKBOXES                     */
+/* ───────────────────────────────────────────── */
 .checkbox-line {
     display: flex;
     align-items: center;
@@ -70,31 +68,37 @@ html, body {
     cursor: pointer;
 }
 
-/* La nouvelle ligne checkbox à droite du slider */
-.checkbox-inline {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-left: 10px;
-    cursor: pointer;
-    color: #C67B42;
-    font-size: 14px;
-}
-
-.checkbox-inline input {
-    cursor: pointer;
-}
-
-/* Ligne contenant valeurs + case */
-.slider-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Indentation départements */
 .departement-indent {
     margin-left: 15px !important;
+}
+
+/* ───────────────────────────────────────────── */
+/*      ALIGNEMENT SPÉCIAL  >2000 & >200k        */
+/* ───────────────────────────────────────────── */
+
+.slider-label-group {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* espace parfait */
+    margin-bottom: 6px;
+}
+
+.slider-label-group .slider-values {
+    margin-bottom: 0;
+}
+
+.slider-label-group .checkbox-line {
+    margin-bottom: 0;
+}
+
+.slider-label-group input[type="checkbox"] {
+    margin-top: 0;
+    vertical-align: middle;
+}
+
+.slider-label-group label {
+    line-height: 18px;
+    vertical-align: middle;
 }
 
 /* ───────────────────────────────────────────── */
@@ -110,30 +114,29 @@ html, body {
     font-weight: bold;
 }
 
-/* Conteneur du slider */
 .slider-track {
     position: relative;
     width: 100%;
     height: 22px;
 }
 
-/* POSITION PARFAITE DU THUMB — Version stable */
+/* On superpose les deux sliders */
 .slider-track input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
     height: 6px;
     background: none;
     position: absolute;
-    top: 8px;            /* ✔ repositionne les sliders comme avant */
+    top: 8px;
     margin: 0;
-    pointer-events: none;
+    pointer-events: auto; /* ✔ permet à nouveau de bouger le slider */
 }
 
-/* Ligne de fond */
+/* Ligne des sliders */
 .slider-track::before {
     content: "";
     position: absolute;
-    top: 10px;          /* ✔ aligné avec le centre */
+    top: 10px;
     left: 0;
     right: 0;
     height: 4px;
@@ -141,7 +144,7 @@ html, body {
     border-radius: 100px;
 }
 
-/* Thumb */
+/* Bouton */
 .slider-track input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background: #C67B42;
@@ -150,7 +153,6 @@ html, body {
     border-radius: 50%;
     border: 2px solid #05263d;
     cursor: pointer;
-    pointer-events: all;
 }
 
 .slider-track input[type="range"]::-moz-range-thumb {
@@ -160,7 +162,6 @@ html, body {
     border-radius: 50%;
     border: 2px solid #05263d;
     cursor: pointer;
-    pointer-events: all;
 }
 
 /* ───────────────────────────────────────────── */
@@ -195,7 +196,7 @@ html, body {
 }
 
 /* ───────────────────────────────────────────── */
-/*                VOLET DROIT FIXE               */
+/*                VOLET DROIT                    */
 /* ───────────────────────────────────────────── */
 #sidebar-right {
     position: fixed;
@@ -209,14 +210,10 @@ html, body {
     overflow: hidden;
 }
 
-/* Scroll masqué */
+/* Masquer scrollbar droite */
 #sidebar-right .sidebar-inner::-webkit-scrollbar { width: 0; }
-#sidebar-right .sidebar-inner {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
+#sidebar-right .sidebar-inner { scrollbar-width: none; -ms-overflow-style: none; }
 
-/* TITRE */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
@@ -224,27 +221,12 @@ html, body {
     margin-bottom: 20px;
 }
 
-/* Infos */
-.info-line {
-    display: flex;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(198,123,66,0.4);
-}
+.info-line { display: flex; padding: 8px 0; border-bottom: 1px solid rgba(198,123,66,0.4); }
+.info-line-no-border { border-bottom: none !important; }
 
-.info-line-no-border {
-    border-bottom: none !important;
-}
+.info-key { width: 40%; font-weight: bold; }
+.info-value { width: 60%; }
 
-.info-key {
-    width: 40%;
-    font-weight: bold;
-}
-
-.info-value {
-    width: 60%;
-}
-
-/* Bouton Google Maps */
 .btn-maps {
     background-color: #C67B42;
     color: #05263d;
@@ -258,7 +240,12 @@ html, body {
     font-weight: bold;
 }
 
-/* Photos */
+.hr-smbg {
+    border: none;
+    border-bottom: 1px solid rgba(198,123,66,0.4);
+    margin: 12px 0;
+}
+
 #photos-lot img {
     width: 100%;
     margin-top: 12px;
@@ -276,13 +263,12 @@ html, body {
     height: 30px;
     text-align: center;
     line-height: 26px;
-    font-family: 'Futura';
 }
 
 .smbg-pin div {
     font-family: 'Futura';
     font-weight: bold;
-    color: white;     /* ✔ pins remis en BLANC */
+    color: white;
     font-size: 13px;
 }
 
@@ -294,9 +280,7 @@ html, body {
     color: #C67B42 !important;
 }
 
-/* ───────────────────────────────────────────── */
-/*        CONTENEUR INTERNE POUR LE SCROLL       */
-/* ───────────────────────────────────────────── */
+/* Scroll interne */
 .sidebar-inner {
     height: 100%;
     overflow-y: auto;
