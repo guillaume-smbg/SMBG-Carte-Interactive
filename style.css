@@ -53,7 +53,7 @@ html, body {
     width: 161px;
     height: auto;
     display: block;
-    transform: translateX(-15px); /* ✔ décalage pour compenser la zone transparente */
+    transform: translateX(-30px); /* ✔ décalage pour compenser la zone transparente */
 }
 
 .filter-block,
@@ -263,6 +263,7 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
+
 
 
 
