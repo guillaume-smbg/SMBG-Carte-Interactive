@@ -37,6 +37,23 @@ html, body {
     -ms-overflow-style: none;
 }
 
+/* ───────────────────────────────────────────── */
+/*                   LOGO SMBG                   */
+/* ───────────────────────────────────────────── */
+#logo-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px; /* MARGE DEMANDÉE */
+    margin-bottom: 20px;
+}
+
+#logo-smbg {
+    width: 140px;
+    height: auto;
+    display: block;
+}
+
 .filter-block,
 .slider-block { max-width: 250px; }
 
@@ -75,7 +92,7 @@ html, body {
     font-size: 14px;
     color: #C67B42;
     display: flex;
-    align-items: center;
+   	align-items: center;
     gap: 4px;
 }
 
@@ -124,7 +141,7 @@ html, body {
     border-radius: 50%;
     border: 2px solid #05263d;
     cursor: pointer;
-    pointer-events: all !important; /* ✔ RÉACTIVÉ */
+    pointer-events: all !important;
     margin-top: -5px;
 }
 
@@ -135,7 +152,7 @@ html, body {
     border-radius: 50%;
     border: 2px solid #05263d;
     cursor: pointer;
-    pointer-events: all !important; /* ✔ RÉACTIVÉ */
+    pointer-events: all !important;
 }
 
 /* bouton reset */
