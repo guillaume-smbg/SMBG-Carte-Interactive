@@ -6,22 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SMBG – Carte Interactive</title>
 
-    <!-- Leaflet CSS -->
-    <link
-        rel="stylesheet"
+    <link rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        crossorigin=""
-    />
+        crossorigin="" />
 
-    <!-- Style SMBG -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- ─────────────────────────────────────────── -->
-    <!--              VOLET GAUCHE                   -->
-    <!-- ─────────────────────────────────────────── -->
+    <!-- VOLET GAUCHE -->
     <div id="sidebar-left">
         <div class="sidebar-inner">
 
@@ -33,39 +27,42 @@
             <div class="filter-title">Départements</div>
             <div id="filter-departements" class="filter-block"></div>
 
-            <!-- SURFACE -->
+            <!-- Surface -->
             <div class="filter-title">Surface (m²)</div>
 
-            <!-- Ligne du slider + checkbox intégrée -->
-            <div class="slider-row">
-                <div class="slider-values" id="surface-values">0 — 0</div>
-
-                <div class="checkbox-inline">
-                    <input type="checkbox" id="checkbox-grand-surface" checked>
-                    <label for="checkbox-grand-surface">&gt; 2 000 m²</label>
-                </div>
-            </div>
-
             <div id="slider-surface" class="slider-block filter-block">
+
+                <!-- Valeurs + case alignée -->
+                <div class="slider-header">
+                    <span id="surface-values">0 — 0</span>
+
+                    <label class="bigcheck">
+                        <input type="checkbox" id="checkbox-grand-surface" checked>
+                        <span>>2000 m²</span>
+                    </label>
+                </div>
+
                 <div class="slider-track">
                     <input type="range" id="surface-min" min="0" max="100" value="0">
                     <input type="range" id="surface-max" min="0" max="100" value="100">
                 </div>
             </div>
 
-            <!-- LOYER -->
+            <!-- Loyer -->
             <div class="filter-title">Loyer (€)</div>
 
-            <div class="slider-row">
-                <div class="slider-values" id="loyer-values">0 — 0</div>
-
-                <div class="checkbox-inline">
-                    <input type="checkbox" id="checkbox-grand-loyer" checked>
-                    <label for="checkbox-grand-loyer">&gt; 200k €</label>
-                </div>
-            </div>
-
             <div id="slider-loyer" class="slider-block filter-block">
+
+                <!-- Valeurs + case alignée -->
+                <div class="slider-header">
+                    <span id="loyer-values">0 — 0</span>
+
+                    <label class="bigcheck">
+                        <input type="checkbox" id="checkbox-grand-loyer" checked>
+                        <span>>200k €</span>
+                    </label>
+                </div>
+
                 <div class="slider-track">
                     <input type="range" id="loyer-min" min="0" max="100" value="0">
                     <input type="range" id="loyer-max" min="0" max="100" value="100">
@@ -93,38 +90,22 @@
         </div>
     </div>
 
-    <!-- ─────────────────────────────────────────── -->
-    <!--                   CARTE                     -->
-    <!-- ─────────────────────────────────────────── -->
+    <!-- CARTE -->
     <div id="map-container">
         <div id="map"></div>
     </div>
 
-    <!-- ─────────────────────────────────────────── -->
-    <!--                 VOLET DROIT                 -->
-    <!-- ─────────────────────────────────────────── -->
+    <!-- VOLET DROIT -->
     <div id="sidebar-right">
         <div class="sidebar-inner">
-
             <div id="ref-annonce">Référence</div>
             <div id="info-lot"></div>
             <div id="photos-lot"></div>
-
         </div>
     </div>
 
-    <!-- Leaflet JS -->
-    <script
-        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        crossorigin="">
-    </script>
-
-    <!-- Excel Reader -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
-    </script>
-
-    <!-- Script -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="js/app.js"></script>
 
 </body>
