@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + CORRECTIONS)
+   SMBG – Carte interactive (VERSION STABLE + SLIDER 2000 m²)
    ============================================================ */
 
 /* ============================================================
@@ -140,7 +140,7 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("photos-lot").innerHTML = ph;
 
-    /* Scroll auto en haut */
+    /* REMONTER LE PANNEAU EN HAUT */
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
 
@@ -265,18 +265,19 @@ function initSliderLoyer(values) {
 
     const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
 
+    const LOYER_LIMIT = 200000;   // ✔ valeur max 200k €
     const min = Math.min(...uniq);
-    const MAX_LIMIT = 200000;   // ✔ NEW limite haute
+    const maxSlider = LOYER_LIMIT;
 
     const minInput = document.getElementById("loyer-min");
     const maxInput = document.getElementById("loyer-max");
     const display = document.getElementById("loyer-values");
 
     minInput.min = maxInput.min = min;
-    minInput.max = maxInput.max = MAX_LIMIT;
+    minInput.max = maxInput.max = maxSlider;
 
     minInput.value = min;
-    maxInput.value = MAX_LIMIT;
+    maxInput.value = maxSlider;
 
     function aff() {
         let a = parseInt(minInput.value);
@@ -295,7 +296,7 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   9. APPLICATION DES FILTRES
+   9. APPLICATION DES FILTRES — version A
    ============================================================ */
 function appliquerFiltres() {
 
@@ -306,8 +307,8 @@ function appliquerFiltres() {
     const fx = valeursCochées("filter-extraction");
     const frs = valeursCochées("filter-restauration");
 
-    const big = document.getElementById("checkbox-grand-surface").checked;
-    const grandLoyer = document.getElementById("checkbox-grand-loyer").checked;
+    const bigSurf = document.getElementById("checkbox-grand-surface").checked;
+    const bigLoy = document.getElementById("checkbox-grand-loyer").checked;
 
     const surfMin = parseInt(document.getElementById("surface-min").value);
     const surfMax = parseInt(document.getElementById("surface-max").value);
@@ -317,34 +318,36 @@ function appliquerFiltres() {
 
     const OUT = DATA.filter(d => {
 
+        /* Région / Dept / autres filtres checkbox */
         if (fr.length && !fr.includes(d["Région"])) return false;
         if (fd.length && !fd.includes(d["Département"])) return false;
-
         if (fe.length && !fe.includes(d["Emplacement"])) return false;
         if (ft.length && !ft.includes(d["Typologie"])) return false;
         if (fx.length && !fx.includes(d["Extraction"])) return false;
         if (frs.length && !frs.includes(d["Restauration"])) return false;
 
+        /* Surface */
         const surf = parseInt(d["Surface GLA"] || 0);
 
-        if (surf <= 2000) {
-            if (surf < surfMin || surf > surfMax) return false;
-        } else {
-            if (!big) return false;
-        }
+        const surfGrand = surf > 2000;
+        const surfPetit = (surf >= surfMin && surf <= surfMax);
 
+        if (!surfGrand && !surfPetit) return false;
+        if (surfGrand && !bigSurf) return false;
+
+        /* Loyers */
         const loy = parseInt(d["Loyer annuel"] || 0);
 
-        if (!grandLoyer && loy > 200000) return false;
-        if (loy < loyMin || loy > loyMax) return false;
+        const loyGrand = loy > 200000;
+        const loyPetit = (loy >= loyMin && loy <= loyMax);
+
+        if (!loyGrand && !loyPetit) return false;
+        if (loyGrand && !bigLoy) return false;
 
         return true;
     });
 
     afficherPinsFiltrés(OUT);
-
-    /* IMPORTANT : réinitialiser la sélection pour que le panneau se mette à jour */
-    pinSelectionne = null;
 }
 
 
@@ -357,32 +360,26 @@ async function init() {
 
     remplirCheckbox("filter-regions", valeursUniques("Région"));
     remplirCheckbox("filter-departements", valeursUniques("Département"));
-
     remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie", valeursUniques("Typologie"));
     remplirCheckbox("filter-extraction", valeursUniques("Extraction"));
     remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
 
-    /* Sliders */
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
     initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
 
-    /* Events */
-    document.querySelectorAll("#sidebar-left input[type=checkbox]").forEach(el => {
-        el.addEventListener("change", appliquerFiltres);
-    });
-
-    document.querySelectorAll("#sidebar-left input[type=range]").forEach(el => {
+    /* EVENTS */
+    document.querySelectorAll("#sidebar-left input").forEach(el => {
         el.addEventListener("input", appliquerFiltres);
     });
 
-    /* Bouton reset */
+    /* RESET */
     document.getElementById("btn-reset").addEventListener("click", () => {
 
         document.querySelectorAll("#sidebar-left input[type=checkbox]")
             .forEach(x => x.checked = false);
 
-        /* Réactiver cases par défaut */
+        // Les deux cases spéciales restent cochées par défaut
         document.getElementById("checkbox-grand-surface").checked = true;
         document.getElementById("checkbox-grand-loyer").checked = true;
 
