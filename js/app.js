@@ -155,6 +155,8 @@ function afficherPinsFiltrés(donnees) {
     markers.forEach(m => map.removeLayer(m));
     markers = [];
 
+    pinSelectionne = null; /* ✔ FIX DU BUG DU PANNEAU BLOQUÉ */
+
     donnees.forEach(d => {
         if ((d["Actif"] || "").toLowerCase().trim() !== "oui") return;
 
@@ -223,7 +225,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   SLIDER SURFACE (MAX 2000)
+   SLIDER SURFACE 
    ============================================================ */
 function initSliderSurface(values) {
 
@@ -269,8 +271,7 @@ function initSliderLoyer(values) {
     const min = Math.min(...uniq);
     const max = Math.max(...uniq);
 
-    const MAX_LIMIT_REEL = max;
-    const maxAfficher = 200000; /* ✔ limite visuelle slider */
+    const maxAfficher = 200000;
 
     const minInput = document.getElementById("loyer-min");
     const maxInput = document.getElementById("loyer-max");
@@ -300,7 +301,7 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   LOGIQUE DES FILTRES
+   APPLY FILTERS
    ============================================================ */
 function appliquerFiltres() {
 
@@ -333,7 +334,6 @@ function appliquerFiltres() {
         const surf = parseInt(d["Surface GLA"] || 0);
         const loy = parseInt(d["Loyer annuel"] || 0);
 
-        /* HANDLING DES CAS SPÉCIAUX */
         if (surf > 2000 && !bigSurf) return false;
         if (loy > 200000 && !bigLoy) return false;
 
@@ -348,7 +348,7 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   INITIALISATION
+   INIT
    ============================================================ */
 async function init() {
 
