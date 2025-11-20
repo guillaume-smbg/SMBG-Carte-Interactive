@@ -36,17 +36,18 @@
             <!-- Surface -->
             <div class="filter-title">Surface (m²)</div>
 
-            <!-- Valeurs + case spéciale sur la même ligne -->
-            <div class="slider-header">
-                <div id="surface-values" class="slider-values">0 — 0</div>
-
-                <div class="inline-checkbox">
-                    <input type="checkbox" id="checkbox-grand-surface" checked>
-                    <label for="checkbox-grand-surface">> 2000 m²</label>
-                </div>
-            </div>
-
             <div id="slider-surface" class="slider-block filter-block">
+
+                <div class="slider-header">
+                    <div id="surface-values" class="slider-values">0 — 0</div>
+
+                    <!-- Case alignée option B -->
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="checkbox-grand-surface" checked>
+                        > 2000 m²
+                    </label>
+                </div>
+
                 <div class="slider-track">
                     <input type="range" id="surface-min" min="0" max="100" value="0">
                     <input type="range" id="surface-max" min="0" max="100" value="100">
@@ -56,17 +57,18 @@
             <!-- Loyer -->
             <div class="filter-title">Loyer (€)</div>
 
-            <!-- Valeurs + case spéciale sur la même ligne -->
-            <div class="slider-header">
-                <div id="loyer-values" class="slider-values">0 — 0</div>
-
-                <div class="inline-checkbox">
-                    <input type="checkbox" id="checkbox-loyer-200k" checked>
-                    <label for="checkbox-loyer-200k">> 200k €</label>
-                </div>
-            </div>
-
             <div id="slider-loyer" class="slider-block filter-block">
+
+                <div class="slider-header">
+                    <div id="loyer-values" class="slider-values">0 — 0</div>
+
+                    <!-- Nouvelle case alignée -->
+                    <label class="checkbox-inline">
+                        <input type="checkbox" id="checkbox-grand-loyer" checked>
+                        > 200k €
+                    </label>
+                </div>
+
                 <div class="slider-track">
                     <input type="range" id="loyer-min" min="0" max="100" value="0">
                     <input type="range" id="loyer-max" min="0" max="100" value="100">
@@ -96,7 +98,7 @@
 
 
     <!-- ─────────────────────────────────────────── -->
-    <!--                   CARTE                      -->
+    <!--                   CARTE                     -->
     <!-- ─────────────────────────────────────────── -->
     <div id="map-container">
         <div id="map"></div>
@@ -107,22 +109,19 @@
     <!-- ─────────────────────────────────────────── -->
     <div id="sidebar-right">
         <div class="sidebar-inner">
+
             <div id="ref-annonce">Référence</div>
             <div id="info-lot"></div>
             <div id="photos-lot"></div>
+
         </div>
     </div>
 
     <!-- Leaflet JS -->
-    <script
-        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        crossorigin="">
-    </script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
     <!-- Excel Reader -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <!-- Script -->
     <script src="js/app.js"></script>
