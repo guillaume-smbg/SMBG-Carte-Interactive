@@ -155,7 +155,7 @@ function afficherPinsFiltrés(donnees) {
     markers.forEach(m => map.removeLayer(m));
     markers = [];
 
-    pinSelectionne = null;
+    pinSelectionne = null; /* ✔ FIX DU BUG DU PANNEAU BLOQUÉ */
 
     donnees.forEach(d => {
         if ((d["Actif"] || "").toLowerCase().trim() !== "oui") return;
@@ -193,7 +193,7 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   OUTILS FILTRES
+   FILTRES
    ============================================================ */
 function valeursUniques(key) {
     const set = new Set();
@@ -225,110 +225,88 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   HIÉRARCHIE RÉGIONS → DÉPARTEMENTS (AJOUT)
+   SLIDER SURFACE 
    ============================================================ */
-function construireRegionsDepartements() {
+function initSliderSurface(values) {
 
-    const cont = document.getElementById("filter-regions-hierarchie");
-    cont.innerHTML = "";
+    const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
 
-    let regions = {};
+    const MAX_LIMIT = 2000;
+    const min = Math.min(...uniq);
+    const maxSlider = MAX_LIMIT;
 
-    DATA.forEach(d => {
-        const reg = (d["Région"] || "").trim();
-        const depNom = (d["Département"] || "").trim();
-        const depNum = (d["N° Département"] || "").toString().trim();
+    const minInput = document.getElementById("surface-min");
+    const maxInput = document.getElementById("surface-max");
+    const display = document.getElementById("surface-values");
 
-        if (!reg) return;
-        if (!regions[reg]) regions[reg] = {};
+    minInput.min = maxInput.min = min;
+    minInput.max = maxInput.max = maxSlider;
 
-        if (depNom && depNum) regions[reg][depNom] = depNum;
-    });
+    minInput.value = min;
+    maxInput.value = maxSlider;
 
-    Object.keys(regions).sort().forEach(reg => {
+    function aff() {
+        let a = parseInt(minInput.value);
+        let b = parseInt(maxInput.value);
+        if (a > b) minInput.value = b;
 
-        const idR = "reg-" + reg.replace(/\s+/g, "-");
+        display.innerHTML =
+            a.toLocaleString("fr-FR") + " m² — " +
+            b.toLocaleString("fr-FR") + " m²";
+    }
 
-        const div = document.createElement("div");
-        div.className = "region-item";
-
-        div.innerHTML = `
-            <div class="checkbox-line">
-                <input type="checkbox" data-value="${reg}" class="region-checkbox" id="${idR}">
-                <label for="${idR}">${reg}</label>
-            </div>
-            <div class="departements-container" data-reg="${reg}"></div>
-        `;
-
-        cont.appendChild(div);
-
-        const depContainer = div.querySelector(".departements-container");
-
-        Object.keys(regions[reg]).sort().forEach(depNom => {
-            const num = regions[reg][depNom];
-            const idD = "dep-" + num;
-
-            const el = document.createElement("div");
-            el.className = "departement-item checkbox-line";
-
-            el.innerHTML = `
-                <input type="checkbox" class="departement-checkbox" data-value="${num}" id="${idD}">
-                <label for="${idD}">${depNom} (${num})</label>
-            `;
-
-            depContainer.appendChild(el);
-        });
-    });
+    minInput.oninput = aff;
+    maxInput.oninput = aff;
+    aff();
 }
 
 
 /* ============================================================
-   RECONNEXION DES ÉVÈNEMENTS (AJOUT)
+   SLIDER LOYER
    ============================================================ */
-function reconnectFilterEvents() {
-    document.querySelectorAll("#sidebar-left input").forEach(el => {
-        el.addEventListener("input", appliquerFiltres);
-    });
+function initSliderLoyer(values) {
+
+    const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
+
+    const min = Math.min(...uniq);
+    const max = Math.max(...uniq);
+
+    const maxAfficher = 200000;
+
+    const minInput = document.getElementById("loyer-min");
+    const maxInput = document.getElementById("loyer-max");
+    const display = document.getElementById("loyer-values");
+
+    minInput.min = maxInput.min = min;
+    minInput.max = maxAfficher;
+    maxInput.max = maxAfficher;
+
+    minInput.value = min;
+    maxInput.value = maxAfficher;
+
+    function aff() {
+        let a = parseInt(minInput.value);
+        let b = parseInt(maxInput.value);
+        if (a > b) minInput.value = b;
+
+        display.innerHTML =
+            a.toLocaleString("fr-FR") + " € — " +
+            b.toLocaleString("fr-FR") + " €";
+    }
+
+    minInput.oninput = aff;
+    maxInput.oninput = aff;
+    aff();
 }
 
 
 /* ============================================================
-   ACTIVER IMBRICATION (AJOUT)
-   ============================================================ */
-function activerImbriquation() {
-
-    document.querySelectorAll(".region-checkbox").forEach(box => {
-
-        box.addEventListener("change", function () {
-
-            const reg = this.dataset.value;
-            const bloc = document.querySelector(`.departements-container[data-reg="${reg}"]`);
-
-            if (this.checked) {
-                bloc.style.display = "block";
-            } else {
-                bloc.style.display = "none";
-                bloc.querySelectorAll("input").forEach(x => x.checked = false);
-            }
-
-            appliquerFiltres();
-        });
-    });
-
-    document.querySelectorAll(".departement-checkbox").forEach(dep => {
-        dep.addEventListener("change", appliquerFiltres);
-    });
-}
-
-
-/* ============================================================
-   APPLY FILTERS (MODIFICATIONS MINIMALES)
+   APPLY FILTERS
    ============================================================ */
 function appliquerFiltres() {
 
-    const fr = [...document.querySelectorAll(".region-checkbox:checked")].map(x => x.dataset.value);
-    const fd = [...document.querySelectorAll(".departement-checkbox:checked")].map(x => x.dataset.value);
-
+    const fr = valeursCochées("filter-regions");
+    const fd = valeursCochées("filter-departements");
     const fe = valeursCochées("filter-emplacement");
     const ft = valeursCochées("filter-typologie");
     const fx = valeursCochées("filter-extraction");
@@ -343,14 +321,10 @@ function appliquerFiltres() {
     const loyMin = parseInt(document.getElementById("loyer-min").value);
     const loyMax = parseInt(document.getElementById("loyer-max").value);
 
-
     const OUT = DATA.filter(d => {
 
-        const reg = (d["Région"] || "").trim();
-        const dep = (d["N° Département"] || "").toString().trim();
-
-        if (fr.length && !fr.includes(reg)) return false;
-        if (fd.length && !fd.includes(dep)) return false;
+        if (fr.length && !fr.includes(d["Région"])) return false;
+        if (fd.length && !fd.includes(d["Département"])) return false;
 
         if (fe.length && !fe.includes(d["Emplacement"])) return false;
         if (ft.length && !ft.includes(d["Typologie"])) return false;
@@ -374,31 +348,31 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   INIT (modifié uniquement pour ajout hiérarchie)
+   INIT
    ============================================================ */
 async function init() {
 
     DATA = await loadExcel();
 
-    // Ajout hiérarchie
-    construireRegionsDepartements();
-    activerImbriquation();
-    reconnectFilterEvents();
+    remplirCheckbox("filter-regions", valeursUniques("Région"));
+    remplirCheckbox("filter-departements", valeursUniques("Département"));
 
-    // Filtres normaux (inchangés)
     remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie", valeursUniques("Typologie"));
     remplirCheckbox("filter-extraction", valeursUniques("Extraction"));
     remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
 
-    // Sliders normaux (inchangés)
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
     initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
 
-    // Listeners généraux
+    document.querySelectorAll("#sidebar-left input").forEach(el => {
+        el.addEventListener("input", appliquerFiltres);
+    });
+
     document.getElementById("btn-reset").addEventListener("click", () => {
 
-        document.querySelectorAll("#sidebar-left input[type=checkbox]").forEach(x => x.checked = false);
+        document.querySelectorAll("#sidebar-left input[type=checkbox]")
+            .forEach(x => x.checked = false);
 
         document.getElementById("checkbox-grand-surface").checked = true;
         document.getElementById("checkbox-grand-loyer").checked = true;
