@@ -266,17 +266,17 @@ function initSliderLoyer(values) {
     const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
 
     const min = Math.min(...uniq);
-    const max = Math.max(...uniq);
+    const MAX_LIMIT = 200000;   // ✔ NEW limite haute
 
     const minInput = document.getElementById("loyer-min");
     const maxInput = document.getElementById("loyer-max");
     const display = document.getElementById("loyer-values");
 
     minInput.min = maxInput.min = min;
-    minInput.max = maxInput.max = max;
+    minInput.max = maxInput.max = MAX_LIMIT;
 
     minInput.value = min;
-    maxInput.value = max;
+    maxInput.value = MAX_LIMIT;
 
     function aff() {
         let a = parseInt(minInput.value);
