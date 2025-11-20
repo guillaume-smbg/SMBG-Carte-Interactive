@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + GROS LOTS FIX)
+   SMBG – Carte interactive (VERSION STABLE + SLIDER 2000 m²)
    ============================================================ */
 
 /* ============================================================
@@ -17,6 +17,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 map.setView([46.8, 2.4], 6);
 
+
 /* ============================================================
    2. CHARGEMENT EXCEL
    ============================================================ */
@@ -31,8 +32,9 @@ async function loadExcel() {
 
 let DATA = [];
 
+
 /* ============================================================
-   3. FORMATAGE
+   FORMATAGE
    ============================================================ */
 function formatReference(r) {
     if (!r) return "";
@@ -68,10 +70,10 @@ function formatValue(key, val) {
     return val;
 }
 
-/* ============================================================
-   4. PANNEAU DROIT
-   ============================================================ */
 
+/* ============================================================
+   PANNEAU DROIT
+   ============================================================ */
 const colonnes_info = [
     "Adresse","Emplacement","Typologie","Type",
     "Cession / Droit au bail","Numéro de lot",
@@ -138,12 +140,12 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("photos-lot").innerHTML = ph;
 
-    /* Remonter automatiquement */
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
 
+
 /* ============================================================
-   5. AFFICHAGE DES PINS
+   PINS
    ============================================================ */
 let pinSelectionne = null;
 let markers = [];
@@ -187,8 +189,9 @@ function afficherPinsFiltrés(donnees) {
     });
 }
 
+
 /* ============================================================
-   6. FILTRES
+   FILTRES
    ============================================================ */
 function valeursUniques(key) {
     const set = new Set();
@@ -214,17 +217,19 @@ function remplirCheckbox(id, valeurs) {
 }
 
 function valeursCochées(id) {
-    return [...document.querySelectorAll(`#${id} input:checked`)].map(x => x.value);
+    return [...document.querySelectorAll(`#${id} input:checked`)]
+        .map(x => x.value);
 }
 
+
 /* ============================================================
-   7. SLIDER SURFACE (MAX 2000, MAIS CASE INDEPENDANTE)
+   SLIDER SURFACE (MAX 2000)
    ============================================================ */
 function initSliderSurface(values) {
 
     const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
-    const MAX_LIMIT = 2000;
 
+    const MAX_LIMIT = 2000;
     const min = Math.min(...uniq);
     const maxSlider = MAX_LIMIT;
 
@@ -253,25 +258,30 @@ function initSliderSurface(values) {
     aff();
 }
 
+
 /* ============================================================
-   8. SLIDER LOYER (MAX 200k FIXÉ)
+   SLIDER LOYER
    ============================================================ */
 function initSliderLoyer(values) {
 
     const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
 
     const min = Math.min(...uniq);
-    const MAX_LIMIT = 200000;
+    const max = Math.max(...uniq);
+
+    const MAX_LIMIT_REEL = max;
+    const maxAfficher = 200000; /* ✔ limite visuelle slider */
 
     const minInput = document.getElementById("loyer-min");
     const maxInput = document.getElementById("loyer-max");
     const display = document.getElementById("loyer-values");
 
     minInput.min = maxInput.min = min;
-    minInput.max = maxInput.max = MAX_LIMIT;
+    minInput.max = maxAfficher;
+    maxInput.max = maxAfficher;
 
     minInput.value = min;
-    maxInput.value = MAX_LIMIT;
+    maxInput.value = maxAfficher;
 
     function aff() {
         let a = parseInt(minInput.value);
@@ -288,8 +298,9 @@ function initSliderLoyer(values) {
     aff();
 }
 
+
 /* ============================================================
-   9. APPLICATION DES FILTRES (GROS LOTS INDEPENDANTS)
+   LOGIQUE DES FILTRES
    ============================================================ */
 function appliquerFiltres() {
 
@@ -300,8 +311,8 @@ function appliquerFiltres() {
     const fx = valeursCochées("filter-extraction");
     const frs = valeursCochées("filter-restauration");
 
-    const bigSurface = document.getElementById("checkbox-grand-surface").checked;
-    const bigLoyer = document.getElementById("checkbox-grand-loyer").checked;
+    const bigSurf = document.getElementById("checkbox-grand-surface").checked;
+    const bigLoy = document.getElementById("checkbox-grand-loyer").checked;
 
     const surfMin = parseInt(document.getElementById("surface-min").value);
     const surfMax = parseInt(document.getElementById("surface-max").value);
@@ -319,23 +330,15 @@ function appliquerFiltres() {
         if (fx.length && !fx.includes(d["Extraction"])) return false;
         if (frs.length && !frs.includes(d["Restauration"])) return false;
 
-        /* SURFACE */
         const surf = parseInt(d["Surface GLA"] || 0);
-
-        if (surf > 2000) {
-            if (!bigSurface) return false;
-        } else {
-            if (surf < surfMin || surf > surfMax) return false;
-        }
-
-        /* LOYER */
         const loy = parseInt(d["Loyer annuel"] || 0);
 
-        if (loy > 200000) {
-            if (!bigLoyer) return false;
-        } else {
-            if (loy < loyMin || loy > loyMax) return false;
-        }
+        /* HANDLING DES CAS SPÉCIAUX */
+        if (surf > 2000 && !bigSurf) return false;
+        if (loy > 200000 && !bigLoy) return false;
+
+        if (surf <= 2000 && (surf < surfMin || surf > surfMax)) return false;
+        if (loy <= 200000 && (loy < loyMin || loy > loyMax)) return false;
 
         return true;
     });
@@ -343,8 +346,9 @@ function appliquerFiltres() {
     afficherPinsFiltrés(OUT);
 }
 
+
 /* ============================================================
-   10. INITIALISATION
+   INITIALISATION
    ============================================================ */
 async function init() {
 
