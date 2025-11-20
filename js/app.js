@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + SLIDER 2000 m²)
+   SMBG – Carte interactive (VERSION IMBRICATION RÉGIONS/DÉPARTEMENTS)
    ============================================================ */
 
 /* ============================================================
@@ -32,9 +32,8 @@ async function loadExcel() {
 
 let DATA = [];
 
-
 /* ============================================================
-   FORMATAGE
+   3. FORMATAGE
    ============================================================ */
 function formatReference(r) {
     if (!r) return "";
@@ -70,9 +69,8 @@ function formatValue(key, val) {
     return val;
 }
 
-
 /* ============================================================
-   PANNEAU DROIT
+   4. PANNEAU DROIT
    ============================================================ */
 const colonnes_info = [
     "Adresse","Emplacement","Typologie","Type",
@@ -143,9 +141,8 @@ function afficherPanneauDroit(d) {
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
 
-
 /* ============================================================
-   PINS
+   5. PINS
    ============================================================ */
 let pinSelectionne = null;
 let markers = [];
@@ -155,7 +152,7 @@ function afficherPinsFiltrés(donnees) {
     markers.forEach(m => map.removeLayer(m));
     markers = [];
 
-    pinSelectionne = null; /* ✔ FIX DU BUG DU PANNEAU BLOQUÉ */
+    pinSelectionne = null;
 
     donnees.forEach(d => {
         if ((d["Actif"] || "").toLowerCase().trim() !== "oui") return;
@@ -191,48 +188,107 @@ function afficherPinsFiltrés(donnees) {
     });
 }
 
-
 /* ============================================================
-   FILTRES — VERSION CLIQUABLE
+   6. RÉGIONS + DÉPARTEMENTS — IMBRICATION
    ============================================================ */
 
-function valeursUniques(key) {
-    const set = new Set();
+// On construit la map Région -> liste des départements
+function mappingRegions() {
+    const mapR = {};
     DATA.forEach(d => {
-        const v = (d[key] || "").toString().trim();
-        if (v && v !== "-" && v !== "/") set.add(v);
+        const reg = d["Région"];
+        const dep = d["Département"];
+        if (!reg || !dep) return;
+        if (!mapR[reg]) mapR[reg] = new Set();
+        mapR[reg].add(dep);
     });
-    return [...set].sort();
+
+    // Convertit les Sets en array triés
+    Object.keys(mapR).forEach(reg => {
+        mapR[reg] = [...mapR[reg]].sort();
+    });
+
+    return mapR;
 }
 
-function remplirCheckbox(id, valeurs) {
-    const zone = document.getElementById(id);
+let REGIONS_MAP = {};
+
+/* Construit dynamiquement toute la liste Régions + Départements imbriqués */
+function reconstruireListeRegions() {
+
+    const zone = document.getElementById("filter-regions");
     zone.innerHTML = "";
-    valeurs.forEach(v => {
 
-        /* ID unique et propre (clé + nom filtré) */
-        const safeId = id + "_" + v.replace(/[^a-zA-Z0-9]/g, "_");
+    // Liste des régions triées
+    const regions = Object.keys(REGIONS_MAP).sort();
 
-        const div = document.createElement("div");
-        div.className = "checkbox-line";
+    regions.forEach(region => {
 
-        div.innerHTML = `
-            <input type="checkbox" id="${safeId}" value="${v}">
-            <label for="${safeId}">${v}</label>
+        // ID safe
+        const safeRegionId = "region_" + region.replace(/[^a-zA-Z0-9]/g, "_");
+
+        // Ligne région
+        const divR = document.createElement("div");
+        divR.className = "checkbox-line";
+
+        divR.innerHTML = `
+            <input type="checkbox" id="${safeRegionId}" value="${region}">
+            <label for="${safeRegionId}">${region}</label>
         `;
 
-        zone.appendChild(div);
+        zone.appendChild(divR);
+
+        // On écoute le changement sur la région
+        divR.querySelector("input").addEventListener("input", ()=>{
+            reconstruireListeRegions(); // mise à jour dynamique de l’arbre
+            appliquerFiltres();
+        });
+
+        // Si cette région est cochée → insérer les départements
+        const regionChecked = document.getElementById(safeRegionId).checked;
+
+        if (regionChecked) {
+
+            const deps = REGIONS_MAP[region];
+
+            deps.forEach(dep => {
+
+                const safeDepId = "dep_" + dep.replace(/[^a-zA-Z0-9]/g, "_");
+
+                const divD = document.createElement("div");
+                divD.className = "checkbox-line departement-indent";
+
+                divD.innerHTML = `
+                    <input type="checkbox" id="${safeDepId}" value="${dep}">
+                    <label for="${safeDepId}">${dep}</label>
+                `;
+
+                zone.appendChild(divD);
+
+                // écoute département
+                divD.querySelector("input").addEventListener("input", ()=>{
+                    appliquerFiltres();
+                });
+            });
+        }
     });
 }
 
-function valeursCochées(id) {
-    return [...document.querySelectorAll(`#${id} input:checked`)]
-        .map(x => x.value);
+/* Récupère les départements cochés */
+function departementsCoches() {
+    return [...document.querySelectorAll("#filter-regions .departement-indent input:checked")]
+            .map(x => x.value);
+}
+
+/* Récupère les régions cochées */
+function regionsCochees() {
+    return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked")]
+            .map(x => x.value);
 }
 
 
 /* ============================================================
-   SLIDER SURFACE 
+   7. SLIDER SURFACE 
    ============================================================ */
 function initSliderSurface(values) {
 
@@ -267,9 +323,8 @@ function initSliderSurface(values) {
     aff();
 }
 
-
 /* ============================================================
-   SLIDER LOYER
+   8. SLIDER LOYER
    ============================================================ */
 function initSliderLoyer(values) {
 
@@ -306,14 +361,15 @@ function initSliderLoyer(values) {
     aff();
 }
 
-
 /* ============================================================
-   APPLY FILTERS
+   9. APPLY FILTERS — LOGIQUE RÉGION / DÉPARTEMENT
    ============================================================ */
+
 function appliquerFiltres() {
 
-    const fr = valeursCochées("filter-regions");
-    const fd = valeursCochées("filter-departements");
+    const regs = regionsCochees();
+    const deps = departementsCoches();
+
     const fe = valeursCochées("filter-emplacement");
     const ft = valeursCochées("filter-typologie");
     const fx = valeursCochées("filter-extraction");
@@ -330,8 +386,36 @@ function appliquerFiltres() {
 
     const OUT = DATA.filter(d => {
 
-        if (fr.length && !fr.includes(d["Région"])) return false;
-        if (fd.length && !fd.includes(d["Département"])) return false;
+        /* ============================================================
+           LOGIQUE RÉGION / DÉPARTEMENT
+           ------------------------------------------------------------
+           1. Si un département de la région est coché → IGNORE la région
+           2. Sinon région cochée → filtre par région
+           3. Filtre final = annonces dont :
+               - région ∈ régions_valide
+               - OU département ∈ deps
+        ============================================================ */
+
+        let regionValide = regs.includes(d["Région"]);
+
+        // Si cette région contient un département coché → région ignorée
+        if (regionValide && deps.length > 0) {
+            const depsReg = REGIONS_MAP[d["Région"]] || [];
+            const intersect = depsReg.some(dep => deps.includes(dep));
+
+            if (intersect) regionValide = false;
+        }
+
+        const depValide = deps.includes(d["Département"]);
+
+        // Condition OR
+        if (regs.length > 0 || deps.length > 0) {
+            if (!regionValide && !depValide) return false;
+        }
+
+        /* ============================================================
+           AUTRES FILTRES (inchangés)
+        ============================================================ */
 
         if (fe.length && !fe.includes(d["Emplacement"])) return false;
         if (ft.length && !ft.includes(d["Typologie"])) return false;
@@ -353,16 +437,16 @@ function appliquerFiltres() {
     afficherPinsFiltrés(OUT);
 }
 
-
 /* ============================================================
-   INIT
+   10. INIT
    ============================================================ */
 async function init() {
 
     DATA = await loadExcel();
 
-    remplirCheckbox("filter-regions", valeursUniques("Région"));
-    remplirCheckbox("filter-departements", valeursUniques("Département"));
+    REGIONS_MAP = mappingRegions();
+
+    reconstruireListeRegions();
 
     remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie", valeursUniques("Typologie"));
@@ -383,6 +467,8 @@ async function init() {
 
         document.getElementById("checkbox-grand-surface").checked = true;
         document.getElementById("checkbox-grand-loyer").checked = true;
+
+        reconstruireListeRegions();
 
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
         initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
