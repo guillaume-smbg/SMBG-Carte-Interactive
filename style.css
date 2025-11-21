@@ -69,7 +69,7 @@ html, body {
 
 /* LIGNE DE SÉPARATION */
 .separator-smbg {
-    width: 250px;
+    width: 240px;
     height: 1px;
     background-color: rgba(225,120,44,0.45);
     margin: 0 auto 15px auto;   /* ✔ centrée proprement */
@@ -78,7 +78,7 @@ html, body {
 /* BLOCS & TITRES */
 .filter-block,
 .slider-block {
-    max-width: 240px;       /* ✔ cohérent */
+    max-width: 230px;       /* ✔ cohérent */
     margin-left: auto;
     margin-right: auto;     /* ✔ centré parfaitement */
 }
@@ -185,7 +185,7 @@ html, body {
 
 /* BOUTON RESET */
 #btn-reset {
-    width: 250px;
+    width: 240px;
     padding: 10px;
     background-color: #E1782C;
     color: #04253d;
@@ -298,6 +298,7 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
+
 
 
 
