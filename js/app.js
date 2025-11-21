@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + SLIDER 2000 m²)
+   SMBG – Carte interactive (VERSION STABLE + IMBRICATION VISUELLE)
    ============================================================ */
 
 /* ============================================================
@@ -34,7 +34,7 @@ let DATA = [];
 
 
 /* ============================================================
-   FORMATAGE
+   3. FORMATAGE
    ============================================================ */
 function formatReference(r) {
     if (!r) return "";
@@ -72,7 +72,7 @@ function formatValue(key, val) {
 
 
 /* ============================================================
-   PANNEAU DROIT
+   4. PANNEAU DROIT
    ============================================================ */
 const colonnes_info = [
     "Adresse","Emplacement","Typologie","Type",
@@ -145,7 +145,7 @@ function afficherPanneauDroit(d) {
 
 
 /* ============================================================
-   PINS
+   5. PINS
    ============================================================ */
 let pinSelectionne = null;
 let markers = [];
@@ -155,7 +155,7 @@ function afficherPinsFiltrés(donnees) {
     markers.forEach(m => map.removeLayer(m));
     markers = [];
 
-    pinSelectionne = null; /* ✔ reset pin sélectionné */
+    pinSelectionne = null;
 
     donnees.forEach(d => {
         if ((d["Actif"] || "").toLowerCase().trim() !== "oui") return;
@@ -193,9 +193,8 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   FILTRES — TEXTE CLIQUABLE
+   6. OUTILS GÉNÉRIQUES DE FILTRES (EMPLACEMENT, TYPO, ETC.)
    ============================================================ */
-
 function valeursUniques(key) {
     const set = new Set();
     DATA.forEach(d => {
@@ -209,17 +208,13 @@ function remplirCheckbox(id, valeurs) {
     const zone = document.getElementById(id);
     zone.innerHTML = "";
     valeurs.forEach(v => {
-
         const safeId = id + "_" + v.replace(/[^a-zA-Z0-9]/g, "_");
-
         const div = document.createElement("div");
         div.className = "checkbox-line";
-
         div.innerHTML = `
             <input type="checkbox" id="${safeId}" value="${v}">
             <label for="${safeId}">${v}</label>
         `;
-
         zone.appendChild(div);
     });
 }
@@ -231,7 +226,93 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   SLIDER SURFACE 
+   7. RÉGIONS + DÉPARTEMENTS — IMBRICATION VISUELLE
+   (logique de filtre inchangée)
+   ============================================================ */
+
+let REGIONS_MAP = {};
+
+function buildRegionsMap() {
+    const mapR = {};
+    DATA.forEach(d => {
+        const reg = (d["Région"] || "").trim();
+        const dep = (d["Département"] || "").trim();
+        if (!reg || !dep || dep === "-" || dep === "/") return;
+        if (!mapR[reg]) mapR[reg] = new Set();
+        mapR[reg].add(dep);
+    });
+    Object.keys(mapR).forEach(r => {
+        mapR[r] = [...mapR[r]].sort();
+    });
+    return mapR;
+}
+
+// Construit une liste : Région + (bloc de départements) juste en dessous
+function construireRegionsEtDepartements() {
+    const zoneReg = document.getElementById("filter-regions");
+    zoneReg.innerHTML = "";
+
+    const regions = Object.keys(REGIONS_MAP).sort();
+
+    regions.forEach(region => {
+        const regionId = "region_" + region.replace(/[^a-zA-Z0-9]/g, "_");
+
+        // ligne Région
+        const divR = document.createElement("div");
+        divR.className = "checkbox-line";
+        divR.innerHTML = `
+            <input type="checkbox" id="${regionId}" value="${region}">
+            <label for="${regionId}">${region}</label>
+        `;
+        zoneReg.appendChild(divR);
+
+        // bloc départements, juste après la région
+        const depsContainer = document.createElement("div");
+        depsContainer.className = "departements-container";
+        depsContainer.style.display = "none";
+
+        (REGIONS_MAP[region] || []).forEach(dep => {
+            const depId = "dep_" + dep.replace(/[^a-zA-Z0-9]/g, "_");
+            const divD = document.createElement("div");
+            divD.className = "checkbox-line departement-indent";
+            divD.innerHTML = `
+                <input type="checkbox" id="${depId}" value="${dep}">
+                <label for="${depId}">${dep}</label>
+            `;
+            depsContainer.appendChild(divD);
+        });
+
+        zoneReg.appendChild(depsContainer);
+
+        // quand on coche/décoche la région → on affiche/masque ses départements
+        const regionInput = divR.querySelector("input");
+        regionInput.addEventListener("input", () => {
+            depsContainer.style.display = regionInput.checked ? "block" : "none";
+            appliquerFiltres();
+        });
+
+        // quand on coche un département → on filtre
+        depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
+            inp.addEventListener("input", appliquerFiltres);
+        });
+    });
+}
+
+// régions cochées = cases de niveau "région" uniquement
+function regionsCochees() {
+    return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked")]
+        .map(x => x.value);
+}
+
+// départements cochés = cases dans les blocs .departements-container
+function departementsCoches() {
+    return [...document.querySelectorAll("#filter-regions .departements-container input:checked")]
+        .map(x => x.value);
+}
+
+
+/* ============================================================
+   8. SLIDER SURFACE 
    ============================================================ */
 function initSliderSurface(values) {
 
@@ -268,7 +349,7 @@ function initSliderSurface(values) {
 
 
 /* ============================================================
-   SLIDER LOYER
+   9. SLIDER LOYER
    ============================================================ */
 function initSliderLoyer(values) {
 
@@ -307,12 +388,16 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   APPLY FILTERS
+   10. APPLY FILTERS
+   (même logique qu’avant, on change juste la façon
+    de récupérer fr / fd)
    ============================================================ */
+
 function appliquerFiltres() {
 
-    const fr  = valeursCochées("filter-regions");
-    const fd  = valeursCochées("filter-departements");
+    const fr  = regionsCochees();      // au lieu de valeursCochées("filter-regions")
+    const fd  = departementsCoches();  // au lieu de valeursCochées("filter-departements")
+
     const fe  = valeursCochées("filter-emplacement");
     const ft  = valeursCochées("filter-typologie");
     const fx  = valeursCochées("filter-extraction");
@@ -354,17 +439,20 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   INIT
+   11. INIT
    ============================================================ */
 async function init() {
 
     DATA = await loadExcel();
 
-    // Filtres régions/départements (version simple)
-    remplirCheckbox("filter-regions",      valeursUniques("Région"));
-    remplirCheckbox("filter-departements", valeursUniques("Département"));
+    // Régions + départements (imbrication visuelle)
+    REGIONS_MAP = buildRegionsMap();
+    construireRegionsEtDepartements();
 
-    // Autres filtres
+    // L’ancien bloc Départements (id="filter-departements") n’est plus utilisé
+    // mais on peut le laisser vide.
+
+    // Autres filtres inchangés
     remplirCheckbox("filter-emplacement",  valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie",    valeursUniques("Typologie"));
     remplirCheckbox("filter-extraction",   valeursUniques("Extraction"));
@@ -387,6 +475,10 @@ async function init() {
 
         document.getElementById("checkbox-grand-surface").checked = true;
         document.getElementById("checkbox-grand-loyer").checked   = true;
+
+        // on ne reconstruit pas la liste, on se contente de tout décocher
+        document.querySelectorAll("#filter-regions .departements-container")
+            .forEach(c => c.style.display = "none");
 
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
         initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
