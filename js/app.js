@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + RÉTRACTABLE)
+   SMBG – Carte interactive (VERSION STABLE + RÉTRACTABLE + FIX COMPTEUR)
    ============================================================ */
 
 /* ============================================================
@@ -27,12 +27,12 @@ const mapContainer = document.getElementById("map-container");
 
 function ouvrirPanneau() {
     sidebarRight.classList.add("open");
-    mapContainer.style.right = "325px";   // largeur du panneau ouvert
+    mapContainer.style.right = "325px";   // largeur panneau ouvert
 }
 
 function fermerPanneau() {
     sidebarRight.classList.remove("open");
-    mapContainer.style.right = "10px";    // seulement le rebord visible
+    mapContainer.style.right = "10px";    // rebord seulement
 }
 
 // fermer panneau quand on clique sur la carte
@@ -42,7 +42,22 @@ map.on("click", function () {
 
 
 /* ============================================================
-   3. CHARGEMENT EXCEL
+   3. COMPTEUR DYNAMIQUE
+   ============================================================ */
+function updateCompteur(n) {
+    const zone = document.getElementById("compteur-annonces");
+    if (!zone) return;
+
+    if (n === 1)
+        zone.innerHTML = `Annonces sélectionnées : <b>1</b>`;
+    else
+        zone.innerHTML = `Annonces sélectionnées : <b>${n}</b>`;
+}
+
+
+
+/* ============================================================
+   4. CHARGEMENT EXCEL
    ============================================================ */
 async function loadExcel() {
     const url =
@@ -57,7 +72,7 @@ let DATA = [];
 
 
 /* ============================================================
-   4. FORMATAGE
+   5. FORMATAGE
    ============================================================ */
 function formatReference(r) {
     if (!r) return "";
@@ -95,7 +110,7 @@ function formatValue(key, val) {
 
 
 /* ============================================================
-   5. PANNEAU DROIT – AFFICHAGE
+   6. PANNEAU DROIT – AFFICHAGE
    ============================================================ */
 
 const colonnes_info = [
@@ -115,7 +130,7 @@ const colonnes_info = [
 
 function afficherPanneauDroit(d) {
 
-    ouvrirPanneau(); // 🔥 ouverture du panneau
+    ouvrirPanneau();
 
     const ref = formatReference(d["Référence annonce"]);
     document.getElementById("ref-annonce").innerHTML = ref;
@@ -158,12 +173,12 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("info-lot").innerHTML = html;
 
+    // photos
     let photos = (d["Photos"] || d["AP"] || "")
         .toString().split(";").map(x => x.trim()).filter(x => x);
 
     let ph = "";
     photos.forEach(url => { ph += `<img src="${url}">`; });
-
     document.getElementById("photos-lot").innerHTML = ph;
 
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
@@ -171,7 +186,7 @@ function afficherPanneauDroit(d) {
 
 
 /* ============================================================
-   6. PINS
+   7. PINS
    ============================================================ */
 let pinSelectionne = null;
 let markers = [];
@@ -208,19 +223,21 @@ function afficherPinsFiltrés(donnees) {
             pinSelectionne = marker;
             marker._icon.classList.add("smbg-pin-selected");
 
-            afficherPanneauDroit(d); // 🔥 ouverture / mise à jour panneau
+            afficherPanneauDroit(d);
         });
 
         marker.addTo(map);
         markers.push(marker);
     });
+
+    /* 🔥 MAJ COMPTEUR */
+    updateCompteur(donnees.length);
 }
 
 
 /* ============================================================
-   7. OUTILS GÉNÉRIQUES DE FILTRES
+   8. OUTILS GÉNÉRIQUES DE FILTRES
    ============================================================ */
-
 function valeursUniques(key) {
     const set = new Set();
     DATA.forEach(d => {
@@ -252,173 +269,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   8. RÉGIONS + DÉPARTEMENTS — IMBRICATION VISUELLE
-   ============================================================ */
-
-let REGIONS_MAP = {};
-
-function buildRegionsMap() {
-    const mapR = {};
-    DATA.forEach(d => {
-        const reg = (d["Région"] || "").trim();
-        const dep = (d["Département"] || "").trim();
-        if (!reg || !dep || dep === "-" || dep === "/") return;
-        if (!mapR[reg]) mapR[reg] = new Set();
-        mapR[reg].add(dep);
-    });
-    Object.keys(mapR).forEach(r => {
-        mapR[r] = [...mapR[r]].sort();
-    });
-    return mapR;
-}
-
-
-function construireRegionsEtDepartements() {
-    const zoneReg = document.getElementById("filter-regions");
-    zoneReg.innerHTML = "";
-
-    const regions = Object.keys(REGIONS_MAP).sort();
-
-    regions.forEach(region => {
-        const regionId = "region_" + region.replace(/[^a-zA-Z0-9]/g, "_");
-
-        const divR = document.createElement("div");
-        divR.className = "checkbox-line";
-        divR.innerHTML = `
-            <input type="checkbox" id="${regionId}" value="${region}">
-            <label for="${regionId}">${region}</label>
-        `;
-        zoneReg.appendChild(divR);
-
-        const depsContainer = document.createElement("div");
-        depsContainer.className = "departements-container";
-        depsContainer.style.display = "none";
-
-        (REGIONS_MAP[region] || []).forEach(dep => {
-            const depId = "dep_" + dep.replace(/[^a-zA-Z0-9]/g, "_");
-            const divD = document.createElement("div");
-            divD.className = "checkbox-line departement-indent";
-            divD.innerHTML = `
-                <input type="checkbox" id="${depId}" value="${dep}">
-                <label for="${depId}">${dep}</label>
-            `;
-            depsContainer.appendChild(divD);
-        });
-
-        zoneReg.appendChild(depsContainer);
-
-        const regionInput = divR.querySelector("input");
-        regionInput.addEventListener("input", () => {
-
-            if (regionInput.checked) {
-                depsContainer.style.display = "block";
-            } else {
-                depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
-                    inp.checked = false;
-                });
-                depsContainer.style.display = "none";
-            }
-
-            appliquerFiltres();
-        });
-
-        depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
-            inp.addEventListener("input", appliquerFiltres);
-        });
-    });
-}
-
-function regionsCochees() {
-    return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked")]
-        .map(x => x.value);
-}
-
-function departementsCoches() {
-    return [...document.querySelectorAll("#filter-regions .departements-container input:checked")]
-        .map(x => x.value);
-}
-
-
-/* ============================================================
-   9. SLIDER SURFACE 
-   ============================================================ */
-
-function initSliderSurface(values) {
-
-    const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
-
-    const MAX_LIMIT = 2000;
-    const min = Math.min(...uniq);
-    const maxSlider = MAX_LIMIT;
-
-    const minInput = document.getElementById("surface-min");
-    const maxInput = document.getElementById("surface-max");
-    const display = document.getElementById("surface-values");
-
-    minInput.min = maxInput.min = min;
-    minInput.max = maxInput.max = maxSlider;
-
-    minInput.value = min;
-    maxInput.value = maxSlider;
-
-    function aff() {
-        let a = parseInt(minInput.value);
-        let b = parseInt(maxInput.value);
-        if (a > b) minInput.value = b;
-
-        display.innerHTML =
-            a.toLocaleString("fr-FR") + " m² — " +
-            b.toLocaleString("fr-FR") + " m²";
-    }
-
-    minInput.oninput = aff;
-    maxInput.oninput = aff;
-    aff();
-}
-
-
-/* ============================================================
-   10. SLIDER LOYER
-   ============================================================ */
-
-function initSliderLoyer(values) {
-
-    const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
-
-    const min = Math.min(...uniq);
-    const max = Math.max(...uniq);
-
-    const maxAfficher = 200000;
-
-    const minInput = document.getElementById("loyer-min");
-    const maxInput = document.getElementById("loyer-max");
-    const display = document.getElementById("loyer-values");
-
-    minInput.min = maxInput.min = min;
-    minInput.max = maxAfficher;
-    maxInput.max = maxAfficher;
-
-    minInput.value = min;
-    maxInput.value = maxAfficher;
-
-    function aff() {
-        let a = parseInt(minInput.value);
-        let b = parseInt(maxInput.value);
-        if (a > b) minInput.value = b;
-
-        display.innerHTML =
-            a.toLocaleString("fr-FR") + " € — " +
-            b.toLocaleString("fr-FR") + " €";
-    }
-
-    minInput.oninput = aff;
-    maxInput.oninput = aff;
-    aff();
-}
-
-
-/* ============================================================
-   11. APPLY FILTERS
+   9. APPLY FILTERS
    ============================================================ */
 
 function appliquerFiltres() {
@@ -456,15 +307,11 @@ function appliquerFiltres() {
 
             if (fr.includes(region)) {
                 const depsOfRegion = REGIONS_MAP[region] || [];
-                const hasSelectedDepInRegion = depsOfRegion.some(depName => fd.includes(depName));
-                if (!hasSelectedDepInRegion) {
-                    regionMatch = true;
-                }
+                const hasSelDep = depsOfRegion.some(dep => fd.includes(dep));
+                if (!hasSelDep) regionMatch = true;
             }
 
-            if (!regionMatch && !depMatch) {
-                return false;
-            }
+            if (!regionMatch && !depMatch) return false;
         }
 
         if (fe.length  && !fe.includes(d["Emplacement"]))   return false;
@@ -476,10 +323,10 @@ function appliquerFiltres() {
         const loy  = parseInt(d["Loyer annuel"] || 0);
 
         if (surf > 2000   && !bigSurf) return false;
-        if (loy  > 200000 && !bigLoy)  return false;
+        if (loy > 200000  && !bigLoy)  return false;
 
         if (surf <= 2000 && (surf < surfMin || surf > surfMax)) return false;
-        if (loy  <= 200000 && (loy < loyMin || loy > loyMax))   return false;
+        if (loy <= 200000 && (loy < loyMin || loy > loyMax)) return false;
 
         return true;
     });
@@ -489,9 +336,8 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   12. INIT
+   10. INIT
    ============================================================ */
-
 async function init() {
 
     DATA = await loadExcel();
@@ -504,8 +350,8 @@ async function init() {
     remplirCheckbox("filter-extraction",   valeursUniques("Extraction"));
     remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
 
-    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
-    initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
+    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"] || 0)));
+    initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"] || 0)));
 
     document.querySelectorAll("#sidebar-left input").forEach(el => {
         el.addEventListener("input", appliquerFiltres);
@@ -522,15 +368,21 @@ async function init() {
         document.querySelectorAll("#filter-regions .departements-container")
             .forEach(c => c.style.display = "none");
 
-        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
-        initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
+        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"] || 0)));
+        initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"] || 0)));
+
+        // retract panel
+        fermerPanneau();
+        document.getElementById("ref-annonce").innerHTML = "";
+        document.getElementById("info-lot").innerHTML = "";
+        document.getElementById("photos-lot").innerHTML = "";
 
         afficherPinsFiltrés(DATA);
     });
 
     afficherPinsFiltrés(DATA);
 
-    fermerPanneau();   // 🔥 panneau fermé au chargement
+    fermerPanneau();
 }
 
 init();
