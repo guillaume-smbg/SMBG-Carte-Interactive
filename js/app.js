@@ -8,7 +8,10 @@
 var map = L.map('map', {
     zoomControl: true,
     scrollWheelZoom: true,
-    attributionControl: false
+    attributionControl: false,
+    fadeAnimation: false,
+    zoomAnimation: false,
+    markerZoomAnimation: false
 });
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -17,9 +20,46 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 map.setView([46.8, 2.4], 6);
 
+// 🔥 Décalage instantané de la carte sans animation
+map.whenReady(() => {
+    map.panBy([162, 0], { animate: false });
+});
+
 
 /* ============================================================
-   2. CHARGEMENT EXCEL
+   2. PANNEAU DROIT (RÉTRACTABLE)
+   ============================================================ */
+
+const sidebarRight = document.getElementById("sidebar-right");
+const mapContainer = document.getElementById("map-container");
+
+function ouvrirPanneau() {
+    sidebarRight.classList.add("open");
+    mapContainer.style.right = "325px";
+}
+
+function fermerPanneau() {
+    sidebarRight.classList.remove("open");
+    mapContainer.style.right = "10px";
+
+    // 🔥 Effacer texte du panneau
+    document.getElementById("ref-annonce").innerHTML = "";
+    document.getElementById("info-lot").innerHTML = "";
+    document.getElementById("photos-lot").innerHTML = "";
+
+    // 🔥 Désélectionne le pin
+    if (pinSelectionne && pinSelectionne._icon) {
+        pinSelectionne._icon.classList.remove("smbg-pin-selected");
+        pinSelectionne = null;
+    }
+}
+
+// 🔥 clic sur la carte → referme panneau + reset visuel
+map.on("click", fermerPanneau);
+
+
+/* ============================================================
+   3. CHARGEMENT EXCEL
    ============================================================ */
 async function loadExcel() {
     const url =
@@ -34,7 +74,7 @@ let DATA = [];
 
 
 /* ============================================================
-   3. FORMATAGE
+   4. FORMATAGE
    ============================================================ */
 function formatReference(r) {
     if (!r) return "";
@@ -72,8 +112,9 @@ function formatValue(key, val) {
 
 
 /* ============================================================
-   4. PANNEAU DROIT
+   5. PANNEAU DROIT – AFFICHAGE
    ============================================================ */
+
 const colonnes_info = [
     "Adresse","Emplacement","Typologie","Type",
     "Cession / Droit au bail","Numéro de lot",
@@ -91,8 +132,7 @@ const colonnes_info = [
 
 function afficherPanneauDroit(d) {
 
-    const panneau = document.getElementById("sidebar-right");
-    panneau.classList.add("open");
+    ouvrirPanneau();
 
     const ref = formatReference(d["Référence annonce"]);
     document.getElementById("ref-annonce").innerHTML = ref;
@@ -148,15 +188,21 @@ function afficherPanneauDroit(d) {
 
 
 /* ============================================================
-   5. PINS
+   6. PINS
    ============================================================ */
 let pinSelectionne = null;
 let markers = [];
 
 function afficherPinsFiltrés(donnees) {
 
+    // 🔥 MAJ compteur dynamique
+    const divCompteur = document.getElementById("compteur-annonces");
+    const nb = donnees.length;
+    divCompteur.innerHTML = "Annonces sélectionnées : " + nb;
+
     markers.forEach(m => map.removeLayer(m));
     markers = [];
+
     pinSelectionne = null;
 
     donnees.forEach(d => {
@@ -191,18 +237,11 @@ function afficherPinsFiltrés(donnees) {
         marker.addTo(map);
         markers.push(marker);
     });
-
-    /* 🔥 Mise à jour du compteur dynamique */
-    const compteur = document.getElementById("compteur-annonces");
-    const nb = donnees.length;
-    compteur.innerHTML = nb === 1
-        ? "Annonces sélectionnées : 1"
-        : "Annonces sélectionnées : " + nb;
 }
 
 
 /* ============================================================
-   6. OUTILS GÉNÉRIQUES DE FILTRES
+   7. OUTILS GÉNÉRIQUES DE FILTRES
    ============================================================ */
 function valeursUniques(key) {
     const set = new Set();
@@ -235,7 +274,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   7. RÉGIONS + DÉPARTEMENTS
+   8. RÉGIONS + DÉPARTEMENTS — IMBRICATION VISUELLE
    ============================================================ */
 
 let REGIONS_MAP = {};
@@ -254,6 +293,7 @@ function buildRegionsMap() {
     });
     return mapR;
 }
+
 
 function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
@@ -322,7 +362,7 @@ function departementsCoches() {
 
 
 /* ============================================================
-   8. SLIDER SURFACE 
+   9. SLIDER SURFACE 
    ============================================================ */
 function initSliderSurface(values) {
 
@@ -359,7 +399,7 @@ function initSliderSurface(values) {
 
 
 /* ============================================================
-   9. SLIDER LOYER
+   10. SLIDER LOYER
    ============================================================ */
 function initSliderLoyer(values) {
 
@@ -398,9 +438,8 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   10. APPLY FILTERS
+   11. APPLY FILTERS
    ============================================================ */
-
 function appliquerFiltres() {
 
     const fr  = regionsCochees();
@@ -469,8 +508,9 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   11. INIT
+   12. INIT
    ============================================================ */
+
 async function init() {
 
     DATA = await loadExcel();
@@ -490,9 +530,6 @@ async function init() {
         el.addEventListener("input", appliquerFiltres);
     });
 
-    /* ============================================================
-       🔥 Bouton Réinitialiser
-       ============================================================ */
     document.getElementById("btn-reset").addEventListener("click", () => {
 
         document.querySelectorAll("#sidebar-left input[type=checkbox]")
@@ -507,37 +544,14 @@ async function init() {
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
         initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
+        // 🔥 Rétracter panneau droit
+        fermerPanneau();
+
         afficherPinsFiltrés(DATA);
-
-        /* 🔥 Replier panneau + vider contenu */
-        const panneau = document.getElementById("sidebar-right");
-        panneau.classList.remove("open");
-        document.getElementById("ref-annonce").innerHTML = "";
-        document.getElementById("info-lot").innerHTML = "";
-        document.getElementById("photos-lot").innerHTML = "";
     });
-
-    /* ============================================================
-       🔥 RETRACTION DU PANNEAU QUAND ON CLIQUE SUR LA CARTE
-       ============================================================ */
-    map.on("click", () => {
-        const panneau = document.getElementById("sidebar-right");
-        panneau.classList.remove("open");
-
-        // 🔥 suppression des infos
-        document.getElementById("ref-annonce").innerHTML = "";
-        document.getElementById("info-lot").innerHTML = "";
-        document.getElementById("photos-lot").innerHTML = "";
-    });
-
-    /* ============================================================
-       🔥 Décalage initial SANS ANIMATION
-       ============================================================ */
-    setTimeout(() => {
-        map.panBy([162, 0], { animate: false });
-    }, 300);
 
     afficherPinsFiltrés(DATA);
+    fermerPanneau();
 }
 
 init();
