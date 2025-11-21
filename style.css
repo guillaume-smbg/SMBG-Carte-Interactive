@@ -201,7 +201,7 @@ html, body {
     /* Décalage initial OPTION B (via app.js) → DONC rien ici */
 
     left: 275px;
-    right: 325px;
+    right: 0;
 
     top: 0;
     bottom: 0;
@@ -303,3 +303,4 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
+
