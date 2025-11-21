@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (Régions / Départements imbriqués)
+   SMBG – Carte interactive (VERSION STABLE + SLIDER 2000 m²)
    ============================================================ */
 
 /* ============================================================
@@ -34,7 +34,7 @@ let DATA = [];
 
 
 /* ============================================================
-   3. FORMATAGE
+   FORMATAGE
    ============================================================ */
 function formatReference(r) {
     if (!r) return "";
@@ -72,7 +72,7 @@ function formatValue(key, val) {
 
 
 /* ============================================================
-   4. PANNEAU DROIT
+   PANNEAU DROIT
    ============================================================ */
 const colonnes_info = [
     "Adresse","Emplacement","Typologie","Type",
@@ -145,7 +145,7 @@ function afficherPanneauDroit(d) {
 
 
 /* ============================================================
-   5. PINS
+   PINS
    ============================================================ */
 let pinSelectionne = null;
 let markers = [];
@@ -155,7 +155,7 @@ function afficherPinsFiltrés(donnees) {
     markers.forEach(m => map.removeLayer(m));
     markers = [];
 
-    pinSelectionne = null;
+    pinSelectionne = null; /* ✔ reset pin sélectionné */
 
     donnees.forEach(d => {
         if ((d["Actif"] || "").toLowerCase().trim() !== "oui") return;
@@ -193,8 +193,9 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   6. OUTILS GÉNÉRIQUES DE FILTRES (EMPLACEMENT, TYPO, ETC.)
+   FILTRES — TEXTE CLIQUABLE
    ============================================================ */
+
 function valeursUniques(key) {
     const set = new Set();
     DATA.forEach(d => {
@@ -208,13 +209,17 @@ function remplirCheckbox(id, valeurs) {
     const zone = document.getElementById(id);
     zone.innerHTML = "";
     valeurs.forEach(v => {
+
         const safeId = id + "_" + v.replace(/[^a-zA-Z0-9]/g, "_");
+
         const div = document.createElement("div");
         div.className = "checkbox-line";
+
         div.innerHTML = `
             <input type="checkbox" id="${safeId}" value="${v}">
             <label for="${safeId}">${v}</label>
         `;
+
         zone.appendChild(div);
     });
 }
@@ -226,110 +231,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   7. RÉGIONS + DÉPARTEMENTS — IMBRICATION
-   ============================================================ */
-
-// Région -> liste de départements
-function mappingRegions() {
-    const mapR = {};
-    DATA.forEach(d => {
-        const reg = d["Région"];
-        const dep = d["Département"];
-        if (!reg || !dep) return;
-        if (!mapR[reg]) mapR[reg] = new Set();
-        mapR[reg].add(dep);
-    });
-
-    Object.keys(mapR).forEach(reg => {
-        mapR[reg] = [...mapR[reg]].sort();
-    });
-
-    return mapR;
-}
-
-let REGIONS_MAP = {};
-
-function reconstruireListeRegions() {
-
-    const zone = document.getElementById("filter-regions");
-    zone.innerHTML = "";
-
-    const regions = Object.keys(REGIONS_MAP).sort();
-
-    regions.forEach(region => {
-
-        const safeRegionId = "region_" + region.replace(/[^a-zA-Z0-9]/g, "_");
-
-        const divR = document.createElement("div");
-        divR.className = "checkbox-line";
-
-        divR.innerHTML = `
-            <input type="checkbox" id="${safeRegionId}" value="${region}">
-            <label for="${safeRegionId}">${region}</label>
-        `;
-
-        zone.appendChild(divR);
-
-        // Gestion clic sur région : on reconstruit (pour afficher/masquer les deps) + on filtre
-        divR.querySelector("input").addEventListener("input", ()=>{
-            // On mémorise l'état des régions cochées AVANT reconstruction
-            const etats = {};
-            document.querySelectorAll("#filter-regions > .checkbox-line > input")
-                .forEach(inp => {
-                    etats[inp.value] = inp.checked;
-                });
-
-            // Reconstruire
-            reconstruireListeRegions();
-
-            // Restaurer les états
-            document.querySelectorAll("#filter-regions > .checkbox-line > input")
-                .forEach(inp => {
-                    if (etats.hasOwnProperty(inp.value)) {
-                        inp.checked = etats[inp.value];
-                    }
-                });
-
-            appliquerFiltres();
-        });
-
-        // Après la reconstruction (appel initial ou suivant), on regarde si cette région est cochée
-        const regionInputNow = document.getElementById(safeRegionId);
-        const regionChecked = regionInputNow && regionInputNow.checked;
-
-        if (regionChecked) {
-            const deps = REGIONS_MAP[region];
-            deps.forEach(dep => {
-                const safeDepId = "dep_" + dep.replace(/[^a-zA-Z0-9]/g, "_");
-                const divD = document.createElement("div");
-                divD.className = "checkbox-line departement-indent";
-                divD.innerHTML = `
-                    <input type="checkbox" id="${safeDepId}" value="${dep}">
-                    <label for="${safeDepId}">${dep}</label>
-                `;
-                zone.appendChild(divD);
-
-                divD.querySelector("input").addEventListener("input", ()=>{
-                    appliquerFiltres();
-                });
-            });
-        }
-    });
-}
-
-function departementsCoches() {
-    return [...document.querySelectorAll("#filter-regions .departement-indent input:checked")]
-            .map(x => x.value);
-}
-
-function regionsCochees() {
-    return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked")]
-            .map(x => x.value);
-}
-
-
-/* ============================================================
-   8. SLIDER SURFACE 
+   SLIDER SURFACE 
    ============================================================ */
 function initSliderSurface(values) {
 
@@ -366,7 +268,7 @@ function initSliderSurface(values) {
 
 
 /* ============================================================
-   9. SLIDER LOYER
+   SLIDER LOYER
    ============================================================ */
 function initSliderLoyer(values) {
 
@@ -405,61 +307,44 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   10. APPLY FILTERS — LOGIQUE RÉGION / DÉPARTEMENT
+   APPLY FILTERS
    ============================================================ */
-
 function appliquerFiltres() {
 
-    const regs = regionsCochees();
-    const deps = departementsCoches();
-
-    const fe = valeursCochées("filter-emplacement");
-    const ft = valeursCochées("filter-typologie");
-    const fx = valeursCochées("filter-extraction");
+    const fr  = valeursCochées("filter-regions");
+    const fd  = valeursCochées("filter-departements");
+    const fe  = valeursCochées("filter-emplacement");
+    const ft  = valeursCochées("filter-typologie");
+    const fx  = valeursCochées("filter-extraction");
     const frs = valeursCochées("filter-restauration");
 
     const bigSurf = document.getElementById("checkbox-grand-surface").checked;
-    const bigLoy = document.getElementById("checkbox-grand-loyer").checked;
+    const bigLoy  = document.getElementById("checkbox-grand-loyer").checked;
 
     const surfMin = parseInt(document.getElementById("surface-min").value);
     const surfMax = parseInt(document.getElementById("surface-max").value);
 
-    const loyMin = parseInt(document.getElementById("loyer-min").value);
-    const loyMax = parseInt(document.getElementById("loyer-max").value);
+    const loyMin  = parseInt(document.getElementById("loyer-min").value);
+    const loyMax  = parseInt(document.getElementById("loyer-max").value);
 
     const OUT = DATA.filter(d => {
 
-        /* --------- LOGIQUE RÉGION / DÉPARTEMENT --------- */
+        if (fr.length  && !fr.includes(d["Région"]))       return false;
+        if (fd.length  && !fd.includes(d["Département"]))  return false;
 
-        let regionValide = regs.includes(d["Région"]);
-        const depValide = deps.includes(d["Département"]);
+        if (fe.length  && !fe.includes(d["Emplacement"]))  return false;
+        if (ft.length  && !ft.includes(d["Typologie"]))    return false;
+        if (fx.length  && !fx.includes(d["Extraction"]))   return false;
+        if (frs.length && !frs.includes(d["Restauration"]))return false;
 
-        // Si région cochée + au moins un département de cette région coché → on ignore la région
-        if (regionValide && deps.length > 0) {
-            const depsReg = REGIONS_MAP[d["Région"]] || [];
-            const intersect = depsReg.some(dep => deps.includes(dep));
-            if (intersect) regionValide = false;
-        }
+        const surf = parseInt(d["Surface GLA"]   || 0);
+        const loy  = parseInt(d["Loyer annuel"]  || 0);
 
-        if (regs.length > 0 || deps.length > 0) {
-            if (!regionValide && !depValide) return false;
-        }
-
-        /* --------- AUTRES FILTRES IDENTIQUES --------- */
-
-        if (fe.length && !fe.includes(d["Emplacement"])) return false;
-        if (ft.length && !ft.includes(d["Typologie"])) return false;
-        if (fx.length && !fx.includes(d["Extraction"])) return false;
-        if (frs.length && !frs.includes(d["Restauration"])) return false;
-
-        const surf = parseInt(d["Surface GLA"] || 0);
-        const loy = parseInt(d["Loyer annuel"] || 0);
-
-        if (surf > 2000 && !bigSurf) return false;
-        if (loy > 200000 && !bigLoy) return false;
+        if (surf > 2000   && !bigSurf) return false;
+        if (loy  > 200000 && !bigLoy)  return false;
 
         if (surf <= 2000 && (surf < surfMin || surf > surfMax)) return false;
-        if (loy <= 200000 && (loy < loyMin || loy > loyMax)) return false;
+        if (loy  <= 200000 && (loy < loyMin || loy > loyMax))   return false;
 
         return true;
     });
@@ -469,52 +354,47 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   11. INIT
+   INIT
    ============================================================ */
 async function init() {
 
     DATA = await loadExcel();
 
-    // mapping régions -> départements
-    REGIONS_MAP = mappingRegions();
+    // Filtres régions/départements (version simple)
+    remplirCheckbox("filter-regions",      valeursUniques("Région"));
+    remplirCheckbox("filter-departements", valeursUniques("Département"));
 
-    // construit la liste Régions (sans départements au début)
-    reconstruireListeRegions();
-
-    // autres filtres
-    remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
-    remplirCheckbox("filter-typologie", valeursUniques("Typologie"));
-    remplirCheckbox("filter-extraction", valeursUniques("Extraction"));
+    // Autres filtres
+    remplirCheckbox("filter-emplacement",  valeursUniques("Emplacement"));
+    remplirCheckbox("filter-typologie",    valeursUniques("Typologie"));
+    remplirCheckbox("filter-extraction",   valeursUniques("Extraction"));
     remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
 
-    // sliders
-    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
-    initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
+    // Sliders
+    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
+    initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
-    // écoute générique sur tous les inputs du volet gauche
+    // Listener générique
     document.querySelectorAll("#sidebar-left input").forEach(el => {
         el.addEventListener("input", appliquerFiltres);
     });
 
-    // bouton reset
+    // Reset
     document.getElementById("btn-reset").addEventListener("click", () => {
 
         document.querySelectorAll("#sidebar-left input[type=checkbox]")
             .forEach(x => x.checked = false);
 
         document.getElementById("checkbox-grand-surface").checked = true;
-        document.getElementById("checkbox-grand-loyer").checked = true;
+        document.getElementById("checkbox-grand-loyer").checked   = true;
 
-        // reconstruit la liste régions/départements toute propre
-        reconstruireListeRegions();
-
-        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]||0)));
-        initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"]||0)));
+        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
+        initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
         afficherPinsFiltrés(DATA);
     });
 
-    // affichage initial : toutes les annonces
+    // Affichage initial
     afficherPinsFiltrés(DATA);
 }
 
