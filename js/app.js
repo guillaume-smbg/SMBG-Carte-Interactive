@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + RÉTRACTABLE)
+   SMBG – Carte interactive (VERSION STABLE + IMBRICATION & LOGIQUE R/D)
    ============================================================ */
 
 /* ============================================================
@@ -19,33 +19,16 @@ map.setView([46.8, 2.4], 6);
 
 
 /* ============================================================
-   2. PANNEAU DROIT (RÉTRACTABLE)
+   🔥 AJOUT : Repli du panneau si clic sur carte
    ============================================================ */
-
-const sidebarRight = document.getElementById("sidebar-right");
-const mapContainer = document.getElementById("map-container");
-
-function ouvrirPanneau() {
-    sidebarRight.classList.add("open");
-    mapContainer.style.right = "325px";
-}
-
-function fermerPanneau() {
-    sidebarRight.classList.remove("open");
-    mapContainer.style.right = "10px";
-    document.getElementById("ref-annonce").innerHTML = "";
-    document.getElementById("info-lot").innerHTML = "";
-    document.getElementById("photos-lot").innerHTML = "";
-}
-
-// fermer panneau quand on clique sur la carte
 map.on("click", function () {
-    fermerPanneau();
+    const panneau = document.getElementById("sidebar-right");
+    panneau.classList.remove("open");
 });
 
 
 /* ============================================================
-   3. CHARGEMENT EXCEL
+   2. CHARGEMENT EXCEL
    ============================================================ */
 async function loadExcel() {
     const url =
@@ -60,7 +43,7 @@ let DATA = [];
 
 
 /* ============================================================
-   4. FORMATAGE
+   3. FORMATAGE
    ============================================================ */
 function formatReference(r) {
     if (!r) return "";
@@ -98,9 +81,23 @@ function formatValue(key, val) {
 
 
 /* ============================================================
-   5. PANNEAU DROIT – AFFICHAGE
+   🔥 AJOUT : compteur dynamique
    ============================================================ */
+function mettreAJourCompteur(nb) {
+    const zone = document.getElementById("compteur-annonces");
+    if (!zone) return;
 
+    if (nb <= 1) {
+        zone.innerHTML = `Annonces sélectionnées : <strong>${nb}</strong>`;
+    } else {
+        zone.innerHTML = `Annonces sélectionnées : <strong>${nb}</strong>`;
+    }
+}
+
+
+/* ============================================================
+   4. PANNEAU DROIT
+   ============================================================ */
 const colonnes_info = [
     "Adresse","Emplacement","Typologie","Type",
     "Cession / Droit au bail","Numéro de lot",
@@ -118,7 +115,8 @@ const colonnes_info = [
 
 function afficherPanneauDroit(d) {
 
-    ouvrirPanneau(); 
+    const panneau = document.getElementById("sidebar-right");
+    panneau.classList.add("open");
 
     const ref = formatReference(d["Référence annonce"]);
     document.getElementById("ref-annonce").innerHTML = ref;
@@ -174,9 +172,8 @@ function afficherPanneauDroit(d) {
 
 
 /* ============================================================
-   6. PINS
+   5. PINS
    ============================================================ */
-
 let pinSelectionne = null;
 let markers = [];
 
@@ -186,9 +183,8 @@ function afficherPinsFiltrés(donnees) {
     markers = [];
     pinSelectionne = null;
 
-    // 🔥🔥🔥 FIX COMPTEUR DYNAMIQUE
-    document.getElementById("compteur-annonces").innerHTML =
-        "Annonces sélectionnées : " + donnees.length;
+    // 🔥 compteur dynamique
+    mettreAJourCompteur(donnees.length);
 
     donnees.forEach(d => {
         if ((d["Actif"] || "").toLowerCase().trim() !== "oui") return;
@@ -226,7 +222,7 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   7. OUTILS
+   6. OUTILS GÉNÉRIQUES DE FILTRES
    ============================================================ */
 
 function valeursUniques(key) {
@@ -260,7 +256,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   8. RÉGIONS + DÉPARTEMENTS
+   7. RÉGIONS + DÉPARTEMENTS — IMBRICATION VISUELLE
    ============================================================ */
 
 let REGIONS_MAP = {};
@@ -280,7 +276,7 @@ function buildRegionsMap() {
     return mapR;
 }
 
-
+// Construit : Région + bloc de départements juste en dessous
 function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
     zoneReg.innerHTML = "";
@@ -321,7 +317,7 @@ function construireRegionsEtDepartements() {
             if (regionInput.checked) {
                 depsContainer.style.display = "block";
             } else {
-                depsContainer.querySelectorAll("input").forEach(inp => {
+                depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
                     inp.checked = false;
                 });
                 depsContainer.style.display = "none";
@@ -330,17 +326,26 @@ function construireRegionsEtDepartements() {
             appliquerFiltres();
         });
 
-        depsContainer.querySelectorAll("input").forEach(inp => {
+        depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
             inp.addEventListener("input", appliquerFiltres);
         });
     });
 }
 
+function regionsCochees() {
+    return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked")]
+        .map(x => x.value);
+}
+
+function departementsCoches() {
+    return [...document.querySelectorAll("#filter-regions .departements-container input:checked")]
+        .map(x => x.value);
+}
+
 
 /* ============================================================
-   9. SLIDERS
+   8. SLIDER SURFACE 
    ============================================================ */
-
 function initSliderSurface(values) {
 
     const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
@@ -376,9 +381,8 @@ function initSliderSurface(values) {
 
 
 /* ============================================================
-   10. SLIDER LOYER
+   9. SLIDER LOYER
    ============================================================ */
-
 function initSliderLoyer(values) {
 
     const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
@@ -416,7 +420,7 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   11. APPLY FILTERS
+   10. APPLY FILTERS
    ============================================================ */
 
 function appliquerFiltres() {
@@ -471,7 +475,7 @@ function appliquerFiltres() {
         if (frs.length && !frs.includes(d["Restauration"])) return false;
 
         const surf = parseInt(d["Surface GLA"]  || 0);
-       	const loy  = parseInt(d["Loyer annuel"] || 0);
+        const loy  = parseInt(d["Loyer annuel"] || 0);
 
         if (surf > 2000   && !bigSurf) return false;
         if (loy  > 200000 && !bigLoy)  return false;
@@ -487,9 +491,8 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   12. INIT
+   11. INIT
    ============================================================ */
-
 async function init() {
 
     DATA = await loadExcel();
@@ -523,14 +526,24 @@ async function init() {
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
         initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
-        fermerPanneau();
+        // 🔥 Cache panneau droit
+        const panneau = document.getElementById("sidebar-right");
+        panneau.classList.remove("open");
+
+        // 🔥 Vide panneau droit
+        document.getElementById("ref-annonce").innerHTML = "";
+        document.getElementById("info-lot").innerHTML = "";
+        document.getElementById("photos-lot").innerHTML = "";
 
         afficherPinsFiltrés(DATA);
     });
 
-    afficherPinsFiltrés(DATA);
+    // 🔥 Centrage initial
+    setTimeout(() => {
+        map.panBy([162, 0]);
+    }, 300);
 
-    fermerPanneau();
+    afficherPinsFiltrés(DATA);
 }
 
 init();
