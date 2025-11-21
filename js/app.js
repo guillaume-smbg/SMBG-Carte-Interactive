@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + IMBRICATION & LOGIQUE R/D)
+   SMBG – Carte interactive (VERSION STABLE + COMPTEUR + IMBRICATION R/D)
    ============================================================ */
 
 /* ============================================================
@@ -16,6 +16,26 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 map.setView([46.8, 2.4], 6);
+
+
+/* ============================================================
+   COMPTEUR DYNAMIQUE
+   ============================================================ */
+function mettreAJourCompteur(nb) {
+    const zone = document.getElementById("compteur-annonces");
+
+    if (nb === 0) {
+        zone.innerHTML = "Aucune annonce sélectionnée";
+        return;
+    }
+
+    if (nb === 1) {
+        zone.innerHTML = "Annonce sélectionnée : 1";
+        return;
+    }
+
+    zone.innerHTML = "Annonces sélectionnées : " + nb;
+}
 
 
 /* ============================================================
@@ -189,6 +209,9 @@ function afficherPinsFiltrés(donnees) {
         marker.addTo(map);
         markers.push(marker);
     });
+
+    // COMPTEUR DYNAMIQUE
+    mettreAJourCompteur(donnees.length);
 }
 
 
@@ -246,6 +269,7 @@ function buildRegionsMap() {
     return mapR;
 }
 
+
 // Construit : Région + bloc de départements juste en dessous
 function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
@@ -287,10 +311,8 @@ function construireRegionsEtDepartements() {
         regionInput.addEventListener("input", () => {
 
             if (regionInput.checked) {
-                // Région cochée → on affiche ses départements
                 depsContainer.style.display = "block";
             } else {
-                // Région décochée → on décoche TOUS ses départements + on masque le bloc
                 depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
                     inp.checked = false;
                 });
@@ -394,8 +416,7 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   10. APPLY FILTERS
-   (logique Région / Département)
+   10. APPLY FILTERS – LOGIQUE R/D
    ============================================================ */
 
 function appliquerFiltres() {
@@ -419,8 +440,6 @@ function appliquerFiltres() {
 
     const OUT = DATA.filter(d => {
 
-        /* ---------- LOGIQUE RÉGION / DÉPARTEMENT ---------- */
-
         const region = (d["Région"] || "").trim();
         const departement = (d["Département"] || "").trim();
 
@@ -429,27 +448,21 @@ function appliquerFiltres() {
 
         if (fr.length || fd.length) {
 
-            // Département sélectionné ?
             if (fd.includes(departement)) {
                 depMatch = true;
             }
 
-            // Région sélectionnée ? (ignorée si un département de cette région est coché)
             if (fr.includes(region)) {
                 const depsOfRegion = REGIONS_MAP[region] || [];
-                const hasSelectedDepInRegion = depsOfRegion.some(depName => fd.includes(depName));
+                const hasSelectedDepInRegion =
+                    depsOfRegion.some(depName => fd.includes(depName));
                 if (!hasSelectedDepInRegion) {
                     regionMatch = true;
                 }
             }
 
-            // Si au moins une zone sélectionnée, mais que rien ne matche pour cette ligne → exclu
-            if (!regionMatch && !depMatch) {
-                return false;
-            }
+            if (!regionMatch && !depMatch) return false;
         }
-
-        /* ---------- AUTRES FILTRES (inchangés) ---------- */
 
         if (fe.length  && !fe.includes(d["Emplacement"]))   return false;
         if (ft.length  && !ft.includes(d["Typologie"]))     return false;
@@ -463,7 +476,7 @@ function appliquerFiltres() {
         if (loy  > 200000 && !bigLoy)  return false;
 
         if (surf <= 2000 && (surf < surfMin || surf > surfMax)) return false;
-        if (loy  <= 200000 && (loy < loyMin || loy > loyMax))   return false;
+        if (loy <= 200000 && (loy < loyMin || loy > loyMax))     return false;
 
         return true;
     });
@@ -479,26 +492,20 @@ async function init() {
 
     DATA = await loadExcel();
 
-    // Régions + départements (imbrication visuelle)
     REGIONS_MAP = buildRegionsMap();
     construireRegionsEtDepartements();
 
-    // Autres filtres inchangés
     remplirCheckbox("filter-emplacement",  valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie",    valeursUniques("Typologie"));
     remplirCheckbox("filter-extraction",   valeursUniques("Extraction"));
     remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
 
-    // Sliders
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
     initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
-    // Listener générique
-    document.querySelectorAll("#sidebar-left input").forEach(el => {
-        el.addEventListener("input", appliquerFiltres);
-    });
+    document.querySelectorAll("#sidebar-left input")
+        .forEach(el => el.addEventListener("input", appliquerFiltres));
 
-    // Reset
     document.getElementById("btn-reset").addEventListener("click", () => {
 
         document.querySelectorAll("#sidebar-left input[type=checkbox]")
@@ -507,7 +514,6 @@ async function init() {
         document.getElementById("checkbox-grand-surface").checked = true;
         document.getElementById("checkbox-grand-loyer").checked   = true;
 
-        // Masquer tous les blocs de départements
         document.querySelectorAll("#filter-regions .departements-container")
             .forEach(c => c.style.display = "none");
 
@@ -517,7 +523,6 @@ async function init() {
         afficherPinsFiltrés(DATA);
     });
 
-    // Affichage initial
     afficherPinsFiltrés(DATA);
 }
 
