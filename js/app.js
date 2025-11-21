@@ -285,7 +285,18 @@ function construireRegionsEtDepartements() {
 
         const regionInput = divR.querySelector("input");
         regionInput.addEventListener("input", () => {
-            depsContainer.style.display = regionInput.checked ? "block" : "none";
+
+            if (regionInput.checked) {
+                // Région cochée → on affiche ses départements
+                depsContainer.style.display = "block";
+            } else {
+                // Région décochée → on décoche TOUS ses départements + on masque le bloc
+                depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
+                    inp.checked = false;
+                });
+                depsContainer.style.display = "none";
+            }
+
             appliquerFiltres();
         });
 
@@ -384,7 +395,7 @@ function initSliderLoyer(values) {
 
 /* ============================================================
    10. APPLY FILTERS
-   (nouvelle logique Région / Département)
+   (logique Région / Département)
    ============================================================ */
 
 function appliquerFiltres() {
@@ -423,7 +434,7 @@ function appliquerFiltres() {
                 depMatch = true;
             }
 
-            // Région sélectionnée ? (potentiellement ignorée si département coché dans cette région)
+            // Région sélectionnée ? (ignorée si un département de cette région est coché)
             if (fr.includes(region)) {
                 const depsOfRegion = REGIONS_MAP[region] || [];
                 const hasSelectedDepInRegion = depsOfRegion.some(depName => fd.includes(depName));
@@ -432,8 +443,7 @@ function appliquerFiltres() {
                 }
             }
 
-            // Si au moins une région ou un département est sélectionné,
-            // et que ni la région ni le département de la ligne ne matchent → exclu
+            // Si au moins une zone sélectionnée, mais que rien ne matche pour cette ligne → exclu
             if (!regionMatch && !depMatch) {
                 return false;
             }
@@ -472,8 +482,6 @@ async function init() {
     // Régions + départements (imbrication visuelle)
     REGIONS_MAP = buildRegionsMap();
     construireRegionsEtDepartements();
-
-    // Bloc "Départements" classique laissé vide (plus utilisé)
 
     // Autres filtres inchangés
     remplirCheckbox("filter-emplacement",  valeursUniques("Emplacement"));
