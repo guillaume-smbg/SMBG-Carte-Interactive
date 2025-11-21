@@ -27,7 +27,8 @@ html, body {
     width: 275px;
     background-color: #04253d;
     color: #E1782C;
-    padding: 10px;
+
+    padding: 10px; /* marge interne uniforme */
     overflow: hidden;
 }
 
@@ -64,7 +65,7 @@ html, body {
     margin-bottom: 6px;
 }
 
-/* LIGNE */
+/* LIGNE DE SÉPARATION */
 .separator-smbg {
     width: 230px;
     height: 1px;
@@ -72,7 +73,7 @@ html, body {
     margin: 0 auto 15px auto;
 }
 
-/* BLOCS */
+/* BLOCS & TITRES */
 .filter-block,
 .slider-block {
     max-width: 230px;
@@ -86,6 +87,7 @@ html, body {
     color: #E1782C;
     margin-top: 16px;
     margin-bottom: 8px;
+    text-align: left;
 }
 
 /* CHECKBOXES */
@@ -116,6 +118,10 @@ html, body {
     gap: 4px;
 }
 
+.slider-block { 
+    margin-bottom: 18px;
+}
+
 .slider-values {
     color: #E1782C;
     font-size: 14px;
@@ -132,9 +138,10 @@ html, body {
     -webkit-appearance: none;
     width: 100%;
     height: 6px;
+    background: none;
     position: absolute;
     top: 8px;
-    background: none;
+    margin: 0;
     pointer-events: none;
 }
 
@@ -157,8 +164,18 @@ html, body {
     border-radius: 50%;
     border: 2px solid #04253d;
     cursor: pointer;
-    pointer-events: all;
+    pointer-events: all !important;
     margin-top: -5px;
+}
+
+.slider-track input[type="range"]::-moz-range-thumb {
+    background: #E1782C;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #04253d;
+    cursor: pointer;
+    pointer-events: all !important;
 }
 
 /* BOUTON RESET */
@@ -170,47 +187,46 @@ html, body {
     font-weight: bold;
     border: none;
     border-radius: 6px;
+    margin-top: 25px;
     cursor: pointer;
     display: block;
-    margin: 25px auto 0 auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* ───────────────────────────────────────────── */
-/*                     CARTE                     */
-/* ───────────────────────────────────────────── */
-
-/* ➜ Décalage initial de 162px pour centrer la France */
+/* CARTE */
 #map-container {
     position: fixed;
-    left: calc(275px + 162px);
+
+    /* Décalage initial OPTION B (via app.js) → DONC rien ici */
+
+    left: 275px;
     right: 325px;
+
     top: 0;
     bottom: 0;
 }
+#map { width: 100%; height: 100%; }
 
-#map {
-    width: 100%;
-    height: 100%;
-}
-
-/* ───────────────────────────────────────────── */
-/*                 VOLET DROIT                   */
-/* ───────────────────────────────────────────── */
+/* VOLET DROIT */
 #sidebar-right {
     position: fixed;
     top: 0;
     bottom: 0;
-    right: 0;
+    right: -320px; /* 325px - 5px = 320px → 5px visibles */
     width: 325px;
+
     background-color: #04253d;
     color: #E1782C;
-    padding: 5px;
-    transform: translateX(100%);
-    transition: transform 0.35s ease-in-out;
+
+    padding: 10px;
+    overflow: hidden;
+
+    transition: right 0.35s ease;
 }
 
 #sidebar-right.open {
-    transform: translateX(0);
+    right: 0;
 }
 
 #sidebar-right .sidebar-inner {
@@ -221,7 +237,7 @@ html, body {
 }
 #sidebar-right .sidebar-inner::-webkit-scrollbar { width: 0; }
 
-/* Info */
+/* Informations */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
@@ -233,6 +249,25 @@ html, body {
     display: flex;
     padding: 8px 0;
     border-bottom: 1px solid rgba(198,123,66,0.4);
+}
+
+.info-line-no-border { border-bottom: none !important; }
+
+.info-key { width: 40%; font-weight: bold; }
+.info-value { width: 60%; }
+
+/* Bouton maps */
+.btn-maps {
+    background-color: #E1782C;
+    color: #04253d;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 60%;
+    margin-left: 40%;
+    margin-top: 6px;
+    font-weight: bold;
 }
 
 /* Photos */
@@ -254,13 +289,17 @@ html, body {
     font-family: 'Futura';
 }
 .smbg-pin div {
+    font-family: 'Futura';
     font-weight: bold;
     color: white;
     font-size: 13px;
 }
-.smbg-pin-selected {
-    border-color: #E1782C !important;
-}
-.smbg-pin-selected div {
-    color: #E1782C !important;
+.smbg-pin-selected { border-color: #E1782C !important; }
+.smbg-pin-selected div { color: #E1782C !important; }
+
+/* Scroll interne */
+.sidebar-inner {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 140px;
 }
