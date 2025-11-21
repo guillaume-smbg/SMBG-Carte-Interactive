@@ -28,9 +28,7 @@ html, body {
     background-color: #04253d;
     color: #E1782C;
 
-    /* ✔ marge uniforme comme le panneau droit */
     padding: 10px;
-
     overflow: hidden;
 }
 
@@ -72,15 +70,15 @@ html, body {
     width: 230px;
     height: 1px;
     background-color: rgba(225,120,44,0.45);
-    margin: 0 auto 15px auto;   /* ✔ centrée proprement */
+    margin: 0 auto 15px auto;
 }
 
 /* BLOCS & TITRES */
 .filter-block,
 .slider-block {
-    max-width: 230px;       /* ✔ cohérent */
+    max-width: 230px;
     margin-left: auto;
-    margin-right: auto;     /* ✔ centré parfaitement */
+    margin-right: auto;
 }
 
 .filter-title {
@@ -123,7 +121,7 @@ html, body {
     gap: 4px;
 }
 
-.slider-block { 
+.slider-block {
     margin-bottom: 18px;
 }
 
@@ -199,11 +197,13 @@ html, body {
     margin-right: auto;
 }
 
-/* CARTE */
+/* ───────────────────────────────────────────── */
+/*                  CARTE                        */
+/* ───────────────────────────────────────────── */
 #map-container {
     position: fixed;
-    left: 275px; /* ✔ ajusté pour nouveau panneau gauche */
-    right: 325px; /* ✔ ajusté pour nouveau panneau droit */
+    left: 275px;
+    right: 325px;
     top: 0;
     bottom: 0;
 }
@@ -216,13 +216,17 @@ html, body {
     position: fixed;
     top: 0;
     bottom: 0;
-    right: 0;
+    right: -315px;   /* fermé, rebord 10px visible */
     width: 325px;
     background-color: #04253d;
     color: #E1782C;
-
-    padding: 10px;  /* ✔ marge interne cohérente */
+    padding: 10px;
     overflow: hidden;
+    transition: right 0.35s ease;
+}
+
+#sidebar-right.open {
+    right: 0;   /* ouvert */
 }
 
 #sidebar-right .sidebar-inner {
@@ -234,7 +238,7 @@ html, body {
 }
 #sidebar-right .sidebar-inner::-webkit-scrollbar { width: 0; }
 
-/* Informations */
+/* INFORMATIONS */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
@@ -251,7 +255,7 @@ html, body {
 .info-key { width: 40%; font-weight: bold; }
 .info-value { width: 60%; }
 
-/* Bouton maps */
+/* BOUTON MAPS */
 .btn-maps {
     background-color: #E1782C;
     color: #04253d;
@@ -265,7 +269,7 @@ html, body {
     font-weight: bold;
 }
 
-/* Photos */
+/* PHOTOS */
 #photos-lot img {
     width: 100%;
     margin-top: 12px;
