@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + IMBRICATION VISUELLE)
+   SMBG – Carte interactive (VERSION STABLE + IMBRICATION & LOGIQUE R/D)
    ============================================================ */
 
 /* ============================================================
@@ -193,7 +193,7 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   6. OUTILS GÉNÉRIQUES DE FILTRES (EMPLACEMENT, TYPO, ETC.)
+   6. OUTILS GÉNÉRIQUES DE FILTRES
    ============================================================ */
 function valeursUniques(key) {
     const set = new Set();
@@ -227,7 +227,6 @@ function valeursCochées(id) {
 
 /* ============================================================
    7. RÉGIONS + DÉPARTEMENTS — IMBRICATION VISUELLE
-   (logique de filtre inchangée)
    ============================================================ */
 
 let REGIONS_MAP = {};
@@ -247,7 +246,7 @@ function buildRegionsMap() {
     return mapR;
 }
 
-// Construit une liste : Région + (bloc de départements) juste en dessous
+// Construit : Région + bloc de départements juste en dessous
 function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
     zoneReg.innerHTML = "";
@@ -266,7 +265,7 @@ function construireRegionsEtDepartements() {
         `;
         zoneReg.appendChild(divR);
 
-        // bloc départements, juste après la région
+        // bloc départements
         const depsContainer = document.createElement("div");
         depsContainer.className = "departements-container";
         depsContainer.style.display = "none";
@@ -284,27 +283,23 @@ function construireRegionsEtDepartements() {
 
         zoneReg.appendChild(depsContainer);
 
-        // quand on coche/décoche la région → on affiche/masque ses départements
         const regionInput = divR.querySelector("input");
         regionInput.addEventListener("input", () => {
             depsContainer.style.display = regionInput.checked ? "block" : "none";
             appliquerFiltres();
         });
 
-        // quand on coche un département → on filtre
         depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
             inp.addEventListener("input", appliquerFiltres);
         });
     });
 }
 
-// régions cochées = cases de niveau "région" uniquement
 function regionsCochees() {
     return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked")]
         .map(x => x.value);
 }
 
-// départements cochés = cases dans les blocs .departements-container
 function departementsCoches() {
     return [...document.querySelectorAll("#filter-regions .departements-container input:checked")]
         .map(x => x.value);
@@ -389,14 +384,13 @@ function initSliderLoyer(values) {
 
 /* ============================================================
    10. APPLY FILTERS
-   (même logique qu’avant, on change juste la façon
-    de récupérer fr / fd)
+   (nouvelle logique Région / Département)
    ============================================================ */
 
 function appliquerFiltres() {
 
-    const fr  = regionsCochees();      // au lieu de valeursCochées("filter-regions")
-    const fd  = departementsCoches();  // au lieu de valeursCochées("filter-departements")
+    const fr  = regionsCochees();
+    const fd  = departementsCoches();
 
     const fe  = valeursCochées("filter-emplacement");
     const ft  = valeursCochées("filter-typologie");
@@ -414,16 +408,46 @@ function appliquerFiltres() {
 
     const OUT = DATA.filter(d => {
 
-        if (fr.length  && !fr.includes(d["Région"]))       return false;
-        if (fd.length  && !fd.includes(d["Département"]))  return false;
+        /* ---------- LOGIQUE RÉGION / DÉPARTEMENT ---------- */
 
-        if (fe.length  && !fe.includes(d["Emplacement"]))  return false;
-        if (ft.length  && !ft.includes(d["Typologie"]))    return false;
-        if (fx.length  && !fx.includes(d["Extraction"]))   return false;
-        if (frs.length && !frs.includes(d["Restauration"]))return false;
+        const region = (d["Région"] || "").trim();
+        const departement = (d["Département"] || "").trim();
 
-        const surf = parseInt(d["Surface GLA"]   || 0);
-        const loy  = parseInt(d["Loyer annuel"]  || 0);
+        let regionMatch = false;
+        let depMatch    = false;
+
+        if (fr.length || fd.length) {
+
+            // Département sélectionné ?
+            if (fd.includes(departement)) {
+                depMatch = true;
+            }
+
+            // Région sélectionnée ? (potentiellement ignorée si département coché dans cette région)
+            if (fr.includes(region)) {
+                const depsOfRegion = REGIONS_MAP[region] || [];
+                const hasSelectedDepInRegion = depsOfRegion.some(depName => fd.includes(depName));
+                if (!hasSelectedDepInRegion) {
+                    regionMatch = true;
+                }
+            }
+
+            // Si au moins une région ou un département est sélectionné,
+            // et que ni la région ni le département de la ligne ne matchent → exclu
+            if (!regionMatch && !depMatch) {
+                return false;
+            }
+        }
+
+        /* ---------- AUTRES FILTRES (inchangés) ---------- */
+
+        if (fe.length  && !fe.includes(d["Emplacement"]))   return false;
+        if (ft.length  && !ft.includes(d["Typologie"]))     return false;
+        if (fx.length  && !fx.includes(d["Extraction"]))    return false;
+        if (frs.length && !frs.includes(d["Restauration"])) return false;
+
+        const surf = parseInt(d["Surface GLA"]  || 0);
+        const loy  = parseInt(d["Loyer annuel"] || 0);
 
         if (surf > 2000   && !bigSurf) return false;
         if (loy  > 200000 && !bigLoy)  return false;
@@ -449,8 +473,7 @@ async function init() {
     REGIONS_MAP = buildRegionsMap();
     construireRegionsEtDepartements();
 
-    // L’ancien bloc Départements (id="filter-departements") n’est plus utilisé
-    // mais on peut le laisser vide.
+    // Bloc "Départements" classique laissé vide (plus utilisé)
 
     // Autres filtres inchangés
     remplirCheckbox("filter-emplacement",  valeursUniques("Emplacement"));
@@ -476,7 +499,7 @@ async function init() {
         document.getElementById("checkbox-grand-surface").checked = true;
         document.getElementById("checkbox-grand-loyer").checked   = true;
 
-        // on ne reconstruit pas la liste, on se contente de tout décocher
+        // Masquer tous les blocs de départements
         document.querySelectorAll("#filter-regions .departements-container")
             .forEach(c => c.style.display = "none");
 
