@@ -24,10 +24,10 @@ html, body {
     top: 0;
     bottom: 0;
     left: 0;
-    width: 275px;                /* ✔ nouvelle largeur */
+    width: 275px; /* ✔ largeur corrigée */
     background-color: #04253d;
     color: #E1782C;
-    padding: 20px;
+    padding: 20px 12px; /* ✔ léger équilibrage */
     overflow: hidden;
 }
 
@@ -47,70 +47,57 @@ html, body {
     align-items: center;
     margin-top: 10px;
     margin-bottom: 25px;
-    text-align: center;
 }
 
 #logo-smbg {
     width: 161px;
     height: auto;
-    display: block;
     transform: translateX(-25px);
-}
-
-/* FINE TUNING RESPONSIVE */
-@media (min-width: 1700px) {
-    #logo-smbg { transform: translateX(-18px); }
-}
-@media (min-width: 1200px) and (max-width: 1699px) {
-    #logo-smbg { transform: translateX(-25px); }
-}
-@media (max-width: 1199px) {
-    #logo-smbg { transform: translateX(-32px); }
 }
 
 /* ───────────────────────────────────────────── */
 /*            COMPTEUR + SÉPARATEUR              */
 /* ───────────────────────────────────────────── */
 #compteur-annonces {
-    max-width: 250px;           /* ✔ centré */
-    margin: 0 auto 6px auto;    /* ✔ centré */
+    max-width: 250px;
+    text-align: center;
+    margin: 0 auto 6px auto;
     font-size: 17px;
     font-weight: bold;
     color: #E1782C;
 }
 
 .separator-smbg {
-    width: 250px;               /* ✔ même largeur que les blocs */
+    width: 250px;
     height: 1px;
     background-color: rgba(225,120,44,0.45);
-    margin: 0 auto 15px auto;   /* ✔ centrage parfait */
+    margin: 0 auto 15px auto;
 }
 
 /* ───────────────────────────────────────────── */
-/*                BLOCS ET TITRES                */
+/*             BLOCS PARAMÈTRES GAUCHE           */
 /* ───────────────────────────────────────────── */
 .filter-block,
 .slider-block {
-    max-width: 250px;           /* ✔ largeur associée */
-    margin: 0 auto;             /* ✔ centré */
+    width: 250px;         /* ✔ largeur fixe */
+    margin-left: auto;    /* ✔ centrage parfait */
+    margin-right: auto;
 }
 
 .filter-title {
+    width: 250px;         /* ✔ centrage */
+    margin: 16px auto 8px auto;
     font-size: 16px;
     font-weight: bold;
     color: #E1782C;
-    max-width: 250px;           /* ✔ centré */
-    margin: 16px auto 8px auto; /* ✔ centré */
 }
 
 /* checkboxes */
 .checkbox-line {
+    width: 250px;         /* ✔ identique */
+    margin: 0 auto 5px auto;
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
-    max-width: 250px;           /* ✔ centré */
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .checkbox-line label {
@@ -120,7 +107,7 @@ html, body {
 }
 .checkbox-line input { cursor: pointer; }
 
-.departement-indent { margin-left: 15px !important; }
+.departement-indent { margin-left: 18px !important; }
 
 /* SLIDERS */
 .slider-row {
@@ -135,10 +122,9 @@ html, body {
     color: #E1782C;
     display: flex;
     align-items: center;
-    gap: 4px;
 }
 
-.slider-block { margin-bottom: 18px; }
+.slider.block { margin-bottom: 18px; }
 
 .slider-values {
     color: #E1782C;
@@ -159,7 +145,6 @@ html, body {
     background: none;
     position: absolute;
     top: 8px;
-    margin: 0;
     pointer-events: none;
 }
 
@@ -182,8 +167,7 @@ html, body {
     border-radius: 50%;
     border: 2px solid #04253d;
     cursor: pointer;
-    pointer-events: all !important;
-    margin-top: -5px;
+    pointer-events: all;
 }
 
 .slider-track input[type="range"]::-moz-range-thumb {
@@ -193,20 +177,20 @@ html, body {
     border-radius: 50%;
     border: 2px solid #04253d;
     cursor: pointer;
-    pointer-events: all !important;
+    pointer-events: all;
 }
 
 /* bouton reset */
 #btn-reset {
-    width: 250px;                /* ✔ aligné */
+    width: 250px;
     padding: 10px;
     background-color: #E1782C;
     color: #04253d;
     font-weight: bold;
     border: none;
     border-radius: 6px;
-    margin: 25px auto 0 auto;    /* ✔ centré */
-    display: block;              /* nécessaire pour margin auto */
+    margin: 25px auto 0 auto;
+    display: block;
     cursor: pointer;
 }
 
@@ -215,11 +199,12 @@ html, body {
 /* ───────────────────────────────────────────── */
 #map-container {
     position: fixed;
-    left: 275px;                 /* ✔ largeur panneau gauche */
-    right: 300px;                /* ✔ largeur panneau droit */
+    left: 275px;  /* ✔ adapté */
+    right: 300px; /* ✔ adapté */
     top: 0;
     bottom: 0;
 }
+
 #map { width: 100%; height: 100%; }
 
 /* ───────────────────────────────────────────── */
@@ -230,17 +215,23 @@ html, body {
     top: 0;
     bottom: 0;
     right: 0;
-    width: 300px;                /* ✔ demandé */
+    width: 300px; /* ✔ demandé */
     background-color: #04253d;
     color: #E1782C;
-    padding: 20px;
-    overflow: hidden;
+    padding: 10px 10px; /* ✔ marge interne 10px gauche/droite */
+    overflow: hidden;  /* ✔ supprime scroll parasite */
 }
 
-/* CONTENU CENTRÉ SUR 275px */
+/* contenu centré 275px */
 #sidebar-right .sidebar-inner {
-    max-width: 275px;            /* ✔ largeur contenu */
-    margin: 0 auto;              /* ✔ centré */
+    width: 275px;     /* ✔ largeur fixe */
+    margin: 0 auto;   /* ✔ centrage */
+    overflow-y: auto; 
+    padding-bottom: 100px;
+}
+
+#sidebar-right .sidebar-inner::-webkit-scrollbar {
+    width: 0; /* ✔ remove */
 }
 
 /* panneau droit */
@@ -252,10 +243,12 @@ html, body {
 }
 
 .info-line {
+    width: 275px; /* ✔ largeur calibrée */
     display: flex;
     padding: 8px 0;
     border-bottom: 1px solid rgba(198,123,66,0.4);
 }
+
 .info-line-no-border { border-bottom: none !important; }
 
 .info-key {
@@ -266,25 +259,24 @@ html, body {
     width: 60%;
 }
 
-/* maps button */
+/* maps */
 .btn-maps {
-    background-color: #E1782C;
-    color: #04253d;
-    padding: 8px 14px;
-    border: none;
-    border-radius: 6px;
-    cursor:pointer;
     width: 60%;
     margin-left: 40%;
     margin-top: 6px;
-    font-weight: bold;
+    padding: 8px 14px;
+    background-color: #E1782C;
+    color: #04253d;
+    border: none;
+    border-radius: 6px;
+    cursor:pointer;
 }
 
 /* photos */
 #photos-lot img {
     width: 100%;
-    margin-top: 12px;
     border-radius: 4px;
+    margin-top: 12px;
 }
 
 /* pins */
@@ -296,20 +288,17 @@ html, body {
     height: 30px;
     text-align: center;
     line-height: 26px;
-    font-family: 'Futura';
 }
 .smbg-pin div {
-    font-family: 'Futura';
     font-weight: bold;
     color: white;
-    font-size: 13px;
 }
 .smbg-pin-selected { border-color: #E1782C !important; }
 .smbg-pin-selected div { color: #E1782C !important; }
 
-/* scroll container */
+/* scroll inter */
 .sidebar-inner {
     height: 100%;
     overflow-y: auto;
-    padding-bottom: 140px;
+    padding-bottom: 120px;
 }
