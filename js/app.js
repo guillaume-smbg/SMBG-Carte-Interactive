@@ -8,21 +8,14 @@
 var map = L.map('map', {
     zoomControl: true,
     scrollWheelZoom: true,
-    attributionControl: false,
-    zoomAnimation: false,
-    fadeAnimation: false,
-    markerZoomAnimation: false
+    attributionControl: false
 });
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
 }).addTo(map);
 
-// Vue initiale sans animation (évite le glissement)
-map.setView([46.8, 2.4], 6, { animate: false });
-
-// Force Leaflet à recalculer son layout sans animation
-setTimeout(() => map.invalidateSize({ animate: false }), 50);
+map.setView([46.8, 2.4], 6);
 
 
 /* ============================================================
@@ -98,6 +91,9 @@ const colonnes_info = [
 
 function afficherPanneauDroit(d) {
 
+    const panneau = document.getElementById("sidebar-right");
+    panneau.classList.add("open");   // 🔥 Déploie panneau
+
     const ref = formatReference(d["Référence annonce"]);
     document.getElementById("ref-annonce").innerHTML = ref;
 
@@ -158,9 +154,6 @@ let pinSelectionne = null;
 let markers = [];
 
 function afficherPinsFiltrés(donnees) {
-
-    // Mise à jour du compteur dynamique
-    document.getElementById("compteur-annonces").innerText = donnees.length;
 
     markers.forEach(m => map.removeLayer(m));
     markers = [];
@@ -256,8 +249,7 @@ function buildRegionsMap() {
     return mapR;
 }
 
-
-// Construit : Région + bloc de départements
+// Construit : Région + bloc de départements juste en dessous
 function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
     zoneReg.innerHTML = "";
@@ -319,7 +311,7 @@ function regionsCochees() {
 }
 
 function departementsCoches() {
-    return [...document.querySelectorAll("#filter-regions .departements-container input:checked`")]
+    return [...document.querySelectorAll("#filter-regions .departements-container input:checked")]
         .map(x => x.value);
 }
 
@@ -401,7 +393,8 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   10. APPLY FILTERS (logique Région / Département)
+   10. APPLY FILTERS
+   (logique Région / Département)
    ============================================================ */
 
 function appliquerFiltres() {
@@ -429,19 +422,25 @@ function appliquerFiltres() {
         const departement = (d["Département"] || "").trim();
 
         let regionMatch = false;
-        let depMatch = false;
+        let depMatch    = false;
 
         if (fr.length || fd.length) {
 
-            if (fd.includes(departement)) depMatch = true;
+            if (fd.includes(departement)) {
+                depMatch = true;
+            }
 
             if (fr.includes(region)) {
                 const depsOfRegion = REGIONS_MAP[region] || [];
                 const hasSelectedDepInRegion = depsOfRegion.some(depName => fd.includes(depName));
-                if (!hasSelectedDepInRegion) regionMatch = true;
+                if (!hasSelectedDepInRegion) {
+                    regionMatch = true;
+                }
             }
 
-            if (!regionMatch && !depMatch) return false;
+            if (!regionMatch && !depMatch) {
+                return false;
+            }
         }
 
         if (fe.length  && !fe.includes(d["Emplacement"]))   return false;
@@ -487,6 +486,9 @@ async function init() {
         el.addEventListener("input", appliquerFiltres);
     });
 
+    /* ============================================================
+       🔥 RETRACT Panneau droit au Reset + vider contenu
+       ============================================================ */
     document.getElementById("btn-reset").addEventListener("click", () => {
 
         document.querySelectorAll("#sidebar-left input[type=checkbox]")
@@ -501,8 +503,22 @@ async function init() {
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
         initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
+        // 🔥 Cache panneau droit
+        const panneau = document.getElementById("sidebar-right");
+        panneau.classList.remove("open");
+
+        // 🔥 Vide panneau droit
+        document.getElementById("ref-annonce").innerHTML = "";
+        document.getElementById("info-lot").innerHTML = "";
+        document.getElementById("photos-lot").innerHTML = "";
+
         afficherPinsFiltrés(DATA);
     });
+
+    // 🔥 Décalage initial pour centrage correct
+    setTimeout(() => {
+        map.panBy([162, 0]);
+    }, 300);
 
     afficherPinsFiltrés(DATA);
 }
