@@ -15,13 +15,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
 }).addTo(map);
 
-/* Position centrée France */
 map.setView([46.8, 2.4], 6);
-
-/* Décalage initial OPTION B (recentrage visuel) */
-map.whenReady(() => {
-    map.panBy([162, 0]);  // ⭐ Déplacement initial pour recentrer la France
-});
 
 
 /* ============================================================
@@ -80,10 +74,25 @@ function formatValue(key, val) {
 /* ============================================================
    4. PANNEAU DROIT
    ============================================================ */
+const colonnes_info = [
+    "Adresse","Emplacement","Typologie","Type",
+    "Cession / Droit au bail","Numéro de lot",
+    "Surface GLA","Répartition surface GLA",
+    "Surface utile","Répartition surface utile",
+    "Loyer annuel","Loyer Mensuel","Loyer €/m²","Loyer variable",
+    "Charges annuelles","Charges Mensuelles","Charges €/m²",
+    "Taxe foncière","Taxe foncière €/m²",
+    "Marketing","Marketing €/m²",
+    "Total (L+C+M)",
+    "Dépôt de garantie","GAPD","Gestion","Etat de livraison",
+    "Extraction","Restauration",
+    "Environnement Commercial","Commentaires","Honoraires"
+];
+
 function afficherPanneauDroit(d) {
 
-    /* OUVERTURE panneau droit */
-    document.getElementById("sidebar-right").classList.add("open");
+    const panneau = document.getElementById("sidebar-right");
+    panneau.classList.add("open");   // 🔥 Déploie panneau
 
     const ref = formatReference(d["Référence annonce"]);
     document.getElementById("ref-annonce").innerHTML = ref;
@@ -113,7 +122,6 @@ function afficherPanneauDroit(d) {
 
     colonnes_info.forEach(col => {
         if (col === "Adresse") return;
-
         const val = formatValue(col, d[col]);
         if (val === null) return;
 
@@ -127,7 +135,6 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("info-lot").innerHTML = html;
 
-    /* Photos */
     let photos = (d["Photos"] || d["AP"] || "")
         .toString().split(";").map(x => x.trim()).filter(x => x);
 
@@ -137,15 +144,6 @@ function afficherPanneauDroit(d) {
     document.getElementById("photos-lot").innerHTML = ph;
 
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
-}
-
-
-/* FERMETURE panneau droit */
-function fermerPanneauDroit() {
-    document.getElementById("sidebar-right").classList.remove("open");
-    document.getElementById("ref-annonce").innerHTML = "";
-    document.getElementById("info-lot").innerHTML = "";
-    document.getElementById("photos-lot").innerHTML = "";
 }
 
 
@@ -198,7 +196,7 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   6. OUTILS
+   6. OUTILS GÉNÉRIQUES DE FILTRES
    ============================================================ */
 function valeursUniques(key) {
     const set = new Set();
@@ -231,7 +229,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   7. RÉGIONS / DÉPARTEMENTS
+   7. RÉGIONS + DÉPARTEMENTS — IMBRICATION VISUELLE
    ============================================================ */
 
 let REGIONS_MAP = {};
@@ -251,13 +249,80 @@ function buildRegionsMap() {
     return mapR;
 }
 
+// Construit : Région + bloc de départements juste en dessous
+function construireRegionsEtDepartements() {
+    const zoneReg = document.getElementById("filter-regions");
+    zoneReg.innerHTML = "";
+
+    const regions = Object.keys(REGIONS_MAP).sort();
+
+    regions.forEach(region => {
+        const regionId = "region_" + region.replace(/[^a-zA-Z0-9]/g, "_");
+
+        const divR = document.createElement("div");
+        divR.className = "checkbox-line";
+        divR.innerHTML = `
+            <input type="checkbox" id="${regionId}" value="${region}">
+            <label for="${regionId}">${region}</label>
+        `;
+        zoneReg.appendChild(divR);
+
+        const depsContainer = document.createElement("div");
+        depsContainer.className = "departements-container";
+        depsContainer.style.display = "none";
+
+        (REGIONS_MAP[region] || []).forEach(dep => {
+            const depId = "dep_" + dep.replace(/[^a-zA-Z0-9]/g, "_");
+            const divD = document.createElement("div");
+            divD.className = "checkbox-line departement-indent";
+            divD.innerHTML = `
+                <input type="checkbox" id="${depId}" value="${dep}">
+                <label for="${depId}">${dep}</label>
+            `;
+            depsContainer.appendChild(divD);
+        });
+
+        zoneReg.appendChild(depsContainer);
+
+        const regionInput = divR.querySelector("input");
+        regionInput.addEventListener("input", () => {
+
+            if (regionInput.checked) {
+                depsContainer.style.display = "block";
+            } else {
+                depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
+                    inp.checked = false;
+                });
+                depsContainer.style.display = "none";
+            }
+
+            appliquerFiltres();
+        });
+
+        depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
+            inp.addEventListener("input", appliquerFiltres);
+        });
+    });
+}
+
+function regionsCochees() {
+    return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked")]
+        .map(x => x.value);
+}
+
+function departementsCoches() {
+    return [...document.querySelectorAll("#filter-regions .departements-container input:checked")]
+        .map(x => x.value);
+}
+
 
 /* ============================================================
-   8. SLIDERS (inchangés)
+   8. SLIDER SURFACE 
    ============================================================ */
-
 function initSliderSurface(values) {
+
     const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
+
     const MAX_LIMIT = 2000;
     const min = Math.min(...uniq);
     const maxSlider = MAX_LIMIT;
@@ -276,6 +341,7 @@ function initSliderSurface(values) {
         let a = parseInt(minInput.value);
         let b = parseInt(maxInput.value);
         if (a > b) minInput.value = b;
+
         display.innerHTML =
             a.toLocaleString("fr-FR") + " m² — " +
             b.toLocaleString("fr-FR") + " m²";
@@ -286,11 +352,17 @@ function initSliderSurface(values) {
     aff();
 }
 
+
+/* ============================================================
+   9. SLIDER LOYER
+   ============================================================ */
 function initSliderLoyer(values) {
 
     const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
 
     const min = Math.min(...uniq);
+    const max = Math.max(...uniq);
+
     const maxAfficher = 200000;
 
     const minInput = document.getElementById("loyer-min");
@@ -308,6 +380,7 @@ function initSliderLoyer(values) {
         let a = parseInt(minInput.value);
         let b = parseInt(maxInput.value);
         if (a > b) minInput.value = b;
+
         display.innerHTML =
             a.toLocaleString("fr-FR") + " € — " +
             b.toLocaleString("fr-FR") + " €";
@@ -320,8 +393,10 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   9. APPLY FILTERS
+   10. APPLY FILTERS
+   (logique Région / Département)
    ============================================================ */
+
 function appliquerFiltres() {
 
     const fr  = regionsCochees();
@@ -351,15 +426,21 @@ function appliquerFiltres() {
 
         if (fr.length || fd.length) {
 
-            if (fd.includes(departement)) depMatch = true;
+            if (fd.includes(departement)) {
+                depMatch = true;
+            }
 
             if (fr.includes(region)) {
                 const depsOfRegion = REGIONS_MAP[region] || [];
                 const hasSelectedDepInRegion = depsOfRegion.some(depName => fd.includes(depName));
-                if (!hasSelectedDepInRegion) regionMatch = true;
+                if (!hasSelectedDepInRegion) {
+                    regionMatch = true;
+                }
             }
 
-            if (!regionMatch && !depMatch) return false;
+            if (!regionMatch && !depMatch) {
+                return false;
+            }
         }
 
         if (fe.length  && !fe.includes(d["Emplacement"]))   return false;
@@ -384,7 +465,7 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   10. INIT
+   11. INIT
    ============================================================ */
 async function init() {
 
@@ -405,10 +486,10 @@ async function init() {
         el.addEventListener("input", appliquerFiltres);
     });
 
-    /* RESET → referme panneau + vide contenu */
+    /* ============================================================
+       🔥 RETRACT Panneau droit au Reset + vider contenu
+       ============================================================ */
     document.getElementById("btn-reset").addEventListener("click", () => {
-
-        fermerPanneauDroit();
 
         document.querySelectorAll("#sidebar-left input[type=checkbox]")
             .forEach(x => x.checked = false);
@@ -422,8 +503,22 @@ async function init() {
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
         initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
+        // 🔥 Cache panneau droit
+        const panneau = document.getElementById("sidebar-right");
+        panneau.classList.remove("open");
+
+        // 🔥 Vide panneau droit
+        document.getElementById("ref-annonce").innerHTML = "";
+        document.getElementById("info-lot").innerHTML = "";
+        document.getElementById("photos-lot").innerHTML = "";
+
         afficherPinsFiltrés(DATA);
     });
+
+    // 🔥 Décalage initial pour centrage correct
+    setTimeout(() => {
+        map.panBy([162, 0]);
+    }, 300);
 
     afficherPinsFiltrés(DATA);
 }
