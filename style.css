@@ -25,8 +25,8 @@ html, body {
     bottom: 0;
     left: 0;
     width: 300px;
-    background-color: #05263d;
-    color: #C67B42;
+    background-color: #04253d;
+    color: #E1782C;
     padding: 20px;
     overflow: hidden;
 }
@@ -81,7 +81,7 @@ html, body {
 .filter-title {
     font-size: 16px;
     font-weight: bold;
-    color: #C67B42;
+    color: #E1782C;
     margin-top: 16px;
     margin-bottom: 8px;
 }
@@ -94,7 +94,7 @@ html, body {
 }
 .checkbox-line label {
     margin-left: 6px;
-    color: #C67B42;
+    color: #E1782C;
     cursor: pointer;
 }
 .checkbox-line input { cursor: pointer; }
@@ -111,7 +111,7 @@ html, body {
 
 .biglot-label {
     font-size: 14px;
-    color: #C67B42;
+    color: #E1782C;
     display: flex;
     align-items: center;
     gap: 4px;
@@ -121,7 +121,7 @@ html, body {
 .slider-block { margin-bottom: 18px; }
 
 .slider-values {
-    color: #C67B42;
+    color: #E1782C;
     font-size: 14px;
     font-weight: bold;
 }
@@ -156,22 +156,22 @@ html, body {
 
 .slider-track input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    background: #C67B42;
+    background: #E1782C;
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    border: 2px solid #05263d;
+    border: 2px solid #04253d;
     cursor: pointer;
     pointer-events: all !important;
     margin-top: -5px;
 }
 
 .slider-track input[type="range"]::-moz-range-thumb {
-    background: #C67B42;
+    background: #E1782C;
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    border: 2px solid #05263d;
+    border: 2px solid #04253d;
     cursor: pointer;
     pointer-events: all !important;
 }
@@ -180,8 +180,8 @@ html, body {
 #btn-reset {
     width: 250px;
     padding: 10px;
-    background-color: #C67B42;
-    color: #05263d;
+    background-color: #E1782C;
+    color: #04253d;
     font-weight: bold;
     border: none;
     border-radius: 6px;
@@ -210,8 +210,8 @@ html, body {
     bottom: 0;
     right: 0;
     width: 300px;
-    background-color: #05263d;
-    color: #C67B42;
+    background-color: #04253d;
+    color: #E1782C;
     padding: 20px;
     overflow: hidden;
 }
@@ -241,8 +241,8 @@ html, body {
 
 /* maps button */
 .btn-maps {
-    background-color: #C67B42;
-    color: #05263d;
+    background-color: #E1782C;
+    color: #04253d;
     padding: 8px 14px;
     border: none;
     border-radius: 6px;
@@ -262,7 +262,7 @@ html, body {
 
 /* pins */
 .smbg-pin {
-    background-color: #05263d;
+    background-color: #04253d;
     border: 2px solid white;
     border-radius: 50%;
     width: 30px;
@@ -277,8 +277,8 @@ html, body {
     color: white;
     font-size: 13px;
 }
-.smbg-pin-selected { border-color: #C67B42 !important; }
-.smbg-pin-selected div { color: #C67B42 !important; }
+.smbg-pin-selected { border-color: #E1782C !important; }
+.smbg-pin-selected div { color: #E1782C !important; }
 
 /* scroll container */
 .sidebar-inner {
@@ -286,3 +286,4 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
+
