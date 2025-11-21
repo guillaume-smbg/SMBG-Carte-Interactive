@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + COMPTEUR + IMBRICATION R/D)
+   SMBG – Carte interactive (VERSION STABLE + RÉTRACTABLE)
    ============================================================ */
 
 /* ============================================================
@@ -16,26 +16,6 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 map.setView([46.8, 2.4], 6);
-
-
-/* ============================================================
-   COMPTEUR DYNAMIQUE
-   ============================================================ */
-function mettreAJourCompteur(nb) {
-    const zone = document.getElementById("compteur-annonces");
-
-    if (nb === 0) {
-        zone.innerHTML = "Aucune annonce sélectionnée";
-        return;
-    }
-
-    if (nb === 1) {
-        zone.innerHTML = "Annonce sélectionnée : 1";
-        return;
-    }
-
-    zone.innerHTML = "Annonces sélectionnées : " + nb;
-}
 
 
 /* ============================================================
@@ -92,7 +72,7 @@ function formatValue(key, val) {
 
 
 /* ============================================================
-   4. PANNEAU DROIT
+   4. PANNEAU DROIT (AFFICHAGE)
    ============================================================ */
 const colonnes_info = [
     "Adresse","Emplacement","Typologie","Type",
@@ -165,7 +145,25 @@ function afficherPanneauDroit(d) {
 
 
 /* ============================================================
-   5. PINS
+   5. PANNEAU DROIT RÉTRACTABLE
+   ============================================================ */
+
+function ouvrirPanneauDroit() {
+    document.getElementById("sidebar-right").classList.add("open");
+}
+
+function fermerPanneauDroit() {
+    document.getElementById("sidebar-right").classList.remove("open");
+}
+
+/* Fermeture au clic sur la carte */
+map.on("click", function (e) {
+    fermerPanneauDroit();
+});
+
+
+/* ============================================================
+   6. PINS
    ============================================================ */
 let pinSelectionne = null;
 let markers = [];
@@ -195,7 +193,12 @@ function afficherPinsFiltrés(donnees) {
             })
         });
 
-        marker.on("click", ()=>{
+        marker.on("click", (e) => {
+
+            e.originalEvent.cancelBubble = true;
+            if (e.originalEvent.stopPropagation) {
+                e.originalEvent.stopPropagation();
+            }
 
             if (pinSelectionne)
                 pinSelectionne._icon.classList.remove("smbg-pin-selected");
@@ -204,19 +207,17 @@ function afficherPinsFiltrés(donnees) {
             marker._icon.classList.add("smbg-pin-selected");
 
             afficherPanneauDroit(d);
+            ouvrirPanneauDroit();
         });
 
         marker.addTo(map);
         markers.push(marker);
     });
-
-    // COMPTEUR DYNAMIQUE
-    mettreAJourCompteur(donnees.length);
 }
 
 
 /* ============================================================
-   6. OUTILS GÉNÉRIQUES DE FILTRES
+   7. OUTILS GÉNÉRIQUES DE FILTRES
    ============================================================ */
 function valeursUniques(key) {
     const set = new Set();
@@ -249,7 +250,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   7. RÉGIONS + DÉPARTEMENTS — IMBRICATION VISUELLE
+   8. RÉGIONS + DÉPARTEMENTS — IMBRICATION
    ============================================================ */
 
 let REGIONS_MAP = {};
@@ -269,8 +270,6 @@ function buildRegionsMap() {
     return mapR;
 }
 
-
-// Construit : Région + bloc de départements juste en dessous
 function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
     zoneReg.innerHTML = "";
@@ -340,8 +339,9 @@ function departementsCoches() {
 
 
 /* ============================================================
-   8. SLIDER SURFACE 
+   9. SLIDERS
    ============================================================ */
+
 function initSliderSurface(values) {
 
     const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
@@ -376,9 +376,6 @@ function initSliderSurface(values) {
 }
 
 
-/* ============================================================
-   9. SLIDER LOYER
-   ============================================================ */
 function initSliderLoyer(values) {
 
     const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
@@ -416,7 +413,7 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   10. APPLY FILTERS – LOGIQUE R/D
+   10. APPLY FILTERS
    ============================================================ */
 
 function appliquerFiltres() {
@@ -454,14 +451,15 @@ function appliquerFiltres() {
 
             if (fr.includes(region)) {
                 const depsOfRegion = REGIONS_MAP[region] || [];
-                const hasSelectedDepInRegion =
-                    depsOfRegion.some(depName => fd.includes(depName));
+                const hasSelectedDepInRegion = depsOfRegion.some(depName => fd.includes(depName));
                 if (!hasSelectedDepInRegion) {
                     regionMatch = true;
                 }
             }
 
-            if (!regionMatch && !depMatch) return false;
+            if (!regionMatch && !depMatch) {
+                return false;
+            }
         }
 
         if (fe.length  && !fe.includes(d["Emplacement"]))   return false;
@@ -476,12 +474,15 @@ function appliquerFiltres() {
         if (loy  > 200000 && !bigLoy)  return false;
 
         if (surf <= 2000 && (surf < surfMin || surf > surfMax)) return false;
-        if (loy <= 200000 && (loy < loyMin || loy > loyMax))     return false;
+        if (loy  <= 200000 && (loy < loyMin || loy > loyMax))   return false;
 
         return true;
     });
 
     afficherPinsFiltrés(OUT);
+
+    document.getElementById("compteur-annonces").innerHTML =
+        "Annonces sélectionnées : " + OUT.length;
 }
 
 
@@ -503,8 +504,9 @@ async function init() {
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
     initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
-    document.querySelectorAll("#sidebar-left input")
-        .forEach(el => el.addEventListener("input", appliquerFiltres));
+    document.querySelectorAll("#sidebar-left input").forEach(el => {
+        el.addEventListener("input", appliquerFiltres);
+    });
 
     document.getElementById("btn-reset").addEventListener("click", () => {
 
@@ -521,9 +523,15 @@ async function init() {
         initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
         afficherPinsFiltrés(DATA);
+
+        document.getElementById("compteur-annonces").innerHTML =
+            "Annonces sélectionnées : " + DATA.length;
     });
 
     afficherPinsFiltrés(DATA);
+
+    document.getElementById("compteur-annonces").innerHTML =
+        "Annonces sélectionnées : " + DATA.length;
 }
 
 init();
