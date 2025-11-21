@@ -78,7 +78,7 @@ html, body {
 /* BLOCS & TITRES */
 .filter-block,
 .slider-block {
-    max-width: 255px;       /* ✔ cohérent */
+    max-width: 240px;       /* ✔ cohérent */
     margin-left: auto;
     margin-right: auto;     /* ✔ centré parfaitement */
 }
@@ -298,6 +298,7 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
+
 
 
 
