@@ -37,9 +37,7 @@ html, body {
     -ms-overflow-style: none;
 }
 
-/* ───────────────────────────────────────────── */
-/*                   LOGO SMBG                   */
-/* ───────────────────────────────────────────── */
+/* LOGO SMBG */
 #logo-container {
     width: 100%;
     display: flex;
@@ -51,30 +49,30 @@ html, body {
 }
 
 #logo-smbg {
-    width: 161px;     /* 140px + 15% */
+    width: 161px;
     height: auto;
     display: block;
-    transform: translateX(-25px);   /* ajustement manuel */
+    transform: translateX(-25px);
 }
 
-/* ───────────────────────────────────────────── */
-/*        FINE TUNING RESPONSIVE DU LOGO         */
-/* ───────────────────────────────────────────── */
-@media (min-width: 1700px) {
-    #logo-smbg { transform: translateX(-18px); }
+/* COMPTEUR */
+#compteur-annonces {
+    font-size: 17px;
+    font-weight: bold;
+    color: #E1782C;
+    margin-top: 2px;
+    margin-bottom: 6px;
 }
 
-@media (min-width: 1200px) and (max-width: 1699px) {
-    #logo-smbg { transform: translateX(-25px); }
+/* LIGNE DE SÉPARATION */
+.separator-smbg {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(225,120,44,0.45);
+    margin-bottom: 15px;
 }
 
-@media (max-width: 1199px) {
-    #logo-smbg { transform: translateX(-32px); }
-}
-
-/* ───────────────────────────────────────────── */
-/*                BLOCS ET TITRES                */
-/* ───────────────────────────────────────────── */
+/* BLOCS & TITRES */
 .filter-block,
 .slider-block { max-width: 250px; }
 
@@ -86,7 +84,7 @@ html, body {
     margin-bottom: 8px;
 }
 
-/* checkboxes */
+/* CHECKBOXES */
 .checkbox-line {
     display: flex;
     align-items: center;
@@ -101,7 +99,7 @@ html, body {
 
 .departement-indent { margin-left: 15px !important; }
 
-/* ALIGNEMENT SLIDER + CASE */
+/* SLIDERS */
 .slider-row {
     display: flex;
     justify-content: space-between;
@@ -117,7 +115,6 @@ html, body {
     gap: 4px;
 }
 
-/* SLIDERS */
 .slider-block { margin-bottom: 18px; }
 
 .slider-values {
@@ -176,7 +173,7 @@ html, body {
     pointer-events: all !important;
 }
 
-/* bouton reset */
+/* BOUTON RESET */
 #btn-reset {
     width: 250px;
     padding: 10px;
@@ -189,9 +186,7 @@ html, body {
     cursor: pointer;
 }
 
-/* ───────────────────────────────────────────── */
-/*                     CARTE                     */
-/* ───────────────────────────────────────────── */
+/* CARTE */
 #map-container {
     position: fixed;
     left: 300px;
@@ -201,9 +196,7 @@ html, body {
 }
 #map { width: 100%; height: 100%; }
 
-/* ───────────────────────────────────────────── */
-/*                 VOLET DROIT                   */
-/* ───────────────────────────────────────────── */
+/* VOLET DROIT */
 #sidebar-right {
     position: fixed;
     top: 0;
@@ -222,7 +215,7 @@ html, body {
     -ms-overflow-style: none;
 }
 
-/* panneau droit */
+/* Informations */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
@@ -239,28 +232,28 @@ html, body {
 .info-key { width: 40%; font-weight: bold; }
 .info-value { width: 60%; }
 
-/* maps button */
+/* Bouton maps */
 .btn-maps {
     background-color: #E1782C;
     color: #04253d;
     padding: 8px 14px;
     border: none;
     border-radius: 6px;
-    cursor: pointer;
+    cursor:pointer;
     width: 60%;
     margin-left: 40%;
     margin-top: 6px;
     font-weight: bold;
 }
 
-/* photos */
+/* Photos */
 #photos-lot img {
     width: 100%;
     margin-top: 12px;
     border-radius: 4px;
 }
 
-/* pins */
+/* PINS */
 .smbg-pin {
     background-color: #04253d;
     border: 2px solid white;
@@ -280,10 +273,9 @@ html, body {
 .smbg-pin-selected { border-color: #E1782C !important; }
 .smbg-pin-selected div { color: #E1782C !important; }
 
-/* scroll container */
+/* Scroll interne */
 .sidebar-inner {
     height: 100%;
     overflow-y: auto;
     padding-bottom: 140px;
 }
-
