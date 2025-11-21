@@ -19,15 +19,6 @@ map.setView([46.8, 2.4], 6);
 
 
 /* ============================================================
-   🔥 AJOUT : Repli du panneau si clic sur carte
-   ============================================================ */
-map.on("click", function () {
-    const panneau = document.getElementById("sidebar-right");
-    panneau.classList.remove("open");
-});
-
-
-/* ============================================================
    2. CHARGEMENT EXCEL
    ============================================================ */
 async function loadExcel() {
@@ -77,21 +68,6 @@ function formatValue(key, val) {
     }
 
     return val;
-}
-
-
-/* ============================================================
-   🔥 AJOUT : compteur dynamique
-   ============================================================ */
-function mettreAJourCompteur(nb) {
-    const zone = document.getElementById("compteur-annonces");
-    if (!zone) return;
-
-    if (nb <= 1) {
-        zone.innerHTML = `Annonces sélectionnées : <strong>${nb}</strong>`;
-    } else {
-        zone.innerHTML = `Annonces sélectionnées : <strong>${nb}</strong>`;
-    }
 }
 
 
@@ -183,9 +159,6 @@ function afficherPinsFiltrés(donnees) {
     markers = [];
     pinSelectionne = null;
 
-    // 🔥 compteur dynamique
-    mettreAJourCompteur(donnees.length);
-
     donnees.forEach(d => {
         if ((d["Actif"] || "").toLowerCase().trim() !== "oui") return;
 
@@ -218,13 +191,19 @@ function afficherPinsFiltrés(donnees) {
         marker.addTo(map);
         markers.push(marker);
     });
+
+    /* 🔥 Mise à jour du compteur dynamique */
+    const compteur = document.getElementById("compteur-annonces");
+    const nb = donnees.length;
+    compteur.innerHTML = nb === 1
+        ? "Annonces sélectionnées : 1"
+        : "Annonces sélectionnées : " + nb;
 }
 
 
 /* ============================================================
    6. OUTILS GÉNÉRIQUES DE FILTRES
    ============================================================ */
-
 function valeursUniques(key) {
     const set = new Set();
     DATA.forEach(d => {
@@ -256,7 +235,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   7. RÉGIONS + DÉPARTEMENTS — IMBRICATION VISUELLE
+   7. RÉGIONS + DÉPARTEMENTS
    ============================================================ */
 
 let REGIONS_MAP = {};
@@ -276,7 +255,6 @@ function buildRegionsMap() {
     return mapR;
 }
 
-// Construit : Région + bloc de départements juste en dessous
 function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
     zoneReg.innerHTML = "";
@@ -512,6 +490,9 @@ async function init() {
         el.addEventListener("input", appliquerFiltres);
     });
 
+    /* ============================================================
+       🔥 Bouton Réinitialiser
+       ============================================================ */
     document.getElementById("btn-reset").addEventListener("click", () => {
 
         document.querySelectorAll("#sidebar-left input[type=checkbox]")
@@ -526,21 +507,34 @@ async function init() {
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
         initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
-        // 🔥 Cache panneau droit
+        afficherPinsFiltrés(DATA);
+
+        /* 🔥 Replier panneau + vider contenu */
         const panneau = document.getElementById("sidebar-right");
         panneau.classList.remove("open");
-
-        // 🔥 Vide panneau droit
         document.getElementById("ref-annonce").innerHTML = "";
         document.getElementById("info-lot").innerHTML = "";
         document.getElementById("photos-lot").innerHTML = "";
-
-        afficherPinsFiltrés(DATA);
     });
 
-    // 🔥 Centrage initial
+    /* ============================================================
+       🔥 RETRACTION DU PANNEAU QUAND ON CLIQUE SUR LA CARTE
+       ============================================================ */
+    map.on("click", () => {
+        const panneau = document.getElementById("sidebar-right");
+        panneau.classList.remove("open");
+
+        // 🔥 suppression des infos
+        document.getElementById("ref-annonce").innerHTML = "";
+        document.getElementById("info-lot").innerHTML = "";
+        document.getElementById("photos-lot").innerHTML = "";
+    });
+
+    /* ============================================================
+       🔥 Décalage initial SANS ANIMATION
+       ============================================================ */
     setTimeout(() => {
-        map.panBy([162, 0]);
+        map.panBy([162, 0], { animate: false });
     }, 300);
 
     afficherPinsFiltrés(DATA);
