@@ -24,7 +24,7 @@ html, body {
     top: 0;
     bottom: 0;
     left: 0;
-    width: 300px;
+    width: 275px;
     background-color: #04253d;
     color: #E1782C;
 
@@ -78,7 +78,7 @@ html, body {
 /* BLOCS & TITRES */
 .filter-block,
 .slider-block {
-    max-width: 250px;       /* ✔ cohérent */
+    max-width: 255px;       /* ✔ cohérent */
     margin-left: auto;
     margin-right: auto;     /* ✔ centré parfaitement */
 }
@@ -202,7 +202,7 @@ html, body {
 /* CARTE */
 #map-container {
     position: fixed;
-    left: 300px; /* ✔ ajusté pour nouveau panneau gauche */
+    left: 275px; /* ✔ ajusté pour nouveau panneau gauche */
     right: 325px; /* ✔ ajusté pour nouveau panneau droit */
     top: 0;
     bottom: 0;
@@ -298,6 +298,7 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
+
 
 
 
