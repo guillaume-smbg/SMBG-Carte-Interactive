@@ -32,7 +32,7 @@ function ouvrirPanneau() {
 
 function fermerPanneau() {
     sidebarRight.classList.remove("open");
-    mapContainer.style.right = "10px";    // seulement le rebord visible
+    mapContainer.style.right = "5px";    // seulement le rebord visible
 }
 
 // fermer panneau quand on clique sur la carte
