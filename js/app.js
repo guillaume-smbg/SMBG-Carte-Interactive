@@ -8,14 +8,29 @@
 var map = L.map('map', {
     zoomControl: true,
     scrollWheelZoom: true,
-    attributionControl: false
+    attributionControl: false,
+    zoomAnimation: false,
+    fadeAnimation: false,
+    markerZoomAnimation: false
 });
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
 }).addTo(map);
 
-map.setView([46.8, 2.4], 6);
+map.setView([46.8, 2.4], 6, { animate: false });
+
+setTimeout(() => map.invalidateSize({ animate: false }), 50);
+
+// 🔥 Rétraction du panneau droit quand on clique sur la carte
+map.on("click", function () {
+    const panneau = document.getElementById("sidebar-right");
+    panneau.classList.remove("open");
+
+    document.getElementById("ref-annonce").innerHTML = "";
+    document.getElementById("info-lot").innerHTML = "";
+    document.getElementById("photos-lot").innerHTML = "";
+});
 
 
 /* ============================================================
@@ -92,7 +107,7 @@ const colonnes_info = [
 function afficherPanneauDroit(d) {
 
     const panneau = document.getElementById("sidebar-right");
-    panneau.classList.add("open");   // 🔥 Déploie panneau
+    panneau.classList.add("open");
 
     const ref = formatReference(d["Référence annonce"]);
     document.getElementById("ref-annonce").innerHTML = ref;
@@ -154,6 +169,10 @@ let pinSelectionne = null;
 let markers = [];
 
 function afficherPinsFiltrés(donnees) {
+
+    // 🔥 Mise à jour du compteur dynamique
+    const compteur = document.getElementById("compteur-annonces");
+    if (compteur) compteur.innerHTML = donnees.length;
 
     markers.forEach(m => map.removeLayer(m));
     markers = [];
@@ -249,6 +268,7 @@ function buildRegionsMap() {
     return mapR;
 }
 
+
 // Construit : Région + bloc de départements juste en dessous
 function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
@@ -306,7 +326,7 @@ function construireRegionsEtDepartements() {
 }
 
 function regionsCochees() {
-    return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked")]
+    return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked`")]
         .map(x => x.value);
 }
 
@@ -393,8 +413,7 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   10. APPLY FILTERS
-   (logique Région / Département)
+   10. APPLY FILTERS (logique Région / Département)
    ============================================================ */
 
 function appliquerFiltres() {
@@ -422,25 +441,19 @@ function appliquerFiltres() {
         const departement = (d["Département"] || "").trim();
 
         let regionMatch = false;
-        let depMatch    = false;
+        let depMatch = false;
 
         if (fr.length || fd.length) {
 
-            if (fd.includes(departement)) {
-                depMatch = true;
-            }
+            if (fd.includes(departement)) depMatch = true;
 
             if (fr.includes(region)) {
                 const depsOfRegion = REGIONS_MAP[region] || [];
                 const hasSelectedDepInRegion = depsOfRegion.some(depName => fd.includes(depName));
-                if (!hasSelectedDepInRegion) {
-                    regionMatch = true;
-                }
+                if (!hasSelectedDepInRegion) regionMatch = true;
             }
 
-            if (!regionMatch && !depMatch) {
-                return false;
-            }
+            if (!regionMatch && !depMatch) return false;
         }
 
         if (fe.length  && !fe.includes(d["Emplacement"]))   return false;
@@ -486,9 +499,7 @@ async function init() {
         el.addEventListener("input", appliquerFiltres);
     });
 
-    /* ============================================================
-       🔥 RETRACT Panneau droit au Reset + vider contenu
-       ============================================================ */
+    // Reset + Rétractation panneau droit
     document.getElementById("btn-reset").addEventListener("click", () => {
 
         document.querySelectorAll("#sidebar-left input[type=checkbox]")
@@ -503,11 +514,9 @@ async function init() {
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
         initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
-        // 🔥 Cache panneau droit
         const panneau = document.getElementById("sidebar-right");
         panneau.classList.remove("open");
 
-        // 🔥 Vide panneau droit
         document.getElementById("ref-annonce").innerHTML = "";
         document.getElementById("info-lot").innerHTML = "";
         document.getElementById("photos-lot").innerHTML = "";
@@ -515,7 +524,7 @@ async function init() {
         afficherPinsFiltrés(DATA);
     });
 
-    // 🔥 Décalage initial pour centrage correct
+    // Décalage initial pour le centrage (162 px)
     setTimeout(() => {
         map.panBy([162, 0]);
     }, 300);
