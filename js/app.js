@@ -19,7 +19,30 @@ map.setView([46.8, 2.4], 6);
 
 
 /* ============================================================
-   2. CHARGEMENT EXCEL
+   2. PANNEAU DROIT (RÉTRACTABLE)
+   ============================================================ */
+
+const sidebarRight = document.getElementById("sidebar-right");
+const mapContainer = document.getElementById("map-container");
+
+function ouvrirPanneau() {
+    sidebarRight.classList.add("open");
+    mapContainer.style.right = "325px";   // largeur du panneau ouvert
+}
+
+function fermerPanneau() {
+    sidebarRight.classList.remove("open");
+    mapContainer.style.right = "10px";    // seulement le rebord visible
+}
+
+// fermer panneau quand on clique sur la carte
+map.on("click", function () {
+    fermerPanneau();
+});
+
+
+/* ============================================================
+   3. CHARGEMENT EXCEL
    ============================================================ */
 async function loadExcel() {
     const url =
@@ -34,7 +57,7 @@ let DATA = [];
 
 
 /* ============================================================
-   3. FORMATAGE
+   4. FORMATAGE
    ============================================================ */
 function formatReference(r) {
     if (!r) return "";
@@ -72,8 +95,9 @@ function formatValue(key, val) {
 
 
 /* ============================================================
-   4. PANNEAU DROIT (AFFICHAGE)
+   5. PANNEAU DROIT – AFFICHAGE
    ============================================================ */
+
 const colonnes_info = [
     "Adresse","Emplacement","Typologie","Type",
     "Cession / Droit au bail","Numéro de lot",
@@ -90,6 +114,8 @@ const colonnes_info = [
 ];
 
 function afficherPanneauDroit(d) {
+
+    ouvrirPanneau(); // 🔥 ouverture du panneau
 
     const ref = formatReference(d["Référence annonce"]);
     document.getElementById("ref-annonce").innerHTML = ref;
@@ -145,24 +171,6 @@ function afficherPanneauDroit(d) {
 
 
 /* ============================================================
-   5. PANNEAU DROIT RÉTRACTABLE
-   ============================================================ */
-
-function ouvrirPanneauDroit() {
-    document.getElementById("sidebar-right").classList.add("open");
-}
-
-function fermerPanneauDroit() {
-    document.getElementById("sidebar-right").classList.remove("open");
-}
-
-/* Fermeture au clic sur la carte */
-map.on("click", function (e) {
-    fermerPanneauDroit();
-});
-
-
-/* ============================================================
    6. PINS
    ============================================================ */
 let pinSelectionne = null;
@@ -172,7 +180,6 @@ function afficherPinsFiltrés(donnees) {
 
     markers.forEach(m => map.removeLayer(m));
     markers = [];
-
     pinSelectionne = null;
 
     donnees.forEach(d => {
@@ -193,12 +200,7 @@ function afficherPinsFiltrés(donnees) {
             })
         });
 
-        marker.on("click", (e) => {
-
-            e.originalEvent.cancelBubble = true;
-            if (e.originalEvent.stopPropagation) {
-                e.originalEvent.stopPropagation();
-            }
+        marker.on("click", ()=>{
 
             if (pinSelectionne)
                 pinSelectionne._icon.classList.remove("smbg-pin-selected");
@@ -206,8 +208,7 @@ function afficherPinsFiltrés(donnees) {
             pinSelectionne = marker;
             marker._icon.classList.add("smbg-pin-selected");
 
-            afficherPanneauDroit(d);
-            ouvrirPanneauDroit();
+            afficherPanneauDroit(d); // 🔥 ouverture / mise à jour panneau
         });
 
         marker.addTo(map);
@@ -219,6 +220,7 @@ function afficherPinsFiltrés(donnees) {
 /* ============================================================
    7. OUTILS GÉNÉRIQUES DE FILTRES
    ============================================================ */
+
 function valeursUniques(key) {
     const set = new Set();
     DATA.forEach(d => {
@@ -250,7 +252,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   8. RÉGIONS + DÉPARTEMENTS — IMBRICATION
+   8. RÉGIONS + DÉPARTEMENTS — IMBRICATION VISUELLE
    ============================================================ */
 
 let REGIONS_MAP = {};
@@ -270,6 +272,7 @@ function buildRegionsMap() {
     return mapR;
 }
 
+
 function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
     zoneReg.innerHTML = "";
@@ -279,7 +282,6 @@ function construireRegionsEtDepartements() {
     regions.forEach(region => {
         const regionId = "region_" + region.replace(/[^a-zA-Z0-9]/g, "_");
 
-        // ligne Région
         const divR = document.createElement("div");
         divR.className = "checkbox-line";
         divR.innerHTML = `
@@ -288,7 +290,6 @@ function construireRegionsEtDepartements() {
         `;
         zoneReg.appendChild(divR);
 
-        // bloc départements
         const depsContainer = document.createElement("div");
         depsContainer.className = "departements-container";
         depsContainer.style.display = "none";
@@ -339,7 +340,7 @@ function departementsCoches() {
 
 
 /* ============================================================
-   9. SLIDERS
+   9. SLIDER SURFACE 
    ============================================================ */
 
 function initSliderSurface(values) {
@@ -375,6 +376,10 @@ function initSliderSurface(values) {
     aff();
 }
 
+
+/* ============================================================
+   10. SLIDER LOYER
+   ============================================================ */
 
 function initSliderLoyer(values) {
 
@@ -413,7 +418,7 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   10. APPLY FILTERS
+   11. APPLY FILTERS
    ============================================================ */
 
 function appliquerFiltres() {
@@ -480,15 +485,13 @@ function appliquerFiltres() {
     });
 
     afficherPinsFiltrés(OUT);
-
-    document.getElementById("compteur-annonces").innerHTML =
-        "Annonces sélectionnées : " + OUT.length;
 }
 
 
 /* ============================================================
-   11. INIT
+   12. INIT
    ============================================================ */
+
 async function init() {
 
     DATA = await loadExcel();
@@ -523,15 +526,11 @@ async function init() {
         initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
         afficherPinsFiltrés(DATA);
-
-        document.getElementById("compteur-annonces").innerHTML =
-            "Annonces sélectionnées : " + DATA.length;
     });
 
     afficherPinsFiltrés(DATA);
 
-    document.getElementById("compteur-annonces").innerHTML =
-        "Annonces sélectionnées : " + DATA.length;
+    fermerPanneau();   // 🔥 panneau fermé au chargement
 }
 
 init();
