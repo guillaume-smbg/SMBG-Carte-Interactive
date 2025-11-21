@@ -24,10 +24,13 @@ html, body {
     top: 0;
     bottom: 0;
     left: 0;
-    width: 275px; /* ✔ largeur corrigée */
+
+    /* ✔ largeur corrigée */
+    width: 275px;
+
     background-color: #04253d;
     color: #E1782C;
-    padding: 20px 12px; /* ✔ léger équilibrage */
+    padding: 20px;
     overflow: hidden;
 }
 
@@ -37,9 +40,7 @@ html, body {
     -ms-overflow-style: none;
 }
 
-/* ───────────────────────────────────────────── */
-/*                   LOGO SMBG                   */
-/* ───────────────────────────────────────────── */
+/* LOGO SMBG */
 #logo-container {
     width: 100%;
     display: flex;
@@ -47,57 +48,62 @@ html, body {
     align-items: center;
     margin-top: 10px;
     margin-bottom: 25px;
+    text-align: center;
 }
 
 #logo-smbg {
     width: 161px;
     height: auto;
+    display: block;
     transform: translateX(-25px);
 }
 
-/* ───────────────────────────────────────────── */
-/*            COMPTEUR + SÉPARATEUR              */
-/* ───────────────────────────────────────────── */
+/* COMPTEUR */
 #compteur-annonces {
-    max-width: 250px;
-    text-align: center;
-    margin: 0 auto 6px auto;
     font-size: 17px;
     font-weight: bold;
     color: #E1782C;
+    margin-top: 2px;
+    margin-bottom: 6px;
 }
 
+/* LIGNE DE SÉPARATION */
 .separator-smbg {
     width: 250px;
     height: 1px;
     background-color: rgba(225,120,44,0.45);
-    margin: 0 auto 15px auto;
+    margin-bottom: 15px;
 }
 
-/* ───────────────────────────────────────────── */
-/*             BLOCS PARAMÈTRES GAUCHE           */
-/* ───────────────────────────────────────────── */
+/* BLOCS & TITRES */
 .filter-block,
 .slider-block {
-    width: 250px;         /* ✔ largeur fixe */
-    margin-left: auto;    /* ✔ centrage parfait */
+    /* ✔ centrage sur 250px */
+    max-width: 250px;
+    margin-left: auto;
     margin-right: auto;
 }
 
 .filter-title {
-    width: 250px;         /* ✔ centrage */
-    margin: 16px auto 8px auto;
     font-size: 16px;
     font-weight: bold;
     color: #E1782C;
+
+    /* ✔ centrage parfait */
+    width: 250px;
+    margin: 16px auto 8px auto;
 }
 
-/* checkboxes */
+/* CHECKBOXES */
 .checkbox-line {
-    width: 250px;         /* ✔ identique */
-    margin: 0 auto 5px auto;
     display: flex;
     align-items: center;
+    margin-bottom: 5px;
+
+    /* ✔ centrage */
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .checkbox-line label {
@@ -107,7 +113,7 @@ html, body {
 }
 .checkbox-line input { cursor: pointer; }
 
-.departement-indent { margin-left: 18px !important; }
+.departement-indent { margin-left: 15px !important; }
 
 /* SLIDERS */
 .slider-row {
@@ -122,9 +128,10 @@ html, body {
     color: #E1782C;
     display: flex;
     align-items: center;
+    gap: 4px;
 }
 
-.slider.block { margin-bottom: 18px; }
+.slider-block { margin-bottom: 18px; }
 
 .slider-values {
     color: #E1782C;
@@ -145,6 +152,7 @@ html, body {
     background: none;
     position: absolute;
     top: 8px;
+    margin: 0;
     pointer-events: none;
 }
 
@@ -167,7 +175,8 @@ html, body {
     border-radius: 50%;
     border: 2px solid #04253d;
     cursor: pointer;
-    pointer-events: all;
+    pointer-events: all !important;
+    margin-top: -5px;
 }
 
 .slider-track input[type="range"]::-moz-range-thumb {
@@ -177,10 +186,10 @@ html, body {
     border-radius: 50%;
     border: 2px solid #04253d;
     cursor: pointer;
-    pointer-events: all;
+    pointer-events: all !important;
 }
 
-/* bouton reset */
+/* BOUTON RESET */
 #btn-reset {
     width: 250px;
     padding: 10px;
@@ -189,22 +198,26 @@ html, body {
     font-weight: bold;
     border: none;
     border-radius: 6px;
-    margin: 25px auto 0 auto;
-    display: block;
+    margin-top: 25px;
     cursor: pointer;
+
+    /* ✔ centrage */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* ───────────────────────────────────────────── */
-/*                     CARTE                     */
-/* ───────────────────────────────────────────── */
+/* CARTE */
 #map-container {
     position: fixed;
-    left: 275px;  /* ✔ adapté */
-    right: 300px; /* ✔ adapté */
+
+    /* ✔ adapté à la nouvelle largeur */
+    left: 275px;
+    right: 300px;
+
     top: 0;
     bottom: 0;
 }
-
 #map { width: 100%; height: 100%; }
 
 /* ───────────────────────────────────────────── */
@@ -215,26 +228,34 @@ html, body {
     top: 0;
     bottom: 0;
     right: 0;
-    width: 300px; /* ✔ demandé */
+
+    /* ✔ largeur demandée */
+    width: 300px;
+
     background-color: #04253d;
     color: #E1782C;
-    padding: 10px 10px; /* ✔ marge interne 10px gauche/droite */
-    overflow: hidden;  /* ✔ supprime scroll parasite */
+
+    /* ✔ marges latérales 10px */
+    padding: 10px;
+
+    overflow: hidden; /* ✔ supprime scroll parasite */
 }
 
-/* contenu centré 275px */
+#sidebar-right .sidebar-inner::-webkit-scrollbar { width: 0; }
 #sidebar-right .sidebar-inner {
-    width: 275px;     /* ✔ largeur fixe */
-    margin: 0 auto;   /* ✔ centrage */
-    overflow-y: auto; 
-    padding-bottom: 100px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    /* ✔ contenu centré sur 275px */
+    width: 275px;
+    margin-left: auto;
+    margin-right: auto;
+
+    /* permet le scroll interne si nécessaire, mais invisible */
+    overflow-y: auto;
 }
 
-#sidebar-right .sidebar-inner::-webkit-scrollbar {
-    width: 0; /* ✔ remove */
-}
-
-/* panneau droit */
+/* Informations */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
@@ -243,43 +264,40 @@ html, body {
 }
 
 .info-line {
-    width: 275px; /* ✔ largeur calibrée */
     display: flex;
     padding: 8px 0;
     border-bottom: 1px solid rgba(198,123,66,0.4);
+
+    /* ✔ ajuste largeur interne */
+    width: 275px;
 }
 
 .info-line-no-border { border-bottom: none !important; }
+.info-key { width: 40%; font-weight: bold; }
+.info-value { width: 60%; }
 
-.info-key {
-    width: 40%;
-    font-weight: bold;
-}
-.info-value {
-    width: 60%;
-}
-
-/* maps */
+/* Bouton maps */
 .btn-maps {
-    width: 60%;
-    margin-left: 40%;
-    margin-top: 6px;
-    padding: 8px 14px;
     background-color: #E1782C;
     color: #04253d;
+    padding: 8px 14px;
     border: none;
     border-radius: 6px;
     cursor:pointer;
+    width: 60%;
+    margin-left: 40%;
+    margin-top: 6px;
+    font-weight: bold;
 }
 
-/* photos */
+/* Photos */
 #photos-lot img {
     width: 100%;
-    border-radius: 4px;
     margin-top: 12px;
+    border-radius: 4px;
 }
 
-/* pins */
+/* PINS */
 .smbg-pin {
     background-color: #04253d;
     border: 2px solid white;
@@ -288,17 +306,20 @@ html, body {
     height: 30px;
     text-align: center;
     line-height: 26px;
+    font-family: 'Futura';
 }
 .smbg-pin div {
+    font-family: 'Futura';
     font-weight: bold;
     color: white;
+    font-size: 13px;
 }
 .smbg-pin-selected { border-color: #E1782C !important; }
 .smbg-pin-selected div { color: #E1782C !important; }
 
-/* scroll inter */
+/* Scroll interne */
 .sidebar-inner {
     height: 100%;
     overflow-y: auto;
-    padding-bottom: 120px;
+    padding-bottom: 140px;
 }
