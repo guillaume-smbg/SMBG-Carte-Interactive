@@ -8,15 +8,14 @@
     font-style: normal;
 }
 
+/* Empêche totalement tout flash / fond visible */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     overflow: hidden;
+    background: transparent !important;
     font-family: 'Futura', sans-serif;
-
-    /* Empêche toute zone blanche derrière la carte */
-    background-color: #04253d;
 }
 
 /* ───────────────────────────────────────────── */
@@ -212,15 +211,18 @@ html, body {
     top: 0;
     bottom: 0;
 
-    /* évite toute zone blanche */
-    background-color: #04253d;
+    /* carte = fond transparent (important !) */
+    background: transparent !important;
 }
 
-#map { width: 100%; height: 100%; }
+#map {
+    width: 100%;
+    height: 100%;
+    background: transparent !important;
+}
 
-/* Force Leaflet à ne jamais afficher du blanc */
 .leaflet-container {
-    background: #04253d !important;
+    background: transparent !important;
 }
 
 /* ───────────────────────────────────────────── */
@@ -230,7 +232,7 @@ html, body {
     position: fixed;
     top: 0;
     bottom: 0;
-    right: 0; /* panneau aligné, mais déplacé hors écran */
+    right: 0; 
     width: 325px;
 
     background-color: #04253d;
@@ -239,7 +241,7 @@ html, body {
     padding: 10px;
     overflow: hidden;
 
-    /* transition + invisibilité totale avant ouverture */
+    /* invisible avant ouverture */
     transform: translateX(100%);
     transition: transform 0.35s ease;
 }
@@ -322,4 +324,3 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
-
