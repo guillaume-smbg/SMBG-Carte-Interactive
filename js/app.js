@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION AVEC CARROUSEL)
+   SMBG – Carte interactive (VERSION AVEC CARROUSEL + PHOTOS ANNONCE)
    ============================================================ */
 
 /* ============================================================
@@ -20,14 +20,13 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 map.setView([46.8, 2.4], 6);
 
-// Décalage initial
 map.whenReady(() => {
     map.panBy([162, 0], { animate: false });
 });
 
 
 /* ============================================================
-   2. PANNEAU DROIT (RÉTRACTABLE)
+   2. PANNEAU DROIT
    ============================================================ */
 
 const sidebarRight = document.getElementById("sidebar-right");
@@ -39,22 +38,18 @@ function ouvrirPanneau() {
 function fermerPanneau() {
     sidebarRight.classList.remove("open");
 
-    // Vide panneau droit
     document.getElementById("ref-annonce").innerHTML = "";
     document.getElementById("info-lot").innerHTML = "";
     document.getElementById("photos-lot").innerHTML = "";
 
-    // Désélectionner le pin
     if (pinSelectionne && pinSelectionne._icon) {
         pinSelectionne._icon.classList.remove("smbg-pin-selected");
         pinSelectionne = null;
     }
 
-    // Masque carrousel
     document.getElementById("photo-carousel").style.display = "none";
 }
 
-// clic sur la carte → referme panneau + carrousel
 map.on("click", fermerPanneau);
 
 
@@ -175,12 +170,18 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("info-lot").innerHTML = html;
 
-    // PHOTOS dans panneau droit (legacy)
-    let photos = (d["Photos"] || "")
-        .toString()
-        .split(";")
-        .map(x => x.trim())
-        .filter(x => x);
+    /* LECTURE PHOTOS — VERSION SUPPORT “Photos annonce” */
+    let photos = (
+        d["Photos"] ||
+        d["Photos annonce"] ||
+        d["Photo annonce"] ||
+        d["AP"] ||
+        ""
+    )
+    .toString()
+    .split(";")
+    .map(x => x.trim())
+    .filter(x => x);
 
     let ph = "";
     photos.forEach(url => { ph += `<img src="${url}">`; });
@@ -188,7 +189,6 @@ function afficherPanneauDroit(d) {
     document.getElementById("photos-lot").innerHTML = ph;
 
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
-
 }
 
 
@@ -199,11 +199,17 @@ function afficherPanneauDroit(d) {
 function afficherCarousel(d) {
     const zone = document.getElementById("photo-carousel");
 
-    let photos = (d["Photos"] || "")
-        .toString()
-        .split(";")
-        .map(x => x.trim())
-        .filter(x => x !== "");
+    let photos = (
+        d["Photos"] ||
+        d["Photos annonce"] ||
+        d["Photo annonce"] ||
+        d["AP"] ||
+        ""
+    )
+    .toString()
+    .split(";")
+    .map(x => x.trim())
+    .filter(x => x !== "");
 
     if (photos.length === 0) {
         zone.style.display = "none";
