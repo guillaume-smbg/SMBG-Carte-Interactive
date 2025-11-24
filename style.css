@@ -14,6 +14,9 @@ html, body {
     height: 100%;
     overflow: hidden;
     font-family: 'Futura', sans-serif;
+
+    /* Empêche toute zone blanche derrière la carte */
+    background-color: #04253d;
 }
 
 /* ───────────────────────────────────────────── */
@@ -199,7 +202,9 @@ html, body {
     margin-right: auto;
 }
 
-/* CARTE */
+/* ───────────────────────────────────────────── */
+/*                     CARTE                     */
+/* ───────────────────────────────────────────── */
 #map-container {
     position: fixed;
     left: 275px;
@@ -207,33 +212,39 @@ html, body {
     top: 0;
     bottom: 0;
 
-    /* ✔️ Empêche le flash blanc */
+    /* évite toute zone blanche */
     background-color: #04253d;
 }
 
 #map { width: 100%; height: 100%; }
 
-/* VOLET DROIT */
+/* Force Leaflet à ne jamais afficher du blanc */
+.leaflet-container {
+    background: #04253d !important;
+}
+
+/* ───────────────────────────────────────────── */
+/*                 VOLET DROIT                   */
+/* ───────────────────────────────────────────── */
 #sidebar-right {
     position: fixed;
     top: 0;
     bottom: 0;
+
+    /* ✔️ totalement hors écran */
     right: -325px;
     width: 325px;
 
     background-color: #04253d;
     color: #E1782C;
 
-    padding: 0px;
+    padding: 10px;
     overflow: hidden;
 
     transition: right 0.35s ease;
-
-    /* ✔️ Empêche le flash blanc */
-    transform: translateZ(0);
+    transform: translateZ(0); /* évite le flash */
 }
 
-/* Ouverture */
 #sidebar-right.open {
     right: 0;
 }
@@ -312,6 +323,3 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
-
-
-
