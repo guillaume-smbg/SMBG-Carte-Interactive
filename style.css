@@ -230,9 +230,7 @@ html, body {
     position: fixed;
     top: 0;
     bottom: 0;
-
-    /* ✔️ totalement hors écran */
-    right: -325px;
+    right: 0; /* panneau aligné, mais déplacé hors écran */
     width: 325px;
 
     background-color: #04253d;
@@ -241,12 +239,13 @@ html, body {
     padding: 10px;
     overflow: hidden;
 
-    transition: right 0.35s ease;
-    transform: translateZ(0); /* évite le flash */
+    /* transition + invisibilité totale avant ouverture */
+    transform: translateX(100%);
+    transition: transform 0.35s ease;
 }
 
 #sidebar-right.open {
-    right: 0;
+    transform: translateX(0%);
 }
 
 #sidebar-right .sidebar-inner {
@@ -323,3 +322,4 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
+
