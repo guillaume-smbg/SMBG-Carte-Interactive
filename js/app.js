@@ -566,6 +566,24 @@ function appliquerFiltres() {
         return true;
     });
 
+    /* =====================================================
+       🔥 Fermeture automatique du panneau si l'annonce
+          sélectionnée disparaît des résultats filtrés
+       ===================================================== */
+    if (pinSelectionne) {
+
+        const refSel = pinSelectionne._icon.innerText.trim();
+
+        // On regarde si cette référence est encore dans OUT
+        const stillVisible = OUT.some(d =>
+            formatReference(d["Référence annonce"]) === refSel
+        );
+
+        if (!stillVisible) {
+            fermerPanneau();     // ➜ ferme panneau + carrousel + reset
+        }
+    }
+
     afficherPinsFiltrés(OUT);
 }
 
