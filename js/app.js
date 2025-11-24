@@ -175,7 +175,6 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("info-lot").innerHTML = html;
 
-
     // PHOTOS dans panneau droit (legacy)
     let photos = (d["Photos"] || "")
         .toString()
