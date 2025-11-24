@@ -362,67 +362,58 @@ function buildRegionsMap() {
         if (!mapR[reg]) mapR[reg] = new Set();
         mapR[reg].add(dep);
     });
-    Object.keys(mapR).forEach(r => {
-        mapR[r] = [...mapR[r]].sort();
-    });
+    Object.keys(mapR).forEach(r => mapR[r] = [...mapR[r]].sort());
     return mapR;
 }
+
 
 function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
     zoneReg.innerHTML = "";
 
-    const regions = Object.keys(REGIONS_MAP).sort();
+    Object.keys(REGIONS_MAP).sort().forEach(region => {
 
-    regions.forEach(region => {
         const regionId = "region_" + region.replace(/[^a-zA-Z0-9]/g, "_");
 
-        // Région
-        const divR = document.createElement("div");
-        divR.className = "checkbox-line";
-        divR.innerHTML = `
-            <input type="checkbox" id="${regionId}" value="${region}">
-            <label for="${regionId}">${region}</label>
+        zoneReg.innerHTML += `
+            <div class="checkbox-line">
+                <input type="checkbox" id="${regionId}" value="${region}">
+                <label for="${regionId}">${region}</label>
+            </div>
         `;
-        zoneReg.appendChild(divR);
 
-        // Conteneur des départements
         const depsContainer = document.createElement("div");
         depsContainer.className = "departements-container";
-        depsContainer.style.display = "none";   // invisible tant que région pas cochée
+        depsContainer.style.display = "none";
 
         (REGIONS_MAP[region] || []).forEach(dep => {
             const depId = "dep_" + dep.replace(/[^a-zA-Z0-9]/g, "_");
-            const divD = document.createElement("div");
-            divD.className = "checkbox-line departement-indent";
-            divD.innerHTML = `
-                <input type="checkbox" id="${depId}" value="${dep}">
-                <label for="${depId}">${dep}</label>
+            depsContainer.innerHTML += `
+                <div class="checkbox-line departement-indent">
+                    <input type="checkbox" id="${depId}" value="${dep}">
+                    <label for="${depId}">${dep}</label>
+                </div>
             `;
-            depsContainer.appendChild(divD);
         });
 
         zoneReg.appendChild(depsContainer);
 
-        const regionInput = divR.querySelector("input");
-
-        // ✔️ COCHER UNE REGION => affiche ses départements
+        const regionInput = document.getElementById(regionId);
         regionInput.addEventListener("input", () => {
-            if (regionInput.checked) {
-                depsContainer.style.display = "block";
-            } else {
-                depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => inp.checked = false);
-                depsContainer.style.display = "none";
+            depsContainer.style.display = regionInput.checked ? "block" : "none";
+
+            if (!regionInput.checked) {
+                depsContainer.querySelectorAll("input").forEach(i => i.checked = false);
             }
+
             appliquerFiltres();
         });
 
-        // ✔️ Chaque département filtre
-        depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
-            inp.addEventListener("input", appliquerFiltres);
-        });
+        depsContainer.querySelectorAll("input")
+            .forEach(i => i.addEventListener("input", appliquerFiltres));
     });
 }
+
 
 function regionsCochees() {
     return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked")]
@@ -567,20 +558,18 @@ function appliquerFiltres() {
     });
 
     /* =====================================================
-       🔥 Fermeture automatique du panneau si l'annonce
-          sélectionnée disparaît des résultats filtrés
+       🔥 Fermeture auto si l'annonce sélectionnée disparaît
        ===================================================== */
     if (pinSelectionne) {
 
         const refSel = pinSelectionne._icon.innerText.trim();
 
-        // On regarde si cette référence est encore dans OUT
         const stillVisible = OUT.some(d =>
             formatReference(d["Référence annonce"]) === refSel
         );
 
         if (!stillVisible) {
-            fermerPanneau();     // ➜ ferme panneau + carrousel + reset
+            fermerPanneau();
         }
     }
 
@@ -621,7 +610,7 @@ async function init() {
             .forEach(c => c.style.display = "none");
 
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
-        initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
+        initSliderLoyer  (DATA.map(x["Loyer annuel"]  || 0));
 
         fermerPanneau();
         afficherPinsFiltrés(DATA);
