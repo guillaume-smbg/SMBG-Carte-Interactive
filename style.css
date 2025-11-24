@@ -8,13 +8,14 @@
     font-style: normal;
 }
 
+/* Empêche totalement tout flash / fond visible */
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
     overflow: hidden;
-    font-family: 'Futura', sans-serif;
     background: transparent !important;
+    font-family: 'Futura', sans-serif;
 }
 
 /* ───────────────────────────────────────────── */
@@ -28,15 +29,17 @@ html, body {
     width: 275px;
     background-color: #04253d;
     color: #E1782C;
+
     padding: 10px;
     overflow: hidden;
 }
 
-#sidebar-left .sidebar-inner::-webkit-scrollbar { width: 0; }
 #sidebar-left .sidebar-inner {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 40px;
 }
+#sidebar-left .sidebar-inner::-webkit-scrollbar { width: 0; }
 
 /* LOGO SMBG */
 #logo-container {
@@ -204,10 +207,10 @@ html, body {
 /* ───────────────────────────────────────────── */
 #map-container {
     position: fixed;
-    left: 275px;
-    right: 0;
     top: 0;
     bottom: 0;
+    left: 275px;
+    right: 0;
     background: transparent !important;
 }
 
@@ -286,12 +289,35 @@ html, body {
     font-weight: bold;
 }
 
-/* Photos (panneau droit — legacy) */
+/* Photos dans le panneau droit */
 #photos-lot img {
     width: 100%;
     margin-top: 12px;
     border-radius: 4px;
 }
+
+/* ───────────────────────────────────────────── */
+/*                   PINS SMBG                   */
+/* ───────────────────────────────────────────── */
+
+.smbg-pin {
+    background-color: #04253d;
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 26px;
+    font-family: 'Futura';
+}
+.smbg-pin div {
+    font-family: 'Futura';
+    font-weight: bold;
+    color: white;
+    font-size: 13px;
+}
+.smbg-pin-selected { border-color: #E1782C !important; }
+.smbg-pin-selected div { color: #E1782C !important; }
 
 /* ───────────────────────────────────────────── */
 /*               CARROUSEL DE PHOTOS             */
