@@ -261,7 +261,7 @@ function afficherCarousel(d) {
 
 
 /* ============================================================
-   8. PINS — COMPLÈTEMENT CORRIGÉ
+   8. PINS — VERSION CORRIGÉE
    ============================================================ */
 
 function afficherPinsFiltrés(donnees) {
@@ -377,7 +377,6 @@ function construireRegionsEtDepartements() {
     regions.forEach(region => {
         const regionId = "region_" + region.replace(/[^a-zA-Z0-9]/g, "_");
 
-        // Région
         const divR = document.createElement("div");
         divR.className = "checkbox-line";
         divR.innerHTML = `
@@ -386,10 +385,9 @@ function construireRegionsEtDepartements() {
         `;
         zoneReg.appendChild(divR);
 
-        // Conteneur des départements
         const depsContainer = document.createElement("div");
         depsContainer.className = "departements-container";
-        depsContainer.style.display = "none";   // invisible tant que région pas cochée
+        depsContainer.style.display = "none";
 
         (REGIONS_MAP[region] || []).forEach(dep => {
             const depId = "dep_" + dep.replace(/[^a-zA-Z0-9]/g, "_");
@@ -406,7 +404,6 @@ function construireRegionsEtDepartements() {
 
         const regionInput = divR.querySelector("input");
 
-        // ✔️ COCHER UNE REGION => affiche ses départements
         regionInput.addEventListener("input", () => {
             if (regionInput.checked) {
                 depsContainer.style.display = "block";
@@ -417,7 +414,6 @@ function construireRegionsEtDepartements() {
             appliquerFiltres();
         });
 
-        // ✔️ Chaque département filtre
         depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
             inp.addEventListener("input", appliquerFiltres);
         });
@@ -565,6 +561,19 @@ function appliquerFiltres() {
 
         return true;
     });
+
+    /* ----------------------------------------
+       🔥 NOUVELLE LIGNE — AUTO-FERMETURE
+       ---------------------------------------- */
+    if (pinSelectionne) {
+        const refSel = pinSelectionne._icon.innerText.trim();
+        const stillVisible = OUT.some(d =>
+            formatReference(d["Référence annonce"]) === refSel
+        );
+        if (!stillVisible) {
+            fermerPanneau();
+        }
+    }
 
     afficherPinsFiltrés(OUT);
 }
