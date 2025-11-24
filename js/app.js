@@ -291,6 +291,9 @@ function afficherPinsFiltrés(donnees) {
             })
         });
 
+        /* 🔥 NOUVEAU : Référence stockée dans l’objet Marker */
+        marker.refAnnonce = ref;
+
         marker.on("click", () => {
 
             if (pinSelectionne && pinSelectionne._icon) {
@@ -562,14 +565,17 @@ function appliquerFiltres() {
         return true;
     });
 
-    /* ----------------------------------------
-       🔥 NOUVELLE LIGNE — AUTO-FERMETURE
-       ---------------------------------------- */
+    /* ============================================================
+       🔥 AUTO-FERMETURE SI LE PIN SÉLECTIONNÉ DISPARAÎT
+       ============================================================ */
     if (pinSelectionne) {
-        const refSel = pinSelectionne._icon.innerText.trim();
+
+        const refSel = pinSelectionne.refAnnonce; // ✔ FIABLE
+
         const stillVisible = OUT.some(d =>
             formatReference(d["Référence annonce"]) === refSel
         );
+
         if (!stillVisible) {
             fermerPanneau();
         }
