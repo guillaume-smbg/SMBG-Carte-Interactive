@@ -224,6 +224,12 @@ html, body {
     background: transparent !important;
 }
 
+/* ✔️ PINS au-dessus du carrousel */
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+    z-index: 900 !important;
+}
+
 /* ───────────────────────────────────────────── */
 /*                 VOLET DROIT                   */
 /* ───────────────────────────────────────────── */
@@ -289,52 +295,14 @@ html, body {
     font-weight: bold;
 }
 
-/* HR dans le panneau droit */
-.hr-smbg {
-    border: 0;
-    border-top: 1px solid rgba(198,123,66,0.4);
-    margin: 12px 0;
-}
-
-/* (Photos dans le panneau droit – plus utilisées pour l’affichage) */
-#photos-lot img {
-    width: 100%;
-    margin-top: 12px;
-    border-radius: 4px;
-}
-
-/* ───────────────────────────────────────────── */
-/*                   PINS SMBG                   */
-/* ───────────────────────────────────────────── */
-
-.smbg-pin {
-    background-color: #04253d;
-    border: 2px solid white;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    line-height: 26px;
-    font-family: 'Futura';
-}
-.smbg-pin div {
-    font-family: 'Futura';
-    font-weight: bold;
-    color: white;
-    font-size: 13px;
-}
-.smbg-pin-selected { border-color: #E1782C !important; }
-.smbg-pin-selected div { color: #E1782C !important; }
-
 /* ───────────────────────────────────────────── */
 /*               CARROUSEL DE PHOTOS             */
 /* ───────────────────────────────────────────── */
-/* Carrousel flottant, 15px de marge avec volets et bas */
 
 #photo-carousel {
     position: fixed;
-    left: 290px;    /* 275 (volet gauche) + 15 */
-    right: 340px;   /* 325 (volet droit) + 15 */
+    left: 290px;    
+    right: 340px;   
     bottom: 15px;
 
     height: 160px;
@@ -350,10 +318,13 @@ html, body {
 
     border-radius: 12px;
     background: transparent;
+
+    /* ✔️ Carrousel SOUS les pins */
+    z-index: 200;
+
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 
     scrollbar-width: thin;
-    z-index: 500;
 }
 
 /* Vignettes */
@@ -364,17 +335,16 @@ html, body {
     object-fit: cover;
     cursor: pointer;
     display: inline-block;
-
     transition: box-shadow 0.18s ease, border 0.18s ease;
 }
 
-/* Effet hover – sans zoom pour éviter les sauts */
+/* Effet hover – sans zoom */
 #photo-carousel img:hover {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45);
     border: 2px solid #E1782C;
 }
 
-/* Fade gauche / droite pour indiquer le scroll */
+/* Fade gauche / droite */
 #photo-carousel::before,
 #photo-carousel::after {
     content: "";
@@ -403,7 +373,7 @@ html, body {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.8);
-    display: none;              /* affiché en JS */
+    display: none;
     align-items: center;
     justify-content: center;
     z-index: 10000;
