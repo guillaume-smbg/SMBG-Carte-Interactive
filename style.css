@@ -101,6 +101,9 @@ html, body {
     color: #E1782C;
     cursor: pointer;
 }
+.departement-indent {
+    margin-left: 15px !important;
+}
 
 /* SLIDERS */
 .slider-row {
@@ -303,4 +306,5 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
+
 
