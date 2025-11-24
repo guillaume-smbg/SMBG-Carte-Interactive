@@ -200,7 +200,8 @@ html, body {
 /* CARTE */
 #map-container {
     position: fixed;
-
+    background-color: #04253d; /* évite le blanc sous-jacent */
+    
     /* Décalage initial OPTION B (via app.js) → DONC rien ici */
 
     left: 275px;
@@ -221,6 +222,7 @@ html, body {
 
     background-color: #04253d;
     color: #E1782C;
+    transform: translateZ(0); /* force premier rendu sur GPU */
 
     padding: 10px;
     overflow: hidden;
@@ -306,5 +308,6 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
+
 
 
