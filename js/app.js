@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (CARROUSEL + ZOOM PLEIN ÉCRAN)
+   SMBG – Carte interactive (PINS + CARROUSEL + LIGHTBOX)
    ============================================================ */
 
 /* ============================================================
@@ -54,10 +54,11 @@ function fermerPanneau() {
 
     if (pinSelectionne && pinSelectionne._icon) {
         pinSelectionne._icon.classList.remove("smbg-pin-selected");
-        pinSelectionne = null;
     }
 
     document.getElementById("photo-carousel").style.display = "none";
+
+    pinSelectionne = null;
     currentPhotos = [];
 }
 
@@ -65,7 +66,7 @@ map.on("click", fermerPanneau);
 
 
 /* ============================================================
-   3. LIGHTBOX PLEIN ÉCRAN
+   3. LIGHTBOX
    ============================================================ */
 
 function openLightbox(index) {
@@ -90,11 +91,11 @@ lightboxPrev.addEventListener("click", () => changePhoto(-1));
 lightboxNext.addEventListener("click", () => changePhoto(1));
 lightboxClose.addEventListener("click", closeLightbox);
 
-lightbox.addEventListener("click", (e) => {
+lightbox.addEventListener("click", e => {
     if (e.target === lightbox) closeLightbox();
 });
 
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keydown", e => {
     if (e.key === "Escape") closeLightbox();
 });
 
@@ -123,7 +124,7 @@ function formatReference(r) {
 }
 
 function formatValue(key, val) {
-    if (["", "-", "/", "0", "O", 0, 0.0].includes(val)) return null;
+    if (!val || ["-", "/", "0", "O"].includes(val)) return null;
     val = val.toString().trim();
 
     const euros = [
@@ -138,14 +139,12 @@ function formatValue(key, val) {
 
     if (euros.includes(key)) {
         const n = Math.round(parseFloat(val.replace(/\s/g,"")));
-        if (isNaN(n)) return val;
-        return n.toLocaleString("fr-FR") + " €";
+        return isNaN(n) ? val : n.toLocaleString("fr-FR") + " €";
     }
 
     if (surfaces.includes(key)) {
         const n = Math.round(parseFloat(val.replace(/\s/g,"")));
-        if (isNaN(n)) return val;
-        return n.toLocaleString("fr-FR") + " m²";
+        return isNaN(n) ? val : n.toLocaleString("fr-FR") + " m²";
     }
 
     return val;
@@ -153,7 +152,7 @@ function formatValue(key, val) {
 
 
 /* ============================================================
-   6. PANNEAU DROIT — AFFICHAGE
+   6. PANNEAU DROIT
    ============================================================ */
 
 const colonnes_info = [
@@ -179,7 +178,6 @@ function afficherPanneauDroit(d) {
     document.getElementById("ref-annonce").innerHTML = ref;
 
     let html = "";
-
     const adresse = d["Adresse"];
     const gmaps = (d["Lien Google Maps"] || "").trim();
 
@@ -190,7 +188,6 @@ function afficherPanneauDroit(d) {
                 <div class="info-value">${adresse}</div>
             </div>
         `;
-
         if (gmaps) {
             html += `
                 <button class="btn-maps" onclick="window.open('${gmaps}','_blank')">
@@ -216,11 +213,12 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("info-lot").innerHTML = html;
 
-    document.getElementById("photos-lot").innerHTML = "";
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
+
+
 /* ============================================================
-   7. CARROUSEL BAS DE CARTE
+   7. CARROUSEL BAS
    ============================================================ */
 
 function afficherCarousel(d) {
@@ -238,9 +236,8 @@ function afficherCarousel(d) {
     .map(x => x.trim())
     .filter(x => x !== "");
 
-    if (photos.length === 0) {
+    if (!photos.length) {
         zone.style.display = "none";
-        zone.innerHTML = "";
         currentPhotos = [];
         return;
     }
@@ -248,33 +245,29 @@ function afficherCarousel(d) {
     currentPhotos = photos;
     currentPhotoIndex = 0;
 
-    let html = "";
-    photos.forEach((url, index) => {
-        html += `<img src="${url}" data-index="${index}">`;
-    });
+    zone.innerHTML = photos
+        .map((url, i) => `<img src="${url}" data-index="${i}">`)
+        .join("");
 
-    zone.innerHTML = html;
     zone.style.display = "block";
     zone.scrollLeft = 0;
 
     zone.querySelectorAll("img").forEach(img => {
-        img.addEventListener("click", (e) => {
-            const idx = parseInt(e.target.dataset.index, 10) || 0;
-            openLightbox(idx);
+        img.addEventListener("click", e => {
+            openLightbox(parseInt(e.target.dataset.index));
         });
     });
 }
 
 
 /* ============================================================
-   8. PINS — (SECTION MANQUANTE RECONSTRUITE)
+   8. PINS — COMPLÈTEMENT CORRIGÉ
    ============================================================ */
 
 function afficherPinsFiltrés(donnees) {
 
-    const divCompteur = document.getElementById("compteur-annonces");
-    const nb = donnees.length;
-    divCompteur.innerHTML = "Annonces sélectionnées : " + nb;
+    document.getElementById("compteur-annonces").innerHTML =
+        "Annonces sélectionnées : " + donnees.length;
 
     markers.forEach(m => map.removeLayer(m));
     markers = [];
@@ -293,18 +286,24 @@ function afficherPinsFiltrés(donnees) {
             icon: L.divIcon({
                 className: "smbg-pin",
                 html: `<div>${ref}</div>`,
-                iconSize: [30,30],
-                iconAnchor: [15,15]
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
             })
         });
 
         marker.on("click", () => {
 
-            if (pinSelectionne)
+            if (pinSelectionne && pinSelectionne._icon) {
                 pinSelectionne._icon.classList.remove("smbg-pin-selected");
+            }
 
             pinSelectionne = marker;
-            marker._icon.classList.add("smbg-pin-selected");
+
+            setTimeout(() => {
+                if (marker._icon) {
+                    marker._icon.classList.add("smbg-pin-selected");
+                }
+            }, 10);
 
             afficherPanneauDroit(d);
             afficherCarousel(d);
@@ -317,9 +316,8 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   9. OUTILS DE FILTRES
+   9. OUTILS FILTRES
    ============================================================ */
-
 function valeursUniques(key) {
     const set = new Set();
     DATA.forEach(d => {
@@ -334,13 +332,12 @@ function remplirCheckbox(id, valeurs) {
     zone.innerHTML = "";
     valeurs.forEach(v => {
         const safeId = id + "_" + v.replace(/[^a-zA-Z0-9]/g, "_");
-        const div = document.createElement("div");
-        div.className = "checkbox-line";
-        div.innerHTML = `
-            <input type="checkbox" id="${safeId}" value="${v}">
-            <label for="${safeId}">${v}</label>
+        zone.innerHTML += `
+            <div class="checkbox-line">
+                <input type="checkbox" id="${safeId}" value="${v}">
+                <label for="${safeId}">${v}</label>
+            </div>
         `;
-        zone.appendChild(div);
     });
 }
 
@@ -351,7 +348,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   10. RÉGIONS + DÉPARTEMENTS
+   10. RÉGIONS & DÉPARTEMENTS
    ============================================================ */
 
 let REGIONS_MAP = {};
@@ -365,9 +362,7 @@ function buildRegionsMap() {
         if (!mapR[reg]) mapR[reg] = new Set();
         mapR[reg].add(dep);
     });
-    Object.keys(mapR).forEach(r => {
-        mapR[r] = [...mapR[r]].sort();
-    });
+    Object.keys(mapR).forEach(r => mapR[r] = [...mapR[r]].sort());
     return mapR;
 }
 
@@ -376,18 +371,16 @@ function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
     zoneReg.innerHTML = "";
 
-    const regions = Object.keys(REGIONS_MAP).sort();
+    Object.keys(REGIONS_MAP).sort().forEach(region => {
 
-    regions.forEach(region => {
         const regionId = "region_" + region.replace(/[^a-zA-Z0-9]/g, "_");
 
-        const divR = document.createElement("div");
-        divR.className = "checkbox-line";
-        divR.innerHTML = `
-            <input type="checkbox" id="${regionId}" value="${region}">
-            <label for="${regionId}">${region}</label>
+        zoneReg.innerHTML += `
+            <div class="checkbox-line">
+                <input type="checkbox" id="${regionId}" value="${region}">
+                <label for="${regionId}">${region}</label>
+            </div>
         `;
-        zoneReg.appendChild(divR);
 
         const depsContainer = document.createElement("div");
         depsContainer.className = "departements-container";
@@ -395,37 +388,32 @@ function construireRegionsEtDepartements() {
 
         (REGIONS_MAP[region] || []).forEach(dep => {
             const depId = "dep_" + dep.replace(/[^a-zA-Z0-9]/g, "_");
-            const divD = document.createElement("div");
-            divD.className = "checkbox-line departement-indent";
-            divD.innerHTML = `
-                <input type="checkbox" id="${depId}" value="${dep}">
-                <label for="${depId}">${dep}</label>
+            depsContainer.innerHTML += `
+                <div class="checkbox-line departement-indent">
+                    <input type="checkbox" id="${depId}" value="${dep}">
+                    <label for="${depId}">${dep}</label>
+                </div>
             `;
-            depsContainer.appendChild(divD);
         });
 
         zoneReg.appendChild(depsContainer);
 
-        const regionInput = divR.querySelector("input");
+        const regionInput = document.getElementById(regionId);
         regionInput.addEventListener("input", () => {
+            depsContainer.style.display = regionInput.checked ? "block" : "none";
 
-            if (regionInput.checked) {
-                depsContainer.style.display = "block";
-            } else {
-                depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
-                    inp.checked = false;
-                });
-                depsContainer.style.display = "none";
+            if (!regionInput.checked) {
+                depsContainer.querySelectorAll("input").forEach(i => i.checked = false);
             }
 
             appliquerFiltres();
         });
 
-        depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
-            inp.addEventListener("input", appliquerFiltres);
-        });
+        depsContainer.querySelectorAll("input")
+            .forEach(i => i.addEventListener("input", appliquerFiltres));
     });
 }
+
 
 function regionsCochees() {
     return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked")]
@@ -436,13 +424,14 @@ function departementsCoches() {
     return [...document.querySelectorAll("#filter-regions .departements-container input:checked")]
         .map(x => x.value);
 }
+
+
 /* ============================================================
    11. SLIDER SURFACE 
    ============================================================ */
 function initSliderSurface(values) {
 
     const uniq = values.map(v => parseInt(v || 0)).filter(v => !isNaN(v));
-
     const MAX_LIMIT = 2000;
     const min = Math.min(...uniq);
     const maxSlider = MAX_LIMIT;
@@ -463,8 +452,7 @@ function initSliderSurface(values) {
         if (a > b) minInput.value = b;
 
         display.innerHTML =
-            a.toLocaleString("fr-FR") + " m² — " +
-            b.toLocaleString("fr-FR") + " m²";
+            a.toLocaleString("fr-FR") + " m² — " + b.toLocaleString("fr-FR") + " m²";
     }
 
     minInput.oninput = aff;
@@ -481,8 +469,6 @@ function initSliderLoyer(values) {
     const uniq = values.map(v => parseInt(v || 0)).filter(v => !isNaN(v));
 
     const min = Math.min(...uniq);
-    const max = Math.max(...uniq);
-
     const maxAfficher = 200000;
 
     const minInput = document.getElementById("loyer-min");
@@ -502,8 +488,7 @@ function initSliderLoyer(values) {
         if (a > b) minInput.value = b;
 
         display.innerHTML =
-            a.toLocaleString("fr-FR") + " € — " +
-            b.toLocaleString("fr-FR") + " €";
+            a.toLocaleString("fr-FR") + " € — " + b.toLocaleString("fr-FR") + " €";
     }
 
     minInput.oninput = aff;
@@ -544,21 +529,15 @@ function appliquerFiltres() {
 
         if (fr.length || fd.length) {
 
-            if (fd.includes(departement)) {
-                depMatch = true;
-            }
+            if (fd.includes(departement)) depMatch = true;
 
             if (fr.includes(region)) {
                 const depsOfRegion = REGIONS_MAP[region] || [];
-                const hasSelectedDepInRegion = depsOfRegion.some(depName => fd.includes(depName));
-                if (!hasSelectedDepInRegion) {
-                    regionMatch = true;
-                }
+                const has = depsOfRegion.some(dep => fd.includes(dep));
+                if (!has) regionMatch = true;
             }
 
-            if (!regionMatch && !depMatch) {
-                return false;
-            }
+            if (!regionMatch && !depMatch) return false;
         }
 
         if (fe.length  && !fe.includes(d["Emplacement"]))   return false;
@@ -585,7 +564,6 @@ function appliquerFiltres() {
 /* ============================================================
    14. INIT
    ============================================================ */
-
 async function init() {
 
     DATA = await loadExcel();
@@ -601,9 +579,8 @@ async function init() {
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
     initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
-    document.querySelectorAll("#sidebar-left input").forEach(el => {
-        el.addEventListener("input", appliquerFiltres);
-    });
+    document.querySelectorAll("#sidebar-left input")
+        .forEach(el => el.addEventListener("input", appliquerFiltres));
 
     document.getElementById("btn-reset").addEventListener("click", () => {
 
