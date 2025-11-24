@@ -224,12 +224,37 @@ html, body {
     background: transparent !important;
 }
 
-/* ✔️ PINS au-dessus du carrousel */
-.leaflet-marker-icon,
-.leaflet-marker-shadow {
-    z-index: 900 !important;
+/* ✔️ PINS corrigés : visibles + centrés + clic OK */
+.smbg-pin {
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #04253d;
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+
+    font-family: 'Futura';
 }
 
+.smbg-pin div {
+    pointer-events: none;
+    font-weight: bold;
+    color: white;
+    font-size: 13px;
+}
+
+.smbg-pin-selected {
+    border-color: #E1782C !important;
+}
+
+.leaflet-marker-icon {
+    background: transparent !important;
+    border: none !important;
+}
 /* ───────────────────────────────────────────── */
 /*                 VOLET DROIT                   */
 /* ───────────────────────────────────────────── */
@@ -262,7 +287,6 @@ html, body {
 }
 #sidebar-right .sidebar-inner::-webkit-scrollbar { width: 0; }
 
-/* Informations */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
@@ -281,7 +305,6 @@ html, body {
 .info-key { width: 40%; font-weight: bold; }
 .info-value { width: 60%; }
 
-/* Bouton maps */
 .btn-maps {
     background-color: #E1782C;
     color: #04253d;
@@ -296,7 +319,7 @@ html, body {
 }
 
 /* ───────────────────────────────────────────── */
-/*               CARROUSEL DE PHOTOS             */
+/*                 CARROUSEL BAS                 */
 /* ───────────────────────────────────────────── */
 
 #photo-carousel {
@@ -319,15 +342,12 @@ html, body {
     border-radius: 12px;
     background: transparent;
 
-    /* ✔️ Carrousel SOUS les pins */
     z-index: 200;
 
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-
     scrollbar-width: thin;
 }
 
-/* Vignettes */
 #photo-carousel img {
     height: 140px;
     margin-right: 10px;
@@ -338,13 +358,11 @@ html, body {
     transition: box-shadow 0.18s ease, border 0.18s ease;
 }
 
-/* Effet hover – sans zoom */
 #photo-carousel img:hover {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45);
     border: 2px solid #E1782C;
 }
 
-/* Fade gauche / droite */
 #photo-carousel::before,
 #photo-carousel::after {
     content: "";
@@ -414,7 +432,6 @@ html, body {
 .lightbox-prev { left: -60px; }
 .lightbox-next { right: -60px; }
 
-/* Bouton fermer */
 .lightbox-close {
     position: absolute;
     top: -50px;
@@ -432,6 +449,7 @@ html, body {
 /* ───────────────────────────────────────────── */
 /*              SCROLL INTERNE GÉNÉRAL           */
 /* ───────────────────────────────────────────── */
+
 .sidebar-inner {
     height: 100%;
     overflow-y: auto;
