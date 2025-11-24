@@ -29,6 +29,7 @@ html, body {
     width: 275px;
     background-color: #04253d;
     color: #E1782C;
+
     padding: 10px;
     overflow: hidden;
 }
@@ -104,7 +105,7 @@ html, body {
     cursor: pointer;
 }
 
-/* ✔️ DÉCALAGE DES DÉPARTEMENTS */
+/* ✔️ Décalage des départements */
 .departement-indent {
     margin-left: 15px !important;
 }
@@ -223,9 +224,8 @@ html, body {
     background: transparent !important;
 }
 
-/* ✔️ PINS corrigés et fonctionnels */
+/* ✔️ PINS (correctif complet) */
 .smbg-pin {
-    position: relative;
     display: flex !important;
     align-items: center;
     justify-content: center;
@@ -237,10 +237,11 @@ html, body {
     height: 30px;
 
     font-family: 'Futura';
+    pointer-events: auto !important;
 }
 
 .smbg-pin div {
-    pointer-events: none;
+    pointer-events: none !important;
     font-weight: bold;
     color: white;
     font-size: 13px;
@@ -250,9 +251,15 @@ html, body {
     border-color: #E1782C !important;
 }
 
-.leaflet-marker-icon {
-    background: transparent !important;
-    border: none !important;
+/* Force les pins au-dessus */
+.leaflet-marker-pane {
+    z-index: 600 !important;
+}
+
+/* comportement divIcon */
+.leaflet-marker-icon,
+.leaflet-marker-icon * {
+    pointer-events: none !important;
 }
 
 /* ───────────────────────────────────────────── */
@@ -287,6 +294,7 @@ html, body {
 }
 #sidebar-right .sidebar-inner::-webkit-scrollbar { width: 0; }
 
+/* Informations */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
@@ -305,6 +313,7 @@ html, body {
 .info-key { width: 40%; font-weight: bold; }
 .info-value { width: 60%; }
 
+/* Bouton maps */
 .btn-maps {
     background-color: #E1782C;
     color: #04253d;
@@ -355,13 +364,12 @@ html, body {
     object-fit: cover;
     cursor: pointer;
     display: inline-block;
-    transition: box-shadow 0.18s ease, border 0.18s ease, transform 0.18s ease;
+    transition: box-shadow 0.18s ease, border 0.18s ease;
 }
 
 #photo-carousel img:hover {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45);
     border: 2px solid #E1782C;
-    transform: scale(1.03);
 }
 
 #photo-carousel::before,
@@ -412,7 +420,6 @@ html, body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
 }
 
-/* Flèches navigation */
 .lightbox-nav {
     position: absolute;
     top: 50%;
