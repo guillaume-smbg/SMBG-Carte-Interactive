@@ -289,7 +289,14 @@ html, body {
     font-weight: bold;
 }
 
-/* (Photos dans le panneau droit – plus utilisées, mais gardées neutres) */
+/* HR dans le panneau droit */
+.hr-smbg {
+    border: 0;
+    border-top: 1px solid rgba(198,123,66,0.4);
+    margin: 12px 0;
+}
+
+/* (Photos dans le panneau droit – plus utilisées pour l’affichage) */
 #photos-lot img {
     width: 100%;
     margin-top: 12px;
@@ -322,12 +329,12 @@ html, body {
 /* ───────────────────────────────────────────── */
 /*               CARROUSEL DE PHOTOS             */
 /* ───────────────────────────────────────────── */
-/* Carrousel flottant, centré entre les 2 volets, 15px de marge partout */
+/* Carrousel flottant, 15px de marge avec volets et bas */
 
 #photo-carousel {
     position: fixed;
-    left: 290px;   /* 275 (volet gauche) + 15 */
-    right: 340px;  /* 325 (volet droit) + 15 */
+    left: 290px;    /* 275 (volet gauche) + 15 */
+    right: 340px;   /* 325 (volet droit) + 15 */
     bottom: 15px;
 
     height: 160px;
@@ -346,23 +353,23 @@ html, body {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 
     scrollbar-width: thin;
+    z-index: 500;
 }
 
 /* Vignettes */
 #photo-carousel img {
-    height: 140px; /* 160 - padding vertical total */
+    height: 140px;
     margin-right: 10px;
     border-radius: 8px;
     object-fit: cover;
     cursor: pointer;
     display: inline-block;
 
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border 0.18s ease;
+    transition: box-shadow 0.18s ease, border 0.18s ease;
 }
 
-/* Effet hover */
+/* Effet hover – sans zoom pour éviter les sauts */
 #photo-carousel img:hover {
-    transform: scale(1.04);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45);
     border: 2px solid #E1782C;
 }
@@ -386,6 +393,70 @@ html, body {
 #photo-carousel::after {
     right: 0;
     background: linear-gradient(to left, rgba(0,0,0,0.45), rgba(0,0,0,0));
+}
+
+/* ───────────────────────────────────────────── */
+/*              ZOOM PLEIN ÉCRAN PHOTOS          */
+/* ───────────────────────────────────────────── */
+
+#photo-lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;              /* affiché en JS */
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+#photo-lightbox .lightbox-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#photo-lightbox img#lightbox-image {
+    max-width: 80vw;
+    max-height: 80vh;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+/* Flèches navigation */
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-prev { left: -60px; }
+.lightbox-next { right: -60px; }
+
+/* Bouton fermer */
+.lightbox-close {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
 }
 
 /* ───────────────────────────────────────────── */
