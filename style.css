@@ -28,7 +28,7 @@ html, body {
     background-color: #04253d;
     color: #E1782C;
 
-    padding: 10px; /* marge interne uniforme */
+    padding: 10px;
     overflow: hidden;
 }
 
@@ -101,6 +101,8 @@ html, body {
     color: #E1782C;
     cursor: pointer;
 }
+
+/* ✔️ DÉCALAGE DES DÉPARTEMENTS */
 .departement-indent {
     margin-left: 15px !important;
 }
@@ -200,16 +202,15 @@ html, body {
 /* CARTE */
 #map-container {
     position: fixed;
-    background-color: #04253d; /* évite le blanc sous-jacent */
-    
-    /* Décalage initial OPTION B (via app.js) → DONC rien ici */
-
     left: 275px;
     right: 0;
-
     top: 0;
     bottom: 0;
+
+    /* ✔️ Empêche le flash blanc */
+    background-color: #04253d;
 }
+
 #map { width: 100%; height: 100%; }
 
 /* VOLET DROIT */
@@ -217,19 +218,22 @@ html, body {
     position: fixed;
     top: 0;
     bottom: 0;
-    right: -320px; /* 325px - 5px = 320px → 5px visibles */
+    right: -325px;
     width: 325px;
 
     background-color: #04253d;
     color: #E1782C;
-    transform: translateZ(0); /* force premier rendu sur GPU */
 
     padding: 10px;
     overflow: hidden;
 
     transition: right 0.35s ease;
+
+    /* ✔️ Empêche le flash blanc */
+    transform: translateZ(0);
 }
 
+/* Ouverture */
 #sidebar-right.open {
     right: 0;
 }
@@ -308,6 +312,3 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
-
-
-
