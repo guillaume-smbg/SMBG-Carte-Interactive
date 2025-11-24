@@ -362,58 +362,67 @@ function buildRegionsMap() {
         if (!mapR[reg]) mapR[reg] = new Set();
         mapR[reg].add(dep);
     });
-    Object.keys(mapR).forEach(r => mapR[r] = [...mapR[r]].sort());
+    Object.keys(mapR).forEach(r => {
+        mapR[r] = [...mapR[r]].sort();
+    });
     return mapR;
 }
-
 
 function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
     zoneReg.innerHTML = "";
 
-    Object.keys(REGIONS_MAP).sort().forEach(region => {
+    const regions = Object.keys(REGIONS_MAP).sort();
 
+    regions.forEach(region => {
         const regionId = "region_" + region.replace(/[^a-zA-Z0-9]/g, "_");
 
-        zoneReg.innerHTML += `
-            <div class="checkbox-line">
-                <input type="checkbox" id="${regionId}" value="${region}">
-                <label for="${regionId}">${region}</label>
-            </div>
+        // Région
+        const divR = document.createElement("div");
+        divR.className = "checkbox-line";
+        divR.innerHTML = `
+            <input type="checkbox" id="${regionId}" value="${region}">
+            <label for="${regionId}">${region}</label>
         `;
+        zoneReg.appendChild(divR);
 
+        // Conteneur des départements
         const depsContainer = document.createElement("div");
         depsContainer.className = "departements-container";
-        depsContainer.style.display = "none";
+        depsContainer.style.display = "none";   // invisible tant que région pas cochée
 
         (REGIONS_MAP[region] || []).forEach(dep => {
             const depId = "dep_" + dep.replace(/[^a-zA-Z0-9]/g, "_");
-            depsContainer.innerHTML += `
-                <div class="checkbox-line departement-indent">
-                    <input type="checkbox" id="${depId}" value="${dep}">
-                    <label for="${depId}">${dep}</label>
-                </div>
+            const divD = document.createElement("div");
+            divD.className = "checkbox-line departement-indent";
+            divD.innerHTML = `
+                <input type="checkbox" id="${depId}" value="${dep}">
+                <label for="${depId}">${dep}</label>
             `;
+            depsContainer.appendChild(divD);
         });
 
         zoneReg.appendChild(depsContainer);
 
-        const regionInput = document.getElementById(regionId);
+        const regionInput = divR.querySelector("input");
+
+        // ✔️ COCHER UNE REGION => affiche ses départements
         regionInput.addEventListener("input", () => {
-            depsContainer.style.display = regionInput.checked ? "block" : "none";
-
-            if (!regionInput.checked) {
-                depsContainer.querySelectorAll("input").forEach(i => i.checked = false);
+            if (regionInput.checked) {
+                depsContainer.style.display = "block";
+            } else {
+                depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => inp.checked = false);
+                depsContainer.style.display = "none";
             }
-
             appliquerFiltres();
         });
 
-        depsContainer.querySelectorAll("input")
-            .forEach(i => i.addEventListener("input", appliquerFiltres));
+        // ✔️ Chaque département filtre
+        depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
+            inp.addEventListener("input", appliquerFiltres);
+        });
     });
 }
-
 
 function regionsCochees() {
     return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked")]
