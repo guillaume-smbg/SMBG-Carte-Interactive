@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION AVEC CARROUSEL + PHOTOS ANNONCE)
+   SMBG – Carte interactive (CARROUSEL + ZOOM PLEIN ÉCRAN)
    ============================================================ */
 
 /* ============================================================
@@ -26,10 +26,20 @@ map.whenReady(() => {
 
 
 /* ============================================================
-   2. PANNEAU DROIT
+   2. PANNEAU DROIT + LIGHTBOX
    ============================================================ */
 
-const sidebarRight = document.getElementById("sidebar-right");
+const sidebarRight   = document.getElementById("sidebar-right");
+const lightbox       = document.getElementById("photo-lightbox");
+const lightboxImg    = document.getElementById("lightbox-image");
+const lightboxPrev   = document.getElementById("lightbox-prev");
+const lightboxNext   = document.getElementById("lightbox-next");
+const lightboxClose  = document.getElementById("lightbox-close");
+
+let pinSelectionne   = null;
+let markers          = [];
+let currentPhotos    = [];
+let currentPhotoIndex = 0;
 
 function ouvrirPanneau() {
     sidebarRight.classList.add("open");
@@ -48,13 +58,53 @@ function fermerPanneau() {
     }
 
     document.getElementById("photo-carousel").style.display = "none";
+    currentPhotos = [];
 }
 
+/* clic sur la carte => fermeture panneau + carrousel */
 map.on("click", fermerPanneau);
 
 
 /* ============================================================
-   3. CHARGEMENT EXCEL
+   3. LIGHTBOX PLEIN ÉCRAN
+   ============================================================ */
+
+function openLightbox(index) {
+    if (!currentPhotos.length) return;
+    currentPhotoIndex = index;
+    lightboxImg.src = currentPhotos[currentPhotoIndex];
+    lightbox.style.display = "flex";
+}
+
+function closeLightbox() {
+    lightbox.style.display = "none";
+}
+
+function changePhoto(delta) {
+    if (!currentPhotos.length) return;
+    const n = currentPhotos.length;
+    currentPhotoIndex = (currentPhotoIndex + delta + n) % n;
+    lightboxImg.src = currentPhotos[currentPhotoIndex];
+}
+
+/* événements lightbox */
+lightboxPrev.addEventListener("click", () => changePhoto(-1));
+lightboxNext.addEventListener("click", () => changePhoto(1));
+lightboxClose.addEventListener("click", closeLightbox);
+
+/* clic sur le fond noir => fermer */
+lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) closeLightbox();
+});
+
+/* touche Échap => fermer */
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeLightbox();
+});
+
+
+/* ============================================================
+   4. CHARGEMENT EXCEL
    ============================================================ */
 async function loadExcel() {
     const url =
@@ -69,7 +119,7 @@ let DATA = [];
 
 
 /* ============================================================
-   4. FORMATAGE
+   5. FORMATAGE
    ============================================================ */
 function formatReference(r) {
     if (!r) return "";
@@ -107,7 +157,7 @@ function formatValue(key, val) {
 
 
 /* ============================================================
-   5. PANNEAU DROIT — AFFICHAGE
+   6. PANNEAU DROIT — AFFICHAGE
    ============================================================ */
 
 const colonnes_info = [
@@ -170,7 +220,7 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("info-lot").innerHTML = html;
 
-    /* On supprime les photos du volet droit : rien dans #photos-lot */
+    /* On ne met plus de photos dans le volet droit */
     document.getElementById("photos-lot").innerHTML = "";
 
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
@@ -178,7 +228,7 @@ function afficherPanneauDroit(d) {
 
 
 /* ============================================================
-   6. CARROUSEL BAS DE CARTE
+   7. CARROUSEL BAS DE CARTE
    ============================================================ */
 
 function afficherCarousel(d) {
@@ -199,68 +249,28 @@ function afficherCarousel(d) {
     if (photos.length === 0) {
         zone.style.display = "none";
         zone.innerHTML = "";
+        currentPhotos = [];
         return;
     }
 
+    currentPhotos = photos;
+    currentPhotoIndex = 0;
+
     let html = "";
-    photos.forEach(url => {
-        html += `<img src="${url}">`;
+    photos.forEach((url, index) => {
+        html += `<img src="${url}" data-index="${index}">`;
     });
 
     zone.innerHTML = html;
     zone.style.display = "block";
-}
+    zone.scrollLeft = 0;
 
-
-/* ============================================================
-   7. PINS
-   ============================================================ */
-let pinSelectionne = null;
-let markers = [];
-
-function afficherPinsFiltrés(donnees) {
-
-    const divCompteur = document.getElementById("compteur-annonces");
-    const nb = donnees.length;
-    divCompteur.innerHTML = "Annonces sélectionnées : " + nb;
-
-    markers.forEach(m => map.removeLayer(m));
-    markers = [];
-
-    pinSelectionne = null;
-
-    donnees.forEach(d => {
-        if ((d["Actif"] || "").toLowerCase().trim() !== "oui") return;
-
-        const lat = parseFloat(d["Latitude"]);
-        const lng = parseFloat(d["Longitude"]);
-        if (!lat || !lng) return;
-
-        const ref = formatReference(d["Référence annonce"]);
-
-        const marker = L.marker([lat,lng], {
-            icon: L.divIcon({
-                className: "smbg-pin",
-                html: `<div>${ref}</div>`,
-                iconSize: [30,30],
-                iconAnchor: [15,15]
-            })
+    /* clic sur les vignettes => ouverture zoom */
+    zone.querySelectorAll("img").forEach(img => {
+        img.addEventListener("click", (e) => {
+            const idx = parseInt(e.target.dataset.index, 10) || 0;
+            openLightbox(idx);
         });
-
-        marker.on("click", ()=>{
-
-            if (pinSelectionne)
-                pinSelectionne._icon.classList.remove("smbg-pin-selected");
-
-            pinSelectionne = marker;
-            marker._icon.classList.add("smbg-pin-selected");
-
-            afficherPanneauDroit(d);
-            afficherCarousel(d);
-        });
-
-        marker.addTo(map);
-        markers.push(marker);
     });
 }
 
