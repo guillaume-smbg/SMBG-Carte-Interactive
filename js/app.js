@@ -61,7 +61,6 @@ function fermerPanneau() {
     currentPhotos = [];
 }
 
-/* clic sur la carte => fermeture panneau + carrousel */
 map.on("click", fermerPanneau);
 
 
@@ -87,17 +86,14 @@ function changePhoto(delta) {
     lightboxImg.src = currentPhotos[currentPhotoIndex];
 }
 
-/* événements lightbox */
 lightboxPrev.addEventListener("click", () => changePhoto(-1));
 lightboxNext.addEventListener("click", () => changePhoto(1));
 lightboxClose.addEventListener("click", closeLightbox);
 
-/* clic sur le fond noir => fermer */
 lightbox.addEventListener("click", (e) => {
     if (e.target === lightbox) closeLightbox();
 });
 
-/* touche Échap => fermer */
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeLightbox();
 });
@@ -220,13 +216,9 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("info-lot").innerHTML = html;
 
-    /* On ne met plus de photos dans le volet droit */
     document.getElementById("photos-lot").innerHTML = "";
-
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
-
-
 /* ============================================================
    7. CARROUSEL BAS DE CARTE
    ============================================================ */
@@ -265,7 +257,6 @@ function afficherCarousel(d) {
     zone.style.display = "block";
     zone.scrollLeft = 0;
 
-    /* clic sur les vignettes => ouverture zoom */
     zone.querySelectorAll("img").forEach(img => {
         img.addEventListener("click", (e) => {
             const idx = parseInt(e.target.dataset.index, 10) || 0;
@@ -276,7 +267,57 @@ function afficherCarousel(d) {
 
 
 /* ============================================================
-   8. OUTILS DE FILTRES
+   8. PINS — (SECTION MANQUANTE RECONSTRUITE)
+   ============================================================ */
+
+function afficherPinsFiltrés(donnees) {
+
+    const divCompteur = document.getElementById("compteur-annonces");
+    const nb = donnees.length;
+    divCompteur.innerHTML = "Annonces sélectionnées : " + nb;
+
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+    pinSelectionne = null;
+
+    donnees.forEach(d => {
+        if ((d["Actif"] || "").toLowerCase().trim() !== "oui") return;
+
+        const lat = parseFloat(d["Latitude"]);
+        const lng = parseFloat(d["Longitude"]);
+        if (!lat || !lng) return;
+
+        const ref = formatReference(d["Référence annonce"]);
+
+        const marker = L.marker([lat, lng], {
+            icon: L.divIcon({
+                className: "smbg-pin",
+                html: `<div>${ref}</div>`,
+                iconSize: [30,30],
+                iconAnchor: [15,15]
+            })
+        });
+
+        marker.on("click", () => {
+
+            if (pinSelectionne)
+                pinSelectionne._icon.classList.remove("smbg-pin-selected");
+
+            pinSelectionne = marker;
+            marker._icon.classList.add("smbg-pin-selected");
+
+            afficherPanneauDroit(d);
+            afficherCarousel(d);
+        });
+
+        marker.addTo(map);
+        markers.push(marker);
+    });
+}
+
+
+/* ============================================================
+   9. OUTILS DE FILTRES
    ============================================================ */
 
 function valeursUniques(key) {
@@ -310,7 +351,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   9. RÉGIONS + DÉPARTEMENTS
+   10. RÉGIONS + DÉPARTEMENTS
    ============================================================ */
 
 let REGIONS_MAP = {};
@@ -395,14 +436,12 @@ function departementsCoches() {
     return [...document.querySelectorAll("#filter-regions .departements-container input:checked")]
         .map(x => x.value);
 }
-
-
 /* ============================================================
-   10. SLIDER SURFACE 
+   11. SLIDER SURFACE 
    ============================================================ */
 function initSliderSurface(values) {
 
-    const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
+    const uniq = values.map(v => parseInt(v || 0)).filter(v => !isNaN(v));
 
     const MAX_LIMIT = 2000;
     const min = Math.min(...uniq);
@@ -435,11 +474,11 @@ function initSliderSurface(values) {
 
 
 /* ============================================================
-   11. SLIDER LOYER
+   12. SLIDER LOYER
    ============================================================ */
 function initSliderLoyer(values) {
 
-    const uniq = values.map(v=>parseInt(v||0)).filter(v=>!isNaN(v));
+    const uniq = values.map(v => parseInt(v || 0)).filter(v => !isNaN(v));
 
     const min = Math.min(...uniq);
     const max = Math.max(...uniq);
@@ -474,7 +513,7 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   12. APPLY FILTERS
+   13. APPLY FILTERS
    ============================================================ */
 function appliquerFiltres() {
 
@@ -544,7 +583,7 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   13. INIT
+   14. INIT
    ============================================================ */
 
 async function init() {
