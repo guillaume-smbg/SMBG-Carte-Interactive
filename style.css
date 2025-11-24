@@ -29,7 +29,6 @@ html, body {
     width: 275px;
     background-color: #04253d;
     color: #E1782C;
-
     padding: 10px;
     overflow: hidden;
 }
@@ -105,9 +104,14 @@ html, body {
     cursor: pointer;
 }
 
-/* ✔️ Décalage des départements */
+/* ✔ DÉCALAGE DES DÉPARTEMENTS */
 .departement-indent {
     margin-left: 15px !important;
+}
+
+/* ← Correction affichage conteneur départements */
+.departements-container {
+    margin-left: 5px;
 }
 
 /* SLIDERS */
@@ -224,7 +228,7 @@ html, body {
     background: transparent !important;
 }
 
-/* ✔️ PINS (correctif complet) */
+/* ✔ PINS — VERSION CORRIGÉE */
 .smbg-pin {
     display: flex !important;
     align-items: center;
@@ -237,7 +241,6 @@ html, body {
     height: 30px;
 
     font-family: 'Futura';
-    pointer-events: auto !important;
 }
 
 .smbg-pin div {
@@ -251,13 +254,12 @@ html, body {
     border-color: #E1782C !important;
 }
 
-/* Force les pins au-dessus */
+/* ✔ Les pins doivent rester au-dessus */
 .leaflet-marker-pane {
     z-index: 600 !important;
 }
 
-/* comportement divIcon */
-.leaflet-marker-icon,
+/* ✔ Correction : clics réactivés */
 .leaflet-marker-icon * {
     pointer-events: none !important;
 }
@@ -294,7 +296,6 @@ html, body {
 }
 #sidebar-right .sidebar-inner::-webkit-scrollbar { width: 0; }
 
-/* Informations */
 #ref-annonce {
     text-align: center;
     font-size: 26px;
@@ -313,7 +314,6 @@ html, body {
 .info-key { width: 40%; font-weight: bold; }
 .info-value { width: 60%; }
 
-/* Bouton maps */
 .btn-maps {
     background-color: #E1782C;
     color: #04253d;
@@ -333,14 +333,13 @@ html, body {
 
 #photo-carousel {
     position: fixed;
-    left: 290px;    
-    right: 340px;   
+    left: 290px;
+    right: 340px;
     bottom: 15px;
 
     height: 160px;
 
     display: none;
-
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
@@ -393,7 +392,7 @@ html, body {
 }
 
 /* ───────────────────────────────────────────── */
-/*              ZOOM PLEIN ÉCRAN PHOTOS          */
+/*               ZOOM PLEIN ÉCRAN                */
 /* ───────────────────────────────────────────── */
 
 #photo-lightbox {
