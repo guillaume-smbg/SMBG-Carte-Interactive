@@ -31,16 +31,15 @@ map.whenReady(() => {
    ============================================================ */
 
 const sidebarRight = document.getElementById("sidebar-right");
-const mapContainer = document.getElementById("map-container");
+// ❌ On ne touche plus à la largeur / position de la carte
+// const mapContainer = document.getElementById("map-container");
 
 function ouvrirPanneau() {
     sidebarRight.classList.add("open");
-    mapContainer.style.right = "325px";
 }
 
 function fermerPanneau() {
     sidebarRight.classList.remove("open");
-    mapContainer.style.right = "10px";
 
     // 🔥 Effacer texte du panneau
     document.getElementById("ref-annonce").innerHTML = "";
