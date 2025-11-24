@@ -218,7 +218,7 @@ html, body {
     position: fixed;
     top: 0;
     bottom: 0;
-    right: -325px;
+    right: -350px;
     width: 325px;
 
     background-color: #04253d;
@@ -312,3 +312,4 @@ html, body {
     overflow-y: auto;
     padding-bottom: 140px;
 }
+
