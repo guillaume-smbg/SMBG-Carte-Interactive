@@ -170,23 +170,8 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("info-lot").innerHTML = html;
 
-    /* LECTURE PHOTOS — VERSION SUPPORT “Photos annonce” */
-    let photos = (
-        d["Photos"] ||
-        d["Photos annonce"] ||
-        d["Photo annonce"] ||
-        d["AP"] ||
-        ""
-    )
-    .toString()
-    .split(";")
-    .map(x => x.trim())
-    .filter(x => x);
-
-    let ph = "";
-    photos.forEach(url => { ph += `<img src="${url}">`; });
-
-    document.getElementById("photos-lot").innerHTML = ph;
+    /* On supprime les photos du volet droit : rien dans #photos-lot */
+    document.getElementById("photos-lot").innerHTML = "";
 
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
