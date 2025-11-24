@@ -1,5 +1,5 @@
 /* ============================================================
-   SMBG – Carte interactive (VERSION STABLE + IMBRICATION & LOGIQUE R/D)
+   SMBG – Carte interactive (VERSION AVEC CARROUSEL)
    ============================================================ */
 
 /* ============================================================
@@ -20,7 +20,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 map.setView([46.8, 2.4], 6);
 
-// 🔥 Décalage instantané de la carte sans animation
+// Décalage initial
 map.whenReady(() => {
     map.panBy([162, 0], { animate: false });
 });
@@ -31,8 +31,6 @@ map.whenReady(() => {
    ============================================================ */
 
 const sidebarRight = document.getElementById("sidebar-right");
-// ❌ On ne touche plus à la largeur / position de la carte
-// const mapContainer = document.getElementById("map-container");
 
 function ouvrirPanneau() {
     sidebarRight.classList.add("open");
@@ -41,19 +39,22 @@ function ouvrirPanneau() {
 function fermerPanneau() {
     sidebarRight.classList.remove("open");
 
-    // 🔥 Effacer texte du panneau
+    // Vide panneau droit
     document.getElementById("ref-annonce").innerHTML = "";
     document.getElementById("info-lot").innerHTML = "";
     document.getElementById("photos-lot").innerHTML = "";
 
-    // 🔥 Désélectionne le pin
+    // Désélectionner le pin
     if (pinSelectionne && pinSelectionne._icon) {
         pinSelectionne._icon.classList.remove("smbg-pin-selected");
         pinSelectionne = null;
     }
+
+    // Masque carrousel
+    document.getElementById("photo-carousel").style.display = "none";
 }
 
-// 🔥 clic sur la carte → referme panneau + reset visuel
+// clic sur la carte → referme panneau + carrousel
 map.on("click", fermerPanneau);
 
 
@@ -111,7 +112,7 @@ function formatValue(key, val) {
 
 
 /* ============================================================
-   5. PANNEAU DROIT – AFFICHAGE
+   5. PANNEAU DROIT — AFFICHAGE
    ============================================================ */
 
 const colonnes_info = [
@@ -174,8 +175,13 @@ function afficherPanneauDroit(d) {
 
     document.getElementById("info-lot").innerHTML = html;
 
-    let photos = (d["Photos"] || d["AP"] || "")
-        .toString().split(";").map(x => x.trim()).filter(x => x);
+
+    // PHOTOS dans panneau droit (legacy)
+    let photos = (d["Photos"] || "")
+        .toString()
+        .split(";")
+        .map(x => x.trim())
+        .filter(x => x);
 
     let ph = "";
     photos.forEach(url => { ph += `<img src="${url}">`; });
@@ -183,18 +189,47 @@ function afficherPanneauDroit(d) {
     document.getElementById("photos-lot").innerHTML = ph;
 
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
+
 }
 
 
 /* ============================================================
-   6. PINS
+   6. CARROUSEL BAS DE CARTE
+   ============================================================ */
+
+function afficherCarousel(d) {
+    const zone = document.getElementById("photo-carousel");
+
+    let photos = (d["Photos"] || "")
+        .toString()
+        .split(";")
+        .map(x => x.trim())
+        .filter(x => x !== "");
+
+    if (photos.length === 0) {
+        zone.style.display = "none";
+        zone.innerHTML = "";
+        return;
+    }
+
+    let html = "";
+    photos.forEach(url => {
+        html += `<img src="${url}">`;
+    });
+
+    zone.innerHTML = html;
+    zone.style.display = "block";
+}
+
+
+/* ============================================================
+   7. PINS
    ============================================================ */
 let pinSelectionne = null;
 let markers = [];
 
 function afficherPinsFiltrés(donnees) {
 
-    // 🔥 MAJ compteur dynamique
     const divCompteur = document.getElementById("compteur-annonces");
     const nb = donnees.length;
     divCompteur.innerHTML = "Annonces sélectionnées : " + nb;
@@ -231,6 +266,7 @@ function afficherPinsFiltrés(donnees) {
             marker._icon.classList.add("smbg-pin-selected");
 
             afficherPanneauDroit(d);
+            afficherCarousel(d);
         });
 
         marker.addTo(map);
@@ -240,8 +276,9 @@ function afficherPinsFiltrés(donnees) {
 
 
 /* ============================================================
-   7. OUTILS GÉNÉRIQUES DE FILTRES
+   8. OUTILS DE FILTRES
    ============================================================ */
+
 function valeursUniques(key) {
     const set = new Set();
     DATA.forEach(d => {
@@ -273,7 +310,7 @@ function valeursCochées(id) {
 
 
 /* ============================================================
-   8. RÉGIONS + DÉPARTEMENTS — IMBRICATION VISUELLE
+   9. RÉGIONS + DÉPARTEMENTS
    ============================================================ */
 
 let REGIONS_MAP = {};
@@ -361,7 +398,7 @@ function departementsCoches() {
 
 
 /* ============================================================
-   9. SLIDER SURFACE 
+   10. SLIDER SURFACE 
    ============================================================ */
 function initSliderSurface(values) {
 
@@ -398,7 +435,7 @@ function initSliderSurface(values) {
 
 
 /* ============================================================
-   10. SLIDER LOYER
+   11. SLIDER LOYER
    ============================================================ */
 function initSliderLoyer(values) {
 
@@ -437,7 +474,7 @@ function initSliderLoyer(values) {
 
 
 /* ============================================================
-   11. APPLY FILTERS
+   12. APPLY FILTERS
    ============================================================ */
 function appliquerFiltres() {
 
@@ -507,7 +544,7 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   12. INIT
+   13. INIT
    ============================================================ */
 
 async function init() {
@@ -543,9 +580,7 @@ async function init() {
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
         initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
-        // 🔥 Rétracter panneau droit
         fermerPanneau();
-
         afficherPinsFiltrés(DATA);
     });
 
