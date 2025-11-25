@@ -291,6 +291,7 @@ function afficherPinsFiltrés(donnees) {
             })
         });
 
+        /* 🔥 NOUVEAU : Référence stockée dans l’objet Marker */
         marker.refAnnonce = ref;
 
         marker.on("click", () => {
@@ -565,16 +566,11 @@ function appliquerFiltres() {
     });
 
     /* ============================================================
-       🔥 AFFICHER LES PINS D’ABORD
-       ============================================================ */
-    afficherPinsFiltrés(OUT);
-
-    /* ============================================================
-       🔥 PUIS vérifier si le pin sélectionné existe encore
+       🔥 AUTO-FERMETURE SI LE PIN SÉLECTIONNÉ DISPARAÎT
        ============================================================ */
     if (pinSelectionne) {
 
-        const refSel = pinSelectionne.refAnnonce;
+        const refSel = pinSelectionne.refAnnonce; // ✔ FIABLE
 
         const stillVisible = OUT.some(d =>
             formatReference(d["Référence annonce"]) === refSel
@@ -584,6 +580,8 @@ function appliquerFiltres() {
             fermerPanneau();
         }
     }
+
+    afficherPinsFiltrés(OUT);
 }
 
 
@@ -600,7 +598,7 @@ async function init() {
     remplirCheckbox("filter-emplacement",  valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie",    valeursUniques("Typologie"));
     remplirCheckbox("filter-extraction",   valeursUniques("Extraction"));
-    remplirCheckbox("filter-restauration", valeursCochées("Restauration"));
+    remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
 
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
     initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
