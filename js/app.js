@@ -123,9 +123,15 @@ function formatReference(r) {
     return r.toString().trim().replace(/^0+/, "").replace(/\.0$/, "");
 }
 
-function formatValue(key, val, dataRow = null) {
+function formatValue(key, val) {
     if (!val || ["-", "/", "0", "O"].includes(val)) return null;
+
     val = val.toString().trim();
+
+    // ⛔ NE PAS FORMATER — laisser EXACTEMENT le texte Excel
+    if (key === "Dépôt de garantie" || key === "GAPD") {
+        return val;
+    }
 
     const euros = [
         "Loyer annuel","Loyer Mensuel","Loyer €/m²","Loyer variable",
@@ -133,57 +139,15 @@ function formatValue(key, val, dataRow = null) {
         "Taxe foncière","Taxe foncière €/m²",
         "Marketing","Marketing €/m²",
         "Total (L+C+M)"
-        // ⚠ Dépôt de garantie retiré de cette liste, géré séparément
     ];
 
     const surfaces = ["Surface GLA","Surface utile"];
 
-    /* ----------------------------------------------------
-       🔥 Correction : Dépôt de garantie (mois ou montant)
-       ---------------------------------------------------- */
-    if (key === "Dépôt de garantie") {
-        const raw = val;
-
-        // Récupération du loyer mensuel réel
-        let loyM = 0;
-        if (dataRow) {
-            loyM = parseFloat((dataRow["Loyer Mensuel"] || "0").toString().replace(/\s/g, ""));
-        }
-
-        // Détection si déjà un montant en euros
-        const valeurNum = parseFloat(raw.replace(/[^\d.,]/g, "").replace(",", "."));
-        const contientEuro = raw.includes("€");
-
-        // Cas 1 → Montant direct : on affiche tel quel
-        if (contientEuro && valeurNum > 0) {
-            return valeurNum.toLocaleString("fr-FR") + " €";
-        }
-
-        // Cas 2 → Mois (ex : "3", "3 mois", "3 Mois", etc.)
-        const matchMois = raw.match(/^(\d+)\s*(mois|mois\.?)?$/i);
-        if (matchMois) {
-            const nbMois = parseInt(matchMois[1]);
-
-            if (loyM > 0) {
-                const montant = nbMois * loyM;
-                return `${nbMois} mois = ${montant.toLocaleString("fr-FR")} €`;
-            }
-
-            // Si loyer mensuel inconnu → on affiche seulement "X mois"
-            return `${nbMois} mois`;
-        }
-
-        // Sécurité → fallback
-        return raw;
-    }
-
-    /* ----------- € automatiques ------------ */
     if (euros.includes(key)) {
         const n = Math.round(parseFloat(val.replace(/\s/g,"")));
         return isNaN(n) ? val : n.toLocaleString("fr-FR") + " €";
     }
 
-    /* ----------- surfaces automatiques ----------- */
     if (surfaces.includes(key)) {
         const n = Math.round(parseFloat(val.replace(/\s/g,"")));
         return isNaN(n) ? val : n.toLocaleString("fr-FR") + " m²";
@@ -242,9 +206,7 @@ function afficherPanneauDroit(d) {
 
     colonnes_info.forEach(col => {
         if (col === "Adresse") return;
-
-        // 🔥 ON PASSE LE DATA ROW ENTIER À formatValue()
-        const val = formatValue(col, d[col], d);
+        const val = formatValue(col, d[col]);
         if (val === null) return;
 
         html += `
@@ -305,7 +267,7 @@ function afficherCarousel(d) {
 
 
 /* ============================================================
-   8. PINS — VERSION CORRIGÉE
+   8. PINS
    ============================================================ */
 
 function afficherPinsFiltrés(donnees) {
@@ -364,6 +326,7 @@ function afficherPinsFiltrés(donnees) {
 /* ============================================================
    9. OUTILS FILTRES
    ============================================================ */
+
 function valeursUniques(key) {
     const set = new Set();
     DATA.forEach(d => {
@@ -608,9 +571,6 @@ function appliquerFiltres() {
         return true;
     });
 
-    /* ============================================================
-       🔥 AUTO-FERMETURE SI LE PIN SÉLECTIONNÉ DISPARAÎT
-       ============================================================ */
     if (pinSelectionne) {
 
         const refSel = pinSelectionne.refAnnonce;
