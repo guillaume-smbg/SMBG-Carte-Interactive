@@ -361,7 +361,7 @@ html, body {
     cursor: pointer;
 
     position: relative;
-    top: 8px;
+    top: 6px;
 }
 
 #photo-carousel img:hover {
@@ -465,4 +465,5 @@ html, body {
     font-size: 18px;
     cursor: pointer;
 }
+
 
