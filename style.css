@@ -327,8 +327,11 @@ html, body {
 #carousel-wrapper {
     position: fixed;
     bottom: 15px;
-    left: 290px;
-    right: 340px;
+
+    /* ✔ rétrécissement entre les flèches */
+    left: calc(290px + 21px);
+    right: calc(340px + 21px);
+
     height: 160px;
     display: none;
     z-index: 300;
@@ -357,6 +360,10 @@ html, body {
     border-radius: 8px;
     object-fit: cover;
     cursor: pointer;
+
+    /* ✔ Alignement vertical parfait au centre du wrapper */
+    position: relative;
+    top: 10px;
 }
 
 /* Hover cuivre minimal */
