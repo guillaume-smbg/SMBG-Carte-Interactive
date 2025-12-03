@@ -24,11 +24,9 @@ map.whenReady(() => {
     map.panBy([162, 0], { animate: false });
 });
 
-
 /* ============================================================
    2. PANNEAU DROIT + LIGHTBOX
    ============================================================ */
-
 const sidebarRight   = document.getElementById("sidebar-right");
 const lightbox       = document.getElementById("photo-lightbox");
 const lightboxImg    = document.getElementById("lightbox-image");
@@ -64,11 +62,9 @@ function fermerPanneau() {
 
 map.on("click", fermerPanneau);
 
-
 /* ============================================================
    3. LIGHTBOX
    ============================================================ */
-
 function openLightbox(index) {
     if (!currentPhotos.length) return;
     currentPhotoIndex = index;
@@ -99,7 +95,6 @@ document.addEventListener("keydown", e => {
     if (e.key === "Escape") closeLightbox();
 });
 
-
 /* ============================================================
    4. CHARGEMENT EXCEL
    ============================================================ */
@@ -113,7 +108,6 @@ async function loadExcel() {
 }
 
 let DATA = [];
-
 
 /* ============================================================
    5. FORMATAGE
@@ -155,11 +149,9 @@ function formatValue(key, val) {
     return val;
 }
 
-
 /* ============================================================
    6. PANNEAU DROIT
    ============================================================ */
-
 const colonnes_info = [
     "Adresse","Emplacement","Typologie","Type",
     "Cession / Droit au bail","Numéro de lot",
@@ -221,17 +213,12 @@ function afficherPanneauDroit(d) {
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
 
-
 /* ============================================================
-   7. CARROUSEL BAS (NOUVELLE VERSION)
+   7. CARROUSEL BAS — CORRIGÉ
    ============================================================ */
-
-const wrapper = document.getElementById("carousel-wrapper");
-const zoneCarousel = document.getElementById("photo-carousel");
-const arrowLeft = document.getElementById("carousel-left");
-const arrowRight = document.getElementById("carousel-right");
-
 function afficherCarousel(d) {
+    const wrapper = document.getElementById("carousel-wrapper");
+    const zone    = document.getElementById("photo-carousel");
 
     let photos = (
         d["Photos"] ||
@@ -254,39 +241,38 @@ function afficherCarousel(d) {
     currentPhotos = photos;
     currentPhotoIndex = 0;
 
-    zoneCarousel.innerHTML = photos
+    zone.innerHTML = photos
         .map((url, i) => `<img src="${url}" data-index="${i}">`)
         .join("");
 
-    wrapper.style.display = "flex"; 
-    zoneCarousel.scrollLeft = 0;
+    wrapper.style.display = "flex";
+    zone.scrollLeft = 0;
 
-    zoneCarousel.querySelectorAll("img").forEach(img => {
+    zone.querySelectorAll("img").forEach(img => {
         img.addEventListener("click", e => {
             openLightbox(parseInt(e.target.dataset.index));
         });
     });
 }
 
-/* Défilement molette */
-zoneCarousel.addEventListener("wheel", e => {
+/* === Scroll molette === */
+document.getElementById("photo-carousel").addEventListener("wheel", (e) => {
     e.preventDefault();
-    zoneCarousel.scrollLeft += e.deltaY;
+    document.getElementById("photo-carousel").scrollLeft += e.deltaY;
 });
 
-/* Défilement flèches */
-arrowLeft.addEventListener("click", () => {
-    zoneCarousel.scrollLeft -= 360;
-});
-arrowRight.addEventListener("click", () => {
-    zoneCarousel.scrollLeft += 360;
+/* === Flèches cuivre === */
+document.getElementById("carousel-left").addEventListener("click", () => {
+    document.getElementById("photo-carousel").scrollLeft -= 260;
 });
 
+document.getElementById("carousel-right").addEventListener("click", () => {
+    document.getElementById("photo-carousel").scrollLeft += 260;
+});
 
 /* ============================================================
    8. PINS
    ============================================================ */
-
 function afficherPinsFiltrés(donnees) {
 
     document.getElementById("compteur-annonces").innerHTML =
@@ -339,11 +325,9 @@ function afficherPinsFiltrés(donnees) {
     });
 }
 
-
 /* ============================================================
    9. OUTILS FILTRES
    ============================================================ */
-
 function valeursUniques(key) {
     const set = new Set();
     DATA.forEach(d => {
@@ -372,11 +356,9 @@ function valeursCochées(id) {
         .map(x => x.value);
 }
 
-
 /* ============================================================
    10. RÉGIONS & DÉPARTEMENTS
    ============================================================ */
-
 let REGIONS_MAP = {};
 
 function buildRegionsMap() {
@@ -456,9 +438,8 @@ function departementsCoches() {
         .map(x => x.value);
 }
 
-
 /* ============================================================
-   11. SLIDER SURFACE 
+   11. SLIDER SURFACE
    ============================================================ */
 function initSliderSurface(values) {
 
@@ -490,7 +471,6 @@ function initSliderSurface(values) {
     maxInput.oninput = aff;
     aff();
 }
-
 
 /* ============================================================
    12. SLIDER LOYER
@@ -526,7 +506,6 @@ function initSliderLoyer(values) {
     maxInput.oninput = aff;
     aff();
 }
-
 
 /* ============================================================
    13. APPLY FILTERS
@@ -589,10 +568,13 @@ function appliquerFiltres() {
     });
 
     if (pinSelectionne) {
+
         const refSel = pinSelectionne.refAnnonce;
+
         const stillVisible = OUT.some(d =>
             formatReference(d["Référence annonce"]) === refSel
         );
+
         if (!stillVisible) {
             fermerPanneau();
         }
@@ -600,7 +582,6 @@ function appliquerFiltres() {
 
     afficherPinsFiltrés(OUT);
 }
-
 
 /* ============================================================
    14. INIT
