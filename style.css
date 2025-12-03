@@ -407,8 +407,8 @@ html, body {
     justify-content: center;
 }
 
-#carousel-left  { left: 5px; }
-#carousel-right { right: 5px; }
+#carousel-left  { left: -10px; }
+#carousel-right { right: -10px; }
 
 /* ───────────────────────────────────────────── */
 /*               ZOOM PLEIN ÉCRAN                */
@@ -465,6 +465,7 @@ html, body {
     font-size: 18px;
     cursor: pointer;
 }
+
 
 
 
