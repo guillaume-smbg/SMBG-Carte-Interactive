@@ -9,9 +9,11 @@ var map = L.map('map', {
     zoomControl: true,
     scrollWheelZoom: true,
     attributionControl: false,
-    fadeAnimation: false,
-    zoomAnimation: false,
-    markerZoomAnimation: false
+
+    /* ✔ Zoom fluide activé */
+    fadeAnimation: true,
+    zoomAnimation: true,
+    markerZoomAnimation: true
 });
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -23,7 +25,6 @@ map.setView([46.8, 2.4], 6);
 map.whenReady(() => {
     map.panBy([162, 0], { animate: false });
 });
-
 
 /* ============================================================
    2. PANNEAU DROIT + LIGHTBOX
@@ -64,7 +65,6 @@ function fermerPanneau() {
 
 map.on("click", fermerPanneau);
 
-
 /* ============================================================
    3. LIGHTBOX
    ============================================================ */
@@ -99,7 +99,6 @@ document.addEventListener("keydown", e => {
     if (e.key === "Escape") closeLightbox();
 });
 
-
 /* ============================================================
    4. CHARGEMENT EXCEL
    ============================================================ */
@@ -113,7 +112,6 @@ async function loadExcel() {
 }
 
 let DATA = [];
-
 
 /* ============================================================
    5. FORMATAGE
@@ -154,7 +152,6 @@ function formatValue(key, val) {
 
     return val;
 }
-
 
 /* ============================================================
    6. PANNEAU DROIT
@@ -221,9 +218,8 @@ function afficherPanneauDroit(d) {
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
 
-
 /* ============================================================
-   7. CARROUSEL BAS (NOUVELLE VERSION)
+   7. CARROUSEL BAS
    ============================================================ */
 
 const wrapper = document.getElementById("carousel-wrapper");
@@ -274,14 +270,13 @@ zoneCarousel.addEventListener("wheel", e => {
     zoneCarousel.scrollLeft += e.deltaY;
 });
 
-/* Défilement flèches (corrigé : 260px) */
+/* Défilement flèches */
 arrowLeft.addEventListener("click", () => {
     zoneCarousel.scrollLeft -= 260;
 });
 arrowRight.addEventListener("click", () => {
     zoneCarousel.scrollLeft += 260;
 });
-
 
 /* ============================================================
    8. PINS
@@ -339,7 +334,6 @@ function afficherPinsFiltrés(donnees) {
     });
 }
 
-
 /* ============================================================
    9. OUTILS FILTRES
    ============================================================ */
@@ -371,7 +365,6 @@ function valeursCochées(id) {
     return [...document.querySelectorAll(`#${id} input:checked`)]
         .map(x => x.value);
 }
-
 
 /* ============================================================
    10. RÉGIONS & DÉPARTEMENTS
@@ -447,15 +440,14 @@ function construireRegionsEtDepartements() {
 }
 
 function regionsCochees() {
-    return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked")]
+    return [...document.querySelectorAll("#filter-regions > .checkbox-line > input:checked`)]
         .map(x => x.value);
 }
 
 function departementsCoches() {
-    return [...document.querySelectorAll("#filter-regions .departements-container input:checked")]
+    return [...document.querySelectorAll("#filter-regions .departements-container input:checked`)]
         .map(x => x.value);
 }
-
 
 /* ============================================================
    11. SLIDER SURFACE 
@@ -491,7 +483,6 @@ function initSliderSurface(values) {
     aff();
 }
 
-
 /* ============================================================
    12. SLIDER LOYER
    ============================================================ */
@@ -526,7 +517,6 @@ function initSliderLoyer(values) {
     maxInput.oninput = aff;
     aff();
 }
-
 
 /* ============================================================
    13. APPLY FILTERS
@@ -601,7 +591,6 @@ function appliquerFiltres() {
     afficherPinsFiltrés(OUT);
 }
 
-
 /* ============================================================
    14. INIT
    ============================================================ */
@@ -625,13 +614,13 @@ async function init() {
 
     document.getElementById("btn-reset").addEventListener("click", () => {
 
-        document.querySelectorAll("#sidebar-left input[type=checkbox]")
+        document.querySelectorAll("#sidebar-left input[type=checkbox]`)
             .forEach(x => x.checked = false);
 
         document.getElementById("checkbox-grand-surface").checked = true;
         document.getElementById("checkbox-grand-loyer").checked   = true;
 
-        document.querySelectorAll("#filter-regions .departements-container")
+        document.querySelectorAll("#filter-regions .departements-container`)
             .forEach(c => c.style.display = "none");
 
         initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
