@@ -24,37 +24,46 @@ map.whenReady(() => {
     map.panBy([162, 0], { animate: false });
 });
 
+
 /* ============================================================
    2. PANNEAU DROIT + LIGHTBOX
    ============================================================ */
-const sidebarRight = document.getElementById("sidebar-right");
-const lightbox = document.getElementById("photo-lightbox");
-const lightboxImg = document.getElementById("lightbox-image");
-const lightboxPrev = document.getElementById("lightbox-prev");
-const lightboxNext = document.getElementById("lightbox-next");
-const lightboxClose = document.getElementById("lightbox-close");
 
-let pinSelectionne = null;
-let markers = [];
-let currentPhotos = [];
+const sidebarRight   = document.getElementById("sidebar-right");
+const lightbox       = document.getElementById("photo-lightbox");
+const lightboxImg    = document.getElementById("lightbox-image");
+const lightboxPrev   = document.getElementById("lightbox-prev");
+const lightboxNext   = document.getElementById("lightbox-next");
+const lightboxClose  = document.getElementById("lightbox-close");
+
+let pinSelectionne   = null;
+let markers          = [];
+let currentPhotos    = [];
 let currentPhotoIndex = 0;
 
-function ouvrirPanneau() { sidebarRight.classList.add("open"); }
+function ouvrirPanneau() {
+    sidebarRight.classList.add("open");
+}
 
 function fermerPanneau() {
     sidebarRight.classList.remove("open");
+
     document.getElementById("ref-annonce").innerHTML = "";
     document.getElementById("info-lot").innerHTML = "";
     document.getElementById("photos-lot").innerHTML = "";
+
     if (pinSelectionne && pinSelectionne._icon) {
         pinSelectionne._icon.classList.remove("smbg-pin-selected");
     }
+
     document.getElementById("photo-carousel").style.display = "none";
+
     pinSelectionne = null;
     currentPhotos = [];
 }
 
 map.on("click", fermerPanneau);
+
 
 /* ============================================================
    3. LIGHTBOX
@@ -67,9 +76,12 @@ function openLightbox(index) {
     lightbox.style.display = "flex";
 }
 
-function closeLightbox() { lightbox.style.display = "none"; }
+function closeLightbox() {
+    lightbox.style.display = "none";
+}
 
 function changePhoto(delta) {
+    if (!currentPhotos.length) return;
     const n = currentPhotos.length;
     currentPhotoIndex = (currentPhotoIndex + delta + n) % n;
     lightboxImg.src = currentPhotos[currentPhotoIndex];
@@ -87,12 +99,13 @@ document.addEventListener("keydown", e => {
     if (e.key === "Escape") closeLightbox();
 });
 
+
 /* ============================================================
    4. CHARGEMENT EXCEL
    ============================================================ */
-
 async function loadExcel() {
-    const url = "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsx";
+    const url =
+      "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsx";
     const res = await fetch(url);
     const buf = await res.arrayBuffer();
     const wb = XLSX.read(buf, { type: "array" });
@@ -100,6 +113,7 @@ async function loadExcel() {
 }
 
 let DATA = [];
+
 
 /* ============================================================
    5. FORMATAGE
@@ -115,7 +129,7 @@ function formatValue(key, val) {
     val = val.toString().trim();
 
     if (key === "Dépôt de garantie" || key === "GAPD") {
-        return val;
+        return val; // NE PAS TOUCHER
     }
 
     const euros = [
@@ -141,6 +155,7 @@ function formatValue(key, val) {
     return val;
 }
 
+
 /* ============================================================
    6. PANNEAU DROIT
    ============================================================ */
@@ -161,7 +176,9 @@ const colonnes_info = [
 ];
 
 function afficherPanneauDroit(d) {
+
     ouvrirPanneau();
+
     const ref = formatReference(d["Référence annonce"]);
     document.getElementById("ref-annonce").innerHTML = ref;
 
@@ -200,16 +217,17 @@ function afficherPanneauDroit(d) {
     });
 
     document.getElementById("info-lot").innerHTML = html;
+
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
 
+
 /* ============================================================
-   7. CARROUSEL BAS — VERSION RECONFIGURÉE
+   7. CARROUSEL BAS + DRAG
    ============================================================ */
 
 function afficherCarousel(d) {
     const zone = document.getElementById("photo-carousel");
-    const track = document.getElementById("photo-track");
 
     let photos = (
         d["Photos"] ||
@@ -218,10 +236,10 @@ function afficherCarousel(d) {
         d["AP"] ||
         ""
     )
-        .toString()
-        .split(";")
-        .map(x => x.trim())
-        .filter(x => x !== "");
+    .toString()
+    .split(";")
+    .map(x => x.trim())
+    .filter(x => x !== "");
 
     if (!photos.length) {
         zone.style.display = "none";
@@ -232,61 +250,66 @@ function afficherCarousel(d) {
     currentPhotos = photos;
     currentPhotoIndex = 0;
 
-    track.innerHTML = photos
+    zone.innerHTML = photos
         .map((url, i) => `<img src="${url}" data-index="${i}">`)
         .join("");
 
     zone.style.display = "block";
-    track.scrollLeft = 0;
+    zone.scrollLeft = 0;
 
-    track.querySelectorAll("img").forEach(img => {
+    /* Click → Lightbox */
+    zone.querySelectorAll("img").forEach(img => {
         img.addEventListener("click", e => {
+            if (isDragging) return; // empêche ouverture pendant drag
             openLightbox(parseInt(e.target.dataset.index));
         });
     });
+
+    /* DRAG SCROLL */
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+    let isDragging = false;
+
+    zone.addEventListener("mousedown", (e) => {
+        isDown = true;
+        isDragging = false;
+        startX = e.pageX - zone.offsetLeft;
+        scrollLeft = zone.scrollLeft;
+    });
+
+    zone.addEventListener("mouseleave", () => {
+        isDown = false;
+    });
+
+    zone.addEventListener("mouseup", () => {
+        setTimeout(() => { isDragging = false; }, 50);
+        isDown = false;
+    });
+
+    zone.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        isDragging = true;
+        const x = e.pageX - zone.offsetLeft;
+        const walk = (x - startX) * 1.2;
+        zone.scrollLeft = scrollLeft - walk;
+    });
+
+    /* Molette souris = scroll horizontal */
+    zone.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        zone.scrollLeft += e.deltaY;
+    }, { passive: false });
+
 }
 
-/* DRAG SCROLL */
-let isDown = false;
-let startX;
-let scrollLeft;
-
-const track = document.getElementById("photo-track");
-
-track.addEventListener("mousedown", (e) => {
-    isDown = true;
-    track.classList.add("active");
-    startX = e.pageX - track.offsetLeft;
-    scrollLeft = track.scrollLeft;
-});
-track.addEventListener("mouseleave", () => { isDown = false; });
-track.addEventListener("mouseup", () => { isDown = false; });
-track.addEventListener("mousemove", (e) => {
-    if (!isDown) return;
-    const x = e.pageX - track.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    track.scrollLeft = scrollLeft - walk;
-});
-
-/* SCROLL AU ROULIS DE SOURIS */
-track.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    track.scrollLeft += e.deltaY;
-});
-
-/* FLÈCHES GAUCHE/DROITE */
-document.querySelector(".carousel-arrow.left").onclick = () => {
-    track.scrollLeft -= 200;
-};
-document.querySelector(".carousel-arrow.right").onclick = () => {
-    track.scrollLeft += 200;
-};
 
 /* ============================================================
    8. PINS
    ============================================================ */
 
 function afficherPinsFiltrés(donnees) {
+
     document.getElementById("compteur-annonces").innerHTML =
         "Annonces sélectionnées : " + donnees.length;
 
@@ -323,9 +346,7 @@ function afficherPinsFiltrés(donnees) {
             pinSelectionne = marker;
 
             setTimeout(() => {
-                if (marker._icon) {
-                    marker._icon.classList.add("smbg-pin-selected");
-                }
+                if (marker._icon) marker._icon.classList.add("smbg-pin-selected");
             }, 10);
 
             afficherPanneauDroit(d);
@@ -336,6 +357,7 @@ function afficherPinsFiltrés(donnees) {
         markers.push(marker);
     });
 }
+
 
 /* ============================================================
    9. OUTILS FILTRES
@@ -369,6 +391,7 @@ function valeursCochées(id) {
         .map(x => x.value);
 }
 
+
 /* ============================================================
    10. RÉGIONS & DÉPARTEMENTS
    ============================================================ */
@@ -384,13 +407,16 @@ function buildRegionsMap() {
         if (!mapR[reg]) mapR[reg] = new Set();
         mapR[reg].add(dep);
     });
-    Object.keys(mapR).forEach(r => mapR[r] = [...mapR[r]].sort());
+    Object.keys(mapR).forEach(r => {
+        mapR[r] = [...mapR[r]].sort();
+    });
     return mapR;
 }
 
 function construireRegionsEtDepartements() {
     const zoneReg = document.getElementById("filter-regions");
     zoneReg.innerHTML = "";
+
     const regions = Object.keys(REGIONS_MAP).sort();
 
     regions.forEach(region => {
@@ -427,14 +453,15 @@ function construireRegionsEtDepartements() {
             if (regionInput.checked) {
                 depsContainer.style.display = "block";
             } else {
-                depsContainer.querySelectorAll("input").forEach(i => i.checked = false);
+                depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => inp.checked = false);
                 depsContainer.style.display = "none";
             }
             appliquerFiltres();
         });
 
-        depsContainer.querySelectorAll("input")
-            .forEach(i => i.addEventListener("input", appliquerFiltres));
+        depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
+            inp.addEventListener("input", appliquerFiltres);
+        });
     });
 }
 
@@ -448,11 +475,12 @@ function departementsCoches() {
         .map(x => x.value);
 }
 
+
 /* ============================================================
    11. SLIDER SURFACE 
    ============================================================ */
-
 function initSliderSurface(values) {
+
     const uniq = values.map(v => parseInt(v || 0)).filter(v => !isNaN(v));
     const MAX_LIMIT = 2000;
     const min = Math.min(...uniq);
@@ -472,7 +500,9 @@ function initSliderSurface(values) {
         let a = parseInt(minInput.value);
         let b = parseInt(maxInput.value);
         if (a > b) minInput.value = b;
-        display.innerHTML = a.toLocaleString("fr-FR") + " m² — " + b.toLocaleString("fr-FR") + " m²";
+
+        display.innerHTML =
+            a.toLocaleString("fr-FR") + " m² — " + b.toLocaleString("fr-FR") + " m²";
     }
 
     minInput.oninput = aff;
@@ -480,12 +510,14 @@ function initSliderSurface(values) {
     aff();
 }
 
+
 /* ============================================================
    12. SLIDER LOYER
    ============================================================ */
-
 function initSliderLoyer(values) {
+
     const uniq = values.map(v => parseInt(v || 0)).filter(v => !isNaN(v));
+
     const min = Math.min(...uniq);
     const maxAfficher = 200000;
 
@@ -504,7 +536,9 @@ function initSliderLoyer(values) {
         let a = parseInt(minInput.value);
         let b = parseInt(maxInput.value);
         if (a > b) minInput.value = b;
-        display.innerHTML = a.toLocaleString("fr-FR") + " € — " + b.toLocaleString("fr-FR") + " €";
+
+        display.innerHTML =
+            a.toLocaleString("fr-FR") + " € — " + b.toLocaleString("fr-FR") + " €";
     }
 
     minInput.oninput = aff;
@@ -512,27 +546,28 @@ function initSliderLoyer(values) {
     aff();
 }
 
+
 /* ============================================================
    13. APPLY FILTERS
    ============================================================ */
-
 function appliquerFiltres() {
-    const fr = regionsCochees();
-    const fd = departementsCoches();
 
-    const fe = valeursCochées("filter-emplacement");
-    const ft = valeursCochées("filter-typologie");
-    const fx = valeursCochées("filter-extraction");
+    const fr  = regionsCochees();
+    const fd  = departementsCoches();
+
+    const fe  = valeursCochées("filter-emplacement");
+    const ft  = valeursCochées("filter-typologie");
+    const fx  = valeursCochées("filter-extraction");
     const frs = valeursCochées("filter-restauration");
 
     const bigSurf = document.getElementById("checkbox-grand-surface").checked;
-    const bigLoy = document.getElementById("checkbox-grand-loyer").checked;
+    const bigLoy  = document.getElementById("checkbox-grand-loyer").checked;
 
     const surfMin = parseInt(document.getElementById("surface-min").value);
     const surfMax = parseInt(document.getElementById("surface-max").value);
 
-    const loyMin = parseInt(document.getElementById("loyer-min").value);
-    const loyMax = parseInt(document.getElementById("loyer-max").value);
+    const loyMin  = parseInt(document.getElementById("loyer-min").value);
+    const loyMax  = parseInt(document.getElementById("loyer-max").value);
 
     const OUT = DATA.filter(d => {
 
@@ -540,9 +575,10 @@ function appliquerFiltres() {
         const departement = (d["Département"] || "").trim();
 
         let regionMatch = false;
-        let depMatch = false;
+        let depMatch    = false;
 
         if (fr.length || fd.length) {
+
             if (fd.includes(departement)) depMatch = true;
 
             if (fr.includes(region)) {
@@ -554,38 +590,44 @@ function appliquerFiltres() {
             if (!regionMatch && !depMatch) return false;
         }
 
-        if (fe.length && !fe.includes(d["Emplacement"])) return false;
-        if (ft.length && !ft.includes(d["Typologie"])) return false;
-        if (fx.length && !fx.includes(d["Extraction"])) return false;
+        if (fe.length  && !fe.includes(d["Emplacement"]))   return false;
+        if (ft.length  && !ft.includes(d["Typologie"]))     return false;
+        if (fx.length  && !fx.includes(d["Extraction"]))    return false;
         if (frs.length && !frs.includes(d["Restauration"])) return false;
 
-        const surf = parseInt(d["Surface GLA"] || 0);
-        const loy = parseInt(d["Loyer annuel"] || 0);
+        const surf = parseInt(d["Surface GLA"]  || 0);
+        const loy  = parseInt(d["Loyer annuel"] || 0);
 
-        if (surf > 2000 && !bigSurf) return false;
-        if (loy > 200000 && !bigLoy) return false;
+        if (surf > 2000   && !bigSurf) return false;
+        if (loy  > 200000 && !bigLoy)  return false;
 
         if (surf <= 2000 && (surf < surfMin || surf > surfMax)) return false;
-        if (loy <= 200000 && (loy < loyMin || loy > loyMax)) return false;
+        if (loy  <= 200000 && (loy < loyMin || loy > loyMax))   return false;
 
         return true;
     });
 
+    /* AUTO-FERMETURE DU PANNEAU SI LE PIN N'EST PLUS DANS OUT */
     if (pinSelectionne) {
+
         const refSel = pinSelectionne.refAnnonce;
+
         const stillVisible = OUT.some(d =>
             formatReference(d["Référence annonce"]) === refSel
         );
-        if (!stillVisible) fermerPanneau();
+
+        if (!stillVisible) {
+            fermerPanneau();
+        }
     }
 
     afficherPinsFiltrés(OUT);
 }
 
+
 /* ============================================================
    14. INIT
    ============================================================ */
-
 async function init() {
 
     DATA = await loadExcel();
@@ -593,13 +635,13 @@ async function init() {
     REGIONS_MAP = buildRegionsMap();
     construireRegionsEtDepartements();
 
-    remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
-    remplirCheckbox("filter-typologie", valeursUniques("Typologie"));
-    remplirCheckbox("filter-extraction", valeursUniques("Extraction"));
+    remplirCheckbox("filter-emplacement",  valeursUniques("Emplacement"));
+    remplirCheckbox("filter-typologie",    valeursUniques("Typologie"));
+    remplirCheckbox("filter-extraction",   valeursUniques("Extraction"));
     remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
 
-    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"] || 0)));
-    initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"] || 0)));
+    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
+    initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
     document.querySelectorAll("#sidebar-left input")
         .forEach(el => el.addEventListener("input", appliquerFiltres));
@@ -610,13 +652,13 @@ async function init() {
             .forEach(x => x.checked = false);
 
         document.getElementById("checkbox-grand-surface").checked = true;
-        document.getElementById("checkbox-grand-loyer").checked = true;
+        document.getElementById("checkbox-grand-loyer").checked   = true;
 
         document.querySelectorAll("#filter-regions .departements-container")
             .forEach(c => c.style.display = "none");
 
-        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"] || 0)));
-        initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"] || 0)));
+        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
+        initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
 
         fermerPanneau();
         afficherPinsFiltrés(DATA);
