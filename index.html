@@ -25,17 +25,22 @@
     <div id="sidebar-left">
         <div class="sidebar-inner">
 
+            <!-- LOGO SMBG -->
             <div id="logo-container">
                 <img id="logo-smbg" src="assets/Logo bleu crop.png" alt="Logo SMBG">
             </div>
 
+            <!-- Compteur -->
             <div id="compteur-annonces">Annonces sélectionnées : 0</div>
             <div class="separator-smbg"></div>
 
+            <!-- Régions -->
             <div class="filter-title">Régions</div>
             <div id="filter-regions" class="filter-block"></div>
 
+            <!-- Surface -->
             <div class="filter-title">Surface (m²)</div>
+
             <div id="slider-surface" class="slider-block filter-block">
                 <div class="slider-row">
                     <div class="slider-values" id="surface-values">0 — 0</div>
@@ -51,7 +56,9 @@
                 </div>
             </div>
 
+            <!-- Loyer -->
             <div class="filter-title">Loyer (€)</div>
+
             <div id="slider-loyer" class="slider-block filter-block">
                 <div class="slider-row">
                     <div class="slider-values" id="loyer-values">0 — 0</div>
@@ -67,15 +74,19 @@
                 </div>
             </div>
 
+            <!-- Emplacement -->
             <div class="filter-title">Emplacement</div>
             <div id="filter-emplacement" class="filter-block"></div>
 
+            <!-- Typologie -->
             <div class="filter-title">Typologie</div>
             <div id="filter-typologie" class="filter-block"></div>
 
+            <!-- Extraction -->
             <div class="filter-title">Extraction</div>
             <div id="filter-extraction" class="filter-block"></div>
 
+            <!-- Restauration -->
             <div class="filter-title">Restauration</div>
             <div id="filter-restauration" class="filter-block"></div>
 
@@ -84,8 +95,9 @@
         </div>
     </div>
 
+
     <!-- ─────────────────────────────────────────── -->
-    <!--                   CARTE                    -->
+    <!--                   CARTE                      -->
     <!-- ─────────────────────────────────────────── -->
     <div id="map-container">
         <div id="map"></div>
@@ -105,21 +117,17 @@
     </div>
 
     <!-- ─────────────────────────────────────────── -->
-    <!--        CARROUSEL + LIGHTBOX (CORRIGÉ)      -->
+    <!--           CARROUSEL + NAVIGATION            -->
     <!-- ─────────────────────────────────────────── -->
-
-    <!-- WRAPPER FIXE + FLÈCHES -->
     <div id="carousel-wrapper">
-
-        <button id="carousel-left" class="carousel-arrow">‹</button>
-
+        <button id="carousel-left" class="car-arrow">‹</button>
         <div id="photo-carousel"></div>
-
-        <button id="carousel-right" class="carousel-arrow">›</button>
-
+        <button id="carousel-right" class="car-arrow">›</button>
     </div>
 
-    <!-- Lightbox -->
+    <!-- ─────────────────────────────────────────── -->
+    <!--        LIGHTBOX ZOOM PLEIN ÉCRAN            -->
+    <!-- ─────────────────────────────────────────── -->
     <div id="photo-lightbox">
         <div class="lightbox-inner">
             <button id="lightbox-prev" class="lightbox-nav lightbox-prev">‹</button>
@@ -129,9 +137,13 @@
         </div>
     </div>
 
-    <!-- JS -->
+    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Excel Reader -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+    <!-- Script -->
     <script src="js/app.js"></script>
 
 </body>
