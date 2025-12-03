@@ -112,7 +112,6 @@
             <div id="ref-annonce">Référence</div>
             <div id="info-lot"></div>
             <div id="photos-lot"></div>
-
         </div>
     </div>
 
@@ -120,22 +119,8 @@
     <!--          CARROUSEL + ZOOM PLEIN ÉCRAN       -->
     <!-- ─────────────────────────────────────────── -->
 
-    <div id="photo-carousel">
+    <div id="photo-carousel"></div>
 
-        <!-- Boutons -->
-        <button class="carousel-arrow left">‹</button>
-        <button class="carousel-arrow right">›</button>
-
-        <!-- Ombres -->
-        <div class="carousel-shadow left"></div>
-        <div class="carousel-shadow right"></div>
-
-        <!-- Track interne -->
-        <div id="photo-track"></div>
-
-    </div>
-
-    <!-- Lightbox -->
     <div id="photo-lightbox">
         <div class="lightbox-inner">
             <button id="lightbox-prev" class="lightbox-nav lightbox-prev">‹</button>
@@ -146,10 +131,15 @@
     </div>
 
     <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        crossorigin="">
+    </script>
 
     <!-- Excel Reader -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js">
+    </script>
 
     <!-- Script -->
     <script src="js/app.js"></script>
