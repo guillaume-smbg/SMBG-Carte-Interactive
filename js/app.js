@@ -56,7 +56,7 @@ function fermerPanneau() {
         pinSelectionne._icon.classList.remove("smbg-pin-selected");
     }
 
-    document.getElementById("photo-carousel").style.display = "none";
+    document.getElementById("carousel-wrapper").style.display = "none";
 
     pinSelectionne = null;
     currentPhotos = [];
@@ -129,7 +129,7 @@ function formatValue(key, val) {
     val = val.toString().trim();
 
     if (key === "Dépôt de garantie" || key === "GAPD") {
-        return val; // NE PAS TOUCHER
+        return val;
     }
 
     const euros = [
@@ -223,11 +223,15 @@ function afficherPanneauDroit(d) {
 
 
 /* ============================================================
-   7. CARROUSEL BAS + DRAG
+   7. CARROUSEL BAS (NOUVELLE VERSION)
    ============================================================ */
 
+const wrapper = document.getElementById("carousel-wrapper");
+const zoneCarousel = document.getElementById("photo-carousel");
+const arrowLeft = document.getElementById("carousel-left");
+const arrowRight = document.getElementById("carousel-right");
+
 function afficherCarousel(d) {
-    const zone = document.getElementById("photo-carousel");
 
     let photos = (
         d["Photos"] ||
@@ -242,7 +246,7 @@ function afficherCarousel(d) {
     .filter(x => x !== "");
 
     if (!photos.length) {
-        zone.style.display = "none";
+        wrapper.style.display = "none";
         currentPhotos = [];
         return;
     }
@@ -250,58 +254,33 @@ function afficherCarousel(d) {
     currentPhotos = photos;
     currentPhotoIndex = 0;
 
-    zone.innerHTML = photos
+    zoneCarousel.innerHTML = photos
         .map((url, i) => `<img src="${url}" data-index="${i}">`)
         .join("");
 
-    zone.style.display = "block";
-    zone.scrollLeft = 0;
+    wrapper.style.display = "flex"; 
+    zoneCarousel.scrollLeft = 0;
 
-    /* Click → Lightbox */
-    zone.querySelectorAll("img").forEach(img => {
+    zoneCarousel.querySelectorAll("img").forEach(img => {
         img.addEventListener("click", e => {
-            if (isDragging) return; // empêche ouverture pendant drag
             openLightbox(parseInt(e.target.dataset.index));
         });
     });
-
-    /* DRAG SCROLL */
-    let isDown = false;
-    let startX = 0;
-    let scrollLeft = 0;
-    let isDragging = false;
-
-    zone.addEventListener("mousedown", (e) => {
-        isDown = true;
-        isDragging = false;
-        startX = e.pageX - zone.offsetLeft;
-        scrollLeft = zone.scrollLeft;
-    });
-
-    zone.addEventListener("mouseleave", () => {
-        isDown = false;
-    });
-
-    zone.addEventListener("mouseup", () => {
-        setTimeout(() => { isDragging = false; }, 50);
-        isDown = false;
-    });
-
-    zone.addEventListener("mousemove", (e) => {
-        if (!isDown) return;
-        isDragging = true;
-        const x = e.pageX - zone.offsetLeft;
-        const walk = (x - startX) * 1.2;
-        zone.scrollLeft = scrollLeft - walk;
-    });
-
-    /* Molette souris = scroll horizontal */
-    zone.addEventListener("wheel", (e) => {
-        e.preventDefault();
-        zone.scrollLeft += e.deltaY;
-    }, { passive: false });
-
 }
+
+/* Défilement molette */
+zoneCarousel.addEventListener("wheel", e => {
+    e.preventDefault();
+    zoneCarousel.scrollLeft += e.deltaY;
+});
+
+/* Défilement flèches */
+arrowLeft.addEventListener("click", () => {
+    zoneCarousel.scrollLeft -= 360;
+});
+arrowRight.addEventListener("click", () => {
+    zoneCarousel.scrollLeft += 360;
+});
 
 
 /* ============================================================
@@ -346,7 +325,9 @@ function afficherPinsFiltrés(donnees) {
             pinSelectionne = marker;
 
             setTimeout(() => {
-                if (marker._icon) marker._icon.classList.add("smbg-pin-selected");
+                if (marker._icon) {
+                    marker._icon.classList.add("smbg-pin-selected");
+                }
             }, 10);
 
             afficherPanneauDroit(d);
@@ -607,15 +588,11 @@ function appliquerFiltres() {
         return true;
     });
 
-    /* AUTO-FERMETURE DU PANNEAU SI LE PIN N'EST PLUS DANS OUT */
     if (pinSelectionne) {
-
         const refSel = pinSelectionne.refAnnonce;
-
         const stillVisible = OUT.some(d =>
             formatReference(d["Référence annonce"]) === refSel
         );
-
         if (!stillVisible) {
             fermerPanneau();
         }
