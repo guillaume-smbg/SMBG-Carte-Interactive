@@ -327,8 +327,8 @@ html, body {
     position: fixed;
     bottom: 20px; /* ← remonté de 5px */
 
-    left: calc(290px + 15px);
-    right: calc(340px + 27px);
+    left: calc(290px + 12px);
+    right: calc(340px + 30px);
 
     height: 160px;
     display: none;
@@ -465,6 +465,7 @@ html, body {
     font-size: 18px;
     cursor: pointer;
 }
+
 
 
 
