@@ -324,23 +324,21 @@ html, body {
 /*                 CARROUSEL BAS                 */
 /* ───────────────────────────────────────────── */
 
-/* Nouveau wrapper fixe */
 #carousel-wrapper {
     position: fixed;
     bottom: 15px;
     left: 290px;
-    right: 340px;   /* ← marge droite exacte 325 + 15 */
+    right: 340px;
     height: 160px;
     display: none;
     z-index: 300;
-    pointer-events: auto;
 
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Conteneur défilant */
+/* Conteneur scroll */
 #photo-carousel {
     height: 150px;
     width: 100%;
@@ -348,29 +346,26 @@ html, body {
     overflow-y: hidden;
     white-space: nowrap;
     scrollbar-width: none;
-    position: relative;
 }
 
 #photo-carousel::-webkit-scrollbar { display: none; }
 
-/* Images */
+/* Miniatures */
 #photo-carousel img {
     height: 140px;
     margin-right: 10px;
     border-radius: 8px;
     object-fit: cover;
     cursor: pointer;
-    display: inline-block;
-    transition: none !important;
 }
 
-/* Hover cuivre minimaliste */
+/* Hover cuivre minimal */
 #photo-carousel img:hover {
     outline: 3px solid #E1782C;
     box-shadow: 0 0 10px rgba(225,120,44,0.6);
 }
 
-/* Ombres FIXES */
+/* Ombres fixes */
 #carousel-wrapper::before,
 #carousel-wrapper::after {
     content: "";
@@ -392,7 +387,7 @@ html, body {
     background: linear-gradient(to left, rgba(0,0,0,0.55), rgba(0,0,0,0));
 }
 
-/* Flèches cuivre stylisées */
+/* Flèches cuivre */
 .car-arrow {
     position: absolute;
     width: 42px;
@@ -401,8 +396,8 @@ html, body {
     color: #04253d;
     font-size: 22px;
     font-weight: bold;
-    border-radius: 50%;
     border: none;
+    border-radius: 50%;
     cursor: pointer;
     z-index: 600;
     display: flex;
@@ -410,8 +405,9 @@ html, body {
     justify-content: center;
 }
 
-#carousel-left  { left: -55px; }
-#carousel-right { right: -55px; }
+/* ✔ Flèches recentrées proprement */
+#carousel-left  { left: 5px; }
+#carousel-right { right: 5px; }
 
 /* ───────────────────────────────────────────── */
 /*               ZOOM PLEIN ÉCRAN                */
