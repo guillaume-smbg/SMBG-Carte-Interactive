@@ -109,7 +109,6 @@ html, body {
     margin-left: 15px !important;
 }
 
-/* ← Correction affichage conteneur départements */
 .departements-container {
     margin-left: 5px;
 }
@@ -224,8 +223,9 @@ html, body {
     background: transparent !important;
 }
 
+/* ✔ Pas de flash blanc */
 .leaflet-container {
-    background: transparent !important;
+    background: #d8d8d8 !important;
 }
 
 /* ✔ PINS — VERSION CORRIGÉE */
@@ -361,7 +361,7 @@ html, body {
     object-fit: cover;
     cursor: pointer;
 
-    /* ✔ Alignement vertical parfait au centre du wrapper */
+    /* ✔ centrage vertical parfait */
     position: relative;
     top: 10px;
 }
@@ -412,7 +412,6 @@ html, body {
     justify-content: center;
 }
 
-/* ✔ Flèches recentrées proprement */
 #carousel-left  { left: 5px; }
 #carousel-right { right: 5px; }
 
