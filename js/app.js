@@ -640,7 +640,6 @@ function appliquerFiltres() {
     afficherPinsFiltrés(OUT);
 }
 
-
 /* ============================================================
    14. INIT
    ============================================================ */
@@ -652,27 +651,32 @@ async function init() {
     REGIONS_MAP = buildRegionsMap();
     construireRegionsEtDepartements();
 
-    /* Nature (nouveau filtre dynamique) */
+    /* Nature — dynamique depuis Excel (colonne K) */
     remplirCheckbox("filter-nature", valeursUniques("Nature"));
 
     remplirCheckbox("filter-emplacement",  valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie",    valeursUniques("Typologie"));
 
+    /* Extraction — ordre forcé */
     remplirCheckbox(
         "filter-extraction",
         valeursUniques("Extraction"),
-        ["Oui","À étudier","Non"]
+        ["Oui", "À étudier", "Non"]
     );
 
+    /* Restauration — ordre + dépendance */
     remplirCheckbox(
         "filter-restauration",
         valeursUniques("Restauration"),
-        ["Froide","Chaude et froide"]
+        ["Froide", "Chaude et froide"]
     );
 
-    /* dépendance restauration */
-    const chaud = document.querySelector("#filter-restauration input[value='Chaude et froide']");
-    const froid = document.querySelector("#filter-restauration input[value='Froide']");
+    const chaud = document.querySelector(
+        "#filter-restauration input[value='Chaude et froide']"
+    );
+    const froid = document.querySelector(
+        "#filter-restauration input[value='Froide']"
+    );
 
     if (chaud && froid) {
         chaud.addEventListener("change", () => {
