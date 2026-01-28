@@ -125,30 +125,37 @@ function formatReference(r) {
 
 function formatValue(key, val) {
     if (!val || ["-", "/", "O"].includes(val)) return null;
+
     val = val.toString().trim();
 
-    if (key === "Dépôt de garantie" || key === "GAPD") return val;
+    if (key === "Dépôt de garantie" || key === "GAPD") {
+        return val;
+    }
 
     if (key === "Loyer variable" || key === "Gestion") {
         const n = parseFloat(val.replace(",", "."));
         if (isNaN(n)) return val;
-        return Math.round((n <= 1 ? n * 100 : n)) + " %";
+        const pct = n <= 1 ? n * 100 : n;
+        return Math.round(pct) + " %";
     }
 
     const euros = [
-        "Cession / Droit au bail","Loyer annuel","Loyer Mensuel","Loyer €/m²",
+        "Cession / Droit au bail",
+        "Loyer annuel","Loyer Mensuel","Loyer €/m²",
         "Charges annuelles","Charges Mensuelles","Charges €/m²",
         "Taxe foncière","Taxe foncière €/m²",
         "Marketing","Marketing €/m²",
         "Total (L+C+M)"
     ];
 
+    const surfaces = ["Surface GLA","Surface utile"];
+
     if (euros.includes(key)) {
         const n = Math.round(parseFloat(val.replace(/\s/g,"")));
         return isNaN(n) ? val : n.toLocaleString("fr-FR") + " €";
     }
 
-    if (["Surface GLA","Surface utile"].includes(key)) {
+    if (surfaces.includes(key)) {
         const n = Math.round(parseFloat(val.replace(/\s/g,"")));
         return isNaN(n) ? val : n.toLocaleString("fr-FR") + " m²";
     }
@@ -177,6 +184,7 @@ const colonnes_info = [
 ];
 
 function afficherPanneauDroit(d) {
+
     ouvrirPanneau();
 
     const ref = formatReference(d["Référence annonce"]);
@@ -257,7 +265,7 @@ function afficherCarousel(d) {
         .map((url, i) => `<img src="${url}" data-index="${i}">`)
         .join("");
 
-    wrapper.style.display = "flex";
+    wrapper.style.display = "flex"; 
     zoneCarousel.scrollLeft = 0;
 
     zoneCarousel.querySelectorAll("img").forEach(img => {
@@ -267,11 +275,13 @@ function afficherCarousel(d) {
     });
 }
 
+/* Défilement molette */
 zoneCarousel.addEventListener("wheel", e => {
     e.preventDefault();
     zoneCarousel.scrollLeft += e.deltaY;
 });
 
+/* Défilement flèches */
 arrowLeft.addEventListener("click", () => {
     zoneCarousel.scrollLeft -= 260;
 });
@@ -314,6 +324,7 @@ function afficherPinsFiltrés(donnees) {
         marker.refAnnonce = ref;
 
         marker.on("click", () => {
+
             if (pinSelectionne && pinSelectionne._icon) {
                 pinSelectionne._icon.classList.remove("smbg-pin-selected");
             }
@@ -335,7 +346,6 @@ function afficherPinsFiltrés(donnees) {
     });
 }
 
-
 /* ============================================================
    9. OUTILS FILTRES
    ============================================================ */
@@ -351,10 +361,13 @@ function valeursUniques(key) {
 
 function remplirCheckbox(id, valeurs, ordreForce = null) {
     const zone = document.getElementById(id);
+    if (!zone) return;
+
     zone.innerHTML = "";
 
     let vals = valeurs.slice();
-    if (ordreForce) {
+
+    if (ordreForce && ordreForce.length) {
         vals = ordreForce.filter(v => vals.includes(v));
     } else {
         vals.sort();
@@ -438,15 +451,17 @@ function construireRegionsEtDepartements() {
             if (regionInput.checked) {
                 depsContainer.style.display = "block";
             } else {
-                depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => inp.checked = false);
+                depsContainer
+                    .querySelectorAll("input[type=checkbox]")
+                    .forEach(inp => inp.checked = false);
                 depsContainer.style.display = "none";
             }
             appliquerFiltres();
         });
 
-        depsContainer.querySelectorAll("input[type=checkbox]").forEach(inp => {
-            inp.addEventListener("input", appliquerFiltres);
-        });
+        depsContainer
+            .querySelectorAll("input[type=checkbox]")
+            .forEach(inp => inp.addEventListener("input", appliquerFiltres));
     });
 }
 
@@ -462,18 +477,20 @@ function departementsCoches() {
 
 
 /* ============================================================
-   11. SLIDER SURFACE 
+   11. SLIDER SURFACE
    ============================================================ */
+
 function initSliderSurface(values) {
 
     const uniq = values.map(v => parseInt(v || 0)).filter(v => !isNaN(v));
     const MAX_LIMIT = 2000;
+
     const min = Math.min(...uniq);
     const maxSlider = MAX_LIMIT;
 
     const minInput = document.getElementById("surface-min");
     const maxInput = document.getElementById("surface-max");
-    const display = document.getElementById("surface-values");
+    const display  = document.getElementById("surface-values");
 
     minInput.min = maxInput.min = min;
     minInput.max = maxInput.max = maxSlider;
@@ -487,7 +504,8 @@ function initSliderSurface(values) {
         if (a > b) minInput.value = b;
 
         display.innerHTML =
-            a.toLocaleString("fr-FR") + " m² — " + b.toLocaleString("fr-FR") + " m²";
+            a.toLocaleString("fr-FR") + " m² — " +
+            b.toLocaleString("fr-FR") + " m²";
     }
 
     minInput.oninput = aff;
@@ -499,6 +517,7 @@ function initSliderSurface(values) {
 /* ============================================================
    12. SLIDER LOYER
    ============================================================ */
+
 function initSliderLoyer(values) {
 
     const uniq = values.map(v => parseInt(v || 0)).filter(v => !isNaN(v));
@@ -508,7 +527,7 @@ function initSliderLoyer(values) {
 
     const minInput = document.getElementById("loyer-min");
     const maxInput = document.getElementById("loyer-max");
-    const display = document.getElementById("loyer-values");
+    const display  = document.getElementById("loyer-values");
 
     minInput.min = maxInput.min = min;
     minInput.max = maxAfficher;
@@ -523,7 +542,8 @@ function initSliderLoyer(values) {
         if (a > b) minInput.value = b;
 
         display.innerHTML =
-            a.toLocaleString("fr-FR") + " € — " + b.toLocaleString("fr-FR") + " €";
+            a.toLocaleString("fr-FR") + " € — " +
+            b.toLocaleString("fr-FR") + " €";
     }
 
     minInput.oninput = aff;
@@ -535,20 +555,73 @@ function initSliderLoyer(values) {
 /* ============================================================
    13. APPLY FILTERS
    ============================================================ */
+
 function appliquerFiltres() {
 
-    const fe  = valeursCochées("filter-emplacement");
+    const fr  = regionsCochees();
+    const fd  = departementsCoches();
+
     const fn  = valeursCochées("filter-nature");
+    const fe  = valeursCochées("filter-emplacement");
+    const ft  = valeursCochées("filter-typologie");
     const fx  = valeursCochées("filter-extraction");
     const frs = valeursCochées("filter-restauration");
 
+    const bigSurf = document.getElementById("checkbox-grand-surface").checked;
+    const bigLoy  = document.getElementById("checkbox-grand-loyer").checked;
+
+    const surfMin = parseInt(document.getElementById("surface-min").value);
+    const surfMax = parseInt(document.getElementById("surface-max").value);
+
+    const loyMin  = parseInt(document.getElementById("loyer-min").value);
+    const loyMax  = parseInt(document.getElementById("loyer-max").value);
+
     const OUT = DATA.filter(d => {
-        if (fe.length && !fe.includes(d["Emplacement"])) return false;
-        if (fn.length && !fn.includes(d["Nature"])) return false;
-        if (fx.length && !fx.includes(d["Extraction"])) return false;
-        if (frs.length && !frs.includes(d["Restauration"])) return false;
+
+        const region      = (d["Région"] || "").trim();
+        const departement = (d["Département"] || "").trim();
+
+        let regionMatch = false;
+        let depMatch    = false;
+
+        if (fr.length || fd.length) {
+
+            if (fd.includes(departement)) depMatch = true;
+
+            if (fr.includes(region)) {
+                const depsOfRegion = REGIONS_MAP[region] || [];
+                const has = depsOfRegion.some(dep => fd.includes(dep));
+                if (!has) regionMatch = true;
+            }
+
+            if (!regionMatch && !depMatch) return false;
+        }
+
+        if (fn.length  && !fn.includes(d["Nature"]))       return false;
+        if (fe.length  && !fe.includes(d["Emplacement"]))  return false;
+        if (ft.length  && !ft.includes(d["Typologie"]))    return false;
+        if (fx.length  && !fx.includes(d["Extraction"]))   return false;
+        if (frs.length && !frs.includes(d["Restauration"]))return false;
+
+        const surf = parseInt(d["Surface GLA"]  || 0);
+        const loy  = parseInt(d["Loyer annuel"] || 0);
+
+        if (surf > 2000   && !bigSurf) return false;
+        if (loy  > 200000 && !bigLoy)  return false;
+
+        if (surf <= 2000 && (surf < surfMin || surf > surfMax)) return false;
+        if (loy  <= 200000 && (loy < loyMin  || loy  > loyMax)) return false;
+
         return true;
     });
+
+    if (pinSelectionne) {
+        const refSel = pinSelectionne.refAnnonce;
+        const stillVisible = OUT.some(d =>
+            formatReference(d["Référence annonce"]) === refSel
+        );
+        if (!stillVisible) fermerPanneau();
+    }
 
     afficherPinsFiltrés(OUT);
 }
@@ -557,12 +630,19 @@ function appliquerFiltres() {
 /* ============================================================
    14. INIT
    ============================================================ */
+
 async function init() {
 
     DATA = await loadExcel();
 
+    REGIONS_MAP = buildRegionsMap();
+    construireRegionsEtDepartements();
+
+    /* Nature (nouveau filtre dynamique) */
     remplirCheckbox("filter-nature", valeursUniques("Nature"));
-    remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
+
+    remplirCheckbox("filter-emplacement",  valeursUniques("Emplacement"));
+    remplirCheckbox("filter-typologie",    valeursUniques("Typologie"));
 
     remplirCheckbox(
         "filter-extraction",
@@ -576,6 +656,7 @@ async function init() {
         ["Froide","Chaude et froide"]
     );
 
+    /* dépendance restauration */
     const chaud = document.querySelector("#filter-restauration input[value='Chaude et froide']");
     const froid = document.querySelector("#filter-restauration input[value='Froide']");
 
@@ -586,8 +667,31 @@ async function init() {
         });
     }
 
+    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
+    initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
+
     document.querySelectorAll("#sidebar-left input")
         .forEach(el => el.addEventListener("input", appliquerFiltres));
+
+    document.getElementById("btn-reset").addEventListener("click", () => {
+
+        document
+            .querySelectorAll("#sidebar-left input[type=checkbox]")
+            .forEach(x => x.checked = false);
+
+        document.getElementById("checkbox-grand-surface").checked = true;
+        document.getElementById("checkbox-grand-loyer").checked   = true;
+
+        document
+            .querySelectorAll("#filter-regions .departements-container")
+            .forEach(c => c.style.display = "none");
+
+        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
+        initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
+
+        fermerPanneau();
+        afficherPinsFiltrés(DATA);
+    });
 
     afficherPinsFiltrés(DATA);
     fermerPanneau();
