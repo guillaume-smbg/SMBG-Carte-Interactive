@@ -9,7 +9,6 @@ var map = L.map('map', {
     zoomControl: true,
     scrollWheelZoom: true,
     attributionControl: false,
-
     fadeAnimation: true,
     zoomAnimation: true,
     markerZoomAnimation: true
@@ -126,39 +125,30 @@ function formatReference(r) {
 
 function formatValue(key, val) {
     if (!val || ["-", "/", "O"].includes(val)) return null;
-
     val = val.toString().trim();
 
-    if (key === "Dépôt de garantie" || key === "GAPD") {
-        return val;
-    }
+    if (key === "Dépôt de garantie" || key === "GAPD") return val;
 
-    /* === POURCENTAGES === */
     if (key === "Loyer variable" || key === "Gestion") {
         const n = parseFloat(val.replace(",", "."));
         if (isNaN(n)) return val;
-        const pct = n <= 1 ? n * 100 : n;
-        return Math.round(pct) + " %";
+        return Math.round((n <= 1 ? n * 100 : n)) + " %";
     }
 
-    /* === EUROS === */
     const euros = [
-        "Cession / Droit au bail",
-        "Loyer annuel","Loyer Mensuel","Loyer €/m²",
+        "Cession / Droit au bail","Loyer annuel","Loyer Mensuel","Loyer €/m²",
         "Charges annuelles","Charges Mensuelles","Charges €/m²",
         "Taxe foncière","Taxe foncière €/m²",
         "Marketing","Marketing €/m²",
         "Total (L+C+M)"
     ];
 
-    const surfaces = ["Surface GLA","Surface utile"];
-
     if (euros.includes(key)) {
         const n = Math.round(parseFloat(val.replace(/\s/g,"")));
         return isNaN(n) ? val : n.toLocaleString("fr-FR") + " €";
     }
 
-    if (surfaces.includes(key)) {
+    if (["Surface GLA","Surface utile"].includes(key)) {
         const n = Math.round(parseFloat(val.replace(/\s/g,"")));
         return isNaN(n) ? val : n.toLocaleString("fr-FR") + " m²";
     }
@@ -187,7 +177,6 @@ const colonnes_info = [
 ];
 
 function afficherPanneauDroit(d) {
-
     ouvrirPanneau();
 
     const ref = formatReference(d["Référence annonce"]);
@@ -228,13 +217,12 @@ function afficherPanneauDroit(d) {
     });
 
     document.getElementById("info-lot").innerHTML = html;
-
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
 
 
 /* ============================================================
-   7. CARROUSEL BAS (NOUVELLE VERSION)
+   7. CARROUSEL BAS
    ============================================================ */
 
 const wrapper = document.getElementById("carousel-wrapper");
@@ -269,7 +257,7 @@ function afficherCarousel(d) {
         .map((url, i) => `<img src="${url}" data-index="${i}">`)
         .join("");
 
-    wrapper.style.display = "flex"; 
+    wrapper.style.display = "flex";
     zoneCarousel.scrollLeft = 0;
 
     zoneCarousel.querySelectorAll("img").forEach(img => {
@@ -279,13 +267,11 @@ function afficherCarousel(d) {
     });
 }
 
-/* Défilement molette */
 zoneCarousel.addEventListener("wheel", e => {
     e.preventDefault();
     zoneCarousel.scrollLeft += e.deltaY;
 });
 
-/* Défilement flèches */
 arrowLeft.addEventListener("click", () => {
     zoneCarousel.scrollLeft -= 260;
 });
@@ -328,7 +314,6 @@ function afficherPinsFiltrés(donnees) {
         marker.refAnnonce = ref;
 
         marker.on("click", () => {
-
             if (pinSelectionne && pinSelectionne._icon) {
                 pinSelectionne._icon.classList.remove("smbg-pin-selected");
             }
@@ -361,13 +346,21 @@ function valeursUniques(key) {
         const v = (d[key] || "").toString().trim();
         if (v && v !== "-" && v !== "/") set.add(v);
     });
-    return [...set].sort();
+    return [...set];
 }
 
-function remplirCheckbox(id, valeurs) {
+function remplirCheckbox(id, valeurs, ordreForce = null) {
     const zone = document.getElementById(id);
     zone.innerHTML = "";
-    valeurs.forEach(v => {
+
+    let vals = valeurs.slice();
+    if (ordreForce) {
+        vals = ordreForce.filter(v => vals.includes(v));
+    } else {
+        vals.sort();
+    }
+
+    vals.forEach(v => {
         const safeId = id + "_" + v.replace(/[^a-zA-Z0-9]/g, "_");
         zone.innerHTML += `
             <div class="checkbox-line">
@@ -544,70 +537,18 @@ function initSliderLoyer(values) {
    ============================================================ */
 function appliquerFiltres() {
 
-    const fr  = regionsCochees();
-    const fd  = departementsCoches();
-
     const fe  = valeursCochées("filter-emplacement");
-    const ft  = valeursCochées("filter-typologie");
+    const fn  = valeursCochées("filter-nature");
     const fx  = valeursCochées("filter-extraction");
     const frs = valeursCochées("filter-restauration");
 
-    const bigSurf = document.getElementById("checkbox-grand-surface").checked;
-    const bigLoy  = document.getElementById("checkbox-grand-loyer").checked;
-
-    const surfMin = parseInt(document.getElementById("surface-min").value);
-    const surfMax = parseInt(document.getElementById("surface-max").value);
-
-    const loyMin  = parseInt(document.getElementById("loyer-min").value);
-    const loyMax  = parseInt(document.getElementById("loyer-max").value);
-
     const OUT = DATA.filter(d => {
-
-        const region = (d["Région"] || "").trim();
-        const departement = (d["Département"] || "").trim();
-
-        let regionMatch = false;
-        let depMatch    = false;
-
-        if (fr.length || fd.length) {
-
-            if (fd.includes(departement)) depMatch = true;
-
-            if (fr.includes(region)) {
-                const depsOfRegion = REGIONS_MAP[region] || [];
-                const has = depsOfRegion.some(dep => fd.includes(dep));
-                if (!has) regionMatch = true;
-            }
-
-            if (!regionMatch && !depMatch) return false;
-        }
-
-        if (fe.length  && !fe.includes(d["Emplacement"]))   return false;
-        if (ft.length  && !ft.includes(d["Typologie"]))     return false;
-        if (fx.length  && !fx.includes(d["Extraction"]))    return false;
+        if (fe.length && !fe.includes(d["Emplacement"])) return false;
+        if (fn.length && !fn.includes(d["Nature"])) return false;
+        if (fx.length && !fx.includes(d["Extraction"])) return false;
         if (frs.length && !frs.includes(d["Restauration"])) return false;
-
-        const surf = parseInt(d["Surface GLA"]  || 0);
-        const loy  = parseInt(d["Loyer annuel"] || 0);
-
-        if (surf > 2000   && !bigSurf) return false;
-        if (loy  > 200000 && !bigLoy)  return false;
-
-        if (surf <= 2000 && (surf < surfMin || surf > surfMax)) return false;
-        if (loy  <= 200000 && (loy < loyMin || loy > loyMax))   return false;
-
         return true;
     });
-
-    if (pinSelectionne) {
-        const refSel = pinSelectionne.refAnnonce;
-        const stillVisible = OUT.some(d =>
-            formatReference(d["Référence annonce"]) === refSel
-        );
-        if (!stillVisible) {
-            fermerPanneau();
-        }
-    }
 
     afficherPinsFiltrés(OUT);
 }
@@ -620,37 +561,33 @@ async function init() {
 
     DATA = await loadExcel();
 
-    REGIONS_MAP = buildRegionsMap();
-    construireRegionsEtDepartements();
+    remplirCheckbox("filter-nature", valeursUniques("Nature"));
+    remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
 
-    remplirCheckbox("filter-emplacement",  valeursUniques("Emplacement"));
-    remplirCheckbox("filter-typologie",    valeursUniques("Typologie"));
-    remplirCheckbox("filter-extraction",   valeursUniques("Extraction"));
-    remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
+    remplirCheckbox(
+        "filter-extraction",
+        valeursUniques("Extraction"),
+        ["Oui","À étudier","Non"]
+    );
 
-    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
-    initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
+    remplirCheckbox(
+        "filter-restauration",
+        valeursUniques("Restauration"),
+        ["Froide","Chaude et froide"]
+    );
+
+    const chaud = document.querySelector("#filter-restauration input[value='Chaude et froide']");
+    const froid = document.querySelector("#filter-restauration input[value='Froide']");
+
+    if (chaud && froid) {
+        chaud.addEventListener("change", () => {
+            froid.checked = chaud.checked;
+            appliquerFiltres();
+        });
+    }
 
     document.querySelectorAll("#sidebar-left input")
         .forEach(el => el.addEventListener("input", appliquerFiltres));
-
-    document.getElementById("btn-reset").addEventListener("click", () => {
-
-        document.querySelectorAll("#sidebar-left input[type=checkbox]")
-            .forEach(x => x.checked = false);
-
-        document.getElementById("checkbox-grand-surface").checked = true;
-        document.getElementById("checkbox-grand-loyer").checked   = true;
-
-        document.querySelectorAll("#filter-regions .departements-container")
-            .forEach(c => c.style.display = "none");
-
-        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
-        initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
-
-        fermerPanneau();
-        afficherPinsFiltrés(DATA);
-    });
 
     afficherPinsFiltrés(DATA);
     fermerPanneau();
