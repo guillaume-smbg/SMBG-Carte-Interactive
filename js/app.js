@@ -360,6 +360,14 @@ function valeursUniques(key) {
     return [...set];
 }
 
+function normaliser(v) {
+    return v
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+}
+
 function remplirCheckbox(id, valeurs, ordreForce = null) {
     const zone = document.getElementById(id);
     if (!zone) return;
@@ -369,7 +377,12 @@ function remplirCheckbox(id, valeurs, ordreForce = null) {
     let vals = valeurs.slice();
 
     if (ordreForce && ordreForce.length) {
-        vals = ordreForce.filter(v => vals.includes(v));
+        const mapVals = {};
+        vals.forEach(v => mapVals[normaliser(v)] = v);
+
+        vals = ordreForce
+            .map(o => mapVals[normaliser(o)])
+            .filter(Boolean);
     } else {
         vals.sort();
     }
@@ -579,7 +592,7 @@ function appliquerFiltres() {
 
     const OUT = DATA.filter(d => {
 
-        const region      = (d["Région"] || "").trim();
+        const region = (d["Région"] || "").trim();
         const departement = (d["Département"] || "").trim();
 
         let regionMatch = false;
@@ -598,11 +611,11 @@ function appliquerFiltres() {
             if (!regionMatch && !depMatch) return false;
         }
 
-        if (fn.length  && !fn.includes(d["Nature"]))       return false;
-        if (fe.length  && !fe.includes(d["Emplacement"]))  return false;
-        if (ft.length  && !ft.includes(d["Typologie"]))    return false;
-        if (fx.length  && !fx.includes(d["Extraction"]))   return false;
-        if (frs.length && !frs.includes(d["Restauration"]))return false;
+        if (fn.length  && !fn.includes(d["Nature"]))        return false;
+        if (fe.length  && !fe.includes(d["Emplacement"]))   return false;
+        if (ft.length  && !ft.includes(d["Typologie"]))     return false;
+        if (fx.length  && !fx.includes(d["Extraction"]))    return false;
+        if (frs.length && !frs.includes(d["Restauration"])) return false;
 
         const surf = parseInt(d["Surface GLA"]  || 0);
         const loy  = parseInt(d["Loyer annuel"] || 0);
