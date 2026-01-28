@@ -125,7 +125,7 @@ function formatReference(r) {
 }
 
 function formatValue(key, val) {
-    if (!val || ["-", "/", "0", "O"].includes(val)) return null;
+    if (!val || ["-", "/", "O"].includes(val)) return null;
 
     val = val.toString().trim();
 
@@ -133,8 +133,18 @@ function formatValue(key, val) {
         return val;
     }
 
+    /* === POURCENTAGES === */
+    if (key === "Loyer variable" || key === "Gestion") {
+        const n = parseFloat(val.replace(",", "."));
+        if (isNaN(n)) return val;
+        const pct = n <= 1 ? n * 100 : n;
+        return Math.round(pct) + " %";
+    }
+
+    /* === EUROS === */
     const euros = [
-        "Loyer annuel","Loyer Mensuel","Loyer €/m²","Loyer variable",
+        "Cession / Droit au bail",
+        "Loyer annuel","Loyer Mensuel","Loyer €/m²",
         "Charges annuelles","Charges Mensuelles","Charges €/m²",
         "Taxe foncière","Taxe foncière €/m²",
         "Marketing","Marketing €/m²",
@@ -647,4 +657,3 @@ async function init() {
 }
 
 init();
-
