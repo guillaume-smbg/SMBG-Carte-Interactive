@@ -222,8 +222,27 @@ function afficherPanneauDroit(d) {
                 <div class="info-value">${val}</div>
             </div>
         `;
-    });
 
+        /* ----- SURFACE MAXIMALE (AJOUT) ----- */
+        if (col === "Surface GLA") {
+
+            const surfGLA = parseInt(d["Surface GLA"] || 0);
+            const surfMax = parseInt(d["Surface maximale"] || 0);
+
+            if (surfMax && surfMax > surfGLA) {
+                html += `
+                    <div class="info-line info-line-secondary">
+                        <div class="info-key">Surface maximale atteignable</div>
+                        <div class="info-value">
+                            jusqu’à ${surfMax.toLocaleString("fr-FR")} m²
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        /* ---------------------------------- */
+    });
+   
     document.getElementById("info-lot").innerHTML = html;
     document.querySelector("#sidebar-right .sidebar-inner").scrollTop = 0;
 }
