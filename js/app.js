@@ -213,8 +213,36 @@ function afficherPanneauDroit(d) {
 
     colonnes_info.forEach(col => {
         if (col === "Adresse") return;
+
         const val = formatValue(col, d[col]);
         if (val === null) return;
+
+        /* ----- CAS SPÉCIAL : SURFACE GLA + SURFACE MAXIMALE ----- */
+        if (col === "Surface GLA") {
+
+            const surfGLA = parseInt(d["Surface GLA"] || 0);
+            const surfMax = parseInt(d["Surface maximale"] || 0);
+
+            html += `
+                <div class="info-line">
+                    <div class="info-key">Surface GLA</div>
+                    <div class="info-value">
+                        ${surfGLA.toLocaleString("fr-FR")} m²
+                        ${surfMax && surfMax > surfGLA ? `
+                            <div style="
+                                margin-top: 2px;
+                                font-size: 0.9em;
+                                opacity: 0.9;
+                            ">
+                                jusqu’à ${surfMax.toLocaleString("fr-FR")} m²
+                            </div>
+                        ` : ``}
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        /* ------------------------------------------------------- */
 
         html += `
             <div class="info-line">
@@ -222,25 +250,6 @@ function afficherPanneauDroit(d) {
                 <div class="info-value">${val}</div>
             </div>
         `;
-
-        /* ----- SURFACE MAXIMALE (AJOUT) ----- */
-        if (col === "Surface GLA") {
-
-            const surfGLA = parseInt(d["Surface GLA"] || 0);
-            const surfMax = parseInt(d["Surface maximale"] || 0);
-
-            if (surfMax && surfMax > surfGLA) {
-                html += `
-                    <div class="info-line info-line-secondary">
-                        <div class="info-key">Surface maximale atteignable</div>
-                        <div class="info-value">
-                            jusqu’à ${surfMax.toLocaleString("fr-FR")} m²
-                        </div>
-                    </div>
-                `;
-            }
-        }
-        /* ---------------------------------- */
     });
    
     document.getElementById("info-lot").innerHTML = html;
