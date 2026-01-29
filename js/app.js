@@ -617,7 +617,7 @@ function appliquerFiltres() {
         if (fx.length  && !fx.includes(d["Extraction"]))    return false;
         if (frs.length && !frs.includes(d["Restauration"])) return false;
 
-        const surf = parseInt(d["Surface GLA"]  || 0);
+        const surf = parseInt(d["Surface maximale"] || d["Surface GLA"]  || 0);
         const loy  = parseInt(d["Loyer annuel"] || 0);
 
         if (surf > 2000   && !bigSurf) return false;
