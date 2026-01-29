@@ -169,7 +169,7 @@ function formatValue(key, val) {
    ============================================================ */
 
 const colonnes_info = [
-    "Adresse","Emplacement","Typologie","Type",
+    "Adresse","Emplacement","Typologie","Type","Durée du bail",
     "Cession / Droit au bail","Numéro de lot",
     "Surface GLA","Répartition surface GLA",
     "Surface utile","Répartition surface utile",
