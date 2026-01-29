@@ -180,7 +180,7 @@ const colonnes_info = [
     "Total (L+C+M)",
     "Dépôt de garantie","GAPD","Gestion","Etat de livraison",
     "Extraction","Restauration",
-    "Environnement Commercial","Commentaires","Honoraires"
+    "Environnement Commercial","Commentaires","Honoraires de rédaction","Honoraires commerciaux"
 ];
 
 function afficherPanneauDroit(d) {
