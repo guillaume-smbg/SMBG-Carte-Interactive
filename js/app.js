@@ -524,8 +524,11 @@ function departementsCoches() {
 
 function initSliderSurface(values) {
 
-    const uniq = values.map(v => parseInt(v || 0)).filter(v => !isNaN(v));
-    const MAX_LIMIT = 2000;
+    const uniq = values
+        .map(v => parseInt(v || 0))
+        .filter(v => !isNaN(v));
+
+    const MAX_LIMIT = 1000;
 
     const min = Math.min(...uniq);
     const maxSlider = MAX_LIMIT;
@@ -540,18 +543,29 @@ function initSliderSurface(values) {
     minInput.value = min;
     maxInput.value = maxSlider;
 
-    function aff() {
+    function aff(fromMin = false) {
+
         let a = parseInt(minInput.value);
         let b = parseInt(maxInput.value);
-        if (a > b) minInput.value = b;
+
+        if (a > b) {
+            if (fromMin) {
+                maxInput.value = a;
+                b = a;
+            } else {
+                minInput.value = b;
+                a = b;
+            }
+        }
 
         display.innerHTML =
             a.toLocaleString("fr-FR") + " m² — " +
             b.toLocaleString("fr-FR") + " m²";
     }
 
-    minInput.oninput = aff;
-    maxInput.oninput = aff;
+    minInput.oninput = () => aff(true);
+    maxInput.oninput = () => aff(false);
+
     aff();
 }
 
@@ -660,10 +674,10 @@ function appliquerFiltres() {
 
         const loy  = parseInt(d["Loyer annuel"] || 0);
 
-        if (surf > 2000   && !bigSurf) return false;
+        if (surf > 1000   && !bigSurf) return false;
         if (loy  > 200000 && !bigLoy)  return false;
 
-        if (surf <= 2000 && (surf < surfMin || surf > surfMax)) return false;
+        if (surf <= 1000 && (surf < surfMin || surf > surfMax)) return false;
         if (loy  <= 200000 && (loy < loyMin  || loy  > loyMax)) return false;
 
         return true;
