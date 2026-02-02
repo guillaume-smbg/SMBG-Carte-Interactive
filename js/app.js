@@ -645,7 +645,19 @@ function appliquerFiltres() {
         if (fx.length  && !fx.includes(d["Extraction"]))    return false;
         if (frs.length && !frs.includes(d["Restauration"])) return false;
 
-        const surf = parseInt(d["Surface maximale"] || d["Surface GLA"]  || 0);
+        /* ---------- CORRECTION SURFACE ---------- */
+
+        const rawSurfMax = (d["Surface maximale"] || "").toString().trim();
+        const rawSurfGLA = (d["Surface GLA"] || "").toString().trim();
+
+        let surf = parseInt(rawSurfMax.replace(/\s/g, ""));
+        if (isNaN(surf)) {
+            surf = parseInt(rawSurfGLA.replace(/\s/g, ""));
+        }
+        if (isNaN(surf)) surf = 0;
+
+        /* --------------------------------------- */
+
         const loy  = parseInt(d["Loyer annuel"] || 0);
 
         if (surf > 2000   && !bigSurf) return false;
