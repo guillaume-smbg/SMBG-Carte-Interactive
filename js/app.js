@@ -576,7 +576,9 @@ function initSliderSurface(values) {
 
 function initSliderLoyer(values) {
 
-    const uniq = values.map(v => parseInt(v || 0)).filter(v => !isNaN(v));
+    const uniq = values
+        .map(v => parseInt(v || 0))
+        .filter(v => !isNaN(v));
 
     const min = Math.min(...uniq);
     const maxAfficher = 200000;
@@ -586,24 +588,34 @@ function initSliderLoyer(values) {
     const display  = document.getElementById("loyer-values");
 
     minInput.min = maxInput.min = min;
-    minInput.max = maxAfficher;
-    maxInput.max = maxAfficher;
+    minInput.max = maxInput.max = maxAfficher;
 
     minInput.value = min;
     maxInput.value = maxAfficher;
 
-    function aff() {
+    function aff(fromMin = false) {
+
         let a = parseInt(minInput.value);
         let b = parseInt(maxInput.value);
-        if (a > b) minInput.value = b;
+
+        if (a > b) {
+            if (fromMin) {
+                maxInput.value = a;
+                b = a;
+            } else {
+                minInput.value = b;
+                a = b;
+            }
+        }
 
         display.innerHTML =
             a.toLocaleString("fr-FR") + " € — " +
             b.toLocaleString("fr-FR") + " €";
     }
 
-    minInput.oninput = aff;
-    maxInput.oninput = aff;
+    minInput.oninput = () => aff(true);
+    maxInput.oninput = () => aff(false);
+
     aff();
 }
 
