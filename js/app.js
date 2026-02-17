@@ -671,7 +671,7 @@ function appliquerFiltres() {
         if (fx.length  && !fx.includes(d["Extraction"]))    return false;
         if (frs.length && !frs.includes(d["Restauration"])) return false;
 
-        /* ================= SURFACE CORRIGÉE ================= */
+        /* ================= SURFACE ================= */
 
         const rawGLA = (d["Surface GLA"] || "").toString().replace(/\s/g,"").trim();
         const rawMax = (d["Surface maximale"] || "").toString().replace(/\s/g,"").trim();
@@ -686,18 +686,20 @@ function appliquerFiltres() {
 
         const loy = parseInt(d["Loyer annuel"] || 0);
 
-        if (surfMaxLot > 1000 && !bigSurf) return false;
-        if (loy        > 200000 && !bigLoy) return false;
+        /* ===== CORRECTION >1000 m² ===== */
 
-        /* Chevauchement d'intervalles :
-           [surfGLA ; surfMaxLot] intersecte [surfMin ; surfMax]
-        */
+        // Si case décochée, on exclut seulement les lots
+        // dont la surface minimale est > 1000
+        if (!bigSurf && surfGLA > 1000) return false;
 
+        if (loy > 200000 && !bigLoy) return false;
+
+        /* Chevauchement d'intervalles */
         const overlapSurface =
             surfMaxLot >= surfMin &&
             surfGLA    <= surfMax;
 
-        if (surfMaxLot <= 1000 && !overlapSurface) return false;
+        if (!overlapSurface) return false;
 
         /* ================= LOYER ================= */
 
