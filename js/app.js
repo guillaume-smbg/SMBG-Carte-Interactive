@@ -671,18 +671,24 @@ function appliquerFiltres() {
         if (fx.length  && !fx.includes(d["Extraction"]))    return false;
         if (frs.length && !frs.includes(d["Restauration"])) return false;
 
-        /* ======== CORRECTION SURFACE (LOGIQUE INTERVALLE) ======== */
+        /* ================= SURFACE ================= */
 
-        const surfGLA = parseInt(d["Surface GLA"] || 0);
-        const surfMaxLot = parseInt(d["Surface maximale"] || surfGLA);
+        let surfGLA = parseInt(d["Surface GLA"]);
+        if (isNaN(surfGLA)) surfGLA = 0;
 
-        const loy  = parseInt(d["Loyer annuel"] || 0);
+        let surfMaxLot = parseInt(d["Surface maximale"]);
+        if (isNaN(surfMaxLot)) surfMaxLot = surfGLA;
+
+        /* Sécurité : éviter intervalle inversé */
+        if (surfMaxLot < surfGLA) surfMaxLot = surfGLA;
+
+        const loy = parseInt(d["Loyer annuel"] || 0);
 
         if (surfMaxLot > 2000 && !bigSurf) return false;
-        if (loy        > 200000 && !bigLoy)  return false;
+        if (loy        > 200000 && !bigLoy) return false;
 
-        /* Chevauchement d'intervalles :
-           [surfGLA ; surfMaxLot] doit intersecter [surfMin ; surfMax]
+        /* Logique de chevauchement propre :
+           [surfGLA ; surfMaxLot] intersecte [surfMin ; surfMax]
         */
 
         const overlapSurface =
@@ -691,7 +697,7 @@ function appliquerFiltres() {
 
         if (surfMaxLot <= 2000 && !overlapSurface) return false;
 
-        /* ======== FIN CORRECTION SURFACE ======== */
+        /* ================= LOYER ================= */
 
         if (loy <= 200000 && (loy < loyMin || loy > loyMax)) return false;
 
@@ -708,6 +714,7 @@ function appliquerFiltres() {
 
     afficherPinsFiltrés(OUT);
 }
+
 
 /* ============================================================
    14. INIT
