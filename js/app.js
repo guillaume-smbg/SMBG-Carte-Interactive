@@ -671,23 +671,25 @@ function appliquerFiltres() {
         if (fx.length  && !fx.includes(d["Extraction"]))    return false;
         if (frs.length && !frs.includes(d["Restauration"])) return false;
 
-        /* ================= SURFACE ================= */
+        /* ================= SURFACE CORRIGÉE ================= */
 
-        let surfGLA = parseInt(d["Surface GLA"]);
+        const rawGLA = (d["Surface GLA"] || "").toString().replace(/\s/g,"").trim();
+        const rawMax = (d["Surface maximale"] || "").toString().replace(/\s/g,"").trim();
+
+        let surfGLA = parseInt(rawGLA);
         if (isNaN(surfGLA)) surfGLA = 0;
 
-        let surfMaxLot = parseInt(d["Surface maximale"]);
+        let surfMaxLot = parseInt(rawMax);
         if (isNaN(surfMaxLot)) surfMaxLot = surfGLA;
 
-        /* Sécurité : éviter intervalle inversé */
         if (surfMaxLot < surfGLA) surfMaxLot = surfGLA;
 
         const loy = parseInt(d["Loyer annuel"] || 0);
 
-        if (surfMaxLot > 2000 && !bigSurf) return false;
+        if (surfMaxLot > 1000 && !bigSurf) return false;
         if (loy        > 200000 && !bigLoy) return false;
 
-        /* Logique de chevauchement propre :
+        /* Chevauchement d'intervalles :
            [surfGLA ; surfMaxLot] intersecte [surfMin ; surfMax]
         */
 
@@ -695,7 +697,7 @@ function appliquerFiltres() {
             surfMaxLot >= surfMin &&
             surfGLA    <= surfMax;
 
-        if (surfMaxLot <= 2000 && !overlapSurface) return false;
+        if (surfMaxLot <= 1000 && !overlapSurface) return false;
 
         /* ================= LOYER ================= */
 
@@ -714,6 +716,7 @@ function appliquerFiltres() {
 
     afficherPinsFiltrés(OUT);
 }
+
 
 
 /* ============================================================
