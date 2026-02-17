@@ -686,23 +686,30 @@ function appliquerFiltres() {
 
         const loy = parseInt(d["Loyer annuel"] || 0);
 
-        /* ===== CORRECTION >1000 m² ===== */
+        /* ===== LOGIQUE >1000 m² CORRIGÉE ===== */
 
-        // Si case décochée, on exclut seulement les lots
-        // dont la surface minimale est > 1000
+        // Si >1000 décoché → on exclut uniquement
+        // les lots dont la surface minimale est > 1000
         if (!bigSurf && surfGLA > 1000) return false;
 
-        if (loy > 200000 && !bigLoy) return false;
+        /* Chevauchement intervalle */
 
-        /* Chevauchement d'intervalles */
         const overlapSurface =
             surfMaxLot >= surfMin &&
             surfGLA    <= surfMax;
 
-        if (!overlapSurface) return false;
+        // Si lot <= 1000 → toujours soumis au slider
+        if (surfGLA <= 1000) {
+            if (!overlapSurface) return false;
+        }
+
+        // Si lot > 1000 :
+        // - s’il est autorisé (bigSurf = true), on ne le bloque pas par le slider
+        // - s’il n’est pas autorisé, déjà filtré plus haut
 
         /* ================= LOYER ================= */
 
+        if (loy > 200000 && !bigLoy) return false;
         if (loy <= 200000 && (loy < loyMin || loy > loyMax)) return false;
 
         return true;
