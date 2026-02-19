@@ -690,37 +690,48 @@ body.carousel-open .leaflet-top.leaflet-left {
     left: 100%;
     transform: translateX(-100%);
 }
+
 /* ───────────── POINTS ALIGNÉS PARFAITEMENT ───────────── */
 
 .module-distance {
     position: relative;
 }
 
-/* Conteneur des points */
+/* Conteneur */
 .distance-dots {
     position: absolute;
-    top: 34px;               /* ajuste si besoin */
+    top: 50%;
     left: 0;
     width: 100%;
+    height: 0;
+    transform: translateY(-9px);   /* centre sur la track */
     pointer-events: none;
 }
 
 /* Chaque point */
 .distance-dots span {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 8px;              /* plus gros */
+    height: 8px;
     background: #E1782C;
     border-radius: 50%;
     transform: translateX(-50%);
 }
 
-/* Positions exactes */
-.distance-dots span:nth-child(1) { left: 0%;  transform: translateX(0); }
+/* Extrêmes parfaitement collés */
+.distance-dots span:nth-child(1) {
+    left: 0%;
+    transform: translateX(0);
+}
+
 .distance-dots span:nth-child(2) { left: 25%; }
 .distance-dots span:nth-child(3) { left: 50%; }
 .distance-dots span:nth-child(4) { left: 75%; }
-.distance-dots span:nth-child(5) { left: 100%; transform: translateX(-100%); }
+
+.distance-dots span:nth-child(5) {
+    left: 100%;
+    transform: translateX(-100%);
+}
 
 /* ───────────── BOUTON RESET DORÉ ───────────── */
 
@@ -752,4 +763,5 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
+
 
