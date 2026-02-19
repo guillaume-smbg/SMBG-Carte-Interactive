@@ -106,53 +106,65 @@
 <div id="map-container">
 
     <div id="map"></div>
+<!-- ─────────────────────────────────────────── -->
+<!--              MODULE ENSEIGNES               -->
+<!-- ─────────────────────────────────────────── -->
+<div id="module-enseignes">
 
-    <!-- ─────────────────────────────────────────── -->
-    <!--              MODULE ENSEIGNES               -->
-    <!-- ─────────────────────────────────────────── -->
-    <div id="module-enseignes">
+    <div class="module-title">Enseigne / Activité</div>
 
-        <div class="module-title">Enseigne / Activité</div>
+    <!-- ───────────── ENSEIGNE ───────────── -->
+    <div class="module-search">
+        <div class="search-label">Enseigne</div>
+        <input type="text" id="search-enseigne" placeholder="Rechercher une enseigne…">
+        <div id="autocomplete-enseigne"></div>
+    </div>
 
-        <!-- ───────────── ENSEIGNE ───────────── -->
-        <div class="module-search">
-            <div class="search-label">Enseigne</div>
-            <input type="text" id="search-enseigne" placeholder="Rechercher une enseigne…">
-            <div id="autocomplete-results"></div>
+    <div id="selected-enseignes"></div>
+
+    <!-- ───────────── ACTIVITÉ ───────────── -->
+    <div class="module-search">
+        <div class="search-label">Activité</div>
+        <input type="text" id="search-activite" placeholder="Rechercher une activité…">
+        <div id="autocomplete-activite"></div>
+    </div>
+
+    <div id="selected-activites"></div>
+
+    <!-- ───────────── DISTANCE ───────────── -->
+    <div class="module-distance">
+
+        <div class="distance-label">Distance</div>
+
+        <input type="range" id="distance-slider" min="0" max="4" step="1" value="1">
+
+        <!-- Points fixes alignés parfaitement -->
+        <div class="distance-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
 
-        <div id="selected-enseignes"></div>
-
-        <!-- ───────────── ACTIVITÉ ───────────── -->
-        <div class="module-search">
-            <div class="search-label">Activité</div>
-            <input type="text" id="search-activite" placeholder="Rechercher une activité…">
+        <!-- Libellés -->
+        <div class="distance-values">
+            <span>2 km</span>
+            <span>5 km</span>
+            <span>10 km</span>
+            <span>20 km</span>
+            <span>50 km</span>
         </div>
 
-        <div id="selected-activites"></div>
-
-        <!-- ───────────── DISTANCE ───────────── -->
-        <div class="module-distance">
-            <div class="distance-label">Distance</div>
-            <input type="range" id="distance-slider" min="0" max="4" step="1" value="1">
-            <div class="distance-values">
-                <span>2 km</span>
-                <span>5 km</span>
-                <span>10 km</span>
-                <span>20 km</span>
-                <span>50 km</span>
-            </div>
-            
-            <button id="reset-enseignes" class="btn-reset-enseignes">
-                Réinitialiser
-            </button>
-        
-        </div>
-
-        <!-- Compteur -->
-        <div id="enseigne-count"></div>
+        <!-- Bouton reset -->
+        <button id="reset-enseignes" class="btn-reset-enseignes">
+            Réinitialiser
+        </button>
 
     </div>
+
+    <!-- Compteur -->
+    <div id="enseigne-count"></div>
 
 </div>
 
@@ -201,6 +213,7 @@
 
 </body>
 </html>
+
 
 
 
