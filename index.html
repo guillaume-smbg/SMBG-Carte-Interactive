@@ -100,12 +100,54 @@
     </div>
 
 
+<!-- ─────────────────────────────────────────── -->
+<!--                   CARTE                     -->
+<!-- ─────────────────────────────────────────── -->
+<div id="map-container">
+
+    <div id="map"></div>
+
     <!-- ─────────────────────────────────────────── -->
-    <!--                   CARTE                      -->
+    <!--              MODULE ENSEIGNES               -->
     <!-- ─────────────────────────────────────────── -->
-    <div id="map-container">
-        <div id="map"></div>
+    <div id="module-enseignes">
+
+        <div class="module-title">Enseignes</div>
+
+        <!-- Catégories multi-sélection -->
+        <div class="module-categories">
+            <div class="categorie-label">Catégories</div>
+            <div id="categorie-list"></div>
+        </div>
+
+        <!-- Recherche marque -->
+        <div class="module-search">
+            <input type="text" id="search-enseigne" placeholder="Rechercher une enseigne…">
+            <div id="autocomplete-results"></div>
+        </div>
+
+        <!-- Marques sélectionnées -->
+        <div id="selected-enseignes"></div>
+
+        <!-- Distance -->
+        <div class="module-distance">
+            <div class="distance-label">Distance</div>
+            <input type="range" id="distance-slider" min="0" max="4" step="1" value="1">
+            <div class="distance-values">
+                <span>2</span>
+                <span>5</span>
+                <span>10</span>
+                <span>20</span>
+                <span>50 km</span>
+            </div>
+        </div>
+
+        <!-- Compteur -->
+        <div id="enseigne-count"></div>
+
     </div>
+
+</div>
 
     <!-- ─────────────────────────────────────────── -->
     <!--                 VOLET DROIT                 -->
@@ -152,4 +194,5 @@
 
 </body>
 </html>
+
 
