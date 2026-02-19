@@ -467,18 +467,19 @@ html, body {
 }
 
 /* ───────────────────────────────────────────── */
-/*           POSITION ZOOM LEAFLET               */
+/*             ZOOM LEAFLET BAS GAUCHE           */
 /* ───────────────────────────────────────────── */
 
-/* Zoom en bas à gauche */
-.leaflet-bottom.leaflet-left {
-    bottom: 30px !important;
+.leaflet-control-zoom {
+    position: absolute !important;
     left: 20px !important;
+    bottom: 30px !important;
+    top: auto !important;
 }
 
-/* Quand carrousel affiché → zoom remonte */
-body.carousel-open .leaflet-bottom.leaflet-left {
-    bottom: 220px !important; /* hauteur carrousel + marge */
+/* Quand carrousel visible → remonte */
+body.carousel-open .leaflet-control-zoom {
+    bottom: 230px !important;
 }
 
 /* ───────────────────────────────────────────── */
@@ -663,3 +664,4 @@ body.carousel-open .leaflet-bottom.leaflet-left {
     font-size: 13px;
     opacity: 0.9;
 }
+
