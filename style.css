@@ -690,34 +690,37 @@ body.carousel-open .leaflet-top.leaflet-left {
     left: 100%;
     transform: translateX(-100%);
 }
-
-/* ───────────── POINTS SUR SLIDER ───────────── */
+/* ───────────── POINTS ALIGNÉS PARFAITEMENT ───────────── */
 
 .module-distance {
     position: relative;
 }
 
-.distance-values::before {
-    content: "";
+/* Conteneur des points */
+.distance-dots {
     position: absolute;
-    top: -18px;
+    top: 34px;               /* ajuste si besoin */
     left: 0;
     width: 100%;
-    height: 0;
     pointer-events: none;
 }
 
-.distance-values span::after {
-    content: "";
+/* Chaque point */
+.distance-dots span {
     position: absolute;
-    top: -18px;
-    left: 50%;
-    transform: translateX(-50%);
     width: 6px;
     height: 6px;
     background: #E1782C;
     border-radius: 50%;
+    transform: translateX(-50%);
 }
+
+/* Positions exactes */
+.distance-dots span:nth-child(1) { left: 0%;  transform: translateX(0); }
+.distance-dots span:nth-child(2) { left: 25%; }
+.distance-dots span:nth-child(3) { left: 50%; }
+.distance-dots span:nth-child(4) { left: 75%; }
+.distance-dots span:nth-child(5) { left: 100%; transform: translateX(-100%); }
 
 /* ───────────── BOUTON RESET DORÉ ───────────── */
 
@@ -749,3 +752,4 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
+
