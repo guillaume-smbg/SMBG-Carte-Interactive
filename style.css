@@ -609,46 +609,38 @@ body.carousel-open .leaflet-top.leaflet-left {
 
 /* ───────────── DISTANCE ───────────── */
 
-/* Alignement stable et sans retour à la ligne */
+.module-distance {
+    margin-top: 14px;
+}
 
+.distance-label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* Slider pleine largeur */
+#distance-slider {
+    width: 100%;
+    display: block;
+    margin: 8px 0 6px 0;
+}
+
+/* Alignement simple et fiable */
 .distance-values {
-    position: relative;
-    height: 20px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     font-size: 12px;
-    white-space: nowrap;   /* 🔥 empêche retour ligne */
+    margin-top: 4px;
+    text-align: center;
 }
 
-.distance-values span {
-    position: absolute;
-    transform: translateX(-50%);
-    white-space: nowrap;
+.distance-values span:first-child {
+    text-align: left;
 }
 
-/* Step 0 */
-.distance-values span:nth-child(1) {
-    left: 0%;
-    transform: translateX(0);
-}
-
-/* Step 1 */
-.distance-values span:nth-child(2) {
-    left: 25%;
-}
-
-/* Step 2 */
-.distance-values span:nth-child(3) {
-    left: 50%;
-}
-
-/* Step 3 */
-.distance-values span:nth-child(4) {
-    left: 75%;
-}
-
-/* Step 4 */
-.distance-values span:nth-child(5) {
-    left: 100%;
-    transform: translateX(-100%);
+.distance-values span:last-child {
+    text-align: right;
 }
 
 /* ───────────── COMPTEUR ───────────── */
@@ -657,3 +649,4 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
+
