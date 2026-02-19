@@ -36,16 +36,23 @@ const lightboxPrev   = document.getElementById("lightbox-prev");
 const lightboxNext   = document.getElementById("lightbox-next");
 const lightboxClose  = document.getElementById("lightbox-close");
 
-let pinSelectionne   = null;
-let markers          = [];
-let currentPhotos    = [];
+let pinSelectionne    = null;
+let markers           = [];
+let currentPhotos     = [];
 let currentPhotoIndex = 0;
 
-function ouvrirPanneau() {
+function ouvrirPanneau(lat, lng) {
+
     sidebarRight.classList.add("open");
+
+    /* 🔹 Affichage module enseignes */
+    if (typeof afficherModuleEnseignes === "function" && lat && lng) {
+        afficherModuleEnseignes(lat, lng);
+    }
 }
 
 function fermerPanneau() {
+
     sidebarRight.classList.remove("open");
 
     document.getElementById("ref-annonce").innerHTML = "";
@@ -60,6 +67,11 @@ function fermerPanneau() {
 
     pinSelectionne = null;
     currentPhotos = [];
+
+    /* 🔹 Masquage module enseignes */
+    if (typeof masquerModuleEnseignes === "function") {
+        masquerModuleEnseignes();
+    }
 }
 
 map.on("click", fermerPanneau);
@@ -728,7 +740,84 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   14. INIT
+   14. MODULE ENSEIGNES – INITIALISATION
+   ============================================================ */
+
+/* ---- TAXONOMIE SMBG RETAIL ---- */
+
+const TAXONOMIE = {
+    "Mode": ["clothes","shoes","fashion_accessories","jewelry","watches","bag","leather","lingerie","tailor","textile"],
+    "Beauté & Bien-être": ["beauty","cosmetics","hairdresser","perfumery","massage","nail_salon","spa","tattoo"],
+    "Santé": ["pharmacy","optician","hearing_aids","medical_supply","herbalist","orthopedic"],
+    "Alimentaire": ["supermarket","convenience","hypermarket","discount","bakery","butcher","seafood","deli","cheese","greengrocer","organic","wine","beverages","confectionery"],
+    "Restauration": ["restaurant","fast_food","cafe","bar","food_court","ice_cream","sandwich","pizza","kebab","burger"],
+    "Sport & Loisirs": ["sports","outdoor","bicycle","fitness","ski","hunting","fishing","toy","games","music"],
+    "Maison & Décoration": ["furniture","interior_decoration","lighting","carpet","DIY","hardware","garden_centre","houseware"],
+    "Culture & Média": ["books","stationery","newsagent","photo","video","art","gift","collector"],
+    "Électronique": ["electronics","mobile_phone","computer","hifi","appliance"],
+    "Automobile": ["car","car_repair","car_parts","motorcycle","tyres","fuel"],
+    "Services": ["travel_agency","laundry","dry_cleaning","copyshop","estate_agent","pet","key_cutter","locksmith"],
+    "Centres commerciaux": ["mall","department_store","kiosk"]
+};
+
+/* ---- ÉTAT ---- */
+
+let categoriesSelectionnees = new Set();
+let lotSelectionneCoords = null;
+
+/* ---- GÉNÉRATION DES CATÉGORIES ---- */
+
+function initModuleEnseignes() {
+
+    const container = document.getElementById("categorie-list");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    Object.keys(TAXONOMIE).forEach(categorie => {
+
+        const item = document.createElement("div");
+        item.className = "categorie-item";
+        item.textContent = categorie;
+
+        item.addEventListener("click", () => {
+            if (categoriesSelectionnees.has(categorie)) {
+                categoriesSelectionnees.delete(categorie);
+                item.classList.remove("active");
+            } else {
+                categoriesSelectionnees.add(categorie);
+                item.classList.add("active");
+            }
+
+            console.log("Catégories actives :", Array.from(categoriesSelectionnees));
+            // future: lancer requête Overpass
+        });
+
+        container.appendChild(item);
+    });
+}
+
+/* ---- AFFICHAGE / MASQUAGE MODULE ---- */
+
+function afficherModuleEnseignes(lat, lng) {
+    const module = document.getElementById("module-enseignes");
+    if (!module) return;
+
+    module.style.display = "block";
+    lotSelectionneCoords = { lat, lng };
+}
+
+function masquerModuleEnseignes() {
+    const module = document.getElementById("module-enseignes");
+    if (!module) return;
+
+    module.style.display = "none";
+    categoriesSelectionnees.clear();
+}
+
+
+/* ============================================================
+   15. INIT
    ============================================================ */
 
 async function init() {
