@@ -297,6 +297,7 @@ function afficherCarousel(d) {
 
     if (!photos.length) {
         wrapper.style.display = "none";
+        document.body.classList.remove("carousel-open");  // 🔹 retire classe
         currentPhotos = [];
         return;
     }
@@ -308,7 +309,9 @@ function afficherCarousel(d) {
         .map((url, i) => `<img src="${url}" data-index="${i}">`)
         .join("");
 
-    wrapper.style.display = "flex"; 
+    wrapper.style.display = "flex";
+    document.body.classList.add("carousel-open");  // 🔹 ajoute classe
+
     zoneCarousel.scrollLeft = 0;
 
     zoneCarousel.querySelectorAll("img").forEach(img => {
@@ -328,10 +331,10 @@ zoneCarousel.addEventListener("wheel", e => {
 arrowLeft.addEventListener("click", () => {
     zoneCarousel.scrollLeft -= 260;
 });
+
 arrowRight.addEventListener("click", () => {
     zoneCarousel.scrollLeft += 260;
 });
-
 
 /* ============================================================
    8. PINS
