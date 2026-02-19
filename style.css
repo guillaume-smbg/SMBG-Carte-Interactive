@@ -481,6 +481,7 @@ html, body {
 body.carousel-open .leaflet-top.leaflet-left {
     bottom: 230px !important;
 }
+
 /* ───────────────────────────────────────────── */
 /*                MODULE ENSEIGNES               */
 /* ───────────────────────────────────────────── */
@@ -504,7 +505,6 @@ body.carousel-open .leaflet-top.leaflet-left {
 
     z-index: 550;
     display: none;
-    overflow: visible;
 }
 
 /* ───────────── TITRE ───────────── */
@@ -524,7 +524,6 @@ body.carousel-open .leaflet-top.leaflet-left {
     width: 100%;
 }
 
-/* Labels */
 .search-label,
 .distance-label {
     font-size: 14px;
@@ -532,7 +531,6 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-bottom: 6px;
 }
 
-/* Espacements */
 .module-search {
     position: relative;
     margin-bottom: 20px;
@@ -613,7 +611,12 @@ body.carousel-open .leaflet-top.leaflet-left {
     font-weight: bold;
 }
 
-/* ───────────── SLIDER DISTANCE (CUIVRE) ───────────── */
+/* ───────────── SLIDER DISTANCE ───────────── */
+
+.slider-wrapper {
+    position: relative;
+    width: 100%;
+}
 
 #distance-slider {
     -webkit-appearance: none;
@@ -623,16 +626,11 @@ body.carousel-open .leaflet-top.leaflet-left {
     border-radius: 2px;
     outline: none;
     margin: 10px 0 14px 0;
+    position: relative;
+    z-index: 2;
 }
 
-/* Track Chrome / Edge */
-#distance-slider::-webkit-slider-runnable-track {
-    height: 4px;
-    background: rgba(225,120,44,0.25);
-    border-radius: 2px;
-}
-
-/* Thumb Chrome */
+/* Chrome */
 #distance-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     height: 16px;
@@ -644,14 +642,7 @@ body.carousel-open .leaflet-top.leaflet-left {
     border: none;
 }
 
-/* Track Firefox */
-#distance-slider::-moz-range-track {
-    height: 4px;
-    background: rgba(225,120,44,0.25);
-    border-radius: 2px;
-}
-
-/* Thumb Firefox */
+/* Firefox */
 #distance-slider::-moz-range-thumb {
     height: 16px;
     width: 16px;
@@ -661,7 +652,40 @@ body.carousel-open .leaflet-top.leaflet-left {
     border: none;
 }
 
-/* ───────────── ALIGNEMENT REPÈRES ───────────── */
+#distance-slider::-moz-range-track {
+    height: 4px;
+    background: rgba(225,120,44,0.25);
+    border-radius: 2px;
+}
+
+/* ───────────── POINTS ALIGNÉS ───────────── */
+
+.distance-dots {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.distance-dots span {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #E1782C;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.distance-dots span:nth-child(1) { left: 0%; transform: translate(0, -50%); }
+.distance-dots span:nth-child(2) { left: 25%; }
+.distance-dots span:nth-child(3) { left: 50%; }
+.distance-dots span:nth-child(4) { left: 75%; }
+.distance-dots span:nth-child(5) { left: 100%; transform: translate(-100%, -50%); }
+
+/* ───────────── VALEURS ───────────── */
 
 .distance-values {
     position: relative;
@@ -677,61 +701,13 @@ body.carousel-open .leaflet-top.leaflet-left {
     white-space: nowrap;
 }
 
-.distance-values span:nth-child(1) {
-    left: 0%;
-    transform: translateX(0);
-}
-
+.distance-values span:nth-child(1) { left: 0%; transform: translateX(0); }
 .distance-values span:nth-child(2) { left: 25%; }
 .distance-values span:nth-child(3) { left: 50%; }
 .distance-values span:nth-child(4) { left: 75%; }
+.distance-values span:nth-child(5) { left: 100%; transform: translateX(-100%); }
 
-.distance-values span:nth-child(5) {
-    left: 100%;
-    transform: translateX(-100%);
-}
-
-/* ───────────── POINTS ALIGNÉS SUR LA TRACK ───────────── */
-
-.module-distance {
-    position: relative;
-}
-
-/* Conteneur des points */
-.distance-dots {
-    position: absolute;
-    top: 46px;      /* ← hauteur exacte de la track */
-    left: 0;
-    width: 100%;
-    pointer-events: none;
-}
-
-/* Points */
-.distance-dots span {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: #E1782C;
-    border-radius: 50%;
-    transform: translateX(-50%) translateY(-50%);
-}
-
-/* Positions horizontales parfaites */
-.distance-dots span:nth-child(1) {
-    left: 0%;
-    transform: translateX(0) translateY(-50%);
-}
-
-.distance-dots span:nth-child(2) { left: 25%; }
-.distance-dots span:nth-child(3) { left: 50%; }
-.distance-dots span:nth-child(4) { left: 75%; }
-
-.distance-dots span:nth-child(5) {
-    left: 100%;
-    transform: translateX(-100%) translateY(-50%);
-}
-
-/* ───────────── BOUTON RESET DORÉ ───────────── */
+/* ───────────── BOUTON RESET ───────────── */
 
 .btn-reset-enseignes {
     width: 100%;
@@ -761,6 +737,3 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
-
-
-
