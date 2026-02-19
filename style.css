@@ -467,29 +467,43 @@ html, body {
 }
 
 /* ───────────────────────────────────────────── */
+/*           POSITION ZOOM LEAFLET               */
+/* ───────────────────────────────────────────── */
+
+/* Zoom en bas à gauche */
+.leaflet-bottom.leaflet-left {
+    bottom: 30px !important;
+    left: 20px !important;
+}
+
+/* Quand carrousel affiché → zoom remonte */
+body.carousel-open .leaflet-bottom.leaflet-left {
+    bottom: 220px !important; /* hauteur carrousel + marge */
+}
+
+/* ───────────────────────────────────────────── */
 /*                MODULE ENSEIGNES               */
 /* ───────────────────────────────────────────── */
 
 #module-enseignes {
     position: absolute;
 
-    /* 🔹 Décalé pour éviter chevauchement zoom Leaflet */
-    top: 70px;
+    /* En haut à gauche */
+    top: 20px;
     left: 20px;
 
-    width: 280px;
+    width: 290px;
     max-height: 75vh;
 
-    background: rgba(5, 38, 61, 0.94);
+    background: rgba(5, 38, 61, 0.95);
     backdrop-filter: blur(4px);
 
     border-radius: 14px;
-    padding: 16px 16px 18px 16px;
+    padding: 18px 18px 20px 18px;
 
-    box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.35);
 
     color: #E1782C;
-
     font-family: 'Futura', sans-serif;
 
     z-index: 550;
@@ -506,24 +520,25 @@ html, body {
     border-radius: 10px;
 }
 
-/* 🔹 Titre */
+/* ───────────── TITRE ───────────── */
+
 .module-title {
-    font-size: 17px;
-    font-weight: bold;
-    margin-bottom: 14px;
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 18px;
     color: #E1782C;
 }
 
 /* ───────────── PARTIE CATÉGORIES ───────────── */
 
 .module-categories {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .categorie-label {
-    font-size: 15px;
-    margin-bottom: 8px;
+    font-size: 16px;
     font-weight: 600;
+    margin-bottom: 10px;
 }
 
 #categorie-list {
@@ -535,7 +550,7 @@ html, body {
 .categorie-item {
     background: rgba(225,120,44,0.15);
     border: 1px solid rgba(225,120,44,0.5);
-    padding: 5px 10px;
+    padding: 6px 12px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 13px;
@@ -551,12 +566,12 @@ html, body {
 
 .module-search {
     position: relative;
-    margin-bottom: 14px;
+    margin-bottom: 20px;
 }
 
 #search-enseigne {
     width: 100%;
-    padding: 8px 10px;
+    padding: 9px 12px;
     border-radius: 6px;
     border: none;
     outline: none;
@@ -566,20 +581,20 @@ html, body {
 
 #autocomplete-results {
     position: absolute;
-    top: 38px;
+    top: 40px;
     left: 0;
     right: 0;
     background: white;
     color: #04253d;
     border-radius: 6px;
-    max-height: 160px;
+    max-height: 180px;
     overflow-y: auto;
     display: none;
     z-index: 600;
 }
 
 .autocomplete-item {
-    padding: 7px 10px;
+    padding: 8px 12px;
     cursor: pointer;
     font-size: 14px;
 }
@@ -594,14 +609,14 @@ html, body {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .selected-item {
     background: #E1782C;
     color: #04253d;
-    padding: 5px 10px;
-    border-radius: 16px;
+    padding: 6px 12px;
+    border-radius: 18px;
     font-size: 13px;
     display: flex;
     align-items: center;
@@ -616,35 +631,35 @@ html, body {
 /* ───────────── PARTIE DISTANCE ───────────── */
 
 .module-distance {
-    margin-top: 4px;
+    margin-top: 6px;
 }
 
 .distance-label {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
-/* Curseur */
+/* Slider */
 #distance-slider {
     width: 100%;
-    margin: 6px 0 2px 0;
+    margin: 8px 0 6px 0;
 }
 
-/* 🔹 Alignement parfait des valeurs sous le slider */
+/* Alignement parfait sous le slider */
 .distance-values {
-    position: relative;
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
-    opacity: 0.85;
-    margin-top: 6px;
+    font-size: 13px;
+    opacity: 0.9;
+    margin-top: 4px;
     padding: 0 2px;
 }
 
-/* Compteur */
+/* ───────────── COMPTEUR ───────────── */
+
 #enseigne-count {
-    margin-top: 14px;
+    margin-top: 18px;
     font-size: 13px;
     opacity: 0.9;
 }
