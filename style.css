@@ -527,6 +527,23 @@ body.carousel-open .leaflet-top.leaflet-left {
     width: 100%;
 }
 
+/* Espace sous le titre "Catégories" */
+.module-categories {
+    margin-bottom: 18px;
+}
+
+/* Espace entre "Catégories" et la barre de recherche */
+.module-search {
+    position: relative;
+    margin-top: 14px;      /* 🔥 espace ajouté */
+    margin-bottom: 22px;
+}
+
+/* Espace avant Distance */
+.module-distance {
+    margin-top: 18px;
+}
+
 /* ───────────── INPUT ───────────── */
 
 #search-enseigne {
@@ -610,37 +627,58 @@ body.carousel-open .leaflet-top.leaflet-left {
 /* ───────────── DISTANCE ───────────── */
 
 .module-distance {
-    margin-top: 14px;
+    margin-top: 18px;
 }
 
 .distance-label {
     font-size: 15px;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 /* Slider pleine largeur */
 #distance-slider {
     width: 100%;
     display: block;
-    margin: 8px 0 6px 0;
+    margin: 8px 0 10px 0;
 }
 
-/* Alignement simple et fiable */
+/* Alignement pixel-perfect des repères */
 .distance-values {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    position: relative;
+    width: calc(100% - 18px);   /* compensation largeur thumb */
+    margin: 0 auto;
     font-size: 12px;
-    margin-top: 4px;
-    text-align: center;
+    height: 18px;
 }
 
-.distance-values span:first-child {
-    text-align: left;
+.distance-values span {
+    position: absolute;
+    transform: translateX(-50%);
+    white-space: nowrap;
 }
 
-.distance-values span:last-child {
-    text-align: right;
+/* Positions exactes */
+.distance-values span:nth-child(1) {
+    left: 0%;
+    transform: translateX(0);
+}
+
+.distance-values span:nth-child(2) {
+    left: 25%;
+}
+
+.distance-values span:nth-child(3) {
+    left: 50%;
+}
+
+.distance-values span:nth-child(4) {
+    left: 75%;
+}
+
+.distance-values span:nth-child(5) {
+    left: 100%;
+    transform: translateX(-100%);
 }
 
 /* ───────────── COMPTEUR ───────────── */
@@ -649,4 +687,5 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
+
 
