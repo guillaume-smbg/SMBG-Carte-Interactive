@@ -24,7 +24,6 @@ map.whenReady(() => {
     map.panBy([162, 0], { animate: false });
 });
 
-
 /* ============================================================
    2. PANNEAU DROIT + LIGHTBOX
    ============================================================ */
@@ -63,7 +62,11 @@ function fermerPanneau() {
         pinSelectionne._icon.classList.remove("smbg-pin-selected");
     }
 
+    /* 🔹 Masque carrousel */
     document.getElementById("carousel-wrapper").style.display = "none";
+
+    /* 🔹 Important : redescend le zoom */
+    document.body.classList.remove("carousel-open");
 
     pinSelectionne = null;
     currentPhotos = [];
