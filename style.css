@@ -467,18 +467,18 @@ html, body {
 }
 
 /* ───────────────────────────────────────────── */
-/*             ZOOM LEAFLET BAS GAUCHE           */
+/*           ZOOM LEAFLET BAS GAUCHE             */
 /* ───────────────────────────────────────────── */
 
-.leaflet-control-zoom {
-    position: absolute !important;
-    left: 20px !important;
-    bottom: 30px !important;
+/* On déplace le bloc complet de contrôles */
+.leaflet-top.leaflet-left {
     top: auto !important;
+    bottom: 30px !important;
+    left: 20px !important;
 }
 
-/* Quand carrousel visible → remonte */
-body.carousel-open .leaflet-control-zoom {
+/* Quand carrousel affiché → on remonte */
+body.carousel-open .leaflet-top.leaflet-left {
     bottom: 230px !important;
 }
 
@@ -639,3 +639,4 @@ body.carousel-open .leaflet-control-zoom {
     margin-top: 14px;
     font-size: 13px;
 }
+
