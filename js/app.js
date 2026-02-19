@@ -295,13 +295,15 @@ function afficherCarousel(d) {
     .map(x => x.trim())
     .filter(x => x !== "");
 
+    /* ----- Aucune photo ----- */
     if (!photos.length) {
         wrapper.style.display = "none";
-        document.body.classList.remove("carousel-open");  // 🔹 retire classe
+        document.body.classList.remove("carousel-open");   // 🔹 retire classe zoom
         currentPhotos = [];
         return;
     }
 
+    /* ----- Photos présentes ----- */
     currentPhotos = photos;
     currentPhotoIndex = 0;
 
@@ -310,7 +312,9 @@ function afficherCarousel(d) {
         .join("");
 
     wrapper.style.display = "flex";
-    document.body.classList.add("carousel-open");  // 🔹 ajoute classe
+
+    /* 🔹 Active classe pour remonter le zoom */
+    document.body.classList.add("carousel-open");
 
     zoneCarousel.scrollLeft = 0;
 
@@ -321,13 +325,13 @@ function afficherCarousel(d) {
     });
 }
 
-/* Défilement molette */
+/* ----- Défilement molette ----- */
 zoneCarousel.addEventListener("wheel", e => {
     e.preventDefault();
     zoneCarousel.scrollLeft += e.deltaY;
 });
 
-/* Défilement flèches */
+/* ----- Défilement flèches ----- */
 arrowLeft.addEventListener("click", () => {
     zoneCarousel.scrollLeft -= 260;
 });
@@ -335,6 +339,7 @@ arrowLeft.addEventListener("click", () => {
 arrowRight.addEventListener("click", () => {
     zoneCarousel.scrollLeft += 260;
 });
+
 
 /* ============================================================
    8. PINS
