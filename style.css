@@ -518,6 +518,12 @@ body.carousel-open .leaflet-top.leaflet-left {
     color: #E1782C;
 }
 
+.search-label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
 /* ───────────── STRUCTURE INTERNE ───────────── */
 
 .module-categories,
@@ -687,5 +693,3 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
-
-
