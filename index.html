@@ -99,13 +99,13 @@
         </div>
     </div>
 
-
 <!-- ─────────────────────────────────────────── -->
 <!--                   CARTE                     -->
 <!-- ─────────────────────────────────────────── -->
 <div id="map-container">
 
     <div id="map"></div>
+
 <!-- ─────────────────────────────────────────── -->
 <!--              MODULE ENSEIGNES               -->
 <!-- ─────────────────────────────────────────── -->
@@ -136,18 +136,18 @@
 
         <div class="distance-label">Distance</div>
 
-        <input type="range" id="distance-slider" min="0" max="4" step="1" value="1">
+        <div class="slider-wrapper">
+            <input type="range" id="distance-slider" min="0" max="4" step="1" value="1">
 
-        <!-- Points fixes alignés parfaitement -->
-        <div class="distance-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+            <div class="distance-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
 
-        <!-- Libellés -->
         <div class="distance-values">
             <span>2 km</span>
             <span>5 km</span>
@@ -156,7 +156,6 @@
             <span>50 km</span>
         </div>
 
-        <!-- Bouton reset -->
         <button id="reset-enseignes" class="btn-reset-enseignes">
             Réinitialiser
         </button>
@@ -213,6 +212,7 @@
 
 </body>
 </html>
+
 
 
 
