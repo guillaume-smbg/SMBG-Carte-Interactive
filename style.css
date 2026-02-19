@@ -550,17 +550,30 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 18px;
 }
 
-/* ───────────── INPUT ───────────── */
+/* ───────────── INPUTS ENSEIGNE & ACTIVITÉ ───────────── */
 
-#search-enseigne {
+#search-enseigne,
+#search-activite {
     width: 100%;
-    box-sizing: border-box;   /* clé anti débordement */
-    padding: 8px 10px;
-    border-radius: 6px;
+    box-sizing: border-box;
+
+    padding: 10px 12px;
+    border-radius: 8px;
+
     border: none;
     outline: none;
+
     font-size: 14px;
     font-family: 'Futura', sans-serif;
+
+    background: #f2f2f2;
+    color: #04253d;
+}
+
+/* Focus propre */
+#search-enseigne:focus,
+#search-activite:focus {
+    background: #ffffff;
 }
 
 /* ───────────── AUTOCOMPLETE ───────────── */
@@ -693,3 +706,4 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
+
