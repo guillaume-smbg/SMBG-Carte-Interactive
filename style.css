@@ -481,7 +481,6 @@ html, body {
 body.carousel-open .leaflet-top.leaflet-left {
     bottom: 230px !important;
 }
-
 /* ───────────────────────────────────────────── */
 /*                MODULE ENSEIGNES               */
 /* ───────────────────────────────────────────── */
@@ -491,7 +490,7 @@ body.carousel-open .leaflet-top.leaflet-left {
     top: 20px;
     left: 20px;
 
-    width: 270px;                /* légèrement réduit */
+    width: 270px;
     background: rgba(5, 38, 61, 0.95);
     backdrop-filter: blur(4px);
 
@@ -505,8 +504,7 @@ body.carousel-open .leaflet-top.leaflet-left {
 
     z-index: 550;
     display: none;
-
-    overflow: visible;           /* supprime scroll interne */
+    overflow: visible;
 }
 
 /* ───────────── TITRE ───────────── */
@@ -514,43 +512,37 @@ body.carousel-open .leaflet-top.leaflet-left {
 .module-title {
     font-size: 18px;
     font-weight: 600;
-    margin-bottom: 16px;
-    color: #E1782C;
+    margin-bottom: 18px;
 }
 
-.search-label {
+/* ───────────── STRUCTURE INTERNE ───────────── */
+
+.module-search,
+.module-distance,
+#selected-enseignes,
+#selected-activites {
+    width: 100%;
+}
+
+/* Labels */
+.search-label,
+.distance-label {
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 6px;
 }
 
-/* ───────────── STRUCTURE INTERNE ───────────── */
-
-.module-categories,
-.module-search,
-.module-distance,
-#selected-enseignes {
-    width: 100%;
-}
-
-/* Espace sous le titre "Catégories" */
-.module-categories {
-    margin-bottom: 18px;
-}
-
-/* Espace entre "Catégories" et la barre de recherche */
+/* Espacements */
 .module-search {
     position: relative;
-    margin-top: 14px;      /* 🔥 espace ajouté */
-    margin-bottom: 22px;
+    margin-bottom: 20px;
 }
 
-/* Espace avant Distance */
 .module-distance {
     margin-top: 18px;
 }
 
-/* ───────────── INPUTS ENSEIGNE & ACTIVITÉ ───────────── */
+/* ───────────── INPUTS ───────────── */
 
 #search-enseigne,
 #search-activite {
@@ -570,7 +562,6 @@ body.carousel-open .leaflet-top.leaflet-left {
     color: #04253d;
 }
 
-/* Focus propre */
 #search-enseigne:focus,
 #search-activite:focus {
     background: #ffffff;
@@ -578,15 +569,16 @@ body.carousel-open .leaflet-top.leaflet-left {
 
 /* ───────────── AUTOCOMPLETE ───────────── */
 
-#autocomplete-results {
+#autocomplete-enseigne,
+#autocomplete-activite {
     position: absolute;
-    top: 38px;
+    top: 42px;
     left: 0;
     right: 0;
     background: white;
     color: #04253d;
     border-radius: 6px;
-    max-height: 160px;
+    max-height: 180px;
     overflow-y: auto;
     display: none;
     z-index: 600;
@@ -602,29 +594,6 @@ body.carousel-open .leaflet-top.leaflet-left {
     background: rgba(0,0,0,0.06);
 }
 
-/* ───────────── CATÉGORIES ───────────── */
-
-#categorie-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.categorie-item {
-    background: rgba(225,120,44,0.15);
-    border: 1px solid rgba(225,120,44,0.5);
-    padding: 5px 10px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: 0.2s ease;
-}
-
-.categorie-item.active {
-    background: #E1782C;
-    color: #04253d;
-}
-
 /* ───────────── TAGS SÉLECTIONNÉS ───────────── */
 
 .selected-item {
@@ -636,6 +605,7 @@ body.carousel-open .leaflet-top.leaflet-left {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    margin-bottom: 8px;
 }
 
 .selected-item span.remove {
@@ -643,29 +613,59 @@ body.carousel-open .leaflet-top.leaflet-left {
     font-weight: bold;
 }
 
-/* ───────────── DISTANCE ───────────── */
+/* ───────────── SLIDER DISTANCE (CUIVRE) ───────────── */
 
-.module-distance {
-    margin-top: 18px;
-}
-
-.distance-label {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-/* Slider pleine largeur */
 #distance-slider {
+    -webkit-appearance: none;
     width: 100%;
-    display: block;
-    margin: 8px 0 10px 0;
+    height: 4px;
+    background: rgba(225,120,44,0.25);
+    border-radius: 2px;
+    outline: none;
+    margin: 10px 0 14px 0;
 }
 
-/* Alignement pixel-perfect des repères */
+/* Track Chrome / Edge */
+#distance-slider::-webkit-slider-runnable-track {
+    height: 4px;
+    background: rgba(225,120,44,0.25);
+    border-radius: 2px;
+}
+
+/* Thumb Chrome */
+#distance-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    background: #E1782C;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -6px;
+    border: none;
+}
+
+/* Track Firefox */
+#distance-slider::-moz-range-track {
+    height: 4px;
+    background: rgba(225,120,44,0.25);
+    border-radius: 2px;
+}
+
+/* Thumb Firefox */
+#distance-slider::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    background: #E1782C;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+/* ───────────── ALIGNEMENT REPÈRES ───────────── */
+
 .distance-values {
     position: relative;
-    width: calc(100% - 18px);   /* compensation largeur thumb */
+    width: calc(100% - 18px);
     margin: 0 auto;
     font-size: 12px;
     height: 18px;
@@ -677,27 +677,42 @@ body.carousel-open .leaflet-top.leaflet-left {
     white-space: nowrap;
 }
 
-/* Positions exactes */
 .distance-values span:nth-child(1) {
     left: 0%;
     transform: translateX(0);
 }
 
-.distance-values span:nth-child(2) {
-    left: 25%;
-}
-
-.distance-values span:nth-child(3) {
-    left: 50%;
-}
-
-.distance-values span:nth-child(4) {
-    left: 75%;
-}
+.distance-values span:nth-child(2) { left: 25%; }
+.distance-values span:nth-child(3) { left: 50%; }
+.distance-values span:nth-child(4) { left: 75%; }
 
 .distance-values span:nth-child(5) {
     left: 100%;
     transform: translateX(-100%);
+}
+
+/* ───────────── BOUTON RESET DORÉ ───────────── */
+
+.btn-reset-enseignes {
+    width: 100%;
+    margin-top: 18px;
+    padding: 9px 12px;
+
+    background: #E1782C;
+    border: none;
+    border-radius: 6px;
+
+    color: #04253d;
+    font-family: 'Futura', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-reset-enseignes:hover {
+    opacity: 0.85;
 }
 
 /* ───────────── COMPTEUR ───────────── */
@@ -706,4 +721,3 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
-
