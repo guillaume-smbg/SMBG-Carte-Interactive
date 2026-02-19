@@ -325,18 +325,18 @@ html, body {
 
 #carousel-wrapper {
     position: fixed;
-    bottom: 20px; /* ← remonté de 5px */
+    bottom: 20px;
 
     left: calc(290px + 12px);
     right: calc(340px + 30px);
 
     height: 160px;
-    display: none;
     z-index: 300;
 
-    display: flex;
     align-items: center;
     justify-content: center;
+
+    display: none; /* ← UNE SEULE FOIS */
 }
 
 #photo-carousel {
@@ -347,11 +347,13 @@ html, body {
     white-space: nowrap;
     scrollbar-width: none;
 
-    padding-left: 20px;   /* ← marge interne ajoutée */
-    padding-right: 20px;  /* ← marge interne ajoutée */
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
-#photo-carousel::-webkit-scrollbar { display: none; }
+#photo-carousel::-webkit-scrollbar {
+    display: none;
+}
 
 #photo-carousel img {
     height: 140px;
@@ -359,7 +361,6 @@ html, body {
     border-radius: 8px;
     object-fit: cover;
     cursor: pointer;
-
     position: relative;
     top: 6px;
 }
@@ -616,36 +617,38 @@ body.carousel-open .leaflet-top.leaflet-left {
 .slider-wrapper {
     position: relative;
     width: 100%;
+    height: 28px;
 }
 
 #distance-slider {
     -webkit-appearance: none;
     width: 100%;
     height: 4px;
-    background: rgba(225,120,44,0.25);
+    background: rgba(225,120,44,0.35);
     border-radius: 2px;
     outline: none;
-    margin: 10px 0 14px 0;
-    position: relative;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 2;
 }
 
 /* Chrome */
 #distance-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    height: 16px;
-    width: 16px;
+    height: 18px;
+    width: 18px;
     background: #E1782C;
     border-radius: 50%;
     cursor: pointer;
-    margin-top: -6px;
+    margin-top: -7px;
     border: none;
 }
 
 /* Firefox */
 #distance-slider::-moz-range-thumb {
-    height: 16px;
-    width: 16px;
+    height: 18px;
+    width: 18px;
     background: #E1782C;
     border-radius: 50%;
     cursor: pointer;
@@ -654,11 +657,11 @@ body.carousel-open .leaflet-top.leaflet-left {
 
 #distance-slider::-moz-range-track {
     height: 4px;
-    background: rgba(225,120,44,0.25);
+    background: rgba(225,120,44,0.35);
     border-radius: 2px;
 }
 
-/* ───────────── POINTS ALIGNÉS ───────────── */
+/* ───────────── POINTS EXACTEMENT SUR LA LIGNE ───────────── */
 
 .distance-dots {
     position: absolute;
@@ -672,8 +675,8 @@ body.carousel-open .leaflet-top.leaflet-left {
 
 .distance-dots span {
     position: absolute;
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     background: #E1782C;
     border-radius: 50%;
     transform: translate(-50%, -50%);
@@ -685,20 +688,18 @@ body.carousel-open .leaflet-top.leaflet-left {
 .distance-dots span:nth-child(4) { left: 75%; }
 .distance-dots span:nth-child(5) { left: 100%; transform: translate(-100%, -50%); }
 
-/* ───────────── VALEURS ───────────── */
+/* ───────────── VALEURS PARFAITEMENT ALIGNÉES ───────────── */
 
 .distance-values {
     position: relative;
-    width: calc(100% - 18px);
-    margin: 0 auto;
+    width: 100%;
     font-size: 12px;
-    height: 18px;
+    margin-top: 6px;
 }
 
 .distance-values span {
     position: absolute;
     transform: translateX(-50%);
-    white-space: nowrap;
 }
 
 .distance-values span:nth-child(1) { left: 0%; transform: translateX(0); }
@@ -737,3 +738,4 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
+
