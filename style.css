@@ -472,29 +472,32 @@ html, body {
 
 #module-enseignes {
     position: absolute;
-    top: 20px;
+
+    /* 🔹 Décalé pour éviter chevauchement zoom Leaflet */
+    top: 70px;
     left: 20px;
 
-    width: 260px;
+    width: 280px;
     max-height: 75vh;
 
     background: rgba(5, 38, 61, 0.94);
     backdrop-filter: blur(4px);
 
     border-radius: 14px;
-    padding: 14px 14px 16px 14px;
+    padding: 16px 16px 18px 16px;
 
     box-shadow: 0 8px 25px rgba(0,0,0,0.35);
 
     color: #E1782C;
-    font-size: 14px;
+
+    font-family: 'Futura', sans-serif;
 
     z-index: 550;
-
-    display: none; /* visible uniquement quand lot sélectionné */
+    display: none;
     overflow-y: auto;
 }
 
+/* Scroll discret */
 #module-enseignes::-webkit-scrollbar {
     width: 4px;
 }
@@ -503,38 +506,39 @@ html, body {
     border-radius: 10px;
 }
 
-/* Titre */
+/* 🔹 Titre */
 .module-title {
-    font-size: 16px;
+    font-size: 17px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
     color: #E1782C;
 }
 
-/* Catégories */
+/* ───────────── PARTIE CATÉGORIES ───────────── */
+
 .module-categories {
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 
 .categorie-label {
-    font-size: 13px;
-    margin-bottom: 6px;
-    opacity: 0.85;
+    font-size: 15px;
+    margin-bottom: 8px;
+    font-weight: 600;
 }
 
 #categorie-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
 }
 
 .categorie-item {
     background: rgba(225,120,44,0.15);
     border: 1px solid rgba(225,120,44,0.5);
-    padding: 4px 8px;
+    padding: 5px 10px;
     border-radius: 20px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 13px;
     transition: 0.2s ease;
 }
 
@@ -543,58 +547,62 @@ html, body {
     color: #04253d;
 }
 
-/* Recherche */
+/* ───────────── PARTIE RECHERCHE ───────────── */
+
 .module-search {
     position: relative;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
 }
 
 #search-enseigne {
     width: 100%;
-    padding: 6px 8px;
+    padding: 8px 10px;
     border-radius: 6px;
     border: none;
     outline: none;
-    font-size: 13px;
+    font-size: 14px;
+    font-family: 'Futura', sans-serif;
 }
 
 #autocomplete-results {
     position: absolute;
-    top: 34px;
+    top: 38px;
     left: 0;
     right: 0;
     background: white;
     color: #04253d;
     border-radius: 6px;
-    max-height: 150px;
+    max-height: 160px;
     overflow-y: auto;
     display: none;
     z-index: 600;
 }
 
 .autocomplete-item {
-    padding: 6px 8px;
+    padding: 7px 10px;
     cursor: pointer;
+    font-size: 14px;
 }
 
 .autocomplete-item:hover {
     background: rgba(0,0,0,0.06);
 }
 
-/* Enseignes sélectionnées */
+/* ───────────── ENSEIGNES SÉLECTIONNÉES ───────────── */
+
 #selected-enseignes {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 10px;
+    gap: 8px;
+    margin-bottom: 16px;
 }
 
 .selected-item {
     background: #E1782C;
     color: #04253d;
-    padding: 4px 8px;
+    padding: 5px 10px;
     border-radius: 16px;
-    font-size: 12px;
+    font-size: 13px;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -605,32 +613,38 @@ html, body {
     font-weight: bold;
 }
 
-/* Distance */
+/* ───────────── PARTIE DISTANCE ───────────── */
+
 .module-distance {
-    margin-top: 6px;
+    margin-top: 4px;
 }
 
 .distance-label {
-    font-size: 13px;
-    margin-bottom: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 8px;
 }
 
+/* Curseur */
 #distance-slider {
     width: 100%;
-    margin-top: 4px;
+    margin: 6px 0 2px 0;
 }
 
+/* 🔹 Alignement parfait des valeurs sous le slider */
 .distance-values {
+    position: relative;
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
-    opacity: 0.8;
-    margin-top: 4px;
+    font-size: 12px;
+    opacity: 0.85;
+    margin-top: 6px;
+    padding: 0 2px;
 }
 
 /* Compteur */
 #enseigne-count {
-    margin-top: 10px;
-    font-size: 12px;
-    opacity: 0.85;
+    margin-top: 14px;
+    font-size: 13px;
+    opacity: 0.9;
 }
