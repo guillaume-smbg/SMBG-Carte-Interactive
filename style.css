@@ -620,6 +620,7 @@ body.carousel-open .leaflet-top.leaflet-left {
     height: 28px;
 }
 
+/* Track */
 #distance-slider {
     -webkit-appearance: none;
     width: 100%;
@@ -629,45 +630,47 @@ body.carousel-open .leaflet-top.leaflet-left {
     outline: none;
     position: absolute;
     top: 50%;
+    left: 0;
     transform: translateY(-50%);
-    z-index: 2;
+    z-index: 3;
 }
 
-/* Chrome */
+/* Chrome thumb */
 #distance-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    height: 18px;
     width: 18px;
+    height: 18px;
     background: #E1782C;
     border-radius: 50%;
+    border: none;
     cursor: pointer;
     margin-top: -7px;
-    border: none;
 }
 
-/* Firefox */
+/* Firefox thumb */
 #distance-slider::-moz-range-thumb {
-    height: 18px;
     width: 18px;
+    height: 18px;
     background: #E1782C;
     border-radius: 50%;
-    cursor: pointer;
     border: none;
+    cursor: pointer;
 }
 
+/* Firefox track */
 #distance-slider::-moz-range-track {
     height: 4px;
     background: rgba(225,120,44,0.35);
     border-radius: 2px;
 }
 
-/* ───────────── POINTS EXACTEMENT SUR LA LIGNE ───────────── */
+/* ───────────── POINTS CORRIGÉS AVEC OFFSET ───────────── */
 
 .distance-dots {
     position: absolute;
     top: 50%;
-    left: 0;
-    width: 100%;
+    left: 9px; /* = moitié du thumb (18px / 2) */
+    width: calc(100% - 18px); /* compense le débordement du thumb */
     transform: translateY(-50%);
     pointer-events: none;
     z-index: 1;
@@ -688,11 +691,12 @@ body.carousel-open .leaflet-top.leaflet-left {
 .distance-dots span:nth-child(4) { left: 75%; }
 .distance-dots span:nth-child(5) { left: 100%; transform: translate(-100%, -50%); }
 
-/* ───────────── VALEURS PARFAITEMENT ALIGNÉES ───────────── */
+/* ───────────── VALEURS ALIGNÉES AVEC MÊME OFFSET ───────────── */
 
 .distance-values {
     position: relative;
-    width: 100%;
+    width: calc(100% - 18px);
+    margin-left: 9px;
     font-size: 12px;
     margin-top: 6px;
 }
@@ -738,4 +742,5 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
+
 
