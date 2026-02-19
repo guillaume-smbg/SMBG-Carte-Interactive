@@ -609,29 +609,30 @@ body.carousel-open .leaflet-top.leaflet-left {
 
 /* ───────────── DISTANCE ───────────── */
 
+/* Alignement parfait des repères du slider */
+
 .module-distance {
-    margin-top: 14px;
+    position: relative;
 }
 
-.distance-label {
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-#distance-slider {
-    width: 100%;
-    margin: 8px 0 6px 0;
-}
-
-/* Alignement propre */
 .distance-values {
-    display: flex;
-    justify-content: space-between;
+    position: relative;
+    height: 18px;
+    margin-top: 6px;
     font-size: 12px;
-    margin-top: 4px;
-    padding: 0 4px;
 }
+
+.distance-values span {
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+/* Positions exactes correspondant aux steps 0→4 */
+.distance-values span:nth-child(1) { left: 0%;   transform: translateX(0); }
+.distance-values span:nth-child(2) { left: 25%; }
+.distance-values span:nth-child(3) { left: 50%; }
+.distance-values span:nth-child(4) { left: 75%; }
+.distance-values span:nth-child(5) { left: 100%; transform: translateX(-100%); }
 
 /* ───────────── COMPTEUR ───────────── */
 
@@ -639,4 +640,5 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
+
 
