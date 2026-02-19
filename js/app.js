@@ -197,7 +197,10 @@ const colonnes_info = [
 
 function afficherPanneauDroit(d) {
 
-    ouvrirPanneau();
+    const lat = parseFloat(d["Latitude"]);
+    const lng = parseFloat(d["Longitude"]);
+
+    ouvrirPanneau(lat, lng);   // ✅ on passe maintenant les coordonnées
 
     const ref = formatReference(d["Référence annonce"]);
     document.getElementById("ref-annonce").innerHTML = ref;
@@ -224,6 +227,7 @@ function afficherPanneauDroit(d) {
     }
 
     colonnes_info.forEach(col => {
+
         if (col === "Adresse") return;
 
         const val = formatValue(col, d[col]);
@@ -254,7 +258,6 @@ function afficherPanneauDroit(d) {
             `;
             return;
         }
-        /* ------------------------------------------------------- */
 
         html += `
             <div class="info-line">
