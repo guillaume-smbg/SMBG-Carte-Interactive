@@ -488,19 +488,15 @@ body.carousel-open .leaflet-control-zoom {
 
 #module-enseignes {
     position: absolute;
-
-    /* En haut à gauche */
     top: 20px;
     left: 20px;
 
-    width: 290px;
-    max-height: 75vh;
-
+    width: 270px;                /* légèrement réduit */
     background: rgba(5, 38, 61, 0.95);
     backdrop-filter: blur(4px);
 
     border-radius: 14px;
-    padding: 18px 18px 20px 18px;
+    padding: 16px;
 
     box-shadow: 0 10px 28px rgba(0,0,0,0.35);
 
@@ -509,38 +505,68 @@ body.carousel-open .leaflet-control-zoom {
 
     z-index: 550;
     display: none;
-    overflow-y: auto;
-}
 
-/* Scroll discret */
-#module-enseignes::-webkit-scrollbar {
-    width: 4px;
-}
-#module-enseignes::-webkit-scrollbar-thumb {
-    background: rgba(225,120,44,0.4);
-    border-radius: 10px;
+    overflow: visible;           /* supprime scroll interne */
 }
 
 /* ───────────── TITRE ───────────── */
 
 .module-title {
-    font-size: 19px;
+    font-size: 18px;
     font-weight: 600;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     color: #E1782C;
 }
 
-/* ───────────── PARTIE CATÉGORIES ───────────── */
+/* ───────────── STRUCTURE INTERNE ───────────── */
 
-.module-categories {
-    margin-bottom: 20px;
+.module-categories,
+.module-search,
+.module-distance,
+#selected-enseignes {
+    width: 100%;
 }
 
-.categorie-label {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 10px;
+/* ───────────── INPUT ───────────── */
+
+#search-enseigne {
+    width: 100%;
+    box-sizing: border-box;   /* clé anti débordement */
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-family: 'Futura', sans-serif;
 }
+
+/* ───────────── AUTOCOMPLETE ───────────── */
+
+#autocomplete-results {
+    position: absolute;
+    top: 38px;
+    left: 0;
+    right: 0;
+    background: white;
+    color: #04253d;
+    border-radius: 6px;
+    max-height: 160px;
+    overflow-y: auto;
+    display: none;
+    z-index: 600;
+}
+
+.autocomplete-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.autocomplete-item:hover {
+    background: rgba(0,0,0,0.06);
+}
+
+/* ───────────── CATÉGORIES ───────────── */
 
 #categorie-list {
     display: flex;
@@ -551,7 +577,7 @@ body.carousel-open .leaflet-control-zoom {
 .categorie-item {
     background: rgba(225,120,44,0.15);
     border: 1px solid rgba(225,120,44,0.5);
-    padding: 6px 12px;
+    padding: 5px 10px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 13px;
@@ -563,63 +589,15 @@ body.carousel-open .leaflet-control-zoom {
     color: #04253d;
 }
 
-/* ───────────── PARTIE RECHERCHE ───────────── */
-
-.module-search {
-    position: relative;
-    margin-bottom: 20px;
-}
-
-#search-enseigne {
-    width: 100%;
-    padding: 9px 12px;
-    border-radius: 6px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    font-family: 'Futura', sans-serif;
-}
-
-#autocomplete-results {
-    position: absolute;
-    top: 40px;
-    left: 0;
-    right: 0;
-    background: white;
-    color: #04253d;
-    border-radius: 6px;
-    max-height: 180px;
-    overflow-y: auto;
-    display: none;
-    z-index: 600;
-}
-
-.autocomplete-item {
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.autocomplete-item:hover {
-    background: rgba(0,0,0,0.06);
-}
-
-/* ───────────── ENSEIGNES SÉLECTIONNÉES ───────────── */
-
-#selected-enseignes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 20px;
-}
+/* ───────────── TAGS SÉLECTIONNÉS ───────────── */
 
 .selected-item {
     background: #E1782C;
     color: #04253d;
-    padding: 6px 12px;
-    border-radius: 18px;
+    padding: 6px 10px;
+    border-radius: 16px;
     font-size: 13px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
 }
@@ -629,39 +607,35 @@ body.carousel-open .leaflet-control-zoom {
     font-weight: bold;
 }
 
-/* ───────────── PARTIE DISTANCE ───────────── */
+/* ───────────── DISTANCE ───────────── */
 
 .module-distance {
-    margin-top: 6px;
+    margin-top: 14px;
 }
 
 .distance-label {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
-/* Slider */
 #distance-slider {
     width: 100%;
     margin: 8px 0 6px 0;
 }
 
-/* Alignement parfait sous le slider */
+/* Alignement propre */
 .distance-values {
     display: flex;
     justify-content: space-between;
-    font-size: 13px;
-    opacity: 0.9;
+    font-size: 12px;
     margin-top: 4px;
-    padding: 0 2px;
+    padding: 0 4px;
 }
 
 /* ───────────── COMPTEUR ───────────── */
 
 #enseigne-count {
-    margin-top: 18px;
+    margin-top: 14px;
     font-size: 13px;
-    opacity: 0.9;
 }
-
