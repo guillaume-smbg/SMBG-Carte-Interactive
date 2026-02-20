@@ -1028,19 +1028,18 @@ function distanceMeters(a, b) {
 
 function getEffectiveSubgroups() {
 
-    let effective = [...retailState.selectedSubgroups];
+    const set = new Set();
 
     retailState.selectedGroups.forEach(group => {
-
         Object.keys(RETAIL_STRUCTURE[group].subgroups)
-            .forEach(sub => {
-                if (!effective.includes(sub))
-                    effective.push(sub);
-            });
-
+            .forEach(sub => set.add(sub));
     });
 
-    return effective;
+    retailState.selectedSubgroups.forEach(sub => {
+        set.add(sub);
+    });
+
+    return Array.from(set);
 }
 
 /* =========================
@@ -1145,8 +1144,6 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
             {lat: lotLat, lng: lotLng},
             {lat: r.lat, lng: r.lng}
         ));
-
-        if (dist > retailState.selectedDistance) return;
 
         let color = "#E1782C";
 
@@ -1475,6 +1472,27 @@ document.addEventListener("click", (e) => {
             if (counter) counter.innerHTML = "";
         });
 
+   /* =========================
+      DISTANCE SLIDER
+   ========================= */
+
+   const distanceSlider = document.getElementById("distance-slider");
+
+   distanceSlider.addEventListener("input", () => {
+
+       const index = parseInt(distanceSlider.value);
+
+       retailState.selectedDistance = DISTANCES[index];
+
+       if (retailState.lastLotCoords) {
+           fetchRetail(
+               retailState.lastLotCoords.lat,
+               retailState.lastLotCoords.lng
+           );
+       }
+
+   });
+   
     afficherPinsFiltrés(DATA);
     fermerPanneau();
 }
