@@ -933,8 +933,12 @@ let retailLayer = L.layerGroup().addTo(map);
 
 function buildRetailHierarchy() {
 
-    const container = document.getElementById("retail-hierarchy");
-    if (!container) return;
+    let container = document.getElementById("retail-hierarchy");
+
+    if (!container) {
+        console.error("retail-hierarchy introuvable dans le HTML");
+        return;
+    }
 
     container.innerHTML = "";
 
@@ -947,9 +951,18 @@ function buildRetailHierarchy() {
         header.className = "retail-group-header";
 
         header.innerHTML = `
-            <label>
-                <input type="checkbox" class="group-checkbox" data-group="${groupName}">
-                <span class="retail-color-dot" style="background:${groupData.color}"></span>
+            <label style="cursor:pointer;">
+                <input type="checkbox"
+                       class="group-checkbox"
+                       data-group="${groupName}">
+                <span style="
+                    display:inline-block;
+                    width:10px;
+                    height:10px;
+                    border-radius:50%;
+                    margin:0 6px;
+                    background:${groupData.color};
+                "></span>
                 ${groupName}
             </label>
             <span class="arrow">▶</span>
@@ -957,10 +970,14 @@ function buildRetailHierarchy() {
 
         const subDiv = document.createElement("div");
         subDiv.className = "retail-subgroups";
+        subDiv.style.display = "none";
 
         Object.keys(groupData.subgroups).forEach(subName => {
 
             const label = document.createElement("label");
+            label.style.display = "block";
+            label.style.marginLeft = "18px";
+
             label.innerHTML = `
                 <input type="checkbox"
                        class="sub-checkbox"
@@ -973,8 +990,10 @@ function buildRetailHierarchy() {
         });
 
         header.addEventListener("click", (e) => {
-            if (e.target.tagName !== "INPUT")
-                groupDiv.classList.toggle("open");
+            if (e.target.tagName !== "INPUT") {
+                subDiv.style.display =
+                    subDiv.style.display === "none" ? "block" : "none";
+            }
         });
 
         groupDiv.appendChild(header);
