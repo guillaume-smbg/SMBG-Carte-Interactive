@@ -1242,6 +1242,39 @@ async function init() {
     const chipsContainer = document.getElementById("selected-activites");
 
 /* =========================
+   SPINNER INLINE
+========================= */
+
+const inlineLoader = document.getElementById("retail-loader-inline");
+
+function showInlineLoader() {
+    inlineLoader.classList.add("active");
+}
+
+function hideInlineLoader() {
+    inlineLoader.classList.remove("active");
+}
+
+/* =========================
+   TOGGLE MODULE
+========================= */
+
+const toggleBtn = document.getElementById("toggle-retail-module");
+const retailModule = document.getElementById("module-enseignes");
+
+toggleBtn.addEventListener("click", () => {
+
+    retailModule.classList.toggle("collapsed");
+
+    if (retailModule.classList.contains("collapsed")) {
+        toggleBtn.textContent = "+";
+    } else {
+        toggleBtn.textContent = "−";
+    }
+
+});
+   
+/* =========================
    OUVERTURE / FERMETURE DROPDOWN
 ========================= */
 
