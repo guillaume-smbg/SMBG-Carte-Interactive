@@ -754,12 +754,15 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   14. MODULE ENSEIGNES – MOTEUR RETAIL V4 FINAL
+   14. MODULE ENSEIGNES – MOTEUR RETAIL V4 FINAL COMPLET
    ============================================================ */
 
 const DISTANCES = [2000, 5000, 10000, 20000, 50000];
-
 const MAX_MARKERS = 1500;
+
+/* =========================
+   TAXONOMIE COMPLÈTE
+========================= */
 
 const RETAIL_STRUCTURE = {
 
@@ -909,6 +912,10 @@ const RETAIL_STRUCTURE = {
 
 };
 
+/* =========================
+   ÉTAT GLOBAL
+========================= */
+
 let retailState = {
     selectedGroups: [],
     selectedSubgroups: [],
@@ -919,12 +926,74 @@ let retailState = {
 
 let retailLayer = L.layerGroup().addTo(map);
 
+/* =========================
+   BUILD HIERARCHY
+========================= */
+
+function buildRetailHierarchy() {
+
+    const container = document.getElementById("retail-hierarchy");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    Object.entries(RETAIL_STRUCTURE).forEach(([groupName, groupData]) => {
+
+        const groupDiv = document.createElement("div");
+        groupDiv.className = "retail-group";
+
+        const header = document.createElement("div");
+        header.className = "retail-group-header";
+
+        header.innerHTML = `
+            <label>
+                <input type="checkbox" class="group-checkbox" data-group="${groupName}">
+                <span class="retail-color-dot" style="background:${groupData.color}"></span>
+                ${groupName}
+            </label>
+            <span class="arrow">▶</span>
+        `;
+
+        const subDiv = document.createElement("div");
+        subDiv.className = "retail-subgroups";
+
+        Object.keys(groupData.subgroups).forEach(subName => {
+
+            const label = document.createElement("label");
+            label.innerHTML = `
+                <input type="checkbox"
+                       class="sub-checkbox"
+                       data-group="${groupName}"
+                       data-sub="${subName}">
+                ${subName}
+            `;
+
+            subDiv.appendChild(label);
+        });
+
+        header.addEventListener("click", (e) => {
+            if (e.target.tagName !== "INPUT")
+                groupDiv.classList.toggle("open");
+        });
+
+        groupDiv.appendChild(header);
+        groupDiv.appendChild(subDiv);
+        container.appendChild(groupDiv);
+    });
+}
+
+/* =========================
+   UTILITAIRES
+========================= */
+
 function showRetailLoader() {
-    document.getElementById("retail-loader").classList.add("active");
+    const loader = document.getElementById("retail-loader");
+    if (loader) loader.classList.add("active");
 }
 
 function hideRetailLoader() {
-    document.getElementById("retail-loader").classList.remove("active");
+    const loader = document.getElementById("retail-loader");
+    if (loader) loader.classList.remove("active");
 }
 
 function distanceMeters(a, b) {
@@ -945,15 +1014,21 @@ function getEffectiveSubgroups() {
     let effective = [...retailState.selectedSubgroups];
 
     retailState.selectedGroups.forEach(group => {
-        Object.keys(RETAIL_STRUCTURE[group].subgroups)
-            .forEach(sub => {
-                if (!effective.includes(sub))
-                    effective.push(sub);
-            });
+        if (RETAIL_STRUCTURE[group]) {
+            Object.keys(RETAIL_STRUCTURE[group].subgroups)
+                .forEach(sub => {
+                    if (!effective.includes(sub))
+                        effective.push(sub);
+                });
+        }
     });
 
     return effective;
 }
+
+/* =========================
+   OVERPASS
+========================= */
 
 function buildOverpassQuery(lat, lng, radius, subgroups) {
 
@@ -983,6 +1058,10 @@ function buildOverpassQuery(lat, lng, radius, subgroups) {
     out center;
     `;
 }
+
+/* =========================
+   FETCH
+========================= */
 
 async function fetchRetail(lat, lng) {
 
@@ -1032,10 +1111,13 @@ async function fetchRetail(lat, lng) {
     hideRetailLoader();
 }
 
+/* =========================
+   RENDER
+========================= */
+
 function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
 
     retailLayer.clearLayers();
-
     let count = 0;
 
     results.forEach(r => {
@@ -1086,14 +1168,19 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
         count++;
     });
 
-    document.getElementById("enseigne-count").innerHTML =
-        count + " enseignes trouvées";
+    const counter = document.getElementById("enseigne-count");
+    if (counter)
+        counter.innerHTML = count + " enseignes trouvées";
 }
+
+/* =========================
+   MODULE DISPLAY
+========================= */
 
 function afficherModuleEnseignes(lat, lng) {
 
     const module = document.getElementById("module-enseignes");
-    module.style.display = "block";
+    if (module) module.style.display = "block";
 
     const newCoords = { lat, lng };
 
@@ -1108,7 +1195,8 @@ function afficherModuleEnseignes(lat, lng) {
 }
 
 function masquerModuleEnseignes() {
-    document.getElementById("module-enseignes").style.display = "none";
+    const module = document.getElementById("module-enseignes");
+    if (module) module.style.display = "none";
     retailLayer.clearLayers();
 }
 
