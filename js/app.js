@@ -1259,6 +1259,84 @@ async function init() {
 
    const chipsContainer = document.getElementById("selected-activites");
 
+   const autocomplete = document.getElementById("autocomplete-activite");
+
+inputActivite.addEventListener("input", () => {
+
+    const value = inputActivite.value.toLowerCase().trim();
+    autocomplete.innerHTML = "";
+
+    if (!value) {
+        autocomplete.style.display = "none";
+        return;
+    }
+
+    const matches = [];
+
+    Object.entries(RETAIL_STRUCTURE).forEach(([groupName, groupData]) => {
+
+        if (groupName.toLowerCase().includes(value))
+            matches.push({ type: "group", name: groupName });
+
+        Object.keys(groupData.subgroups).forEach(subName => {
+            if (subName.toLowerCase().includes(value))
+                matches.push({ type: "sub", name: subName });
+        });
+
+    });
+
+    matches.forEach(m => {
+
+        const div = document.createElement("div");
+        div.className = "autocomplete-item";
+        div.textContent = m.name;
+
+        div.addEventListener("click", () => {
+
+            if (m.type === "group") {
+
+                retailState.mode = "group";
+                retailState.selectedGroup = m.name;
+                retailState.selectedSubgroup = null;
+
+                document.querySelectorAll(".group-checkbox")
+                    .forEach(cb => cb.checked = cb.dataset.group === m.name);
+
+                document.querySelectorAll(".sub-checkbox")
+                    .forEach(cb => cb.checked = false);
+
+            } else {
+
+                retailState.mode = "sub";
+                retailState.selectedSubgroup = m.name;
+                retailState.selectedGroup = null;
+
+                document.querySelectorAll(".group-checkbox")
+                    .forEach(cb => cb.checked = false);
+
+                document.querySelectorAll(".sub-checkbox")
+                    .forEach(cb => cb.checked = cb.dataset.sub === m.name);
+
+            }
+
+            inputActivite.value = "";
+            autocomplete.style.display = "none";
+
+            refreshChips();
+
+            if (retailState.lastLotCoords)
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
+        });
+
+        autocomplete.appendChild(div);
+    });
+
+    autocomplete.style.display = matches.length ? "block" : "none";
+});
+   
     /* =========================
        NOUVEL ÉTAT SIMPLIFIÉ
     ========================== */
@@ -1393,8 +1471,9 @@ async function init() {
        RESET GLOBAL
     ========================== */
 
-    document.getElementById("btn-reset").addEventListener("click", resetRetail);
-
+document.getElementById("reset-enseignes")
+    .addEventListener("click", resetRetail);
+   
     afficherPinsFiltrés(DATA);
     fermerPanneau();
 }
