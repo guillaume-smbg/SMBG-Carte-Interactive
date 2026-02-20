@@ -1201,13 +1201,12 @@ function masquerModuleEnseignes() {
 }
 
 /* ============================================================
-   15. INIT – RETAIL V4 FINAL (FIX CHIPS + RESET)
+   15. INIT – RETAIL LOGIQUE PROPRE V5
    ============================================================ */
 
 async function init() {
 
     DATA = await loadExcel();
-
     REGIONS_MAP = buildRegionsMap();
     construireRegionsEtDepartements();
 
@@ -1223,111 +1222,61 @@ async function init() {
 
     buildRetailHierarchy();
 
-    const dropdown = document.getElementById("retail-dropdown");
-    const inputActivite = document.getElementById("search-activite");
-    const autocomplete = document.getElementById("autocomplete-activite");
     const chipsContainer = document.getElementById("selected-activites");
 
     /* =========================
-       OUVERTURE / FERMETURE
+       NOUVEL ÉTAT SIMPLIFIÉ
     ========================== */
 
-    inputActivite.addEventListener("focus", () => {
-        dropdown.classList.add("open");
-    });
-
-    document.addEventListener("click", (e) => {
-        if (!e.target.closest(".retail-activity-wrapper")) {
-            dropdown.classList.remove("open");
-        }
-    });
-
-    /* =========================
-       CHIPS (INTELLIGENTS)
-    ========================== */
+    retailState.mode = null;
+    retailState.selectedGroup = null;
+    retailState.selectedSubgroup = null;
 
     function refreshChips() {
 
         chipsContainer.innerHTML = "";
 
-        // priorité aux groupes
-        retailState.selectedGroups.forEach(group => {
+        if (retailState.mode === "group" && retailState.selectedGroup) {
 
             const chip = document.createElement("div");
             chip.className = "selected-item";
-            chip.innerHTML = `${group} <span class="remove">✕</span>`;
+            chip.innerHTML = `${retailState.selectedGroup} <span class="remove">✕</span>`;
 
-            chip.querySelector(".remove").addEventListener("click", () => {
-
-                retailState.selectedGroups =
-                    retailState.selectedGroups.filter(g => g !== group);
-
-                Object.keys(RETAIL_STRUCTURE[group].subgroups)
-                    .forEach(sub => {
-                        retailState.selectedSubgroups =
-                            retailState.selectedSubgroups.filter(s => s !== sub);
-
-                        const subCb = document.querySelector(
-                            `.sub-checkbox[data-sub="${sub}"]`
-                        );
-                        if (subCb) subCb.checked = false;
-                    });
-
-                const groupCb = document.querySelector(
-                    `.group-checkbox[data-group="${group}"]`
-                );
-                if (groupCb) groupCb.checked = false;
-
-                refreshChips();
-
-                if (retailState.lastLotCoords)
-                    fetchRetail(
-                        retailState.lastLotCoords.lat,
-                        retailState.lastLotCoords.lng
-                    );
-            });
+            chip.querySelector(".remove").addEventListener("click", resetRetail);
 
             chipsContainer.appendChild(chip);
-        });
+        }
 
-        // afficher sous-groupes SEULEMENT si groupe non sélectionné
-        retailState.selectedSubgroups.forEach(sub => {
-
-            const belongsToSelectedGroup = retailState.selectedGroups.some(group =>
-                Object.keys(RETAIL_STRUCTURE[group].subgroups).includes(sub)
-            );
-
-            if (belongsToSelectedGroup) return;
+        if (retailState.mode === "sub" && retailState.selectedSubgroup) {
 
             const chip = document.createElement("div");
             chip.className = "selected-item";
-            chip.innerHTML = `${sub} <span class="remove">✕</span>`;
+            chip.innerHTML = `${retailState.selectedSubgroup} <span class="remove">✕</span>`;
 
-            chip.querySelector(".remove").addEventListener("click", () => {
-
-                retailState.selectedSubgroups =
-                    retailState.selectedSubgroups.filter(s => s !== sub);
-
-                const subCb = document.querySelector(
-                    `.sub-checkbox[data-sub="${sub}"]`
-                );
-                if (subCb) subCb.checked = false;
-
-                refreshChips();
-
-                if (retailState.lastLotCoords)
-                    fetchRetail(
-                        retailState.lastLotCoords.lat,
-                        retailState.lastLotCoords.lng
-                    );
-            });
+            chip.querySelector(".remove").addEventListener("click", resetRetail);
 
             chipsContainer.appendChild(chip);
-        });
+        }
+    }
+
+    function resetRetail() {
+
+        retailState.mode = null;
+        retailState.selectedGroup = null;
+        retailState.selectedSubgroup = null;
+
+        document.querySelectorAll(".group-checkbox")
+            .forEach(cb => cb.checked = false);
+
+        document.querySelectorAll(".sub-checkbox")
+            .forEach(cb => cb.checked = false);
+
+        retailLayer.clearLayers();
+        refreshChips();
     }
 
     /* =========================
-       GROUP CHECKBOX
+       GROUP CLICK
     ========================== */
 
     document.addEventListener("change", (e) => {
@@ -1338,37 +1287,21 @@ async function init() {
 
             if (e.target.checked) {
 
-                if (!retailState.selectedGroups.includes(group))
-                    retailState.selectedGroups.push(group);
+                retailState.mode = "group";
+                retailState.selectedGroup = group;
+                retailState.selectedSubgroup = null;
 
-                Object.keys(RETAIL_STRUCTURE[group].subgroups)
-                    .forEach(sub => {
-
-                        if (!retailState.selectedSubgroups.includes(sub))
-                            retailState.selectedSubgroups.push(sub);
-
-                        const subCb = document.querySelector(
-                            `.sub-checkbox[data-sub="${sub}"]`
-                        );
-                        if (subCb) subCb.checked = true;
+                document.querySelectorAll(".group-checkbox")
+                    .forEach(cb => {
+                        if (cb.dataset.group !== group)
+                            cb.checked = false;
                     });
+
+                document.querySelectorAll(".sub-checkbox")
+                    .forEach(cb => cb.checked = false);
 
             } else {
-
-                retailState.selectedGroups =
-                    retailState.selectedGroups.filter(g => g !== group);
-
-                Object.keys(RETAIL_STRUCTURE[group].subgroups)
-                    .forEach(sub => {
-
-                        retailState.selectedSubgroups =
-                            retailState.selectedSubgroups.filter(s => s !== sub);
-
-                        const subCb = document.querySelector(
-                            `.sub-checkbox[data-sub="${sub}"]`
-                        );
-                        if (subCb) subCb.checked = false;
-                    });
+                resetRetail();
             }
 
             refreshChips();
@@ -1382,23 +1315,50 @@ async function init() {
     });
 
     /* =========================
-       RESET GLOBAL (INCLUT RETAIL)
+       SUB CLICK
     ========================== */
 
-    document.getElementById("btn-reset").addEventListener("click", () => {
+    document.addEventListener("change", (e) => {
 
-        retailState.selectedGroups = [];
-        retailState.selectedSubgroups = [];
-        retailLayer.clearLayers();
+        if (e.target.classList.contains("sub-checkbox")) {
 
-        document.querySelectorAll(".group-checkbox")
-            .forEach(cb => cb.checked = false);
+            const sub = e.target.dataset.sub;
+            const group = e.target.dataset.group;
 
-        document.querySelectorAll(".sub-checkbox")
-            .forEach(cb => cb.checked = false);
+            if (e.target.checked) {
 
-        chipsContainer.innerHTML = "";
+                retailState.mode = "sub";
+                retailState.selectedSubgroup = sub;
+                retailState.selectedGroup = null;
+
+                document.querySelectorAll(".group-checkbox")
+                    .forEach(cb => cb.checked = false);
+
+                document.querySelectorAll(".sub-checkbox")
+                    .forEach(cb => {
+                        if (cb.dataset.sub !== sub)
+                            cb.checked = false;
+                    });
+
+            } else {
+                resetRetail();
+            }
+
+            refreshChips();
+
+            if (retailState.lastLotCoords)
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
+        }
     });
+
+    /* =========================
+       RESET GLOBAL
+    ========================== */
+
+    document.getElementById("btn-reset").addEventListener("click", resetRetail);
 
     afficherPinsFiltrés(DATA);
     fermerPanneau();
