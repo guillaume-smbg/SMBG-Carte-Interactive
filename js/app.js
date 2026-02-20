@@ -1058,7 +1058,105 @@ async function init() {
     document.querySelectorAll("#sidebar-left input")
         .forEach(el => el.addEventListener("input", appliquerFiltres));
 
-    /* GROUP CHECKBOX */
+    /* =========================
+       DROPDOWN ACTIVITÉ
+    ========================== */
+
+    const inputActivite = document.getElementById("search-activite");
+    const dropdown = document.getElementById("retail-dropdown");
+    const autocomplete = document.getElementById("autocomplete-activite");
+
+    /* OUVERTURE */
+    inputActivite.addEventListener("focus", () => {
+        dropdown.classList.add("open");
+    });
+
+    /* FERMETURE SI CLIC EXTÉRIEUR */
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest(".retail-activity-wrapper")) {
+            dropdown.classList.remove("open");
+            autocomplete.style.display = "none";
+        }
+    });
+
+    /* =========================
+       AUTOCOMPLETE ACTIVITÉ
+    ========================== */
+
+    inputActivite.addEventListener("input", () => {
+
+        const value = inputActivite.value.toLowerCase().trim();
+        autocomplete.innerHTML = "";
+
+        if (!value) {
+            autocomplete.style.display = "none";
+            return;
+        }
+
+        const matches = [];
+
+        Object.entries(RETAIL_STRUCTURE).forEach(([groupName, groupData]) => {
+
+            if (groupName.toLowerCase().includes(value)) {
+                matches.push({ type: "group", name: groupName });
+            }
+
+            Object.keys(groupData.subgroups).forEach(subName => {
+                if (subName.toLowerCase().includes(value)) {
+                    matches.push({
+                        type: "sub",
+                        name: subName,
+                        group: groupName
+                    });
+                }
+            });
+        });
+
+        matches.forEach(m => {
+
+            const div = document.createElement("div");
+            div.className = "autocomplete-item";
+            div.textContent = m.name;
+
+            div.addEventListener("click", () => {
+
+                if (m.type === "group") {
+
+                    const groupCb = document.querySelector(
+                        `.group-checkbox[data-group="${m.name}"]`
+                    );
+
+                    if (groupCb) {
+                        groupCb.checked = true;
+                        groupCb.dispatchEvent(new Event("change"));
+                    }
+
+                } else {
+
+                    const subCb = document.querySelector(
+                        `.sub-checkbox[data-sub="${m.name}"]`
+                    );
+
+                    if (subCb) {
+                        subCb.checked = true;
+                        subCb.dispatchEvent(new Event("change"));
+                    }
+                }
+
+                inputActivite.value = "";
+                autocomplete.style.display = "none";
+            });
+
+            autocomplete.appendChild(div);
+        });
+
+        autocomplete.style.display =
+            matches.length ? "block" : "none";
+    });
+
+    /* =========================
+       GROUP CHECKBOX
+    ========================== */
 
     document.querySelectorAll(".group-checkbox").forEach(cb => {
 
@@ -1082,23 +1180,28 @@ async function init() {
                             retailState.selectedSubgroups.filter(s => s !== sub);
                     });
 
-                document.querySelectorAll(`.sub-checkbox[data-group="${group}"]`)
-                    .forEach(s => s.checked = false);
+                document.querySelectorAll(
+                    `.sub-checkbox[data-group="${group}"]`
+                ).forEach(s => s.checked = false);
             }
 
             if (retailState.lastLotCoords)
-                fetchRetail(retailState.lastLotCoords.lat, retailState.lastLotCoords.lng);
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
         });
     });
 
-    /* SUB CHECKBOX */
+    /* =========================
+       SUB CHECKBOX
+    ========================== */
 
     document.querySelectorAll(".sub-checkbox").forEach(cb => {
 
         cb.addEventListener("change", (e) => {
 
             const sub = e.target.dataset.sub;
-            const group = e.target.dataset.group;
 
             if (e.target.checked) {
 
@@ -1112,11 +1215,16 @@ async function init() {
             }
 
             if (retailState.lastLotCoords)
-                fetchRetail(retailState.lastLotCoords.lat, retailState.lastLotCoords.lng);
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
         });
     });
 
-    /* DISTANCE */
+    /* =========================
+       SLIDER DISTANCE
+    ========================== */
 
     const slider = document.getElementById("distance-slider");
 
@@ -1126,7 +1234,10 @@ async function init() {
         retailState.selectedDistance = DISTANCES[index];
 
         if (retailState.lastLotCoords)
-            fetchRetail(retailState.lastLotCoords.lat, retailState.lastLotCoords.lng);
+            fetchRetail(
+                retailState.lastLotCoords.lat,
+                retailState.lastLotCoords.lng
+            );
     });
 
     afficherPinsFiltrés(DATA);
