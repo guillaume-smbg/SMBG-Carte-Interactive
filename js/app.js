@@ -1242,9 +1242,22 @@ async function init() {
     document.querySelectorAll("#sidebar-left input")
         .forEach(el => el.addEventListener("input", appliquerFiltres));
 
-    buildRetailHierarchy();
+   buildRetailHierarchy();
 
-    const chipsContainer = document.getElementById("selected-activites");
+   const dropdown = document.getElementById("retail-dropdown");
+   const inputActivite = document.getElementById("search-activite");
+
+   inputActivite.addEventListener("focus", () => {
+       dropdown.classList.add("open");
+   });
+
+   document.addEventListener("click", (e) => {
+       if (!e.target.closest(".retail-activity-wrapper")) {
+           dropdown.classList.remove("open");
+    }
+   });
+
+   const chipsContainer = document.getElementById("selected-activites");
 
     /* =========================
        NOUVEL ÉTAT SIMPLIFIÉ
