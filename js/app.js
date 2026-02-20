@@ -754,51 +754,116 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   14. MODULE ENSEIGNES – MOTEUR RETAIL PRO
+   14. MODULE ENSEIGNES – MOTEUR RETAIL V2
    ============================================================ */
 
 /* =========================
-   STRUCTURE DISTANCE
+   DISTANCES
 ========================= */
 
 const DISTANCES = [2000, 5000, 10000, 20000];
 
 /* =========================
-   COULEURS PAR GROUPE
+   STRUCTURE HIÉRARCHIQUE
 ========================= */
 
-const GROUP_COLORS = {
-    "Mode": "#8E44AD",
-    "Beauté & Bien-être": "#E91E63",
-    "Santé": "#16A085",
-    "Alimentaire": "#27AE60",
-    "Restauration": "#D35400",
-    "Sport & Loisirs": "#2980B9",
-    "Maison & Décoration": "#795548",
-    "Culture & Média": "#2C3E50",
-    "Électronique": "#34495E",
-    "Automobile": "#7F8C8D",
-    "Services": "#1ABC9C",
-    "Centres commerciaux": "#9C27B0"
-};
-
-/* =========================
-   TAXONOMIE OSM
-========================= */
-
-const RETAIL_TAXONOMIE = {
-    "Mode": ["clothes","shoes","fashion_accessories","jewelry","watches","bag","leather","lingerie"],
-    "Beauté & Bien-être": ["beauty","cosmetics","hairdresser","perfumery","spa","massage"],
-    "Santé": ["pharmacy","optician","hearing_aids","medical_supply"],
-    "Alimentaire": ["supermarket","convenience","bakery","butcher","seafood","greengrocer","wine","organic"],
-    "Restauration": ["restaurant","fast_food","cafe","bar","ice_cream"],
-    "Sport & Loisirs": ["sports","bicycle","fitness_centre","toy","music"],
-    "Maison & Décoration": ["furniture","interior_decoration","lighting","hardware","garden_centre"],
-    "Culture & Média": ["books","newsagent","photo","art","gift"],
-    "Électronique": ["electronics","mobile_phone","computer","appliance"],
-    "Automobile": ["car","car_repair","tyres","fuel"],
-    "Services": ["travel_agency","laundry","locksmith","estate_agent","pet"],
-    "Centres commerciaux": ["mall","department_store"]
+const RETAIL_STRUCTURE = {
+    "Mode & Accessoires": {
+        color: "#8E44AD",
+        subgroups: {
+            "Prêt-à-porter": ["clothes"],
+            "Chaussures": ["shoes"],
+            "Maroquinerie": ["bag","leather"],
+            "Bijouterie": ["jewelry","watches"],
+            "Accessoires": ["fashion_accessories","lingerie"]
+        }
+    },
+    "Beauté & Bien-être": {
+        color: "#E91E63",
+        subgroups: {
+            "Cosmétique": ["cosmetics","perfumery"],
+            "Coiffeur": ["hairdresser"],
+            "Spa / Massage": ["spa","massage"],
+            "Institut": ["beauty"]
+        }
+    },
+    "Santé": {
+        color: "#16A085",
+        subgroups: {
+            "Pharmacie": ["pharmacy"],
+            "Opticien": ["optician"],
+            "Audioprothèse": ["hearing_aids"],
+            "Médical": ["medical_supply"]
+        }
+    },
+    "Alimentaire": {
+        color: "#27AE60",
+        subgroups: {
+            "Supermarché": ["supermarket","convenience"],
+            "Boulangerie": ["bakery"],
+            "Boucherie": ["butcher"],
+            "Primeur": ["greengrocer"],
+            "Caviste": ["wine","organic"]
+        }
+    },
+    "Restauration": {
+        color: "#D35400",
+        subgroups: {
+            "Restaurant": ["restaurant"],
+            "Fast-food": ["fast_food"],
+            "Café / Bar": ["cafe","bar"],
+            "Glacier": ["ice_cream"]
+        }
+    },
+    "Sport & Loisirs": {
+        color: "#2980B9",
+        subgroups: {
+            "Salle de sport": ["fitness_centre"],
+            "Sport": ["sports","bicycle"],
+            "Jeux / Musique": ["toy","music"]
+        }
+    },
+    "Maison & Décoration": {
+        color: "#795548",
+        subgroups: {
+            "Mobilier": ["furniture"],
+            "Décoration": ["interior_decoration","lighting"],
+            "Bricolage": ["hardware","garden_centre"]
+        }
+    },
+    "Culture & Média": {
+        color: "#2C3E50",
+        subgroups: {
+            "Librairie": ["books"],
+            "Presse": ["newsagent"],
+            "Photo / Art": ["photo","art","gift"]
+        }
+    },
+    "Électronique": {
+        color: "#34495E",
+        subgroups: {
+            "Téléphonie": ["mobile_phone"],
+            "Informatique": ["computer"],
+            "Électroménager": ["appliance","electronics"]
+        }
+    },
+    "Automobile": {
+        color: "#7F8C8D",
+        subgroups: {
+            "Vente auto": ["car"],
+            "Réparation": ["car_repair","tyres"],
+            "Station-service": ["fuel"]
+        }
+    },
+    "Services": {
+        color: "#1ABC9C",
+        subgroups: {
+            "Agence": ["travel_agency","estate_agent"],
+            "Pressing": ["laundry"],
+            "Serrurerie": ["locksmith"],
+            "Animalerie": ["pet"]
+        }
+    }
 };
 
 /* =========================
@@ -806,55 +871,114 @@ const RETAIL_TAXONOMIE = {
 ========================= */
 
 let retailState = {
-    selectedActivities: [],
+    selectedGroups: [],
+    selectedSubgroups: [],
     selectedBrands: [],
     selectedDistance: 5000,
     lastLotCoords: null,
-    cache: {}
+    cache: {},
+    isLoading: false
 };
 
 let retailLayer = L.layerGroup().addTo(map);
 
 /* =========================
-   OUTILS
+   LOADER
 ========================= */
 
-function normalizeName(name) {
-    return name
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .trim();
+function showRetailLoader() {
+    document.getElementById("retail-loader").classList.add("active");
 }
 
-function distanceMeters(a, b) {
-    const R = 6371000;
-    const dLat = (b.lat - a.lat) * Math.PI / 180;
-    const dLon = (b.lng - a.lng) * Math.PI / 180;
-    const lat1 = a.lat * Math.PI / 180;
-    const lat2 = b.lat * Math.PI / 180;
-
-    const x = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.sin(dLon/2) * Math.sin(dLon/2) *
-              Math.cos(lat1) * Math.cos(lat2);
-    const c = 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
-    return R * c;
+function hideRetailLoader() {
+    document.getElementById("retail-loader").classList.remove("active");
 }
 
 /* =========================
-   OVERPASS QUERY
+   DISTANCE CALC
 ========================= */
 
-function buildOverpassQuery(lat, lng, radius, activities) {
+function distanceMeters(a, b) {
+    const R = 6371000;
+    const dLat = (b.lat - a.lat) * Math.PI/180;
+    const dLon = (b.lng - a.lng) * Math.PI/180;
+    const lat1 = a.lat * Math.PI/180;
+    const lat2 = b.lat * Math.PI/180;
+
+    const x = Math.sin(dLat/2)**2 +
+        Math.sin(dLon/2)**2 * Math.cos(lat1) * Math.cos(lat2);
+
+    return 2 * R * Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
+}
+
+/* =========================
+   CONSTRUCTION HIÉRARCHIE
+========================= */
+
+function buildRetailHierarchy() {
+
+    const container = document.getElementById("retail-hierarchy");
+    container.innerHTML = "";
+
+    Object.entries(RETAIL_STRUCTURE).forEach(([groupName, groupData]) => {
+
+        const groupDiv = document.createElement("div");
+        groupDiv.className = "retail-group";
+
+        const header = document.createElement("div");
+        header.className = "retail-group-header";
+
+        header.innerHTML = `
+            <label>
+                <input type="checkbox" class="group-checkbox" data-group="${groupName}">
+                <span class="retail-color-dot" style="background:${groupData.color}"></span>
+                ${groupName}
+            </label>
+            <span class="arrow">▶</span>
+        `;
+
+        const subDiv = document.createElement("div");
+        subDiv.className = "retail-subgroups";
+
+        Object.entries(groupData.subgroups).forEach(([subName]) => {
+
+            const label = document.createElement("label");
+            label.innerHTML = `
+                <input type="checkbox" class="sub-checkbox"
+                    data-group="${groupName}"
+                    data-sub="${subName}">
+                ${subName}
+            `;
+            subDiv.appendChild(label);
+        });
+
+        header.addEventListener("click", (e) => {
+            if (e.target.tagName !== "INPUT")
+                groupDiv.classList.toggle("open");
+        });
+
+        groupDiv.appendChild(header);
+        groupDiv.appendChild(subDiv);
+        container.appendChild(groupDiv);
+    });
+}
+
+/* =========================
+   OVERPASS
+========================= */
+
+function buildOverpassQuery(lat, lng, radius, subgroups) {
 
     let filters = [];
 
-    activities.forEach(act => {
-        Object.keys(RETAIL_TAXONOMIE).forEach(group => {
-            if (group === act) {
-                RETAIL_TAXONOMIE[group].forEach(tag => {
-                    filters.push(`node(around:${radius},${lat},${lng})[shop=${tag}];`);
-                    filters.push(`node(around:${radius},${lat},${lng})[amenity=${tag}];`);
+    subgroups.forEach(sub => {
+        Object.values(RETAIL_STRUCTURE).forEach(group => {
+            if (group.subgroups[sub]) {
+                group.subgroups[sub].forEach(tag => {
+                    filters.push(`
+                        node(around:${radius},${lat},${lng})[shop=${tag}];
+                        node(around:${radius},${lat},${lng})[amenity=${tag}];
+                    `);
                 });
             }
         });
@@ -870,45 +994,52 @@ function buildOverpassQuery(lat, lng, radius, activities) {
 }
 
 /* =========================
-   FETCH + CACHE
+   FETCH
 ========================= */
 
 async function fetchRetail(lat, lng) {
 
-    if (!retailState.selectedActivities.length) {
+    if (!retailState.selectedSubgroups.length) {
         retailLayer.clearLayers();
         return;
     }
 
-    const radius = retailState.selectedDistance;
-    const key = `${lat}_${lng}_${radius}_${retailState.selectedActivities.sort().join("-")}`;
+    showRetailLoader();
+
+    const key = `${lat}_${lng}_${retailState.selectedDistance}_${retailState.selectedSubgroups.sort().join("-")}`;
 
     if (retailState.cache[key]) {
         renderRetail(retailState.cache[key], lat, lng);
+        hideRetailLoader();
         return;
     }
 
-    const query = buildOverpassQuery(lat, lng, radius, retailState.selectedActivities);
+    const query = buildOverpassQuery(
+        lat,
+        lng,
+        retailState.selectedDistance,
+        retailState.selectedSubgroups
+    );
 
-    const response = await fetch("https://overpass-api.de/api/interpreter", {
+    const res = await fetch("https://overpass-api.de/api/interpreter", {
         method: "POST",
         body: query
     });
 
-    const data = await response.json();
+    const data = await res.json();
 
     const results = data.elements
         .filter(el => el.tags && (el.tags.name || el.tags.brand))
-        .map(el => {
-            const name = el.tags.brand || el.tags.name;
-            const latR = el.lat || el.center?.lat;
-            const lngR = el.lon || el.center?.lon;
-            return { name, lat: latR, lng: lngR };
-        });
+        .map(el => ({
+            name: el.tags.brand || el.tags.name,
+            lat: el.lat || el.center?.lat,
+            lng: el.lon || el.center?.lon
+        }));
 
     retailState.cache[key] = results;
 
     renderRetail(results, lat, lng);
+    hideRetailLoader();
 }
 
 /* =========================
@@ -918,7 +1049,6 @@ async function fetchRetail(lat, lng) {
 function renderRetail(results, lotLat, lotLng) {
 
     retailLayer.clearLayers();
-
     let count = 0;
 
     results.forEach(r => {
@@ -930,11 +1060,21 @@ function renderRetail(results, lotLat, lotLng) {
 
         if (dist > retailState.selectedDistance) return;
 
+        let color = "#E1782C";
+
+        Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
+            retailState.selectedSubgroups.forEach(sub => {
+                if (gData.subgroups[sub]) {
+                    color = gData.color;
+                }
+            });
+        });
+
         const marker = L.circleMarker([r.lat, r.lng], {
             radius: 5,
-            color: "#E1782C",
-            fillColor: "#E1782C",
-            fillOpacity: 0.8
+            color: color,
+            fillColor: color,
+            fillOpacity: 0.9
         });
 
         marker.bindPopup(`
@@ -976,6 +1116,9 @@ function masquerModuleEnseignes() {
     retailLayer.clearLayers();
 }
 
+/* Initialisation hiérarchie */
+buildRetailHierarchy();
+
 
 /* ============================================================
    15. INIT
@@ -988,39 +1131,21 @@ async function init() {
     REGIONS_MAP = buildRegionsMap();
     construireRegionsEtDepartements();
 
-    /* Nature — dynamique depuis Excel */
     remplirCheckbox("filter-nature", valeursUniques("Nature"));
+    remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
+    remplirCheckbox("filter-typologie", valeursUniques("Typologie"));
 
-    remplirCheckbox("filter-emplacement",  valeursUniques("Emplacement"));
-    remplirCheckbox("filter-typologie",    valeursUniques("Typologie"));
-
-    /* Extraction — ordre forcé */
     remplirCheckbox(
         "filter-extraction",
         valeursUniques("Extraction"),
         ["Oui", "À étudier", "Non"]
     );
 
-    /* Restauration — ordre + dépendance */
     remplirCheckbox(
         "filter-restauration",
         valeursUniques("Restauration"),
         ["Froide", "Chaude et froide"]
     );
-
-    const chaud = document.querySelector(
-        "#filter-restauration input[value='Chaude et froide']"
-    );
-    const froid = document.querySelector(
-        "#filter-restauration input[value='Froide']"
-    );
-
-    if (chaud && froid) {
-        chaud.addEventListener("change", () => {
-            froid.checked = chaud.checked;
-            appliquerFiltres();
-        });
-    }
 
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"] || 0)));
     initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"] || 0)));
@@ -1029,60 +1154,126 @@ async function init() {
         .forEach(el => el.addEventListener("input", appliquerFiltres));
 
     /* =========================
-       MODULE ENSEIGNES – ACTIVITÉS
+       MODULE RETAIL — GROUPES
+    ========================== */
+
+    document.querySelectorAll(".group-checkbox").forEach(cb => {
+
+        cb.addEventListener("change", (e) => {
+
+            const group = e.target.dataset.group;
+
+            if (e.target.checked) {
+
+                if (!retailState.selectedGroups.includes(group))
+                    retailState.selectedGroups.push(group);
+
+                Object.keys(RETAIL_STRUCTURE[group].subgroups)
+                    .forEach(sub => {
+                        if (!retailState.selectedSubgroups.includes(sub))
+                            retailState.selectedSubgroups.push(sub);
+                    });
+
+                document.querySelectorAll(`.sub-checkbox[data-group="${group}"]`)
+                    .forEach(s => s.checked = true);
+
+            } else {
+
+                retailState.selectedGroups =
+                    retailState.selectedGroups.filter(g => g !== group);
+
+                Object.keys(RETAIL_STRUCTURE[group].subgroups)
+                    .forEach(sub => {
+                        retailState.selectedSubgroups =
+                            retailState.selectedSubgroups.filter(s => s !== sub);
+                    });
+
+                document.querySelectorAll(`.sub-checkbox[data-group="${group}"]`)
+                    .forEach(s => s.checked = false);
+            }
+
+            if (retailState.lastLotCoords)
+                fetchRetail(retailState.lastLotCoords.lat, retailState.lastLotCoords.lng);
+        });
+    });
+
+    /* =========================
+       MODULE RETAIL — SOUS-GROUPES
+    ========================== */
+
+    document.querySelectorAll(".sub-checkbox").forEach(cb => {
+
+        cb.addEventListener("change", (e) => {
+
+            const sub = e.target.dataset.sub;
+
+            if (e.target.checked) {
+                if (!retailState.selectedSubgroups.includes(sub))
+                    retailState.selectedSubgroups.push(sub);
+            } else {
+                retailState.selectedSubgroups =
+                    retailState.selectedSubgroups.filter(s => s !== sub);
+            }
+
+            if (retailState.lastLotCoords)
+                fetchRetail(retailState.lastLotCoords.lat, retailState.lastLotCoords.lng);
+        });
+    });
+
+    /* =========================
+       AUTOCOMPLETE ACTIVITÉ
     ========================== */
 
     const inputActivite = document.getElementById("search-activite");
     const autocompleteActivite = document.getElementById("autocomplete-activite");
-    const selectedActivitesZone = document.getElementById("selected-activites");
+    const selectedZone = document.getElementById("selected-activites");
 
     inputActivite.addEventListener("input", () => {
 
-        const value = inputActivite.value.toLowerCase().trim();
+        const val = inputActivite.value.toLowerCase().trim();
         autocompleteActivite.innerHTML = "";
 
-        if (!value) {
+        if (!val) {
             autocompleteActivite.style.display = "none";
             return;
         }
 
-        const matches = Object.keys(RETAIL_TAXONOMIE)
-            .filter(a => a.toLowerCase().includes(value));
+        const matches = [];
 
-        matches.forEach(act => {
+        Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
+
+            if (gName.toLowerCase().includes(val))
+                matches.push({ type: "group", name: gName });
+
+            Object.keys(gData.subgroups).forEach(sub => {
+                if (sub.toLowerCase().includes(val))
+                    matches.push({ type: "sub", name: sub, group: gName });
+            });
+        });
+
+        matches.forEach(m => {
 
             const div = document.createElement("div");
             div.className = "autocomplete-item";
-            div.textContent = act;
+            div.textContent = m.name;
 
             div.addEventListener("click", () => {
 
-                if (!retailState.selectedActivities.includes(act)) {
-                    retailState.selectedActivities.push(act);
+                if (m.type === "group") {
 
-                    const tag = document.createElement("div");
-                    tag.className = "selected-item";
-                    tag.innerHTML = `
-                        ${act}
-                        <span class="remove">×</span>
-                    `;
+                    document.querySelector(`.group-checkbox[data-group="${m.name}"]`).checked = true;
+                    document.querySelector(`.group-checkbox[data-group="${m.name}"]`)
+                        .dispatchEvent(new Event("change"));
 
-                    tag.querySelector(".remove").addEventListener("click", () => {
-                        retailState.selectedActivities =
-                            retailState.selectedActivities.filter(a => a !== act);
-                        tag.remove();
-                        if (retailState.lastLotCoords)
-                            fetchRetail(retailState.lastLotCoords.lat, retailState.lastLotCoords.lng);
-                    });
+                } else {
 
-                    selectedActivitesZone.appendChild(tag);
+                    document.querySelector(`.sub-checkbox[data-sub="${m.name}"]`).checked = true;
+                    document.querySelector(`.sub-checkbox[data-sub="${m.name}"]`)
+                        .dispatchEvent(new Event("change"));
                 }
 
                 inputActivite.value = "";
                 autocompleteActivite.style.display = "none";
-
-                if (retailState.lastLotCoords)
-                    fetchRetail(retailState.lastLotCoords.lat, retailState.lastLotCoords.lng);
             });
 
             autocompleteActivite.appendChild(div);
@@ -1108,26 +1299,31 @@ async function init() {
     });
 
     /* =========================
-       RESET MODULE ENSEIGNES
+       RESET MODULE RETAIL
     ========================== */
 
     document.getElementById("reset-enseignes")
         .addEventListener("click", () => {
 
-            retailState.selectedActivities = [];
+            retailState.selectedGroups = [];
+            retailState.selectedSubgroups = [];
             retailState.selectedBrands = [];
 
+            document.querySelectorAll(".group-checkbox")
+                .forEach(cb => cb.checked = false);
+
+            document.querySelectorAll(".sub-checkbox")
+                .forEach(cb => cb.checked = false);
+
             document.getElementById("selected-activites").innerHTML = "";
-            document.getElementById("selected-enseignes").innerHTML = "";
             document.getElementById("search-activite").value = "";
-            document.getElementById("search-enseigne").value = "";
             document.getElementById("enseigne-count").innerHTML = "";
 
             retailLayer.clearLayers();
         });
 
     /* =========================
-       RESET GLOBAL FILTRES
+       RESET GLOBAL
     ========================== */
 
     document.getElementById("btn-reset").addEventListener("click", () => {
