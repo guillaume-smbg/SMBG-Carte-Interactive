@@ -1011,19 +1011,21 @@ function distanceMeters(a, b) {
 
 function getEffectiveSubgroups() {
 
-    let effective = [...retailState.selectedSubgroups];
+    if (retailState.mode === "group" && retailState.selectedGroup) {
 
-    retailState.selectedGroups.forEach(group => {
-        if (RETAIL_STRUCTURE[group]) {
-            Object.keys(RETAIL_STRUCTURE[group].subgroups)
-                .forEach(sub => {
-                    if (!effective.includes(sub))
-                        effective.push(sub);
-                });
-        }
-    });
+        return Object.keys(
+            RETAIL_STRUCTURE[retailState.selectedGroup].subgroups
+        );
 
-    return effective;
+    }
+
+    if (retailState.mode === "sub" && retailState.selectedSubgroup) {
+
+        return [retailState.selectedSubgroup];
+
+    }
+
+    return [];
 }
 
 /* =========================
