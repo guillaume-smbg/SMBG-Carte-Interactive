@@ -1252,6 +1252,19 @@ inputActivite.addEventListener("focus", () => {
     dropdown.classList.add("open");
 });
 
+document.querySelector(".retail-activity-wrapper .search-label")
+    .addEventListener("click", (e) => {
+
+        e.stopPropagation();
+
+        dropdown.classList.toggle("open");
+
+        if (dropdown.classList.contains("open")) {
+            inputActivite.focus();
+        }
+
+    });
+
 document.addEventListener("click", (e) => {
 
     const clickedInsideActivity =
