@@ -962,4 +962,66 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-right: 6px;
 }
 
+/* =========================
+   MODULE TITLE BAR
+========================= */
 
+.module-title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    padding: 6px 0;
+    cursor: default;
+}
+
+.module-title-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* =========================
+   SPINNER
+========================= */
+
+.loader-inline {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #ccc;
+    border-top: 2px solid #C67B42;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: none;
+}
+
+.loader-inline.active {
+    display: inline-block;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* =========================
+   TOGGLE BUTTON
+========================= */
+
+.toggle-retail {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 0 6px;
+}
+
+/* =========================
+   COLLAPSE MODULE
+========================= */
+
+#module-enseignes.collapsed .module-search,
+#module-enseignes.collapsed .module-distance,
+#module-enseignes.collapsed #selected-activites,
+#module-enseignes.collapsed #selected-enseignes,
+#module-enseignes.collapsed #enseigne-count {
+    display: none;
+}
