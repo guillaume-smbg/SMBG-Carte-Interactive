@@ -1389,65 +1389,79 @@ document.addEventListener("click", (e) => {
             chipsContainer.appendChild(chip);
         });
     }
+   
+/* =========================
+   GROUP & SUB CHECKBOX
+========================= */
+
+document.addEventListener("change", (e) => {
 
     /* =========================
        GROUP CHECKBOX
     ========================== */
 
-    document.addEventListener("change", (e) => {
+    if (e.target.classList.contains("group-checkbox")) {
 
-        if (e.target.classList.contains("group-checkbox")) {
+        const group = e.target.dataset.group;
 
-            const group = e.target.dataset.group;
+        if (e.target.checked) {
 
-            if (e.target.checked) {
+            if (!retailState.selectedGroups.includes(group))
+                retailState.selectedGroups.push(group);
 
-                if (!retailState.selectedGroups.includes(group))
-                    retailState.selectedGroups.push(group);
+        } else {
 
-            } else {
-
-                retailState.selectedGroups =
-                    retailState.selectedGroups.filter(g => g !== group);
-            }
-
-            refreshChips();
-
-            if (retailState.lastLotCoords)
-                fetchRetail(
-                    retailState.lastLotCoords.lat,
-                    retailState.lastLotCoords.lng
-                );
+            retailState.selectedGroups =
+                retailState.selectedGroups.filter(g => g !== group);
         }
 
-        /* =========================
-           SUB CHECKBOX
-        ========================== */
+        refreshChips();
 
-        if (e.target.classList.contains("sub-checkbox")) {
+        if (retailState.lastLotCoords)
+            fetchRetail(
+                retailState.lastLotCoords.lat,
+                retailState.lastLotCoords.lng
+            );
+    }
 
-            const sub = e.target.dataset.sub;
+    /* =========================
+       SUB CHECKBOX
+    ========================== */
 
-            if (e.target.checked) {
+    if (e.target.classList.contains("sub-checkbox")) {
 
-                if (!retailState.selectedSubgroups.includes(sub))
-                    retailState.selectedSubgroups.push(sub);
+        const sub = e.target.dataset.sub;
+        const group = e.target.dataset.group;
 
-            } else {
+        if (e.target.checked) {
 
-                retailState.selectedSubgroups =
-                    retailState.selectedSubgroups.filter(s => s !== sub);
-            }
+            /* 🔹 Si le groupe était coché, on le décoche */
+            retailState.selectedGroups =
+                retailState.selectedGroups.filter(g => g !== group);
 
-            refreshChips();
+            document.querySelectorAll(`.group-checkbox[data-group="${group}"]`)
+                .forEach(cb => cb.checked = false);
 
-            if (retailState.lastLotCoords)
-                fetchRetail(
-                    retailState.lastLotCoords.lat,
-                    retailState.lastLotCoords.lng
-                );
+            /* 🔹 On ajoute le sous-groupe */
+            if (!retailState.selectedSubgroups.includes(sub))
+                retailState.selectedSubgroups.push(sub);
+
+        } else {
+
+            retailState.selectedSubgroups =
+                retailState.selectedSubgroups.filter(s => s !== sub);
         }
-    });
+
+        refreshChips();
+
+        if (retailState.lastLotCoords)
+            fetchRetail(
+                retailState.lastLotCoords.lat,
+                retailState.lastLotCoords.lng
+            );
+    }
+
+});
 
     /* =========================
        RESET RETAIL
