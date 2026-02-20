@@ -587,27 +587,24 @@ body.carousel-open .leaflet-top.leaflet-left {
 
 #autocomplete-enseigne,
 #autocomplete-activite {
-    position: absolute;
-    top: 42px;
-    left: 0;
-    right: 0;
+    position: relative;
+    width: 100%;
     background: white;
-    color: #04253d;
-    border-radius: 6px;
-    max-height: 180px;
+    border: 1px solid #ddd;
+    border-top: none;
+    max-height: 200px;
     overflow-y: auto;
     display: none;
-    z-index: 600;
+    z-index: 5;
 }
 
 .autocomplete-item {
     padding: 8px 10px;
     cursor: pointer;
-    font-size: 14px;
 }
 
 .autocomplete-item:hover {
-    background: rgba(0,0,0,0.06);
+    background: #f2f2f2;
 }
 
 /* ───────────── TAGS SÉLECTIONNÉS ───────────── */
@@ -967,3 +964,4 @@ body.carousel-open .leaflet-top.leaflet-left {
     display: inline-block;
     margin-right: 6px;
 }
+
