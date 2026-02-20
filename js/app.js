@@ -917,8 +917,9 @@ const RETAIL_STRUCTURE = {
 ========================= */
 
 let retailState = {
-    selectedGroups: [],
-    selectedSubgroups: [],
+    mode: null,                // "group" | "sub"
+    selectedGroup: null,
+    selectedSubgroup: null,
     selectedDistance: 5000,
     lastLotCoords: null,
     cache: {}
