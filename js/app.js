@@ -1088,13 +1088,13 @@ async function fetchRetail(lat, lng) {
         return;
     }
 
-    showRetailLoader();
+    showInlineLoader();
 
     const key = `${lat}_${lng}_${retailState.selectedDistance}_${effectiveSubgroups.sort().join("-")}`;
 
     if (retailState.cache[key]) {
         renderRetail(retailState.cache[key], lat, lng, effectiveSubgroups);
-        hideRetailLoader();
+        hideInlineLoader();
         return;
     }
 
@@ -1124,7 +1124,7 @@ async function fetchRetail(lat, lng) {
     retailState.cache[key] = results;
 
     renderRetail(results, lat, lng, effectiveSubgroups);
-    hideRetailLoader();
+    hideInlineLoader();
 }
 
 /* =========================
