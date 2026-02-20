@@ -1254,11 +1254,11 @@ async function init() {
         dropdown.classList.add("open");
     });
 
-    document.addEventListener("click", (e) => {
-        if (!e.target.closest("#module-enseignes")) {
-            dropdown.classList.remove("open");
-        }
-    });
+   document.addEventListener("click", (e) => {
+       if (!e.target.closest(".retail-activity-wrapper")) {
+           dropdown.classList.remove("open");
+       }
+});
 
     /* =========================
        AUTOCOMPLETE ACTIVITÉ
