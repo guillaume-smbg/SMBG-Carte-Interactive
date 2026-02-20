@@ -691,12 +691,11 @@ body.carousel-open .leaflet-top.leaflet-left {
 .distance-dots span:nth-child(4) { left: 75%; }
 .distance-dots span:nth-child(5) { left: 100%; transform: translate(-100%, -50%); }
 
-/* ───────────── VALEURS ALIGNÉES AVEC MÊME OFFSET ───────────── */
+/* ───────────── VALEURS ALIGNÉES PLEINE LARGEUR ───────────── */
 
 .distance-values {
     position: relative;
-    width: calc(100% - 18px);
-    margin-left: 9px;
+    width: 100%;
     font-size: 12px;
     margin-top: 6px;
 }
@@ -704,13 +703,22 @@ body.carousel-open .leaflet-top.leaflet-left {
 .distance-values span {
     position: absolute;
     transform: translateX(-50%);
+    white-space: nowrap;
 }
 
-.distance-values span:nth-child(1) { left: 0%; transform: translateX(0); }
+.distance-values span:nth-child(1) {
+    left: 0%;
+    transform: translateX(0);
+}
+
 .distance-values span:nth-child(2) { left: 25%; }
 .distance-values span:nth-child(3) { left: 50%; }
 .distance-values span:nth-child(4) { left: 75%; }
-.distance-values span:nth-child(5) { left: 100%; transform: translateX(-100%); }
+
+.distance-values span:nth-child(5) {
+    left: 100%;
+    transform: translateX(-100%);
+}
 
 /* ───────────── BOUTON RESET ───────────── */
 
@@ -742,3 +750,4 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
+
