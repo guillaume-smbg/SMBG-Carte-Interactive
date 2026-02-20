@@ -24,7 +24,6 @@ map.whenReady(() => {
     map.panBy([162, 0], { animate: false });
 });
 
-
 /* ============================================================
    2. PANNEAU DROIT + LIGHTBOX
    ============================================================ */
@@ -36,16 +35,23 @@ const lightboxPrev   = document.getElementById("lightbox-prev");
 const lightboxNext   = document.getElementById("lightbox-next");
 const lightboxClose  = document.getElementById("lightbox-close");
 
-let pinSelectionne   = null;
-let markers          = [];
-let currentPhotos    = [];
+let pinSelectionne    = null;
+let markers           = [];
+let currentPhotos     = [];
 let currentPhotoIndex = 0;
 
-function ouvrirPanneau() {
+function ouvrirPanneau(lat, lng) {
+
     sidebarRight.classList.add("open");
+
+    /* 🔹 Affichage module enseignes */
+    if (typeof afficherModuleEnseignes === "function" && lat && lng) {
+        afficherModuleEnseignes(lat, lng);
+    }
 }
 
 function fermerPanneau() {
+
     sidebarRight.classList.remove("open");
 
     document.getElementById("ref-annonce").innerHTML = "";
@@ -56,10 +62,19 @@ function fermerPanneau() {
         pinSelectionne._icon.classList.remove("smbg-pin-selected");
     }
 
+    /* 🔹 Masque carrousel */
     document.getElementById("carousel-wrapper").style.display = "none";
+
+    /* 🔹 Important : redescend le zoom */
+    document.body.classList.remove("carousel-open");
 
     pinSelectionne = null;
     currentPhotos = [];
+
+    /* 🔹 Masquage module enseignes */
+    if (typeof masquerModuleEnseignes === "function") {
+        masquerModuleEnseignes();
+    }
 }
 
 map.on("click", fermerPanneau);
@@ -185,7 +200,10 @@ const colonnes_info = [
 
 function afficherPanneauDroit(d) {
 
-    ouvrirPanneau();
+    const lat = parseFloat(d["Latitude"]);
+    const lng = parseFloat(d["Longitude"]);
+
+    ouvrirPanneau(lat, lng);   // ✅ on passe maintenant les coordonnées
 
     const ref = formatReference(d["Référence annonce"]);
     document.getElementById("ref-annonce").innerHTML = ref;
@@ -212,6 +230,7 @@ function afficherPanneauDroit(d) {
     }
 
     colonnes_info.forEach(col => {
+
         if (col === "Adresse") return;
 
         const val = formatValue(col, d[col]);
@@ -242,7 +261,6 @@ function afficherPanneauDroit(d) {
             `;
             return;
         }
-        /* ------------------------------------------------------- */
 
         html += `
             <div class="info-line">
@@ -280,12 +298,15 @@ function afficherCarousel(d) {
     .map(x => x.trim())
     .filter(x => x !== "");
 
+    /* ----- Aucune photo ----- */
     if (!photos.length) {
         wrapper.style.display = "none";
+        document.body.classList.remove("carousel-open");   // 🔹 retire classe zoom
         currentPhotos = [];
         return;
     }
 
+    /* ----- Photos présentes ----- */
     currentPhotos = photos;
     currentPhotoIndex = 0;
 
@@ -293,7 +314,11 @@ function afficherCarousel(d) {
         .map((url, i) => `<img src="${url}" data-index="${i}">`)
         .join("");
 
-    wrapper.style.display = "flex"; 
+    wrapper.style.display = "flex";
+
+    /* 🔹 Active classe pour remonter le zoom */
+    document.body.classList.add("carousel-open");
+
     zoneCarousel.scrollLeft = 0;
 
     zoneCarousel.querySelectorAll("img").forEach(img => {
@@ -303,16 +328,17 @@ function afficherCarousel(d) {
     });
 }
 
-/* Défilement molette */
+/* ----- Défilement molette ----- */
 zoneCarousel.addEventListener("wheel", e => {
     e.preventDefault();
     zoneCarousel.scrollLeft += e.deltaY;
 });
 
-/* Défilement flèches */
+/* ----- Défilement flèches ----- */
 arrowLeft.addEventListener("click", () => {
     zoneCarousel.scrollLeft -= 260;
 });
+
 arrowRight.addEventListener("click", () => {
     zoneCarousel.scrollLeft += 260;
 });
@@ -728,7 +754,84 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   14. INIT
+   14. MODULE ENSEIGNES – INITIALISATION
+   ============================================================ */
+
+/* ---- TAXONOMIE SMBG RETAIL ---- */
+
+const TAXONOMIE = {
+    "Mode": ["clothes","shoes","fashion_accessories","jewelry","watches","bag","leather","lingerie","tailor","textile"],
+    "Beauté & Bien-être": ["beauty","cosmetics","hairdresser","perfumery","massage","nail_salon","spa","tattoo"],
+    "Santé": ["pharmacy","optician","hearing_aids","medical_supply","herbalist","orthopedic"],
+    "Alimentaire": ["supermarket","convenience","hypermarket","discount","bakery","butcher","seafood","deli","cheese","greengrocer","organic","wine","beverages","confectionery"],
+    "Restauration": ["restaurant","fast_food","cafe","bar","food_court","ice_cream","sandwich","pizza","kebab","burger"],
+    "Sport & Loisirs": ["sports","outdoor","bicycle","fitness","ski","hunting","fishing","toy","games","music"],
+    "Maison & Décoration": ["furniture","interior_decoration","lighting","carpet","DIY","hardware","garden_centre","houseware"],
+    "Culture & Média": ["books","stationery","newsagent","photo","video","art","gift","collector"],
+    "Électronique": ["electronics","mobile_phone","computer","hifi","appliance"],
+    "Automobile": ["car","car_repair","car_parts","motorcycle","tyres","fuel"],
+    "Services": ["travel_agency","laundry","dry_cleaning","copyshop","estate_agent","pet","key_cutter","locksmith"],
+    "Centres commerciaux": ["mall","department_store","kiosk"]
+};
+
+/* ---- ÉTAT ---- */
+
+let categoriesSelectionnees = new Set();
+let lotSelectionneCoords = null;
+
+/* ---- GÉNÉRATION DES CATÉGORIES ---- */
+
+function initModuleEnseignes() {
+
+    const container = document.getElementById("categorie-list");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    Object.keys(TAXONOMIE).forEach(categorie => {
+
+        const item = document.createElement("div");
+        item.className = "categorie-item";
+        item.textContent = categorie;
+
+        item.addEventListener("click", () => {
+            if (categoriesSelectionnees.has(categorie)) {
+                categoriesSelectionnees.delete(categorie);
+                item.classList.remove("active");
+            } else {
+                categoriesSelectionnees.add(categorie);
+                item.classList.add("active");
+            }
+
+            console.log("Catégories actives :", Array.from(categoriesSelectionnees));
+            // future: lancer requête Overpass
+        });
+
+        container.appendChild(item);
+    });
+}
+
+/* ---- AFFICHAGE / MASQUAGE MODULE ---- */
+
+function afficherModuleEnseignes(lat, lng) {
+    const module = document.getElementById("module-enseignes");
+    if (!module) return;
+
+    module.style.display = "block";
+    lotSelectionneCoords = { lat, lng };
+}
+
+function masquerModuleEnseignes() {
+    const module = document.getElementById("module-enseignes");
+    if (!module) return;
+
+    module.style.display = "none";
+    categoriesSelectionnees.clear();
+}
+
+
+/* ============================================================
+   15. INIT
    ============================================================ */
 
 async function init() {
