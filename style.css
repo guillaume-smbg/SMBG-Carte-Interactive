@@ -760,8 +760,95 @@ body.carousel-open .leaflet-top.leaflet-left {
     font-size: 13px;
 }
 
+/* ============================================================
+   RETAIL MODULE – LOADER + HIERARCHIE
+   ============================================================ */
 
+/* ───────────── LOADER BAR ───────────── */
 
+#retail-loader {
+    position: relative;
+    width: 100%;
+    height: 3px;
+    margin-bottom: 12px;
+    overflow: hidden;
+    display: none;
+}
 
+#retail-loader.active {
+    display: block;
+}
 
+#retail-loader::before {
+    content: "";
+    position: absolute;
+    left: -40%;
+    width: 40%;
+    height: 100%;
+    background: #E1782C;
+    animation: retailLoading 1s linear infinite;
+}
 
+@keyframes retailLoading {
+    0% { left: -40%; }
+    100% { left: 100%; }
+}
+
+/* ───────────── ACCORDION GROUP ───────────── */
+
+.retail-group {
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(225,120,44,0.25);
+    padding-bottom: 6px;
+}
+
+.retail-group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 4px 0;
+}
+
+.retail-group-header span.arrow {
+    font-size: 12px;
+    transition: transform 0.2s ease;
+}
+
+.retail-group.open .retail-group-header span.arrow {
+    transform: rotate(90deg);
+}
+
+.retail-subgroups {
+    display: none;
+    margin-top: 6px;
+    margin-left: 8px;
+}
+
+.retail-group.open .retail-subgroups {
+    display: block;
+}
+
+.retail-subgroups label {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.retail-subgroups input {
+    margin-right: 6px;
+}
+
+/* ───────────── COULEUR DOT ───────────── */
+
+.retail-color-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+}
