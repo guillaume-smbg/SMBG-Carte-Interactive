@@ -1246,18 +1246,31 @@ async function init() {
     const autocomplete = document.getElementById("autocomplete-activite");
     const chipsContainer = document.getElementById("selected-activites");
 
-    /* =========================
-       OUVERTURE / FERMETURE
-    ========================== */
+/* =========================
+   OUVERTURE / FERMETURE DROPDOWN
+========================= */
 
-    inputActivite.addEventListener("focus", () => {
+const dropdown = document.getElementById("retail-dropdown");
+const activityWrapper = document.querySelector(".retail-activity-wrapper");
+
+document.getElementById("search-activite")
+    .addEventListener("focus", () => {
         dropdown.classList.add("open");
     });
 
-   document.addEventListener("click", (e) => {
-       if (!e.target.closest(".retail-activity-wrapper")) {
-           dropdown.classList.remove("open");
-       }
+document.addEventListener("click", (e) => {
+
+    const clickedInsideActivity =
+        e.target.closest(".retail-activity-wrapper");
+
+    const clickedOnMap =
+        e.target.closest("#map") ||
+        e.target.closest(".leaflet-container");
+
+    if (!clickedInsideActivity) {
+        dropdown.classList.remove("open");
+    }
+
 });
 
     /* =========================
