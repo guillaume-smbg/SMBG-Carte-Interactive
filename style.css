@@ -716,7 +716,7 @@ body.carousel-open .leaflet-top.leaflet-left {
 
 .btn-reset-enseignes {
     width: 100%;
-    margin-top: 26px;
+    margin-top: 30px;
     padding: 9px 12px;
 
     background: #E1782C;
@@ -742,6 +742,7 @@ body.carousel-open .leaflet-top.leaflet-left {
     margin-top: 14px;
     font-size: 13px;
 }
+
 
 
 
