@@ -71,10 +71,8 @@ function fermerPanneau() {
     pinSelectionne = null;
     currentPhotos = [];
 
-    /* 🔹 Masquage module enseignes */
-    if (typeof masquerModuleEnseignes === "function") {
-        masquerModuleEnseignes();
-    }
+/* 🔹 Ne plus masquer le module enseignes ici */
+/* Le dropdown sera géré indépendamment */
 }
 
 map.on("click", fermerPanneau);
