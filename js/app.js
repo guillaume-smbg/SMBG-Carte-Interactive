@@ -1003,16 +1003,6 @@ function buildRetailHierarchy() {
    UTILITAIRES
 ========================= */
 
-function showRetailLoader() {
-    const loader = document.getElementById("retail-loader");
-    if (loader) loader.classList.add("active");
-}
-
-function hideRetailLoader() {
-    const loader = document.getElementById("retail-loader");
-    if (loader) loader.classList.remove("active");
-}
-
 function distanceMeters(a, b) {
     const R = 6371000;
     const dLat = (b.lat - a.lat) * Math.PI/180;
