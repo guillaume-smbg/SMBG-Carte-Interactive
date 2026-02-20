@@ -122,22 +122,34 @@
 
     <div id="selected-enseignes"></div>
 
-    <!-- ───────────── ACTIVITÉ ───────────── -->
-    <div class="module-search">
-        <div class="search-label">Activité</div>
-        <input type="text" id="search-activite" placeholder="Rechercher une activité…">
-        <div id="autocomplete-activite"></div>
+  <!-- ───────────── ACTIVITÉ ───────────── -->
+<div class="module-search retail-activity-wrapper">
+
+    <div class="search-label">Activité</div>
+
+    <input type="text"
+           id="search-activite"
+           placeholder="Rechercher ou sélectionner une activité…"
+           autocomplete="off">
+
+    <div id="autocomplete-activite"></div>
+
+    <!-- DROPDOWN HIÉRARCHIQUE -->
+    <div id="retail-dropdown" class="retail-dropdown">
+
+        <!-- LOADER -->
+        <div id="retail-loader"></div>
+
+        <!-- HIÉRARCHIE ACTIVITÉS -->
+        <div id="retail-hierarchy"></div>
+
     </div>
 
-    <div id="selected-activites"></div>
+</div>
 
-    <!-- ───────────── LOADER ───────────── -->
-    <div id="retail-loader"></div>
+<div id="selected-activites"></div>
 
-    <!-- ───────────── HIÉRARCHIE ACTIVITÉS ───────────── -->
-    <div id="retail-hierarchy"></div>
-    
-    <!-- ───────────── DISTANCE ───────────── -->
+<!-- ───────────── DISTANCE ───────────── -->
     <div class="module-distance">
 
         <div class="distance-label">Distance</div>
@@ -218,4 +230,5 @@
 
 </body>
 </html>
+
 
