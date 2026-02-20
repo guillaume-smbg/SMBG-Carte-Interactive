@@ -754,79 +754,226 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   14. MODULE ENSEIGNES – INITIALISATION
+   14. MODULE ENSEIGNES – MOTEUR RETAIL PRO
    ============================================================ */
 
-/* ---- TAXONOMIE SMBG RETAIL ---- */
+/* =========================
+   STRUCTURE DISTANCE
+========================= */
 
-const TAXONOMIE = {
-    "Mode": ["clothes","shoes","fashion_accessories","jewelry","watches","bag","leather","lingerie","tailor","textile"],
-    "Beauté & Bien-être": ["beauty","cosmetics","hairdresser","perfumery","massage","nail_salon","spa","tattoo"],
-    "Santé": ["pharmacy","optician","hearing_aids","medical_supply","herbalist","orthopedic"],
-    "Alimentaire": ["supermarket","convenience","hypermarket","discount","bakery","butcher","seafood","deli","cheese","greengrocer","organic","wine","beverages","confectionery"],
-    "Restauration": ["restaurant","fast_food","cafe","bar","food_court","ice_cream","sandwich","pizza","kebab","burger"],
-    "Sport & Loisirs": ["sports","outdoor","bicycle","fitness","ski","hunting","fishing","toy","games","music"],
-    "Maison & Décoration": ["furniture","interior_decoration","lighting","carpet","DIY","hardware","garden_centre","houseware"],
-    "Culture & Média": ["books","stationery","newsagent","photo","video","art","gift","collector"],
-    "Électronique": ["electronics","mobile_phone","computer","hifi","appliance"],
-    "Automobile": ["car","car_repair","car_parts","motorcycle","tyres","fuel"],
-    "Services": ["travel_agency","laundry","dry_cleaning","copyshop","estate_agent","pet","key_cutter","locksmith"],
-    "Centres commerciaux": ["mall","department_store","kiosk"]
+const DISTANCES = [2000, 5000, 10000, 20000];
+
+/* =========================
+   COULEURS PAR GROUPE
+========================= */
+
+const GROUP_COLORS = {
+    "Mode": "#8E44AD",
+    "Beauté & Bien-être": "#E91E63",
+    "Santé": "#16A085",
+    "Alimentaire": "#27AE60",
+    "Restauration": "#D35400",
+    "Sport & Loisirs": "#2980B9",
+    "Maison & Décoration": "#795548",
+    "Culture & Média": "#2C3E50",
+    "Électronique": "#34495E",
+    "Automobile": "#7F8C8D",
+    "Services": "#1ABC9C",
+    "Centres commerciaux": "#9C27B0"
 };
 
-/* ---- ÉTAT ---- */
+/* =========================
+   TAXONOMIE OSM
+========================= */
 
-let categoriesSelectionnees = new Set();
-let lotSelectionneCoords = null;
+const RETAIL_TAXONOMIE = {
+    "Mode": ["clothes","shoes","fashion_accessories","jewelry","watches","bag","leather","lingerie"],
+    "Beauté & Bien-être": ["beauty","cosmetics","hairdresser","perfumery","spa","massage"],
+    "Santé": ["pharmacy","optician","hearing_aids","medical_supply"],
+    "Alimentaire": ["supermarket","convenience","bakery","butcher","seafood","greengrocer","wine","organic"],
+    "Restauration": ["restaurant","fast_food","cafe","bar","ice_cream"],
+    "Sport & Loisirs": ["sports","bicycle","fitness_centre","toy","music"],
+    "Maison & Décoration": ["furniture","interior_decoration","lighting","hardware","garden_centre"],
+    "Culture & Média": ["books","newsagent","photo","art","gift"],
+    "Électronique": ["electronics","mobile_phone","computer","appliance"],
+    "Automobile": ["car","car_repair","tyres","fuel"],
+    "Services": ["travel_agency","laundry","locksmith","estate_agent","pet"],
+    "Centres commerciaux": ["mall","department_store"]
+};
 
-/* ---- GÉNÉRATION DES CATÉGORIES ---- */
+/* =========================
+   ÉTAT GLOBAL
+========================= */
 
-function initModuleEnseignes() {
+let retailState = {
+    selectedActivities: [],
+    selectedBrands: [],
+    selectedDistance: 5000,
+    lastLotCoords: null,
+    cache: {}
+};
 
-    const container = document.getElementById("categorie-list");
-    if (!container) return;
+let retailLayer = L.layerGroup().addTo(map);
 
-    container.innerHTML = "";
+/* =========================
+   OUTILS
+========================= */
 
-    Object.keys(TAXONOMIE).forEach(categorie => {
-
-        const item = document.createElement("div");
-        item.className = "categorie-item";
-        item.textContent = categorie;
-
-        item.addEventListener("click", () => {
-            if (categoriesSelectionnees.has(categorie)) {
-                categoriesSelectionnees.delete(categorie);
-                item.classList.remove("active");
-            } else {
-                categoriesSelectionnees.add(categorie);
-                item.classList.add("active");
-            }
-
-            console.log("Catégories actives :", Array.from(categoriesSelectionnees));
-            // future: lancer requête Overpass
-        });
-
-        container.appendChild(item);
-    });
+function normalizeName(name) {
+    return name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
 }
 
-/* ---- AFFICHAGE / MASQUAGE MODULE ---- */
+function distanceMeters(a, b) {
+    const R = 6371000;
+    const dLat = (b.lat - a.lat) * Math.PI / 180;
+    const dLon = (b.lng - a.lng) * Math.PI / 180;
+    const lat1 = a.lat * Math.PI / 180;
+    const lat2 = b.lat * Math.PI / 180;
+
+    const x = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.sin(dLon/2) * Math.sin(dLon/2) *
+              Math.cos(lat1) * Math.cos(lat2);
+    const c = 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
+    return R * c;
+}
+
+/* =========================
+   OVERPASS QUERY
+========================= */
+
+function buildOverpassQuery(lat, lng, radius, activities) {
+
+    let filters = [];
+
+    activities.forEach(act => {
+        Object.keys(RETAIL_TAXONOMIE).forEach(group => {
+            if (group === act) {
+                RETAIL_TAXONOMIE[group].forEach(tag => {
+                    filters.push(`node(around:${radius},${lat},${lng})[shop=${tag}];`);
+                    filters.push(`node(around:${radius},${lat},${lng})[amenity=${tag}];`);
+                });
+            }
+        });
+    });
+
+    return `
+    [out:json][timeout:25];
+    (
+        ${filters.join("\n")}
+    );
+    out center;
+    `;
+}
+
+/* =========================
+   FETCH + CACHE
+========================= */
+
+async function fetchRetail(lat, lng) {
+
+    if (!retailState.selectedActivities.length) {
+        retailLayer.clearLayers();
+        return;
+    }
+
+    const radius = retailState.selectedDistance;
+    const key = `${lat}_${lng}_${radius}_${retailState.selectedActivities.sort().join("-")}`;
+
+    if (retailState.cache[key]) {
+        renderRetail(retailState.cache[key], lat, lng);
+        return;
+    }
+
+    const query = buildOverpassQuery(lat, lng, radius, retailState.selectedActivities);
+
+    const response = await fetch("https://overpass-api.de/api/interpreter", {
+        method: "POST",
+        body: query
+    });
+
+    const data = await response.json();
+
+    const results = data.elements
+        .filter(el => el.tags && (el.tags.name || el.tags.brand))
+        .map(el => {
+            const name = el.tags.brand || el.tags.name;
+            const latR = el.lat || el.center?.lat;
+            const lngR = el.lon || el.center?.lon;
+            return { name, lat: latR, lng: lngR };
+        });
+
+    retailState.cache[key] = results;
+
+    renderRetail(results, lat, lng);
+}
+
+/* =========================
+   RENDER
+========================= */
+
+function renderRetail(results, lotLat, lotLng) {
+
+    retailLayer.clearLayers();
+
+    let count = 0;
+
+    results.forEach(r => {
+
+        const dist = Math.round(distanceMeters(
+            {lat: lotLat, lng: lotLng},
+            {lat: r.lat, lng: r.lng}
+        ));
+
+        if (dist > retailState.selectedDistance) return;
+
+        const marker = L.circleMarker([r.lat, r.lng], {
+            radius: 5,
+            color: "#E1782C",
+            fillColor: "#E1782C",
+            fillOpacity: 0.8
+        });
+
+        marker.bindPopup(`
+            <strong>${r.name}</strong><br>
+            Distance : ${dist} m
+        `);
+
+        marker.addTo(retailLayer);
+        count++;
+    });
+
+    document.getElementById("enseigne-count").innerHTML =
+        count + " enseignes trouvées";
+}
+
+/* =========================
+   AFFICHAGE MODULE
+========================= */
 
 function afficherModuleEnseignes(lat, lng) {
-    const module = document.getElementById("module-enseignes");
-    if (!module) return;
 
+    const module = document.getElementById("module-enseignes");
     module.style.display = "block";
-    lotSelectionneCoords = { lat, lng };
+
+    const newCoords = { lat, lng };
+
+    if (retailState.lastLotCoords) {
+        const d = distanceMeters(retailState.lastLotCoords, newCoords);
+        if (d < 150) return;
+    }
+
+    retailState.lastLotCoords = newCoords;
+
+    fetchRetail(lat, lng);
 }
 
 function masquerModuleEnseignes() {
-    const module = document.getElementById("module-enseignes");
-    if (!module) return;
-
-    module.style.display = "none";
-    categoriesSelectionnees.clear();
+    document.getElementById("module-enseignes").style.display = "none";
+    retailLayer.clearLayers();
 }
 
 
@@ -841,7 +988,7 @@ async function init() {
     REGIONS_MAP = buildRegionsMap();
     construireRegionsEtDepartements();
 
-    /* Nature — dynamique depuis Excel (colonne K) */
+    /* Nature — dynamique depuis Excel */
     remplirCheckbox("filter-nature", valeursUniques("Nature"));
 
     remplirCheckbox("filter-emplacement",  valeursUniques("Emplacement"));
@@ -875,11 +1022,113 @@ async function init() {
         });
     }
 
-    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
-    initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
+    initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"] || 0)));
+    initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"] || 0)));
 
     document.querySelectorAll("#sidebar-left input")
         .forEach(el => el.addEventListener("input", appliquerFiltres));
+
+    /* =========================
+       MODULE ENSEIGNES – ACTIVITÉS
+    ========================== */
+
+    const inputActivite = document.getElementById("search-activite");
+    const autocompleteActivite = document.getElementById("autocomplete-activite");
+    const selectedActivitesZone = document.getElementById("selected-activites");
+
+    inputActivite.addEventListener("input", () => {
+
+        const value = inputActivite.value.toLowerCase().trim();
+        autocompleteActivite.innerHTML = "";
+
+        if (!value) {
+            autocompleteActivite.style.display = "none";
+            return;
+        }
+
+        const matches = Object.keys(RETAIL_TAXONOMIE)
+            .filter(a => a.toLowerCase().includes(value));
+
+        matches.forEach(act => {
+
+            const div = document.createElement("div");
+            div.className = "autocomplete-item";
+            div.textContent = act;
+
+            div.addEventListener("click", () => {
+
+                if (!retailState.selectedActivities.includes(act)) {
+                    retailState.selectedActivities.push(act);
+
+                    const tag = document.createElement("div");
+                    tag.className = "selected-item";
+                    tag.innerHTML = `
+                        ${act}
+                        <span class="remove">×</span>
+                    `;
+
+                    tag.querySelector(".remove").addEventListener("click", () => {
+                        retailState.selectedActivities =
+                            retailState.selectedActivities.filter(a => a !== act);
+                        tag.remove();
+                        if (retailState.lastLotCoords)
+                            fetchRetail(retailState.lastLotCoords.lat, retailState.lastLotCoords.lng);
+                    });
+
+                    selectedActivitesZone.appendChild(tag);
+                }
+
+                inputActivite.value = "";
+                autocompleteActivite.style.display = "none";
+
+                if (retailState.lastLotCoords)
+                    fetchRetail(retailState.lastLotCoords.lat, retailState.lastLotCoords.lng);
+            });
+
+            autocompleteActivite.appendChild(div);
+        });
+
+        autocompleteActivite.style.display =
+            matches.length ? "block" : "none";
+    });
+
+    /* =========================
+       SLIDER DISTANCE
+    ========================== */
+
+    const slider = document.getElementById("distance-slider");
+
+    slider.addEventListener("input", () => {
+
+        const index = parseInt(slider.value);
+        retailState.selectedDistance = DISTANCES[index];
+
+        if (retailState.lastLotCoords)
+            fetchRetail(retailState.lastLotCoords.lat, retailState.lastLotCoords.lng);
+    });
+
+    /* =========================
+       RESET MODULE ENSEIGNES
+    ========================== */
+
+    document.getElementById("reset-enseignes")
+        .addEventListener("click", () => {
+
+            retailState.selectedActivities = [];
+            retailState.selectedBrands = [];
+
+            document.getElementById("selected-activites").innerHTML = "";
+            document.getElementById("selected-enseignes").innerHTML = "";
+            document.getElementById("search-activite").value = "";
+            document.getElementById("search-enseigne").value = "";
+            document.getElementById("enseigne-count").innerHTML = "";
+
+            retailLayer.clearLayers();
+        });
+
+    /* =========================
+       RESET GLOBAL FILTRES
+    ========================== */
 
     document.getElementById("btn-reset").addEventListener("click", () => {
 
@@ -894,8 +1143,8 @@ async function init() {
             .querySelectorAll("#filter-regions .departements-container")
             .forEach(c => c.style.display = "none");
 
-        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"]   || 0)));
-        initSliderLoyer  (DATA.map(x => parseInt(x["Loyer annuel"]  || 0)));
+        initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"] || 0)));
+        initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"] || 0)));
 
         fermerPanneau();
         afficherPinsFiltrés(DATA);
