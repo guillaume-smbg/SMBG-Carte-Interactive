@@ -752,7 +752,7 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   14. MODULE ENSEIGNES – MOTEUR RETAIL V4 FINAL COMPLET
+   14. MODULE ENSEIGNES – MOTEUR RETAIL V5 FINAL COMPLET
    ============================================================ */
 
 const DISTANCES = [2000, 5000, 10000, 20000, 50000];
@@ -911,6 +911,20 @@ const RETAIL_STRUCTURE = {
 };
 
 /* =========================
+   SPINNER INLINE GLOBAL
+========================= */
+
+function showInlineLoader() {
+    const el = document.getElementById("retail-loader-inline");
+    if (el) el.classList.add("active");
+}
+
+function hideInlineLoader() {
+    const el = document.getElementById("retail-loader-inline");
+    if (el) el.classList.remove("active");
+}
+
+/* =========================
    ÉTAT GLOBAL
 ========================= */
 
@@ -930,12 +944,8 @@ let retailLayer = L.layerGroup().addTo(map);
 
 function buildRetailHierarchy() {
 
-    let container = document.getElementById("retail-hierarchy");
-
-    if (!container) {
-        console.error("retail-hierarchy introuvable dans le HTML");
-        return;
-    }
+    const container = document.getElementById("retail-hierarchy");
+    if (!container) return;
 
     container.innerHTML = "";
 
@@ -1021,8 +1031,10 @@ function getEffectiveSubgroups() {
     const set = new Set();
 
     retailState.selectedGroups.forEach(group => {
-        Object.keys(RETAIL_STRUCTURE[group].subgroups)
-            .forEach(sub => set.add(sub));
+        if (RETAIL_STRUCTURE[group]) {
+            Object.keys(RETAIL_STRUCTURE[group].subgroups)
+                .forEach(sub => set.add(sub));
+        }
     });
 
     retailState.selectedSubgroups.forEach(sub => {
@@ -1041,27 +1053,31 @@ function buildOverpassQuery(lat, lng, radius, subgroups) {
     let filters = [];
 
     subgroups.forEach(sub => {
+
         Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
-            if (gData.subgroups[sub]) {
-                gData.subgroups[sub].forEach(tag => {
 
-                    filters.push(`
-                        node(around:${radius},${lat},${lng})[shop=${tag}];
-                        node(around:${radius},${lat},${lng})[amenity=${tag}];
-                        node(around:${radius},${lat},${lng})[leisure=${tag}];
-                    `);
+            if (!gData.subgroups[sub]) return;
 
-                });
-            }
+            gData.subgroups[sub].forEach(tag => {
+
+                filters.push(`
+                    node(around:${radius},${lat},${lng})[shop=${tag}];
+                    node(around:${radius},${lat},${lng})[amenity=${tag}];
+                    node(around:${radius},${lat},${lng})[leisure=${tag}];
+                `);
+
+            });
+
         });
+
     });
 
     return `
-    [out:json][timeout:25];
-    (
-        ${filters.join("\n")}
-    );
-    out center;
+        [out:json][timeout:25];
+        (
+            ${filters.join("\n")}
+        );
+        out center;
     `;
 }
 
@@ -1075,45 +1091,54 @@ async function fetchRetail(lat, lng) {
 
     if (!effectiveSubgroups.length) {
         retailLayer.clearLayers();
+        const counter = document.getElementById("enseigne-count");
+        if (counter) counter.innerHTML = "";
         return;
     }
 
     showInlineLoader();
 
-    const key = `${lat}_${lng}_${retailState.selectedDistance}_${effectiveSubgroups.sort().join("-")}`;
+    try {
 
-    if (retailState.cache[key]) {
-        renderRetail(retailState.cache[key], lat, lng, effectiveSubgroups);
-        hideInlineLoader();
-        return;
+        const key = `${lat}_${lng}_${retailState.selectedDistance}_${effectiveSubgroups.sort().join("-")}`;
+
+        if (retailState.cache[key]) {
+            renderRetail(retailState.cache[key], lat, lng, effectiveSubgroups);
+            hideInlineLoader();
+            return;
+        }
+
+        const query = buildOverpassQuery(
+            lat,
+            lng,
+            retailState.selectedDistance,
+            effectiveSubgroups
+        );
+
+        const res = await fetch("https://overpass-api.de/api/interpreter", {
+            method: "POST",
+            body: query
+        });
+
+        const data = await res.json();
+
+        const results = (data.elements || [])
+            .filter(el => el.tags && (el.tags.name || el.tags.brand))
+            .map(el => ({
+                name: el.tags.brand || el.tags.name,
+                lat: el.lat || el.center?.lat,
+                lng: el.lon || el.center?.lon,
+                tags: el.tags
+            }));
+
+        retailState.cache[key] = results;
+
+        renderRetail(results, lat, lng, effectiveSubgroups);
+
+    } catch (err) {
+        console.error("Erreur Overpass:", err);
     }
 
-    const query = buildOverpassQuery(
-        lat,
-        lng,
-        retailState.selectedDistance,
-        effectiveSubgroups
-    );
-
-    const res = await fetch("https://overpass-api.de/api/interpreter", {
-        method: "POST",
-        body: query
-    });
-
-    const data = await res.json();
-
-    const results = data.elements
-        .filter(el => el.tags && (el.tags.name || el.tags.brand))
-        .map(el => ({
-            name: el.tags.brand || el.tags.name,
-            lat: el.lat || el.center?.lat,
-            lng: el.lon || el.center?.lon,
-            tags: el.tags
-        }));
-
-    retailState.cache[key] = results;
-
-    renderRetail(results, lat, lng, effectiveSubgroups);
     hideInlineLoader();
 }
 
@@ -1138,6 +1163,7 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
         let color = "#E1782C";
 
         Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
+
             Object.entries(gData.subgroups).forEach(([subName, tags]) => {
 
                 if (!effectiveSubgroups.includes(subName)) return;
@@ -1153,7 +1179,9 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
                     }
 
                 });
+
             });
+
         });
 
         const marker = L.circleMarker([r.lat, r.lng], {
@@ -1231,70 +1259,53 @@ async function init() {
     const autocomplete = document.getElementById("autocomplete-activite");
     const chipsContainer = document.getElementById("selected-activites");
 
-/* =========================
-   SPINNER INLINE
-========================= */
+    /* =========================
+       TOGGLE MODULE
+    ========================== */
 
-const inlineLoader = document.getElementById("retail-loader-inline");
+    const toggleBtn = document.getElementById("toggle-retail-module");
+    const retailModule = document.getElementById("module-enseignes");
 
-function showInlineLoader() {
-    inlineLoader.classList.add("active");
-}
+    toggleBtn.addEventListener("click", () => {
 
-function hideInlineLoader() {
-    inlineLoader.classList.remove("active");
-}
+        retailModule.classList.toggle("collapsed");
 
-/* =========================
-   TOGGLE MODULE
-========================= */
-
-const toggleBtn = document.getElementById("toggle-retail-module");
-const retailModule = document.getElementById("module-enseignes");
-
-toggleBtn.addEventListener("click", () => {
-
-    retailModule.classList.toggle("collapsed");
-
-    if (retailModule.classList.contains("collapsed")) {
-        toggleBtn.textContent = "+";
-    } else {
-        toggleBtn.textContent = "−";
-    }
-
-});
-   
-/* =========================
-   OUVERTURE / FERMETURE DROPDOWN
-========================= */
-
-inputActivite.addEventListener("focus", () => {
-    dropdown.classList.add("open");
-});
-
-document.querySelector(".retail-activity-wrapper .search-label")
-    .addEventListener("click", (e) => {
-
-        e.stopPropagation();
-
-        dropdown.classList.toggle("open");
-
-        if (dropdown.classList.contains("open")) {
-            inputActivite.focus();
-        }
+        toggleBtn.textContent =
+            retailModule.classList.contains("collapsed") ? "+" : "−";
 
     });
 
-document.addEventListener("click", (e) => {
+    /* =========================
+       OUVERTURE / FERMETURE DROPDOWN
+    ========================== */
 
-    const clickedInsideActivity =
-        e.target.closest(".retail-activity-wrapper");
+    inputActivite.addEventListener("focus", () => {
+        dropdown.classList.add("open");
+    });
 
-    if (!clickedInsideActivity) {
-        dropdown.classList.remove("open");
-    }
+    document.querySelector(".retail-activity-wrapper .search-label")
+        .addEventListener("click", (e) => {
 
-});
+            e.stopPropagation();
+
+            dropdown.classList.toggle("open");
+
+            if (dropdown.classList.contains("open")) {
+                inputActivite.focus();
+            }
+
+        });
+
+    document.addEventListener("click", (e) => {
+
+        const clickedInside =
+            e.target.closest(".retail-activity-wrapper");
+
+        if (!clickedInside) {
+            dropdown.classList.remove("open");
+        }
+
+    });
 
     /* =========================
        AUTOCOMPLETE ACTIVITÉ
@@ -1314,12 +1325,14 @@ document.addEventListener("click", (e) => {
 
         Object.entries(RETAIL_STRUCTURE).forEach(([groupName, groupData]) => {
 
-            if (groupName.toLowerCase().includes(value))
+            if (groupName.toLowerCase().includes(value)) {
                 matches.push({ type: "group", name: groupName });
+            }
 
             Object.keys(groupData.subgroups).forEach(subName => {
-                if (subName.toLowerCase().includes(value))
+                if (subName.toLowerCase().includes(value)) {
                     matches.push({ type: "sub", name: subName });
+                }
             });
 
         });
@@ -1334,16 +1347,34 @@ document.addEventListener("click", (e) => {
 
                 if (m.type === "group") {
 
-                    if (!retailState.selectedGroups.includes(m.name))
+                    if (!retailState.selectedGroups.includes(m.name)) {
                         retailState.selectedGroups.push(m.name);
+                    }
+
+                    /* Supprime les sous-groupes du groupe */
+                    retailState.selectedSubgroups =
+                        retailState.selectedSubgroups.filter(s =>
+                            !Object.keys(RETAIL_STRUCTURE[m.name].subgroups).includes(s)
+                        );
 
                     document.querySelectorAll(`.group-checkbox[data-group="${m.name}"]`)
                         .forEach(cb => cb.checked = true);
 
                 } else {
 
-                    if (!retailState.selectedSubgroups.includes(m.name))
+                    const group = Object.keys(RETAIL_STRUCTURE)
+                        .find(g => RETAIL_STRUCTURE[g].subgroups[m.name]);
+
+                    /* Décoche groupe */
+                    retailState.selectedGroups =
+                        retailState.selectedGroups.filter(g => g !== group);
+
+                    document.querySelectorAll(`.group-checkbox[data-group="${group}"]`)
+                        .forEach(cb => cb.checked = false);
+
+                    if (!retailState.selectedSubgroups.includes(m.name)) {
                         retailState.selectedSubgroups.push(m.name);
+                    }
 
                     document.querySelectorAll(`.sub-checkbox[data-sub="${m.name}"]`)
                         .forEach(cb => cb.checked = true);
@@ -1354,21 +1385,23 @@ document.addEventListener("click", (e) => {
 
                 refreshChips();
 
-                if (retailState.lastLotCoords)
+                if (retailState.lastLotCoords) {
                     fetchRetail(
                         retailState.lastLotCoords.lat,
                         retailState.lastLotCoords.lng
                     );
+                }
             });
 
             autocomplete.appendChild(div);
         });
 
-        autocomplete.style.display = matches.length ? "block" : "none";
+        autocomplete.style.display =
+            matches.length ? "block" : "none";
     });
 
     /* =========================
-       CHIPS (MULTI)
+       CHIPS
     ========================== */
 
     function refreshChips() {
@@ -1386,108 +1419,112 @@ document.addEventListener("click", (e) => {
             chip.className = "selected-item";
             chip.innerHTML = `${name} <span class="remove">✕</span>`;
 
-            chip.querySelector(".remove").addEventListener("click", () => {
+            chip.querySelector(".remove")
+                .addEventListener("click", () => {
 
-                retailState.selectedGroups =
-                    retailState.selectedGroups.filter(g => g !== name);
+                    retailState.selectedGroups =
+                        retailState.selectedGroups.filter(g => g !== name);
 
-                retailState.selectedSubgroups =
-                    retailState.selectedSubgroups.filter(s => s !== name);
+                    retailState.selectedSubgroups =
+                        retailState.selectedSubgroups.filter(s => s !== name);
 
-                document.querySelectorAll(`.group-checkbox[data-group="${name}"]`)
-                    .forEach(cb => cb.checked = false);
+                    document.querySelectorAll(`.group-checkbox[data-group="${name}"]`)
+                        .forEach(cb => cb.checked = false);
 
-                document.querySelectorAll(`.sub-checkbox[data-sub="${name}"]`)
-                    .forEach(cb => cb.checked = false);
+                    document.querySelectorAll(`.sub-checkbox[data-sub="${name}"]`)
+                        .forEach(cb => cb.checked = false);
 
-                refreshChips();
+                    refreshChips();
 
-                if (retailState.lastLotCoords)
-                    fetchRetail(
-                        retailState.lastLotCoords.lat,
-                        retailState.lastLotCoords.lng
-                    );
-            });
+                    if (retailState.lastLotCoords) {
+                        fetchRetail(
+                            retailState.lastLotCoords.lat,
+                            retailState.lastLotCoords.lng
+                        );
+                    }
+                });
 
             chipsContainer.appendChild(chip);
         });
     }
-   
-/* =========================
-   GROUP & SUB CHECKBOX
-========================= */
-
-document.addEventListener("change", (e) => {
 
     /* =========================
-       GROUP CHECKBOX
+       CHECKBOX EVENTS
     ========================== */
 
-    if (e.target.classList.contains("group-checkbox")) {
+    document.addEventListener("change", (e) => {
 
-        const group = e.target.dataset.group;
+        /* GROUP */
+        if (e.target.classList.contains("group-checkbox")) {
 
-        if (e.target.checked) {
+            const group = e.target.dataset.group;
 
-            if (!retailState.selectedGroups.includes(group))
-                retailState.selectedGroups.push(group);
+            if (e.target.checked) {
 
-        } else {
+                if (!retailState.selectedGroups.includes(group)) {
+                    retailState.selectedGroups.push(group);
+                }
 
-            retailState.selectedGroups =
-                retailState.selectedGroups.filter(g => g !== group);
+                /* Retire sous-groupes du groupe */
+                retailState.selectedSubgroups =
+                    retailState.selectedSubgroups.filter(s =>
+                        !Object.keys(RETAIL_STRUCTURE[group].subgroups).includes(s)
+                    );
+
+            } else {
+
+                retailState.selectedGroups =
+                    retailState.selectedGroups.filter(g => g !== group);
+            }
+
+            refreshChips();
+
+            if (retailState.lastLotCoords) {
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
+            }
         }
 
-        refreshChips();
+        /* SUB */
+        if (e.target.classList.contains("sub-checkbox")) {
 
-        if (retailState.lastLotCoords)
-            fetchRetail(
-                retailState.lastLotCoords.lat,
-                retailState.lastLotCoords.lng
-            );
-    }
+            const sub = e.target.dataset.sub;
+            const group = e.target.dataset.group;
 
-    /* =========================
-       SUB CHECKBOX
-    ========================== */
+            if (e.target.checked) {
 
-    if (e.target.classList.contains("sub-checkbox")) {
+                /* Retire groupe */
+                retailState.selectedGroups =
+                    retailState.selectedGroups.filter(g => g !== group);
 
-        const sub = e.target.dataset.sub;
-        const group = e.target.dataset.group;
+                document.querySelectorAll(`.group-checkbox[data-group="${group}"]`)
+                    .forEach(cb => cb.checked = false);
 
-        if (e.target.checked) {
+                if (!retailState.selectedSubgroups.includes(sub)) {
+                    retailState.selectedSubgroups.push(sub);
+                }
 
-            /* 🔹 Si le groupe était coché, on le décoche */
-            retailState.selectedGroups =
-                retailState.selectedGroups.filter(g => g !== group);
+            } else {
 
-            document.querySelectorAll(`.group-checkbox[data-group="${group}"]`)
-                .forEach(cb => cb.checked = false);
+                retailState.selectedSubgroups =
+                    retailState.selectedSubgroups.filter(s => s !== sub);
+            }
 
-            /* 🔹 On ajoute le sous-groupe */
-            if (!retailState.selectedSubgroups.includes(sub))
-                retailState.selectedSubgroups.push(sub);
+            refreshChips();
 
-        } else {
-
-            retailState.selectedSubgroups =
-                retailState.selectedSubgroups.filter(s => s !== sub);
+            if (retailState.lastLotCoords) {
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
+            }
         }
-
-        refreshChips();
-
-        if (retailState.lastLotCoords)
-            fetchRetail(
-                retailState.lastLotCoords.lat,
-                retailState.lastLotCoords.lng
-            );
-    }
-
-});
+    });
 
     /* =========================
-       RESET RETAIL
+       RESET
     ========================== */
 
     document.getElementById("reset-enseignes")
@@ -1505,31 +1542,32 @@ document.addEventListener("change", (e) => {
             retailLayer.clearLayers();
             refreshChips();
 
-            const counter = document.getElementById("enseigne-count");
+            const counter =
+                document.getElementById("enseigne-count");
+
             if (counter) counter.innerHTML = "";
         });
 
-   /* =========================
-      DISTANCE SLIDER
-   ========================= */
+    /* =========================
+       DISTANCE
+    ========================== */
 
-   const distanceSlider = document.getElementById("distance-slider");
+    const distanceSlider =
+        document.getElementById("distance-slider");
 
-   distanceSlider.addEventListener("input", () => {
+    distanceSlider.addEventListener("input", () => {
 
-       const index = parseInt(distanceSlider.value);
+        const index = parseInt(distanceSlider.value);
+        retailState.selectedDistance = DISTANCES[index];
 
-       retailState.selectedDistance = DISTANCES[index];
+        if (retailState.lastLotCoords) {
+            fetchRetail(
+                retailState.lastLotCoords.lat,
+                retailState.lastLotCoords.lng
+            );
+        }
+    });
 
-       if (retailState.lastLotCoords) {
-           fetchRetail(
-               retailState.lastLotCoords.lat,
-               retailState.lastLotCoords.lng
-           );
-       }
-
-   });
-   
     afficherPinsFiltrés(DATA);
     fermerPanneau();
 }
