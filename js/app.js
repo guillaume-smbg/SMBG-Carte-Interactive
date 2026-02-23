@@ -1309,42 +1309,49 @@ async function init() {
 
     });
 
-    /* =========================
-       GESTION CLIC GLOBAL
-    ========================== */
+/* =========================
+   GESTION CLIC GLOBAL
+========================= */
 
-    document.addEventListener("click", (e) => {
+inputActivite.addEventListener("focus", () => {
+    dropdown.classList.add("open");
+});
 
-        const clickedInsideModule =
-            e.target.closest("#module-enseignes");
+document.addEventListener("click", (e) => {
 
-        const clickedInsideActivity =
-            e.target.closest(".retail-activity-wrapper");
+    const clickedInsideModule =
+        e.target.closest("#module-enseignes");
 
-        const clickedOnPin =
-            e.target.closest(".leaflet-marker-icon");
+    const clickedInsideActivity =
+        e.target.closest(".retail-activity-wrapper");
 
-        const clickedRightPanel =
-            e.target.closest("#sidebar-right");
+    const clickedOnPin =
+        e.target.closest(".leaflet-marker-icon");
 
-        /* 🔹 Fermeture dropdown uniquement */
-        if (!clickedInsideActivity) {
-            dropdown.classList.remove("open");
-        }
+    const clickedLeftPanel =
+        e.target.closest("#sidebar-left");
 
-        /* 🔹 Masquer module seulement si clic carte */
-        if (!clickedInsideModule &&
-            !clickedOnPin &&
-            !clickedRightPanel) {
+    const clickedRightPanel =
+        e.target.closest("#sidebar-right");
 
-            module.style.display = "none";
-        }
+    const clickedOnMap =
+        e.target.closest("#map");
 
-    });
+    /* 🔹 1 — Fermer dropdown uniquement */
+    if (!clickedInsideActivity) {
+        dropdown.classList.remove("open");
+    }
 
-    inputActivite.addEventListener("focus", () => {
-        dropdown.classList.add("open");
-    });
+    /* 🔹 2 — Masquer module UNIQUEMENT si clic carte vide */
+    if (
+        clickedOnMap &&
+        !clickedInsideModule &&
+        !clickedOnPin
+    ) {
+        module.style.display = "none";
+    }
+
+});
 
     /* =========================
        AUTOCOMPLETE ACTIVITÉ
