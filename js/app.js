@@ -15,11 +15,6 @@ var map = L.map('map', {
     markerZoomAnimation: true
 });
 
-/* Ajout zoom en haut à droite */
-L.control.zoom({
-    position: 'topright'
-}).addTo(map);
-
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
 }).addTo(map);
