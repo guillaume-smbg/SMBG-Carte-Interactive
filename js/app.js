@@ -956,37 +956,71 @@ function buildRetailHierarchy() {
         groupDiv.className = "retail-group";
 
         const header = document.createElement("div");
+        header.className = "retail-group-header";
+        header.style.display = "flex";
+        header.style.alignItems = "center";
+        header.style.justifyContent = "space-between";
+        header.style.cursor = "pointer";
+
+        const leftPart = document.createElement("div");
+        leftPart.style.display = "flex";
+        leftPart.style.alignItems = "center";
+        leftPart.style.gap = "8px";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "group-checkbox";
+        checkbox.dataset.group = groupName;
+
+        const dot = document.createElement("span");
+        dot.style.width = "10px";
+        dot.style.height = "10px";
+        dot.style.borderRadius = "50%";
+        dot.style.background = groupData.color;
+
+        const label = document.createElement("span");
+        label.textContent = groupName;
+
+        leftPart.appendChild(checkbox);
+        leftPart.appendChild(dot);
+        leftPart.appendChild(label);
+
+        const arrow = document.createElement("span");
+        arrow.textContent = "▶";
+
+        header.appendChild(leftPart);
+        header.appendChild(arrow);
 
         const subDiv = document.createElement("div");
         subDiv.className = "retail-subgroups";
         subDiv.style.display = "none";
+        subDiv.style.marginLeft = "18px";
 
         Object.keys(groupData.subgroups).forEach(subName => {
 
-            const label = document.createElement("label");
-            label.style.display = "block";
-            label.style.marginLeft = "18px";
+            const subLabel = document.createElement("label");
+            subLabel.style.display = "block";
+            subLabel.style.marginTop = "4px";
 
-            label.innerHTML = `
-                <input type="checkbox"
-                       class="sub-checkbox"
-                       data-group="${groupName}"
-                       data-sub="${subName}">
-                ${subName}
-            `;
+            const subCheckbox = document.createElement("input");
+            subCheckbox.type = "checkbox";
+            subCheckbox.className = "sub-checkbox";
+            subCheckbox.dataset.group = groupName;
+            subCheckbox.dataset.sub = subName;
 
-            subDiv.appendChild(label);
+            subLabel.appendChild(subCheckbox);
+            subLabel.append(" " + subName);
+
+            subDiv.appendChild(subLabel);
         });
 
-      header.addEventListener("click", (e) => {
+        header.addEventListener("click", (e) => {
 
-          // Si on clique sur la checkbox → on ne touche pas
-          if (e.target.classList.contains("group-checkbox")) return;
+            if (e.target.tagName === "INPUT") return;
 
-          subDiv.style.display =
-              subDiv.style.display === "none" ? "block" : "none";
-
-      });
+            subDiv.style.display =
+                subDiv.style.display === "none" ? "block" : "none";
+        });
 
         groupDiv.appendChild(header);
         groupDiv.appendChild(subDiv);
