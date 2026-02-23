@@ -752,7 +752,7 @@ function appliquerFiltres() {
 
 
 /* ============================================================
-   14. MODULE ENSEIGNES – MOTEUR RETAIL V5 FINAL COMPLET
+   14. MODULE ENSEIGNES – MOTEUR RETAIL V6 FINAL COMPLET
    ============================================================ */
 
 const DISTANCES = [2000, 5000, 10000, 20000, 50000];
@@ -907,7 +907,6 @@ const RETAIL_STRUCTURE = {
             "Fleuriste": ["florist"]
         }
     }
-
 };
 
 /* =========================
@@ -938,6 +937,8 @@ let retailState = {
 
 let retailLayer = L.layerGroup().addTo(map);
 
+let retailRequestController = null;
+
 /* =========================
    BUILD HIERARCHY
 ========================= */
@@ -958,20 +959,24 @@ function buildRetailHierarchy() {
         header.className = "retail-group-header";
 
         header.innerHTML = `
-            <label style="cursor:pointer;">
-                <input type="checkbox"
-                       class="group-checkbox"
-                       data-group="${groupName}">
-                <span style="
-                    display:inline-block;
-                    width:10px;
-                    height:10px;
-                    border-radius:50%;
-                    margin:0 6px;
-                    background:${groupData.color};
-                "></span>
+            <input type="checkbox"
+                   class="group-checkbox"
+                   data-group="${groupName}"
+                   style="margin-right:6px;">
+
+            <span style="
+                display:inline-block;
+                width:10px;
+                height:10px;
+                border-radius:50%;
+                margin:0 6px;
+                background:${groupData.color};
+            "></span>
+
+            <span class="group-label" style="cursor:pointer;">
                 ${groupName}
-            </label>
+            </span>
+
             <span class="arrow">▶</span>
         `;
 
@@ -996,12 +1001,13 @@ function buildRetailHierarchy() {
             subDiv.appendChild(label);
         });
 
-        header.addEventListener("click", (e) => {
-            if (e.target.tagName !== "INPUT") {
+        header.querySelector(".group-label")
+            .addEventListener("click", () => {
+
                 subDiv.style.display =
                     subDiv.style.display === "none" ? "block" : "none";
-            }
-        });
+
+            });
 
         groupDiv.appendChild(header);
         groupDiv.appendChild(subDiv);
@@ -1100,6 +1106,12 @@ async function fetchRetail(lat, lng) {
 
     try {
 
+        if (retailRequestController) {
+            retailRequestController.abort();
+        }
+
+        retailRequestController = new AbortController();
+
         const key = `${lat}_${lng}_${retailState.selectedDistance}_${effectiveSubgroups.sort().join("-")}`;
 
         if (retailState.cache[key]) {
@@ -1115,10 +1127,14 @@ async function fetchRetail(lat, lng) {
             effectiveSubgroups
         );
 
-        const res = await fetch("https://overpass-api.de/api/interpreter", {
-            method: "POST",
-            body: query
-        });
+        const res = await fetch(
+            "https://overpass-api.de/api/interpreter",
+            {
+                method: "POST",
+                body: query,
+                signal: retailRequestController.signal
+            }
+        );
 
         const data = await res.json();
 
@@ -1136,7 +1152,9 @@ async function fetchRetail(lat, lng) {
         renderRetail(results, lat, lng, effectiveSubgroups);
 
     } catch (err) {
-        console.error("Erreur Overpass:", err);
+        if (err.name !== "AbortError") {
+            console.error("Erreur Overpass:", err);
+        }
     }
 
     hideInlineLoader();
@@ -1233,7 +1251,7 @@ function masquerModuleEnseignes() {
 }
 
 /* ============================================================
-   15. INIT – RETAIL MULTI SÉLECTION STABLE
+   15. INIT – RETAIL MULTI SÉLECTION STABLE V6
    ============================================================ */
 
 async function init() {
@@ -1258,22 +1276,27 @@ async function init() {
     const inputActivite = document.getElementById("search-activite");
     const autocomplete = document.getElementById("autocomplete-activite");
     const chipsContainer = document.getElementById("selected-activites");
+    const module = document.getElementById("module-enseignes");
 
     /* =========================
-       TOGGLE MODULE
+       TOGGLE MODULE (+ / -)
     ========================== */
 
     const toggleBtn = document.getElementById("toggle-retail-module");
-    const retailModule = document.getElementById("module-enseignes");
 
-    toggleBtn.addEventListener("click", () => {
+    if (toggleBtn) {
+        toggleBtn.addEventListener("click", () => {
 
-        retailModule.classList.toggle("collapsed");
+            module.classList.toggle("collapsed");
 
-        toggleBtn.textContent =
-            retailModule.classList.contains("collapsed") ? "+" : "−";
+            if (module.classList.contains("collapsed")) {
+                toggleBtn.textContent = "+";
+            } else {
+                toggleBtn.textContent = "−";
+            }
 
-    });
+        });
+    }
 
     /* =========================
        OUVERTURE / FERMETURE DROPDOWN
@@ -1283,26 +1306,19 @@ async function init() {
         dropdown.classList.add("open");
     });
 
-    document.querySelector(".retail-activity-wrapper .search-label")
-        .addEventListener("click", (e) => {
-
-            e.stopPropagation();
-
-            dropdown.classList.toggle("open");
-
-            if (dropdown.classList.contains("open")) {
-                inputActivite.focus();
-            }
-
-        });
-
     document.addEventListener("click", (e) => {
 
-        const clickedInside =
-            e.target.closest(".retail-activity-wrapper");
+        const clickedInsideModule =
+            e.target.closest("#module-enseignes");
 
-        if (!clickedInside) {
+        const clickedOnPin =
+            e.target.closest(".leaflet-marker-icon");
+
+        if (!clickedInsideModule && !clickedOnPin) {
+
+            module.style.display = "none";
             dropdown.classList.remove("open");
+
         }
 
     });
@@ -1325,14 +1341,12 @@ async function init() {
 
         Object.entries(RETAIL_STRUCTURE).forEach(([groupName, groupData]) => {
 
-            if (groupName.toLowerCase().includes(value)) {
+            if (groupName.toLowerCase().includes(value))
                 matches.push({ type: "group", name: groupName });
-            }
 
             Object.keys(groupData.subgroups).forEach(subName => {
-                if (subName.toLowerCase().includes(value)) {
+                if (subName.toLowerCase().includes(value))
                     matches.push({ type: "sub", name: subName });
-                }
             });
 
         });
@@ -1347,34 +1361,26 @@ async function init() {
 
                 if (m.type === "group") {
 
-                    if (!retailState.selectedGroups.includes(m.name)) {
+                    if (!retailState.selectedGroups.includes(m.name))
                         retailState.selectedGroups.push(m.name);
-                    }
 
-                    /* Supprime les sous-groupes du groupe */
-                    retailState.selectedSubgroups =
-                        retailState.selectedSubgroups.filter(s =>
-                            !Object.keys(RETAIL_STRUCTURE[m.name].subgroups).includes(s)
-                        );
+                    Object.keys(RETAIL_STRUCTURE[m.name].subgroups)
+                        .forEach(sub => {
+
+                            if (!retailState.selectedSubgroups.includes(sub))
+                                retailState.selectedSubgroups.push(sub);
+
+                            document.querySelectorAll(`.sub-checkbox[data-sub="${sub}"]`)
+                                .forEach(cb => cb.checked = true);
+                        });
 
                     document.querySelectorAll(`.group-checkbox[data-group="${m.name}"]`)
                         .forEach(cb => cb.checked = true);
 
                 } else {
 
-                    const group = Object.keys(RETAIL_STRUCTURE)
-                        .find(g => RETAIL_STRUCTURE[g].subgroups[m.name]);
-
-                    /* Décoche groupe */
-                    retailState.selectedGroups =
-                        retailState.selectedGroups.filter(g => g !== group);
-
-                    document.querySelectorAll(`.group-checkbox[data-group="${group}"]`)
-                        .forEach(cb => cb.checked = false);
-
-                    if (!retailState.selectedSubgroups.includes(m.name)) {
+                    if (!retailState.selectedSubgroups.includes(m.name))
                         retailState.selectedSubgroups.push(m.name);
-                    }
 
                     document.querySelectorAll(`.sub-checkbox[data-sub="${m.name}"]`)
                         .forEach(cb => cb.checked = true);
@@ -1385,19 +1391,17 @@ async function init() {
 
                 refreshChips();
 
-                if (retailState.lastLotCoords) {
+                if (retailState.lastLotCoords)
                     fetchRetail(
                         retailState.lastLotCoords.lat,
                         retailState.lastLotCoords.lng
                     );
-                }
             });
 
             autocomplete.appendChild(div);
         });
 
-        autocomplete.style.display =
-            matches.length ? "block" : "none";
+        autocomplete.style.display = matches.length ? "block" : "none";
     });
 
     /* =========================
@@ -1419,75 +1423,83 @@ async function init() {
             chip.className = "selected-item";
             chip.innerHTML = `${name} <span class="remove">✕</span>`;
 
-            chip.querySelector(".remove")
-                .addEventListener("click", () => {
+            chip.querySelector(".remove").addEventListener("click", () => {
 
-                    retailState.selectedGroups =
-                        retailState.selectedGroups.filter(g => g !== name);
+                retailState.selectedGroups =
+                    retailState.selectedGroups.filter(g => g !== name);
 
-                    retailState.selectedSubgroups =
-                        retailState.selectedSubgroups.filter(s => s !== name);
+                retailState.selectedSubgroups =
+                    retailState.selectedSubgroups.filter(s => s !== name);
 
-                    document.querySelectorAll(`.group-checkbox[data-group="${name}"]`)
-                        .forEach(cb => cb.checked = false);
+                document.querySelectorAll(`.group-checkbox[data-group="${name}"]`)
+                    .forEach(cb => cb.checked = false);
 
-                    document.querySelectorAll(`.sub-checkbox[data-sub="${name}"]`)
-                        .forEach(cb => cb.checked = false);
+                document.querySelectorAll(`.sub-checkbox[data-sub="${name}"]`)
+                    .forEach(cb => cb.checked = false);
 
-                    refreshChips();
+                refreshChips();
 
-                    if (retailState.lastLotCoords) {
-                        fetchRetail(
-                            retailState.lastLotCoords.lat,
-                            retailState.lastLotCoords.lng
-                        );
-                    }
-                });
+                if (retailState.lastLotCoords)
+                    fetchRetail(
+                        retailState.lastLotCoords.lat,
+                        retailState.lastLotCoords.lng
+                    );
+            });
 
             chipsContainer.appendChild(chip);
         });
     }
 
     /* =========================
-       CHECKBOX EVENTS
+       CHECKBOXES
     ========================== */
 
     document.addEventListener("change", (e) => {
 
-        /* GROUP */
         if (e.target.classList.contains("group-checkbox")) {
 
             const group = e.target.dataset.group;
 
             if (e.target.checked) {
 
-                if (!retailState.selectedGroups.includes(group)) {
+                if (!retailState.selectedGroups.includes(group))
                     retailState.selectedGroups.push(group);
-                }
 
-                /* Retire sous-groupes du groupe */
-                retailState.selectedSubgroups =
-                    retailState.selectedSubgroups.filter(s =>
-                        !Object.keys(RETAIL_STRUCTURE[group].subgroups).includes(s)
-                    );
+                Object.keys(RETAIL_STRUCTURE[group].subgroups)
+                    .forEach(sub => {
+
+                        if (!retailState.selectedSubgroups.includes(sub))
+                            retailState.selectedSubgroups.push(sub);
+
+                        document.querySelectorAll(`.sub-checkbox[data-sub="${sub}"]`)
+                            .forEach(cb => cb.checked = true);
+                    });
 
             } else {
 
                 retailState.selectedGroups =
                     retailState.selectedGroups.filter(g => g !== group);
+
+                Object.keys(RETAIL_STRUCTURE[group].subgroups)
+                    .forEach(sub => {
+
+                        retailState.selectedSubgroups =
+                            retailState.selectedSubgroups.filter(s => s !== sub);
+
+                        document.querySelectorAll(`.sub-checkbox[data-sub="${sub}"]`)
+                            .forEach(cb => cb.checked = false);
+                    });
             }
 
             refreshChips();
 
-            if (retailState.lastLotCoords) {
+            if (retailState.lastLotCoords)
                 fetchRetail(
                     retailState.lastLotCoords.lat,
                     retailState.lastLotCoords.lng
                 );
-            }
         }
 
-        /* SUB */
         if (e.target.classList.contains("sub-checkbox")) {
 
             const sub = e.target.dataset.sub;
@@ -1495,16 +1507,14 @@ async function init() {
 
             if (e.target.checked) {
 
-                /* Retire groupe */
                 retailState.selectedGroups =
                     retailState.selectedGroups.filter(g => g !== group);
 
                 document.querySelectorAll(`.group-checkbox[data-group="${group}"]`)
                     .forEach(cb => cb.checked = false);
 
-                if (!retailState.selectedSubgroups.includes(sub)) {
+                if (!retailState.selectedSubgroups.includes(sub))
                     retailState.selectedSubgroups.push(sub);
-                }
 
             } else {
 
@@ -1514,14 +1524,32 @@ async function init() {
 
             refreshChips();
 
+            if (retailState.lastLotCoords)
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
+        }
+    });
+
+    /* =========================
+       BOUTON LANCER RECHERCHE
+    ========================== */
+
+    const launchBtn = document.getElementById("launch-retail");
+
+    if (launchBtn) {
+        launchBtn.addEventListener("click", () => {
+
             if (retailState.lastLotCoords) {
                 fetchRetail(
                     retailState.lastLotCoords.lat,
                     retailState.lastLotCoords.lng
                 );
             }
-        }
-    });
+
+        });
+    }
 
     /* =========================
        RESET
@@ -1542,9 +1570,7 @@ async function init() {
             retailLayer.clearLayers();
             refreshChips();
 
-            const counter =
-                document.getElementById("enseigne-count");
-
+            const counter = document.getElementById("enseigne-count");
             if (counter) counter.innerHTML = "";
         });
 
@@ -1552,8 +1578,7 @@ async function init() {
        DISTANCE
     ========================== */
 
-    const distanceSlider =
-        document.getElementById("distance-slider");
+    const distanceSlider = document.getElementById("distance-slider");
 
     distanceSlider.addEventListener("input", () => {
 
@@ -1566,6 +1591,7 @@ async function init() {
                 retailState.lastLotCoords.lng
             );
         }
+
     });
 
     afficherPinsFiltrés(DATA);
