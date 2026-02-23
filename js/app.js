@@ -1327,8 +1327,8 @@ inputActivite.addEventListener("focus", () => {
 
 document.addEventListener("click", (e) => {
 
-    const clickedInsideActivity =
-        e.target.closest(".retail-activity-wrapper");
+    const clickedInsideDropdown =
+        e.target.closest("#retail-dropdown");
 
     const clickedInsideModule =
         e.target.closest("#module-enseignes");
@@ -1342,12 +1342,11 @@ document.addEventListener("click", (e) => {
     const isDropdownOpen =
         dropdown.classList.contains("open");
 
-    /* 🔹 1 — Si dropdown ouvert → on ferme seulement le dropdown */
-    if (isDropdownOpen && !clickedInsideActivity) {
+    /* 🔹 1 — Si dropdown ouvert → on ferme uniquement le dropdown */
+    if (isDropdownOpen && !clickedInsideDropdown) {
 
         dropdown.classList.remove("open");
 
-        /* 🔹 Nettoyage texte si rien sélectionné */
         inputActivite.value = "";
         autocomplete.style.display = "none";
 
