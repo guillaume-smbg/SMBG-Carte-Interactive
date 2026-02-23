@@ -1330,6 +1330,9 @@ document.addEventListener("click", (e) => {
     const clickedInsideDropdown =
         e.target.closest("#retail-dropdown");
 
+    const clickedOnSearchInput =
+        e.target.closest("#search-activite");
+
     const clickedInsideModule =
         e.target.closest("#module-enseignes");
 
@@ -1342,8 +1345,12 @@ document.addEventListener("click", (e) => {
     const isDropdownOpen =
         dropdown.classList.contains("open");
 
-    /* 🔹 1 — Si dropdown ouvert → on ferme uniquement le dropdown */
-    if (isDropdownOpen && !clickedInsideDropdown) {
+    /* 🔹 1 — Si dropdown ouvert → on ferme uniquement si clic hors dropdown ET hors champ */
+    if (
+        isDropdownOpen &&
+        !clickedInsideDropdown &&
+        !clickedOnSearchInput
+    ) {
 
         dropdown.classList.remove("open");
 
