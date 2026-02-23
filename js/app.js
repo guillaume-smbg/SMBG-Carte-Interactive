@@ -1324,8 +1324,20 @@ async function init() {
        const clickedInsideActivity =
            e.target.closest(".retail-activity-wrapper");
 
+       const clickedInsideModule =
+           e.target.closest("#module-enseignes");
+
+       const clickedOnPin =
+           e.target.closest(".leaflet-marker-icon");
+
+       /* 🔹 Si clic hors dropdown activité → on ferme dropdown */
        if (!clickedInsideActivity) {
            dropdown.classList.remove("open");
+       }
+
+       /* 🔹 Si clic totalement hors module (carte par ex) → on masque module */
+       if (!clickedInsideModule && !clickedOnPin) {
+           module.style.display = "none";
        }
 
 });
