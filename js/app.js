@@ -1319,31 +1319,30 @@ inputActivite.addEventListener("focus", () => {
 
 document.addEventListener("click", (e) => {
 
-    const clickedInsideModule =
-        e.target.closest("#module-enseignes");
-
     const clickedInsideActivity =
         e.target.closest(".retail-activity-wrapper");
+
+    const clickedInsideModule =
+        e.target.closest("#module-enseignes");
 
     const clickedOnPin =
         e.target.closest(".leaflet-marker-icon");
 
-    const clickedLeftPanel =
-        e.target.closest("#sidebar-left");
-
-    const clickedRightPanel =
-        e.target.closest("#sidebar-right");
-
     const clickedOnMap =
         e.target.closest("#map");
 
-    /* 🔹 1 — Fermer dropdown uniquement */
-    if (!clickedInsideActivity) {
+    const isDropdownOpen =
+        dropdown.classList.contains("open");
+
+    /* 🔹 1 — Si dropdown ouvert → on ferme seulement le dropdown */
+    if (isDropdownOpen && !clickedInsideActivity) {
         dropdown.classList.remove("open");
+        return;   // IMPORTANT : on arrête ici
     }
 
-    /* 🔹 2 — Masquer module UNIQUEMENT si clic carte vide */
+    /* 🔹 2 — Si dropdown fermé → clic carte masque le module */
     if (
+        !isDropdownOpen &&
         clickedOnMap &&
         !clickedInsideModule &&
         !clickedOnPin
