@@ -70,13 +70,21 @@ function fermerPanneau() {
 
     pinSelectionne = null;
     currentPhotos = [];
-
-/* 🔹 Ne plus masquer le module enseignes ici */
-/* Le dropdown sera géré indépendamment */
 }
 
-map.on("click", fermerPanneau);
+/* 🔹 CLIC CARTE — fermeture conditionnelle */
+map.on("click", () => {
 
+    const dropdown = document.getElementById("retail-dropdown");
+
+    /* Si le dropdown activité est ouvert,
+       on ne ferme PAS le volet droit */
+    if (dropdown && dropdown.classList.contains("open")) {
+        return;
+    }
+
+    fermerPanneau();
+});
 
 /* ============================================================
    3. LIGHTBOX
