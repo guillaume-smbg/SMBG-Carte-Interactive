@@ -1030,24 +1030,3 @@ html, body {
 #module-enseignes.collapsed #enseigne-count {
     display: none;
 }
-
-/* ============================================================
-   ZOOM LEAFLET – HAUT DROITE PROPRE
-   ============================================================ */
-
-/* On force Leaflet à utiliser le container top-right */
-.leaflet-top.leaflet-left {
-    display: none !important;
-}
-
-/* Position officielle en haut à droite */
-.leaflet-top.leaflet-right {
-    top: 20px !important;
-    right: 20px !important;
-    transition: right 0.3s ease;
-}
-
-/* Décalage quand volet droit ouvert */
-#sidebar-right.open ~ #map-container .leaflet-top.leaflet-right {
-    right: 345px !important;
-}
