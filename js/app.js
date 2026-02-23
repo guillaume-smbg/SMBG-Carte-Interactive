@@ -956,29 +956,6 @@ function buildRetailHierarchy() {
         groupDiv.className = "retail-group";
 
         const header = document.createElement("div");
-        header.className = "retail-group-header";
-
-        header.innerHTML = `
-            <input type="checkbox"
-                   class="group-checkbox"
-                   data-group="${groupName}"
-                   style="margin-right:6px;">
-
-            <span style="
-                display:inline-block;
-                width:10px;
-                height:10px;
-                border-radius:50%;
-                margin:0 6px;
-                background:${groupData.color};
-            "></span>
-
-            <span class="group-label" style="cursor:pointer;">
-                ${groupName}
-            </span>
-
-            <span class="arrow">▶</span>
-        `;
 
         const subDiv = document.createElement("div");
         subDiv.className = "retail-subgroups";
@@ -1306,22 +1283,16 @@ async function init() {
         dropdown.classList.add("open");
     });
 
-    document.addEventListener("click", (e) => {
+   document.addEventListener("click", (e) => {
 
-        const clickedInsideModule =
-            e.target.closest("#module-enseignes");
+       const clickedInsideActivity =
+           e.target.closest(".retail-activity-wrapper");
 
-        const clickedOnPin =
-            e.target.closest(".leaflet-marker-icon");
+       if (!clickedInsideActivity) {
+           dropdown.classList.remove("open");
+       }
 
-        if (!clickedInsideModule && !clickedOnPin) {
-
-            module.style.display = "none";
-            dropdown.classList.remove("open");
-
-        }
-
-    });
+});
 
     /* =========================
        AUTOCOMPLETE ACTIVITÉ
