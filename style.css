@@ -1030,3 +1030,19 @@ html, body {
 #module-enseignes.collapsed #enseigne-count {
     display: none;
 }
+
+/* ============================================================
+   ZOOM LEAFLET – DÉCALAGE VOLET DROIT
+   ============================================================ */
+
+/* Position normale */
+.leaflet-top.leaflet-right {
+    top: 20px !important;
+    right: 20px !important;
+    transition: right 0.3s ease;
+}
+
+/* Quand volet droit ouvert */
+#sidebar-right.open ~ #map-container .leaflet-top.leaflet-right {
+    right: 365px !important; /* 325px largeur volet + 20px marge */
+}
