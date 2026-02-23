@@ -1336,8 +1336,14 @@ document.addEventListener("click", (e) => {
 
     /* 🔹 1 — Si dropdown ouvert → on ferme seulement le dropdown */
     if (isDropdownOpen && !clickedInsideActivity) {
+
         dropdown.classList.remove("open");
-        return;   // IMPORTANT : on arrête ici
+
+        /* 🔹 Nettoyage texte si rien sélectionné */
+        inputActivite.value = "";
+        autocomplete.style.display = "none";
+
+        return;
     }
 
     /* 🔹 2 — Si dropdown fermé → clic carte masque le module */
