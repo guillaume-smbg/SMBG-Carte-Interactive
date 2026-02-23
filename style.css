@@ -715,7 +715,7 @@ html, body {
 
 .btn-launch-retail {
     width: 100%;
-    margin-top: 30px;
+    margin-top: 45px;
     padding: 9px 12px;
     background: #C67B42;
     border: none;
@@ -1034,6 +1034,7 @@ html, body {
 #module-enseignes.collapsed #enseigne-count {
     display: none;
 }
+
 
 
 
