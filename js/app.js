@@ -1264,7 +1264,7 @@ function masquerModuleEnseignes() {
 }
 
 /* ============================================================
-   15. INIT – RETAIL MULTI SÉLECTION STABLE V6
+   15. INIT – RETAIL MULTI SÉLECTION STABLE V7 FINAL
    ============================================================ */
 
 async function init() {
@@ -1297,50 +1297,54 @@ async function init() {
 
     const toggleBtn = document.getElementById("toggle-retail-module");
 
-    if (toggleBtn) {
-        toggleBtn.addEventListener("click", () => {
+    toggleBtn.addEventListener("click", () => {
 
-            module.classList.toggle("collapsed");
+        module.classList.toggle("collapsed");
 
-            if (module.classList.contains("collapsed")) {
-                toggleBtn.textContent = "+";
-            } else {
-                toggleBtn.textContent = "−";
-            }
+        if (module.classList.contains("collapsed")) {
+            toggleBtn.textContent = "+";
+        } else {
+            toggleBtn.textContent = "−";
+        }
 
-        });
-    }
+    });
 
     /* =========================
-       OUVERTURE / FERMETURE DROPDOWN
+       GESTION CLIC GLOBAL
     ========================== */
+
+    document.addEventListener("click", (e) => {
+
+        const clickedInsideModule =
+            e.target.closest("#module-enseignes");
+
+        const clickedInsideActivity =
+            e.target.closest(".retail-activity-wrapper");
+
+        const clickedOnPin =
+            e.target.closest(".leaflet-marker-icon");
+
+        const clickedRightPanel =
+            e.target.closest("#sidebar-right");
+
+        /* 🔹 Fermeture dropdown uniquement */
+        if (!clickedInsideActivity) {
+            dropdown.classList.remove("open");
+        }
+
+        /* 🔹 Masquer module seulement si clic carte */
+        if (!clickedInsideModule &&
+            !clickedOnPin &&
+            !clickedRightPanel) {
+
+            module.style.display = "none";
+        }
+
+    });
 
     inputActivite.addEventListener("focus", () => {
         dropdown.classList.add("open");
     });
-
-   document.addEventListener("click", (e) => {
-
-       const clickedInsideActivity =
-           e.target.closest(".retail-activity-wrapper");
-
-       const clickedInsideModule =
-           e.target.closest("#module-enseignes");
-
-       const clickedOnPin =
-           e.target.closest(".leaflet-marker-icon");
-
-       /* 🔹 Si clic hors dropdown activité → on ferme dropdown */
-       if (!clickedInsideActivity) {
-           dropdown.classList.remove("open");
-       }
-
-       /* 🔹 Si clic totalement hors module (carte par ex) → on masque module */
-       if (!clickedInsideModule && !clickedOnPin) {
-           module.style.display = "none";
-       }
-
-});
 
     /* =========================
        AUTOCOMPLETE ACTIVITÉ
@@ -1380,29 +1384,27 @@ async function init() {
 
                 if (m.type === "group") {
 
-                    if (!retailState.selectedGroups.includes(m.name))
-                        retailState.selectedGroups.push(m.name);
+                    retailState.selectedGroups = [m.name];
+                    retailState.selectedSubgroups = [];
 
-                    Object.keys(RETAIL_STRUCTURE[m.name].subgroups)
-                        .forEach(sub => {
+                    document.querySelectorAll(".group-checkbox")
+                        .forEach(cb => cb.checked = cb.dataset.group === m.name);
 
-                            if (!retailState.selectedSubgroups.includes(sub))
-                                retailState.selectedSubgroups.push(sub);
-
-                            document.querySelectorAll(`.sub-checkbox[data-sub="${sub}"]`)
-                                .forEach(cb => cb.checked = true);
-                        });
-
-                    document.querySelectorAll(`.group-checkbox[data-group="${m.name}"]`)
-                        .forEach(cb => cb.checked = true);
+                    document.querySelectorAll(".sub-checkbox")
+                        .forEach(cb => cb.checked = false);
 
                 } else {
 
-                    if (!retailState.selectedSubgroups.includes(m.name))
-                        retailState.selectedSubgroups.push(m.name);
+                    retailState.selectedGroups = [];
+                    retailState.selectedSubgroups = [m.name];
 
-                    document.querySelectorAll(`.sub-checkbox[data-sub="${m.name}"]`)
-                        .forEach(cb => cb.checked = true);
+                    document.querySelectorAll(".group-checkbox")
+                        .forEach(cb => cb.checked = false);
+
+                    document.querySelectorAll(".sub-checkbox")
+                        .forEach(cb =>
+                            cb.checked = cb.dataset.sub === m.name
+                        );
                 }
 
                 inputActivite.value = "";
@@ -1431,56 +1433,47 @@ async function init() {
 
         chipsContainer.innerHTML = "";
 
-        let allSelected = [];
+        if (retailState.selectedGroups.length) {
 
-         /* 🔹 Les groupes d'abord */
-         retailState.selectedGroups.forEach(g => {
-             allSelected.push(g);
-         });
-
-         /* 🔹 Sous-groupes uniquement si leur groupe n'est PAS sélectionné */
-         retailState.selectedSubgroups.forEach(sub => {
-
-             const parentGroup = Object.keys(RETAIL_STRUCTURE)
-                 .find(g => RETAIL_STRUCTURE[g].subgroups[sub]);
-
-             if (!retailState.selectedGroups.includes(parentGroup)) {
-                 allSelected.push(sub);
-             }
-
-         });
-
-        allSelected.forEach(name => {
+            const g = retailState.selectedGroups[0];
 
             const chip = document.createElement("div");
             chip.className = "selected-item";
-            chip.innerHTML = `${name} <span class="remove">✕</span>`;
+            chip.innerHTML = `${g} <span class="remove">✕</span>`;
 
             chip.querySelector(".remove").addEventListener("click", () => {
 
-                retailState.selectedGroups =
-                    retailState.selectedGroups.filter(g => g !== name);
-
-                retailState.selectedSubgroups =
-                    retailState.selectedSubgroups.filter(s => s !== name);
-
-                document.querySelectorAll(`.group-checkbox[data-group="${name}"]`)
-                    .forEach(cb => cb.checked = false);
-
-                document.querySelectorAll(`.sub-checkbox[data-sub="${name}"]`)
+                retailState.selectedGroups = [];
+                document.querySelectorAll(".group-checkbox")
                     .forEach(cb => cb.checked = false);
 
                 refreshChips();
-
-                if (retailState.lastLotCoords)
-                    fetchRetail(
-                        retailState.lastLotCoords.lat,
-                        retailState.lastLotCoords.lng
-                    );
+                retailLayer.clearLayers();
             });
 
             chipsContainer.appendChild(chip);
-        });
+        }
+
+        if (retailState.selectedSubgroups.length) {
+
+            const s = retailState.selectedSubgroups[0];
+
+            const chip = document.createElement("div");
+            chip.className = "selected-item";
+            chip.innerHTML = `${s} <span class="remove">✕</span>`;
+
+            chip.querySelector(".remove").addEventListener("click", () => {
+
+                retailState.selectedSubgroups = [];
+                document.querySelectorAll(".sub-checkbox")
+                    .forEach(cb => cb.checked = false);
+
+                refreshChips();
+                retailLayer.clearLayers();
+            });
+
+            chipsContainer.appendChild(chip);
+        }
     }
 
     /* =========================
@@ -1495,33 +1488,20 @@ async function init() {
 
             if (e.target.checked) {
 
-                if (!retailState.selectedGroups.includes(group))
-                    retailState.selectedGroups.push(group);
+                retailState.selectedGroups = [group];
+                retailState.selectedSubgroups = [];
 
-                Object.keys(RETAIL_STRUCTURE[group].subgroups)
-                    .forEach(sub => {
+                document.querySelectorAll(".group-checkbox")
+                    .forEach(cb =>
+                        cb.checked = cb.dataset.group === group
+                    );
 
-                        if (!retailState.selectedSubgroups.includes(sub))
-                            retailState.selectedSubgroups.push(sub);
-
-                        document.querySelectorAll(`.sub-checkbox[data-sub="${sub}"]`)
-                            .forEach(cb => cb.checked = true);
-                    });
+                document.querySelectorAll(".sub-checkbox")
+                    .forEach(cb => cb.checked = false);
 
             } else {
 
-                retailState.selectedGroups =
-                    retailState.selectedGroups.filter(g => g !== group);
-
-                Object.keys(RETAIL_STRUCTURE[group].subgroups)
-                    .forEach(sub => {
-
-                        retailState.selectedSubgroups =
-                            retailState.selectedSubgroups.filter(s => s !== sub);
-
-                        document.querySelectorAll(`.sub-checkbox[data-sub="${sub}"]`)
-                            .forEach(cb => cb.checked = false);
-                    });
+                retailState.selectedGroups = [];
             }
 
             refreshChips();
@@ -1536,23 +1516,23 @@ async function init() {
         if (e.target.classList.contains("sub-checkbox")) {
 
             const sub = e.target.dataset.sub;
-            const group = e.target.dataset.group;
 
             if (e.target.checked) {
 
-                retailState.selectedGroups =
-                    retailState.selectedGroups.filter(g => g !== group);
+                retailState.selectedGroups = [];
+                retailState.selectedSubgroups = [sub];
 
-                document.querySelectorAll(`.group-checkbox[data-group="${group}"]`)
+                document.querySelectorAll(".group-checkbox")
                     .forEach(cb => cb.checked = false);
 
-                if (!retailState.selectedSubgroups.includes(sub))
-                    retailState.selectedSubgroups.push(sub);
+                document.querySelectorAll(".sub-checkbox")
+                    .forEach(cb =>
+                        cb.checked = cb.dataset.sub === sub
+                    );
 
             } else {
 
-                retailState.selectedSubgroups =
-                    retailState.selectedSubgroups.filter(s => s !== sub);
+                retailState.selectedSubgroups = [];
             }
 
             refreshChips();
@@ -1566,13 +1546,11 @@ async function init() {
     });
 
     /* =========================
-       BOUTON LANCER RECHERCHE
+       LANCER RECHERCHE
     ========================== */
 
-    const launchBtn = document.getElementById("launch-retail");
-
-    if (launchBtn) {
-        launchBtn.addEventListener("click", () => {
+    document.getElementById("launch-retail")
+        .addEventListener("click", () => {
 
             if (retailState.lastLotCoords) {
                 fetchRetail(
@@ -1582,7 +1560,6 @@ async function init() {
             }
 
         });
-    }
 
     /* =========================
        RESET
