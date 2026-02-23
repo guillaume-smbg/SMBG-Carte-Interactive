@@ -1047,16 +1047,18 @@ body.carousel-open .leaflet-top.leaflet-left {
 }
 
 /* ============================================================
-   ZOOM LEAFLET – POSITION DYNAMIQUE
+   ZOOM LEAFLET – POSITION FORCÉE EN HAUT À DROITE
    ============================================================ */
 
-.leaflet-top.leaflet-right {
-    top: 20px;
-    right: 20px;
+.leaflet-control-zoom {
+    position: absolute !important;
+    top: 20px !important;
+    right: 20px !important;
+    left: auto !important;
+    bottom: auto !important;
     transition: right 0.3s ease;
 }
 
-/* Quand volet droit ouvert */
-#sidebar-right.open ~ #map-container .leaflet-top.leaflet-right {
-    right: 315px; /* 275px largeur panneau + marge */
+#sidebar-right.open ~ #map-container .leaflet-control-zoom {
+    right: 315px !important;
 }
