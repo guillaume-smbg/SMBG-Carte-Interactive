@@ -978,7 +978,15 @@ body.carousel-open .leaflet-top.leaflet-left {
 .module-title-left {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.module-title-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 /* =========================
@@ -1025,3 +1033,4 @@ body.carousel-open .leaflet-top.leaflet-left {
 #module-enseignes.collapsed #enseigne-count {
     display: none;
 }
+
