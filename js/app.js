@@ -978,13 +978,15 @@ function buildRetailHierarchy() {
             subDiv.appendChild(label);
         });
 
-        header.querySelector(".group-label")
-            .addEventListener("click", () => {
+      header.addEventListener("click", (e) => {
 
-                subDiv.style.display =
-                    subDiv.style.display === "none" ? "block" : "none";
+          // Si on clique sur la checkbox → on ne touche pas
+          if (e.target.classList.contains("group-checkbox")) return;
 
-            });
+          subDiv.style.display =
+              subDiv.style.display === "none" ? "block" : "none";
+
+      });
 
         groupDiv.appendChild(header);
         groupDiv.appendChild(subDiv);
