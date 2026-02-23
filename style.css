@@ -991,18 +991,16 @@ html, body {
 ========================= */
 
 .loader-inline {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
 
-    border: 3px solid rgba(255,255,255,0.25);
-    border-top: 3px solid #E1782C;
+    border: 2px solid rgba(255,255,255,0.25);
+    border-top: 2px solid #E1782C;
 
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 
-    margin-left: 18px;   /* 🔥 espace visuel fort */
-    transform: translateY(2px); /* léger alignement vertical */
-
+    margin-left: 22px;   /* 🔥 plus d’espace visuel */
     display: none;
 }
 
@@ -1036,4 +1034,5 @@ html, body {
 #module-enseignes.collapsed #enseigne-count {
     display: none;
 }
+
 
