@@ -992,9 +992,7 @@ body.carousel-open .leaflet-top.leaflet-left {
 .module-title-left {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 10px;
-    flex: 1;
 }
 
 .module-title-bar {
@@ -1047,4 +1045,5 @@ body.carousel-open .leaflet-top.leaflet-left {
 #module-enseignes.collapsed #enseigne-count {
     display: none;
 }
+
 
