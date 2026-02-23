@@ -5,14 +5,20 @@
 /* ============================================================
    1. CARTE
    ============================================================ */
+
 var map = L.map('map', {
-    zoomControl: true,
+    zoomControl: false,
     scrollWheelZoom: true,
     attributionControl: false,
     fadeAnimation: true,
     zoomAnimation: true,
     markerZoomAnimation: true
 });
+
+/* Ajout zoom en haut à droite */
+L.control.zoom({
+    position: 'topright'
+}).addTo(map);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19
