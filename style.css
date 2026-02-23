@@ -484,21 +484,6 @@ html, body {
     cursor: pointer;
 }
 
-/* ───────────────────────────────────────────── */
-/*           ZOOM LEAFLET BAS GAUCHE             */
-/* ───────────────────────────────────────────── */
-
-/* On déplace le bloc complet de contrôles */
-.leaflet-top.leaflet-left {
-    top: auto !important;
-    bottom: 30px !important;
-    left: 20px !important;
-}
-
-/* Quand carrousel affiché → on remonte */
-body.carousel-open .leaflet-top.leaflet-left {
-    bottom: 230px !important;
-}
 
 /* ───────────────────────────────────────────── */
 /*                MODULE ENSEIGNES               */
@@ -1047,18 +1032,22 @@ body.carousel-open .leaflet-top.leaflet-left {
 }
 
 /* ============================================================
-   ZOOM LEAFLET – POSITION FORCÉE EN HAUT À DROITE
+   ZOOM LEAFLET – HAUT DROITE PROPRE
    ============================================================ */
 
-.leaflet-control-zoom {
-    position: absolute !important;
+/* On force Leaflet à utiliser le container top-right */
+.leaflet-top.leaflet-left {
+    display: none !important;
+}
+
+/* Position officielle en haut à droite */
+.leaflet-top.leaflet-right {
     top: 20px !important;
     right: 20px !important;
-    left: auto !important;
-    bottom: auto !important;
     transition: right 0.3s ease;
 }
 
-#sidebar-right.open ~ #map-container .leaflet-control-zoom {
-    right: 315px !important;
+/* Décalage quand volet droit ouvert */
+#sidebar-right.open ~ #map-container .leaflet-top.leaflet-right {
+    right: 345px !important;
 }
