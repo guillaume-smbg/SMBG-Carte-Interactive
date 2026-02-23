@@ -1431,10 +1431,24 @@ async function init() {
 
         chipsContainer.innerHTML = "";
 
-        const allSelected = [
-            ...retailState.selectedGroups,
-            ...retailState.selectedSubgroups
-        ];
+        let allSelected = [];
+
+         /* 🔹 Les groupes d'abord */
+         retailState.selectedGroups.forEach(g => {
+             allSelected.push(g);
+         });
+
+         /* 🔹 Sous-groupes uniquement si leur groupe n'est PAS sélectionné */
+         retailState.selectedSubgroups.forEach(sub => {
+
+             const parentGroup = Object.keys(RETAIL_STRUCTURE)
+                 .find(g => RETAIL_STRUCTURE[g].subgroups[sub]);
+
+             if (!retailState.selectedGroups.includes(parentGroup)) {
+                 allSelected.push(sub);
+             }
+
+         });
 
         allSelected.forEach(name => {
 
