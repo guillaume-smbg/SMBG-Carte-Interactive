@@ -1046,4 +1046,17 @@ body.carousel-open .leaflet-top.leaflet-left {
     display: none;
 }
 
+/* ============================================================
+   ZOOM LEAFLET – POSITION DYNAMIQUE
+   ============================================================ */
 
+.leaflet-top.leaflet-right {
+    top: 20px;
+    right: 20px;
+    transition: right 0.3s ease;
+}
+
+/* Quand volet droit ouvert */
+#sidebar-right.open ~ #map-container .leaflet-top.leaflet-right {
+    right: 315px; /* 275px largeur panneau + marge */
+}
