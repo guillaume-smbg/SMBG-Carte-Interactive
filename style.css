@@ -728,6 +728,20 @@ body.carousel-open .leaflet-top.leaflet-left {
 
 /* ───────────── BOUTON RESET ───────────── */
 
+.btn-launch-retail {
+    width: 100%;
+    margin-top: 18px;
+    padding: 9px 12px;
+    background: #C67B42;
+    border: none;
+    border-radius: 6px;
+    color: #04253d;
+    font-family: 'Futura';
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
 .btn-reset-enseignes {
     width: 100%;
     margin-top: 30px;
