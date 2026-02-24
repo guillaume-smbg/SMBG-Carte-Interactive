@@ -1395,7 +1395,6 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
                          r.tags.amenity === tag ||
                          r.tags.leisure === tag
                      ) {
-                         marker._retailSubgroup = subName;
                      }
 
                  });
@@ -1737,37 +1736,153 @@ function refreshChips() {
     if (!chipsContainer) return;
 
     chipsContainer.innerHTML = "";
-    
-   retailState.selectedGroups.forEach(g => {
+
+    /* =========================
+       GROUPES
+    ========================== */
+
+    retailState.selectedGroups.forEach(groupName => {
 
         const chip = document.createElement("div");
         chip.className = "selected-item";
-        chip.innerHTML = `${g} <span class="remove">✕</span>`;
 
-        chip.querySelector(".remove").addEventListener("click", () => {
+        const baseColor = RETAIL_STRUCTURE[groupName]?.color || "#E1782C";
+        chip.style.background = baseColor;
+        chip.style.color = "#ffffff";
 
-            retailState.selectedGroups =
-                retailState.selectedGroups.filter(x => x !== g);
+        chip.innerHTML =
+            `${groupName} <span class="remove">✕</span>`;
 
-            document.querySelectorAll(".group-checkbox")
-                .forEach(cb => {
-                    if (cb.dataset.group === g)
-                        cb.checked = false;
-                });
+        /* Hover highlight */
+        chip.addEventListener("mouseenter", () => {
 
-            refreshChips();
+            const subgroups =
+                Object.keys(RETAIL_STRUCTURE[groupName].subgroups);
 
-            if (retailState.lastLotCoords)
-                fetchRetail(
-                    retailState.lastLotCoords.lat,
-                    retailState.lastLotCoords.lng
-                );
+            retailLayer.eachLayer(layer => {
+
+                if (subgroups.includes(layer._retailSubgroup)) {
+                    layer.setStyle({
+                        radius: 9,
+                        opacity: 1,
+                        fillOpacity: 1
+                    });
+                } else {
+                    layer.setStyle({
+                        radius: 5,
+                        opacity: 0.2,
+                        fillOpacity: 0.2
+                    });
+                }
+
+            });
+
         });
+
+        chip.addEventListener("mouseleave", () => {
+            resetHighlight();
+        });
+
+        /* Remove */
+        chip.querySelector(".remove")
+            .addEventListener("click", () => {
+
+                retailState.selectedGroups =
+                    retailState.selectedGroups.filter(g => g !== groupName);
+
+                document.querySelectorAll(".group-checkbox")
+                    .forEach(cb => {
+                        if (cb.dataset.group === groupName)
+                            cb.checked = false;
+                    });
+
+                refreshChips();
+
+                if (retailState.lastLotCoords)
+                    fetchRetail(
+                        retailState.lastLotCoords.lat,
+                        retailState.lastLotCoords.lng
+                    );
+            });
 
         chipsContainer.appendChild(chip);
 
     });
-   
+
+    /* =========================
+       SOUS-GROUPES
+    ========================== */
+
+    retailState.selectedSubgroups.forEach(subName => {
+
+        const chip = document.createElement("div");
+        chip.className = "selected-item";
+
+        let color = "#E1782C";
+
+        Object.entries(RETAIL_STRUCTURE)
+            .forEach(([gName, gData]) => {
+
+                const subs = Object.keys(gData.subgroups);
+
+                subs.forEach((s, index) => {
+
+                    if (s === subName) {
+
+                        color = generateSubgroupColor(
+                            gData.color,
+                            index,
+                            subs.length
+                        );
+
+                    }
+
+                });
+
+            });
+
+        chip.style.background = color;
+        chip.style.color = "#ffffff";
+
+        chip.innerHTML =
+            `${subName} <span class="remove">✕</span>`;
+
+        /* Hover highlight */
+        chip.addEventListener("mouseenter", () => {
+            highlightSubgroup(subName);
+        });
+
+        chip.addEventListener("mouseleave", () => {
+            resetHighlight();
+        });
+
+        /* Remove */
+        chip.querySelector(".remove")
+            .addEventListener("click", () => {
+
+                retailState.selectedSubgroups =
+                    retailState.selectedSubgroups
+                        .filter(s => s !== subName);
+
+                document.querySelectorAll(".sub-checkbox")
+                    .forEach(cb => {
+                        if (cb.dataset.sub === subName)
+                            cb.checked = false;
+                    });
+
+                refreshChips();
+
+                if (retailState.lastLotCoords)
+                    fetchRetail(
+                        retailState.lastLotCoords.lat,
+                        retailState.lastLotCoords.lng
+                    );
+            });
+
+        chipsContainer.appendChild(chip);
+
+    });
+
 }
 
 init();
