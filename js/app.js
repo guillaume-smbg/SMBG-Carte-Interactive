@@ -1371,13 +1371,41 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
             });
 
         });
+       
+         const marker = L.circleMarker([r.lat, r.lng], {
+             radius: 5,
+             color: color,
+             fillColor: color,
+             fillOpacity: 0.9
+         });
 
-        const marker = L.circleMarker([r.lat, r.lng], {
-            radius: 5,
-            color: color,
-            fillColor: color,
-            fillOpacity: 0.9
-        });
+         // 🔥 Stocker le sous-groupe correspondant
+         marker._retailSubgroup = null;
+
+         Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
+
+             Object.entries(gData.subgroups).forEach(([subName, tags]) => {
+
+                 if (!effectiveSubgroups.includes(subName)) return;
+
+                 tags.forEach(tag => {
+
+                     if (
+                         r.tags.shop === tag ||
+                         r.tags.amenity === tag ||
+                         r.tags.leisure === tag
+                     ) {
+                         marker._retailSubgroup = subName;
+                     }
+
+                 });
+
+             });
+
+         });
+
+         // 🔥 Stocker le sous-groupe pour interaction
+         marker._retailSubgroup = subName;
 
         marker.bindPopup(`
             <strong>${r.name}</strong><br>
@@ -1391,6 +1419,44 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
     const counter = document.getElementById("enseigne-count");
     if (counter)
         counter.innerHTML = count + " enseignes trouvées";
+}
+
+function highlightSubgroup(subName) {
+
+    retailLayer.eachLayer(layer => {
+
+        if (layer._retailSubgroup === subName) {
+
+            layer.setStyle({
+                radius: 9,
+                opacity: 1,
+                fillOpacity: 1
+            });
+
+        } else {
+
+            layer.setStyle({
+                radius: 5,
+                opacity: 0.25,
+                fillOpacity: 0.25
+            });
+
+        }
+
+    });
+}
+
+function resetHighlight() {
+
+    retailLayer.eachLayer(layer => {
+
+        layer.setStyle({
+            radius: 5,
+            opacity: 1,
+            fillOpacity: 0.9
+        });
+
+    });
 }
 
 /* =========================
@@ -1701,36 +1767,7 @@ function refreshChips() {
         chipsContainer.appendChild(chip);
 
     });
-
-    retailState.selectedSubgroups.forEach(s => {
-
-        const chip = document.createElement("div");
-        chip.className = "selected-item";
-        chip.innerHTML = `${s} <span class="remove">✕</span>`;
-
-        chip.querySelector(".remove").addEventListener("click", () => {
-
-            retailState.selectedSubgroups =
-                retailState.selectedSubgroups.filter(x => x !== s);
-
-            document.querySelectorAll(".sub-checkbox")
-                .forEach(cb => {
-                    if (cb.dataset.sub === s)
-                        cb.checked = false;
-                });
-
-            refreshChips();
-
-            if (retailState.lastLotCoords)
-                fetchRetail(
-                    retailState.lastLotCoords.lat,
-                    retailState.lastLotCoords.lng
-                );
-        });
-
-        chipsContainer.appendChild(chip);
-
-    });
+   
 }
 
 init();
