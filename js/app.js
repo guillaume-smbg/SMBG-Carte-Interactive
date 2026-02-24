@@ -1410,6 +1410,8 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
 
 marker._retailSubgroup = matchedSubgroup;
 
+if (!matchedSubgroup) return;
+
         marker.bindPopup(`
             <strong>${r.name}</strong><br>
             Distance : ${dist} m
