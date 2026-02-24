@@ -1027,20 +1027,24 @@ function buildRetailHierarchy() {
 
                 if (subCheckbox.checked) {
 
-                    retailState.selectedGroups = [];
-                    retailState.selectedSubgroups = [subName];
+                    // Retirer le groupe parent s'il est actif
+                    retailState.selectedGroups =
+                        retailState.selectedGroups.filter(g => g !== groupName);
 
-                    document.querySelectorAll(".group-checkbox")
-                        .forEach(cb => cb.checked = false);
-
-                    document.querySelectorAll(".sub-checkbox")
-                        .forEach(cb => cb.checked = cb === subCheckbox);
+                    // Ajouter ce sous-groupe s'il n'existe pas déjà
+                    if (!retailState.selectedSubgroups.includes(subName)) {
+                        retailState.selectedSubgroups.push(subName);
+                    }
 
                 } else {
-                    retailState.selectedSubgroups = [];
+
+                    // Retirer uniquement ce sous-groupe
+                    retailState.selectedSubgroups =
+                        retailState.selectedSubgroups.filter(s => s !== subName);
                 }
-               
+
                 refreshChips();
+
                 if (retailState.lastLotCoords) {
                     fetchRetail(
                         retailState.lastLotCoords.lat,
@@ -1052,32 +1056,39 @@ function buildRetailHierarchy() {
 
         /* --- DOMINANCE GROUPE --- */
 
-        checkbox.addEventListener("change", () => {
+            checkbox.addEventListener("change", () => {
 
-            if (checkbox.checked) {
+                const subNames = Object.keys(groupData.subgroups);
 
-                retailState.selectedGroups = [groupName];
-                retailState.selectedSubgroups = [];
+                if (checkbox.checked) {
 
-                document.querySelectorAll(".group-checkbox")
-                    .forEach(cb => cb.checked = cb === checkbox);
+                    // Retirer uniquement les sous-groupes de CE groupe
+                    retailState.selectedSubgroups =
+                        retailState.selectedSubgroups.filter(
+                            s => !subNames.includes(s)
+                        );
 
-                document.querySelectorAll(".sub-checkbox")
-                    .forEach(cb => cb.checked = false);
+                    // Ajouter le groupe s'il n'est pas déjà actif
+                    if (!retailState.selectedGroups.includes(groupName)) {
+                        retailState.selectedGroups.push(groupName);
+                    }
 
-            } else {
-                retailState.selectedGroups = [];
-                retailState.selectedSubgroups = [];
-            }
+                } else {
 
-            refreshChips();
-            if (retailState.lastLotCoords) {
-                fetchRetail(
-                    retailState.lastLotCoords.lat,
-                    retailState.lastLotCoords.lng
-                );
-            }
-        });
+                    // Retirer uniquement ce groupe
+                    retailState.selectedGroups =
+                        retailState.selectedGroups.filter(g => g !== groupName);
+                }
+
+                refreshChips();
+
+                if (retailState.lastLotCoords) {
+                    fetchRetail(
+                        retailState.lastLotCoords.lat,
+                        retailState.lastLotCoords.lng
+                    );
+                }
+            });
 
         header.addEventListener("click", (e) => {
 
@@ -1164,16 +1175,24 @@ function generateSubgroupColor(baseColor,index,total){
 
 function getEffectiveSubgroups(){
 
-    if(retailState.selectedSubgroups.length){
-        return [...retailState.selectedSubgroups];
-    }
+    const set = new Set();
 
-    if(retailState.selectedGroups.length){
-        const g=retailState.selectedGroups[0];
-        return Object.keys(RETAIL_STRUCTURE[g].subgroups);
-    }
+    // Ajouter tous les sous-groupes des groupes actifs
+    retailState.selectedGroups.forEach(group => {
 
-    return [];
+        if (RETAIL_STRUCTURE[group]) {
+            Object.keys(RETAIL_STRUCTURE[group].subgroups)
+                .forEach(sub => set.add(sub));
+        }
+
+    });
+
+    // Ajouter les sous-groupes sélectionnés individuellement
+    retailState.selectedSubgroups.forEach(sub => {
+        set.add(sub);
+    });
+
+    return Array.from(set);
 }
 
 /* =========================
