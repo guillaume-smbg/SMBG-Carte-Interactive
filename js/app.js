@@ -1633,6 +1633,28 @@ distanceSlider.addEventListener("input", () => {
 
 });
 
+// Click sur les points du slider
+document.querySelectorAll(".distance-dots span")
+    .forEach((dot, index) => {
+
+        dot.addEventListener("click", () => {
+
+            distanceSlider.value = index;
+
+            retailState.selectedDistance = DISTANCES[index];
+
+            retailLayer.clearLayers();
+
+            if (retailState.lastLotCoords) {
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
+            }
+        });
+
+    });
+   
 afficherPinsFiltrés(DATA);
 fermerPanneau();
 }
