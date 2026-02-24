@@ -1039,7 +1039,8 @@ function buildRetailHierarchy() {
                 } else {
                     retailState.selectedSubgroups = [];
                 }
-
+               
+                refreshChips();
                 if (retailState.lastLotCoords) {
                     fetchRetail(
                         retailState.lastLotCoords.lat,
@@ -1069,6 +1070,7 @@ function buildRetailHierarchy() {
                 retailState.selectedSubgroups = [];
             }
 
+            refreshChips();
             if (retailState.lastLotCoords) {
                 fetchRetail(
                     retailState.lastLotCoords.lat,
@@ -1545,67 +1547,6 @@ inputActivite.addEventListener("input", () => {
 });
 
 /* =========================
-   CHIPS
-========================= */
-
-function refreshChips() {
-
-    chipsContainer.innerHTML = "";
-
-    if (retailState.selectedGroups.length) {
-
-        const g = retailState.selectedGroups[0];
-
-        const chip = document.createElement("div");
-        chip.className = "selected-item";
-        chip.innerHTML = `${g} <span class="remove">✕</span>`;
-
-        chip.querySelector(".remove").addEventListener("click", () => {
-
-            retailState.selectedGroups = [];
-            document.querySelectorAll(".group-checkbox")
-                .forEach(cb => cb.checked = false);
-
-            refreshChips();
-
-            if (retailState.lastLotCoords)
-                fetchRetail(
-                    retailState.lastLotCoords.lat,
-                    retailState.lastLotCoords.lng
-                );
-        });
-
-        chipsContainer.appendChild(chip);
-    }
-
-    if (retailState.selectedSubgroups.length) {
-
-        const s = retailState.selectedSubgroups[0];
-
-        const chip = document.createElement("div");
-        chip.className = "selected-item";
-        chip.innerHTML = `${s} <span class="remove">✕</span>`;
-
-        chip.querySelector(".remove").addEventListener("click", () => {
-
-            retailState.selectedSubgroups = [];
-            document.querySelectorAll(".sub-checkbox")
-                .forEach(cb => cb.checked = false);
-
-            refreshChips();
-
-            if (retailState.lastLotCoords)
-                fetchRetail(
-                    retailState.lastLotCoords.lat,
-                    retailState.lastLotCoords.lng
-                );
-        });
-
-        chipsContainer.appendChild(chip);
-    }
-}
-
-/* =========================
    LANCER RECHERCHE
 ========================= */
 
@@ -1666,6 +1607,74 @@ distanceSlider.addEventListener("input", () => {
 
 afficherPinsFiltrés(DATA);
 fermerPanneau();
+}
+
+/* =========================
+   CHIPS GLOBAL
+========================= */
+
+function refreshChips() {
+
+    const chipsContainer =
+        document.getElementById("selected-activites");
+
+    if (!chipsContainer) return;
+
+    chipsContainer.innerHTML = "";
+
+    if (retailState.selectedGroups.length) {
+
+        const g = retailState.selectedGroups[0];
+
+        const chip = document.createElement("div");
+        chip.className = "selected-item";
+        chip.innerHTML = `${g} <span class="remove">✕</span>`;
+
+        chip.querySelector(".remove").addEventListener("click", () => {
+
+            retailState.selectedGroups = [];
+
+            document.querySelectorAll(".group-checkbox")
+                .forEach(cb => cb.checked = false);
+
+            refreshChips();
+
+            if (retailState.lastLotCoords)
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
+        });
+
+        chipsContainer.appendChild(chip);
+    }
+
+    if (retailState.selectedSubgroups.length) {
+
+        const s = retailState.selectedSubgroups[0];
+
+        const chip = document.createElement("div");
+        chip.className = "selected-item";
+        chip.innerHTML = `${s} <span class="remove">✕</span>`;
+
+        chip.querySelector(".remove").addEventListener("click", () => {
+
+            retailState.selectedSubgroups = [];
+
+            document.querySelectorAll(".sub-checkbox")
+                .forEach(cb => cb.checked = false);
+
+            refreshChips();
+
+            if (retailState.lastLotCoords)
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
+        });
+
+        chipsContainer.appendChild(chip);
+    }
 }
 
 init();
