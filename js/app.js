@@ -1285,7 +1285,9 @@ async function init() {
     remplirCheckbox("filter-nature", valeursUniques("Nature"));
     remplirCheckbox("filter-emplacement", valeursUniques("Emplacement"));
     remplirCheckbox("filter-typologie", valeursUniques("Typologie"));
-
+    remplirCheckbox("filter-extraction", valeursUniques("Extraction"));
+    remplirCheckbox("filter-restauration", valeursUniques("Restauration"));
+   
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"] || 0)));
     initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"] || 0)));
 
