@@ -630,7 +630,7 @@ html, body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 1;
+    z-index: 4;
 }
 
 /* Chrome thumb */
@@ -671,7 +671,7 @@ html, body {
     width: 100%;
     transform: translateY(-50%);
     pointer-events: auto;
-    z-index: 5;
+    z-index: 2;
 }
 
 .distance-dots span {
@@ -683,6 +683,9 @@ html, body {
     transform: translate(-50%, -50%);
     cursor: pointer;
     transition: transform 0.15s ease;
+
+    pointer-events: auto;
+    z-index: 3;
 }
 
 .distance-dots span:hover {
@@ -1038,6 +1041,7 @@ html, body {
 #module-enseignes.collapsed #enseigne-count {
     display: none;
 }
+
 
 
 
