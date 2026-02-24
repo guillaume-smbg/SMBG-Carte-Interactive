@@ -1311,7 +1311,7 @@ async function _fetchRetail(lat, lng) {
         const data = await res.json();
 
         const results = (data.elements || [])
-            .filter(el => el.tags && (el.tags.name || el.tags.brand))
+            .filter(el => el.tags)
             .map(el => ({
                 name: el.tags.brand || el.tags.name,
                 lat: el.lat || el.center?.lat,
