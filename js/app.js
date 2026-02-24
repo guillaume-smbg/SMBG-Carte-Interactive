@@ -1031,6 +1031,13 @@ function buildRetailHierarchy() {
                     retailState.selectedGroups =
                         retailState.selectedGroups.filter(g => g !== groupName);
 
+                    // Décocher visuellement le groupe parent
+                    document.querySelectorAll(".group-checkbox")
+                        .forEach(cb => {
+                          if (cb.dataset.group === groupName)
+                            cb.checked = false;
+                         });
+                   
                     // Ajouter ce sous-groupe s'il n'existe pas déjà
                     if (!retailState.selectedSubgroups.includes(subName)) {
                         retailState.selectedSubgroups.push(subName);
@@ -1640,10 +1647,8 @@ function refreshChips() {
     if (!chipsContainer) return;
 
     chipsContainer.innerHTML = "";
-
-    if (retailState.selectedGroups.length) {
-
-        const g = retailState.selectedGroups[0];
+    
+   retailState.selectedGroups.forEach(g => {
 
         const chip = document.createElement("div");
         chip.className = "selected-item";
@@ -1651,10 +1656,14 @@ function refreshChips() {
 
         chip.querySelector(".remove").addEventListener("click", () => {
 
-            retailState.selectedGroups = [];
+            retailState.selectedGroups =
+                retailState.selectedGroups.filter(x => x !== g);
 
             document.querySelectorAll(".group-checkbox")
-                .forEach(cb => cb.checked = false);
+                .forEach(cb => {
+                    if (cb.dataset.group === g)
+                        cb.checked = false;
+                });
 
             refreshChips();
 
@@ -1666,11 +1675,10 @@ function refreshChips() {
         });
 
         chipsContainer.appendChild(chip);
-    }
 
-    if (retailState.selectedSubgroups.length) {
+    });
 
-        const s = retailState.selectedSubgroups[0];
+    retailState.selectedSubgroups.forEach(s => {
 
         const chip = document.createElement("div");
         chip.className = "selected-item";
@@ -1678,10 +1686,14 @@ function refreshChips() {
 
         chip.querySelector(".remove").addEventListener("click", () => {
 
-            retailState.selectedSubgroups = [];
+            retailState.selectedSubgroups =
+                retailState.selectedSubgroups.filter(x => x !== s);
 
             document.querySelectorAll(".sub-checkbox")
-                .forEach(cb => cb.checked = false);
+                .forEach(cb => {
+                    if (cb.dataset.sub === s)
+                        cb.checked = false;
+                });
 
             refreshChips();
 
@@ -1693,7 +1705,8 @@ function refreshChips() {
         });
 
         chipsContainer.appendChild(chip);
-    }
+
+    });
 }
 
 init();
