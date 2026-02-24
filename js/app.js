@@ -1345,75 +1345,83 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
 
         if (count >= MAX_MARKERS) return;
 
+        let matchedSubgroup = null;
+
+        /* =============================
+           1️⃣ Identifier le sous-groupe correspondant
+        ============================== */
+
+        Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
+
+            Object.entries(gData.subgroups).forEach(([subName, tags]) => {
+
+                if (!effectiveSubgroups.includes(subName)) return;
+
+                tags.forEach(tag => {
+
+                    if (
+                        r.tags.shop === tag ||
+                        r.tags.amenity === tag ||
+                        r.tags.leisure === tag
+                    ) {
+                        matchedSubgroup = subName;
+                    }
+
+                });
+
+            });
+
+        });
+
+        /* Si aucun sous-groupe match → on ignore */
+        if (!matchedSubgroup) return;
+
+        /* =============================
+           2️⃣ Calcul couleur
+        ============================== */
+
+        let color = "#E1782C";
+
+        Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
+
+            const subs = Object.keys(gData.subgroups);
+
+            subs.forEach((subName, index) => {
+
+                if (subName === matchedSubgroup) {
+
+                    color = generateSubgroupColor(
+                        gData.color,
+                        index,
+                        subs.length
+                    );
+
+                }
+
+            });
+
+        });
+
+        /* =============================
+           3️⃣ Création du marker
+        ============================== */
+
         const dist = Math.round(distanceMeters(
             {lat: lotLat, lng: lotLng},
             {lat: r.lat, lng: r.lng}
         ));
 
-        let color = "#E1782C";
+        const marker = L.circleMarker([r.lat, r.lng], {
+            radius: 5,
+            color: color,
+            fillColor: color,
+            fillOpacity: 0.9
+        });
 
-        if (matchedSubgroup) {
-
-            Object.entries(RETAIL_STRUCTURE)
-                .forEach(([gName, gData]) => {
-
-                    const subs = Object.keys(gData.subgroups);
-
-                    subs.forEach((subName, index) => {
-
-                        if (subName === matchedSubgroup) {
-
-                            color = generateSubgroupColor(
-                                gData.color,
-                                index,
-                                subs.length
-                            );
-
-                        }
-
-                    });
-
-                });
-
-        }
-       
-         const marker = L.circleMarker([r.lat, r.lng], {
-             radius: 5,
-             color: color,
-             fillColor: color,
-             fillOpacity: 0.9
-         });
-
-         let matchedSubgroup = null;
-
-         Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
-
-             Object.entries(gData.subgroups).forEach(([subName, tags]) => {
-
-                 if (!effectiveSubgroups.includes(subName)) return;
-
-                 tags.forEach(tag => {
-
-                     if (
-                         r.tags.shop === tag ||
-                         r.tags.amenity === tag ||
-                         r.tags.leisure === tag
-                     ) {
-                         matchedSubgroup = subName;
-                     }
-
-                 });
-
-             });
-
-         });
-
-marker._retailSubgroup = matchedSubgroup;
-
-if (!matchedSubgroup) return;
+        marker._retailSubgroup = matchedSubgroup;
 
         marker.bindPopup(`
-            <strong>${r.name}</strong><br>
+            <strong>${r.name || "Enseigne"}</strong><br>
             Distance : ${dist} m
         `);
 
