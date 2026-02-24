@@ -685,10 +685,9 @@ html, body {
 
 /* Alignement exact bord gauche / bord droit */
 .distance-dots span:nth-child(1) { left: 0%; transform: translate(0, -50%); }
-.distance-dots span:nth-child(2) { left: 25%; }
-.distance-dots span:nth-child(3) { left: 50%; }
-.distance-dots span:nth-child(4) { left: 75%; }
-.distance-dots span:nth-child(5) { left: 100%; transform: translate(-100%, -50%); }
+.distance-dots span:nth-child(2) { left: 33.33%; }
+.distance-dots span:nth-child(3) { left: 66.66%; }
+.distance-dots span:nth-child(4) { left: 100%; transform: translate(-100%, -50%); }
 
 /* ───────────── LABELS ───────────── */
 
@@ -706,10 +705,9 @@ html, body {
 }
 
 .distance-values span:nth-child(1) { left: 0%; transform: translateX(0); }
-.distance-values span:nth-child(2) { left: 25%; }
-.distance-values span:nth-child(3) { left: 50%; }
-.distance-values span:nth-child(4) { left: 75%; }
-.distance-values span:nth-child(5) { left: 100%; transform: translateX(-100%); }
+.distance-values span:nth-child(2) { left: 33.33%; }
+.distance-values span:nth-child(3) { left: 66.66%; }
+.distance-values span:nth-child(4) { left: 100%; transform: translateX(-100%); }
 
 /* ───────────── BOUTON RESET ───────────── */
 
@@ -1034,6 +1032,7 @@ html, body {
 #module-enseignes.collapsed #enseigne-count {
     display: none;
 }
+
 
 
 
