@@ -1070,20 +1070,29 @@ function buildRetailHierarchy() {
 
                 if (checkbox.checked) {
 
-                    // Retirer uniquement les sous-groupes de CE groupe
+                    // 🔥 Retirer sous-groupes de CE groupe
                     retailState.selectedSubgroups =
                         retailState.selectedSubgroups.filter(
                             s => !subNames.includes(s)
                         );
 
-                    // Ajouter le groupe s'il n'est pas déjà actif
+                    // 🔥 Décocher visuellement ces sous-groupes
+                    document.querySelectorAll(".sub-checkbox")
+                        .forEach(cb => {
+                            if (
+                                cb.dataset.group === groupName &&
+                                subNames.includes(cb.dataset.sub)
+                            ) {
+                                cb.checked = false;
+                            }
+                        });
+
                     if (!retailState.selectedGroups.includes(groupName)) {
                         retailState.selectedGroups.push(groupName);
                     }
 
                 } else {
 
-                    // Retirer uniquement ce groupe
                     retailState.selectedGroups =
                         retailState.selectedGroups.filter(g => g !== groupName);
                 }
@@ -1096,6 +1105,7 @@ function buildRetailHierarchy() {
                         retailState.lastLotCoords.lng
                     );
                 }
+
             });
 
         header.addEventListener("click", (e) => {
@@ -1342,35 +1352,30 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
 
         let color = "#E1782C";
 
-        Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
+        if (matchedSubgroup) {
 
-            const subs = Object.keys(gData.subgroups);
+            Object.entries(RETAIL_STRUCTURE)
+                .forEach(([gName, gData]) => {
 
-            subs.forEach((subName, index) => {
+                    const subs = Object.keys(gData.subgroups);
 
-                if (!effectiveSubgroups.includes(subName)) return;
+                    subs.forEach((subName, index) => {
 
-                const tags = gData.subgroups[subName];
+                        if (subName === matchedSubgroup) {
 
-                tags.forEach(tag => {
+                            color = generateSubgroupColor(
+                                gData.color,
+                                index,
+                                subs.length
+                            );
 
-                    if (
-                        r.tags.shop === tag ||
-                        r.tags.amenity === tag ||
-                        r.tags.leisure === tag
-                    ) {
-                        color = generateSubgroupColor(
-                            gData.color,
-                            index,
-                            subs.length
-                        );
-                    }
+                        }
+
+                    });
 
                 });
 
-            });
-
-        });
+        }
        
          const marker = L.circleMarker([r.lat, r.lng], {
              radius: 5,
@@ -1379,8 +1384,7 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
              fillOpacity: 0.9
          });
 
-         // 🔥 Stocker le sous-groupe correspondant
-         marker._retailSubgroup = null;
+         let matchedSubgroup = null;
 
          Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
 
@@ -1395,6 +1399,7 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
                          r.tags.amenity === tag ||
                          r.tags.leisure === tag
                      ) {
+                         matchedSubgroup = subName;
                      }
 
                  });
@@ -1403,8 +1408,7 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
 
          });
 
-         // 🔥 Stocker le sous-groupe pour interaction
-         marker._retailSubgroup = subName;
+marker._retailSubgroup = matchedSubgroup;
 
         marker.bindPopup(`
             <strong>${r.name}</strong><br>
