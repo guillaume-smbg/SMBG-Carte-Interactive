@@ -765,7 +765,7 @@ function appliquerFiltres() {
    ============================================================ */
 
 const DISTANCES = [2000, 5000, 10000, 20000, 50000];
-const MAX_MARKERS = 1500;
+const MAX_MARKERS = 500;
 
 /* =========================
    TAXONOMIE COMPLÈTE
@@ -946,6 +946,7 @@ let retailState = {
 
 let retailLayer = L.layerGroup().addTo(map);
 let retailRequestController = null;
+let retailDebounceTimer = null;
 
 /* =========================
    BUILD HIERARCHY
@@ -1231,7 +1232,7 @@ function buildOverpassQuery(lat, lng, radius, subgroups) {
     });
 
     return `
-        [out:json][timeout:25];
+        [out:json][timeout:15];
         (
             ${filters.join("\n")}
         );
@@ -1243,8 +1244,17 @@ function buildOverpassQuery(lat, lng, radius, subgroups) {
    FETCH
 ========================= */
 
-async function fetchRetail(lat, lng) {
+function fetchRetail(lat, lng) {
 
+    clearTimeout(retailDebounceTimer);
+
+    retailDebounceTimer = setTimeout(() => {
+        _fetchRetail(lat, lng);
+    }, 250);
+}
+
+async function _fetchRetail(lat, lng) {
+   
     const effectiveSubgroups = getEffectiveSubgroups();
 
     if (!effectiveSubgroups.length) {
@@ -1482,15 +1492,6 @@ document.addEventListener("click", (e) => {
         return;
     }
 
-    if (
-        !isDropdownOpen &&
-        clickedOnMap &&
-        !clickedInsideModule &&
-        !clickedOnPin
-    ) {
-        module.style.display = "none";
-    }
-
 });
 
 /* =========================
@@ -1579,13 +1580,14 @@ inputActivite.addEventListener("input", () => {
 document.getElementById("launch-retail")
     .addEventListener("click", () => {
 
-        if (retailState.lastLotCoords) {
-            fetchRetail(
-                retailState.lastLotCoords.lat,
-                retailState.lastLotCoords.lng
-            );
-        }
+        if (!retailState.lastLotCoords) return;
 
+        retailLayer.clearLayers(); // force refresh visuel
+
+        fetchRetail(
+            retailState.lastLotCoords.lat,
+            retailState.lastLotCoords.lng
+        );
     });
 
 /* =========================
