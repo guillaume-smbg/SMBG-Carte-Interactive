@@ -1422,12 +1422,8 @@ async function init() {
 
         module.classList.toggle("collapsed");
 
-        if (module.classList.contains("collapsed")) {
-            toggleBtn.textContent = "+";
-        } else {
-            toggleBtn.textContent = "−";
-        }
-
+        toggleBtn.textContent =
+            module.classList.contains("collapsed") ? "+" : "−";
     });
 
 /* =========================
@@ -1440,40 +1436,24 @@ inputActivite.addEventListener("focus", () => {
 
 document.addEventListener("click", (e) => {
 
-    const clickedInsideDropdown =
-        e.target.closest("#retail-dropdown");
+    const clickedInsideDropdown = e.target.closest("#retail-dropdown");
+    const clickedOnSearchInput = e.target.closest("#search-activite");
+    const clickedInsideModule = e.target.closest("#module-enseignes");
+    const clickedOnPin = e.target.closest(".leaflet-marker-icon");
+    const clickedOnMap = e.target.closest("#map");
+    const isDropdownOpen = dropdown.classList.contains("open");
 
-    const clickedOnSearchInput =
-        e.target.closest("#search-activite");
-
-    const clickedInsideModule =
-        e.target.closest("#module-enseignes");
-
-    const clickedOnPin =
-        e.target.closest(".leaflet-marker-icon");
-
-    const clickedOnMap =
-        e.target.closest("#map");
-
-    const isDropdownOpen =
-        dropdown.classList.contains("open");
-
-    /* 🔹 1 — Si dropdown ouvert → on ferme uniquement si clic hors dropdown ET hors champ */
     if (
         isDropdownOpen &&
         !clickedInsideDropdown &&
         !clickedOnSearchInput
     ) {
-
         dropdown.classList.remove("open");
-
         inputActivite.value = "";
         autocomplete.style.display = "none";
-
         return;
     }
 
-    /* 🔹 2 — Si dropdown fermé → clic carte masque le module */
     if (
         !isDropdownOpen &&
         clickedOnMap &&
@@ -1485,254 +1465,152 @@ document.addEventListener("click", (e) => {
 
 });
 
-    /* =========================
-       AUTOCOMPLETE ACTIVITÉ
-    ========================== */
+/* =========================
+   AUTOCOMPLETE ACTIVITÉ
+========================= */
 
-    inputActivite.addEventListener("input", () => {
+inputActivite.addEventListener("input", () => {
 
-        const value = inputActivite.value.toLowerCase().trim();
-        autocomplete.innerHTML = "";
+    const value = inputActivite.value.toLowerCase().trim();
+    autocomplete.innerHTML = "";
 
-        if (!value) {
-            autocomplete.style.display = "none";
-            return;
-        }
-
-        const matches = [];
-
-        Object.entries(RETAIL_STRUCTURE).forEach(([groupName, groupData]) => {
-
-            if (groupName.toLowerCase().includes(value))
-                matches.push({ type: "group", name: groupName });
-
-            Object.keys(groupData.subgroups).forEach(subName => {
-                if (subName.toLowerCase().includes(value))
-                    matches.push({ type: "sub", name: subName });
-            });
-
-        });
-
-        matches.forEach(m => {
-
-            const div = document.createElement("div");
-            div.className = "autocomplete-item";
-            div.textContent = m.name;
-
-            div.addEventListener("click", () => {
-
-                if (m.type === "group") {
-
-                    retailState.selectedGroups = [m.name];
-                    retailState.selectedSubgroups = [];
-
-                    document.querySelectorAll(".group-checkbox")
-                        .forEach(cb => cb.checked = cb.dataset.group === m.name);
-
-                    document.querySelectorAll(".sub-checkbox")
-                        .forEach(cb => cb.checked = false);
-
-                } else {
-
-                    retailState.selectedGroups = [];
-                    retailState.selectedSubgroups = [m.name];
-
-                    document.querySelectorAll(".group-checkbox")
-                        .forEach(cb => cb.checked = false);
-
-                    document.querySelectorAll(".sub-checkbox")
-                        .forEach(cb =>
-                            cb.checked = cb.dataset.sub === m.name
-                        );
-                }
-
-                inputActivite.value = "";
-                autocomplete.style.display = "none";
-
-                refreshChips();
-
-                if (retailState.lastLotCoords)
-                    fetchRetail(
-                        retailState.lastLotCoords.lat,
-                        retailState.lastLotCoords.lng
-                    );
-            });
-
-            autocomplete.appendChild(div);
-        });
-
-        autocomplete.style.display = matches.length ? "block" : "none";
-    });
-
-    /* =========================
-       CHIPS
-    ========================== */
-
-    function refreshChips() {
-
-        chipsContainer.innerHTML = "";
-
-        if (retailState.selectedGroups.length) {
-
-            const g = retailState.selectedGroups[0];
-
-            const chip = document.createElement("div");
-            chip.className = "selected-item";
-            chip.innerHTML = `${g} <span class="remove">✕</span>`;
-
-            chip.querySelector(".remove").addEventListener("click", () => {
-
-                retailState.selectedGroups = [];
-                document.querySelectorAll(".group-checkbox")
-                    .forEach(cb => cb.checked = false);
-
-                refreshChips();
-                retailLayer.clearLayers();
-            });
-
-            chipsContainer.appendChild(chip);
-        }
-
-        if (retailState.selectedSubgroups.length) {
-
-            const s = retailState.selectedSubgroups[0];
-
-            const chip = document.createElement("div");
-            chip.className = "selected-item";
-            chip.innerHTML = `${s} <span class="remove">✕</span>`;
-
-            chip.querySelector(".remove").addEventListener("click", () => {
-
-                retailState.selectedSubgroups = [];
-                document.querySelectorAll(".sub-checkbox")
-                    .forEach(cb => cb.checked = false);
-
-                refreshChips();
-                retailLayer.clearLayers();
-            });
-
-            chipsContainer.appendChild(chip);
-        }
+    if (!value) {
+        autocomplete.style.display = "none";
+        return;
     }
 
-    /* =========================
-       CHECKBOXES
-    ========================== */
+    const matches = [];
 
-    document.addEventListener("change", (e) => {
+    Object.entries(RETAIL_STRUCTURE).forEach(([groupName, groupData]) => {
 
-        if (e.target.classList.contains("group-checkbox")) {
+        if (groupName.toLowerCase().includes(value))
+            matches.push({ type: "group", name: groupName });
 
-            const group = e.target.dataset.group;
-
-            if (e.target.checked) {
-
-                retailState.selectedGroups = [group];
-                retailState.selectedSubgroups = [];
-
-                document.querySelectorAll(".group-checkbox")
-                    .forEach(cb =>
-                        cb.checked = cb.dataset.group === group
-                    );
-
-                document.querySelectorAll(".sub-checkbox")
-                    .forEach(cb => cb.checked = false);
-
-            } else {
-
-                retailState.selectedGroups = [];
-            }
-
-            refreshChips();
-
-            if (retailState.lastLotCoords)
-                fetchRetail(
-                    retailState.lastLotCoords.lat,
-                    retailState.lastLotCoords.lng
-                );
-        }
-
-        if (e.target.classList.contains("sub-checkbox")) {
-
-            const sub = e.target.dataset.sub;
-
-            if (e.target.checked) {
-
-                retailState.selectedGroups = [];
-                retailState.selectedSubgroups = [sub];
-
-                document.querySelectorAll(".group-checkbox")
-                    .forEach(cb => cb.checked = false);
-
-                document.querySelectorAll(".sub-checkbox")
-                    .forEach(cb =>
-                        cb.checked = cb.dataset.sub === sub
-                    );
-
-            } else {
-
-                retailState.selectedSubgroups = [];
-            }
-
-            refreshChips();
-
-            if (retailState.lastLotCoords)
-                fetchRetail(
-                    retailState.lastLotCoords.lat,
-                    retailState.lastLotCoords.lng
-                );
-        }
-    });
-
-    /* =========================
-       LANCER RECHERCHE
-    ========================== */
-
-    document.getElementById("launch-retail")
-        .addEventListener("click", () => {
-
-            if (retailState.lastLotCoords) {
-                fetchRetail(
-                    retailState.lastLotCoords.lat,
-                    retailState.lastLotCoords.lng
-                );
-            }
-
+        Object.keys(groupData.subgroups).forEach(subName => {
+            if (subName.toLowerCase().includes(value))
+                matches.push({ type: "sub", name: subName });
         });
 
-    /* =========================
-       RESET
-    ========================== */
+    });
 
-    document.getElementById("reset-enseignes")
-        .addEventListener("click", () => {
+    matches.forEach(m => {
+
+        const div = document.createElement("div");
+        div.className = "autocomplete-item";
+        div.textContent = m.name;
+
+        div.addEventListener("click", () => {
+
+            if (m.type === "group") {
+
+                retailState.selectedGroups = [m.name];
+                retailState.selectedSubgroups = [];
+
+                document.querySelectorAll(".group-checkbox")
+                    .forEach(cb => cb.checked = cb.dataset.group === m.name);
+
+                document.querySelectorAll(".sub-checkbox")
+                    .forEach(cb => cb.checked = false);
+
+            } else {
+
+                retailState.selectedGroups = [];
+                retailState.selectedSubgroups = [m.name];
+
+                document.querySelectorAll(".group-checkbox")
+                    .forEach(cb => cb.checked = false);
+
+                document.querySelectorAll(".sub-checkbox")
+                    .forEach(cb =>
+                        cb.checked = cb.dataset.sub === m.name
+                    );
+            }
+
+            inputActivite.value = "";
+            autocomplete.style.display = "none";
+
+            refreshChips();
+
+            if (retailState.lastLotCoords)
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
+        });
+
+        autocomplete.appendChild(div);
+    });
+
+    autocomplete.style.display = matches.length ? "block" : "none";
+});
+
+/* =========================
+   CHIPS
+========================= */
+
+function refreshChips() {
+
+    chipsContainer.innerHTML = "";
+
+    if (retailState.selectedGroups.length) {
+
+        const g = retailState.selectedGroups[0];
+
+        const chip = document.createElement("div");
+        chip.className = "selected-item";
+        chip.innerHTML = `${g} <span class="remove">✕</span>`;
+
+        chip.querySelector(".remove").addEventListener("click", () => {
 
             retailState.selectedGroups = [];
-            retailState.selectedSubgroups = [];
-
             document.querySelectorAll(".group-checkbox")
                 .forEach(cb => cb.checked = false);
 
+            refreshChips();
+
+            if (retailState.lastLotCoords)
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
+        });
+
+        chipsContainer.appendChild(chip);
+    }
+
+    if (retailState.selectedSubgroups.length) {
+
+        const s = retailState.selectedSubgroups[0];
+
+        const chip = document.createElement("div");
+        chip.className = "selected-item";
+        chip.innerHTML = `${s} <span class="remove">✕</span>`;
+
+        chip.querySelector(".remove").addEventListener("click", () => {
+
+            retailState.selectedSubgroups = [];
             document.querySelectorAll(".sub-checkbox")
                 .forEach(cb => cb.checked = false);
 
-            retailLayer.clearLayers();
             refreshChips();
 
-            const counter = document.getElementById("enseigne-count");
-            if (counter) counter.innerHTML = "";
+            if (retailState.lastLotCoords)
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
         });
 
-    /* =========================
-       DISTANCE
-    ========================== */
+        chipsContainer.appendChild(chip);
+    }
+}
 
-    const distanceSlider = document.getElementById("distance-slider");
+/* =========================
+   LANCER RECHERCHE
+========================= */
 
-    distanceSlider.addEventListener("input", () => {
-
-        const index = parseInt(distanceSlider.value);
-        retailState.selectedDistance = DISTANCES[index];
+document.getElementById("launch-retail")
+    .addEventListener("click", () => {
 
         if (retailState.lastLotCoords) {
             fetchRetail(
@@ -1743,8 +1621,51 @@ document.addEventListener("click", (e) => {
 
     });
 
-    afficherPinsFiltrés(DATA);
-    fermerPanneau();
+/* =========================
+   RESET
+========================= */
+
+document.getElementById("reset-enseignes")
+    .addEventListener("click", () => {
+
+        retailState.selectedGroups = [];
+        retailState.selectedSubgroups = [];
+
+        document.querySelectorAll(".group-checkbox")
+            .forEach(cb => cb.checked = false);
+
+        document.querySelectorAll(".sub-checkbox")
+            .forEach(cb => cb.checked = false);
+
+        retailLayer.clearLayers();
+        refreshChips();
+
+        const counter = document.getElementById("enseigne-count");
+        if (counter) counter.innerHTML = "";
+    });
+
+/* =========================
+   DISTANCE
+========================= */
+
+const distanceSlider = document.getElementById("distance-slider");
+
+distanceSlider.addEventListener("input", () => {
+
+    const index = parseInt(distanceSlider.value);
+    retailState.selectedDistance = DISTANCES[index];
+
+    if (retailState.lastLotCoords) {
+        fetchRetail(
+            retailState.lastLotCoords.lat,
+            retailState.lastLotCoords.lng
+        );
+    }
+
+});
+
+afficherPinsFiltrés(DATA);
+fermerPanneau();
 }
 
 init();
