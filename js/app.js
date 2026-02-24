@@ -1242,7 +1242,7 @@ function buildOverpassQuery(lat, lng, radius, subgroups) {
     });
 
     return `
-        [out:json][timeout:15];
+        [out:json][timeout:10];
         (
             ${filters.join("\n")}
         );
@@ -1263,8 +1263,8 @@ function fetchRetail(lat, lng) {
     }, 250);
 }
 
-async function _fetchRetail(lat, lng) {
-   
+async function _fetchRetail(lat, lng, retryCount = 0) {
+
     const effectiveSubgroups = getEffectiveSubgroups();
 
     if (!effectiveSubgroups.length) {
@@ -1284,10 +1284,18 @@ async function _fetchRetail(lat, lng) {
 
         retailRequestController = new AbortController();
 
-        const key = `${lat}_${lng}_${retailState.selectedDistance}_${effectiveSubgroups.sort().join("-")}`;
+        const key =
+            `${lat}_${lng}_${retailState.selectedDistance}_` +
+            `${effectiveSubgroups.sort().join("-")}`;
 
-        if (retailState.cache[key]) {
-            renderRetail(retailState.cache[key], lat, lng, effectiveSubgroups);
+        /* 🔹 Si cache existe mais vide → on ignore */
+        if (retailState.cache[key] && retailState.cache[key].length) {
+            renderRetail(
+                retailState.cache[key],
+                lat,
+                lng,
+                effectiveSubgroups
+            );
             hideInlineLoader();
             return;
         }
@@ -1308,6 +1316,10 @@ async function _fetchRetail(lat, lng) {
             }
         );
 
+        if (!res.ok) {
+            throw new Error("HTTP error");
+        }
+
         const data = await res.json();
 
         const results = (data.elements || [])
@@ -1319,13 +1331,27 @@ async function _fetchRetail(lat, lng) {
                 tags: el.tags
             }));
 
+        /* 🔁 Si aucun résultat et distance > 10km → retry une fois */
+        if (!results.length && retryCount < 1) {
+
+            console.warn("Retry Overpass…");
+
+            return _fetchRetail(lat, lng, retryCount + 1);
+        }
+
         retailState.cache[key] = results;
 
         renderRetail(results, lat, lng, effectiveSubgroups);
 
     } catch (err) {
+
         if (err.name !== "AbortError") {
-            console.error("Erreur Overpass:", err);
+
+            console.warn("Overpass error → retry");
+
+            if (retryCount < 1) {
+                return _fetchRetail(lat, lng, retryCount + 1);
+            }
         }
     }
 
