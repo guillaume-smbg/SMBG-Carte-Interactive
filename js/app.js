@@ -764,7 +764,7 @@ function appliquerFiltres() {
    14. MODULE ENSEIGNES – MOTEUR RETAIL V6 FINAL COMPLET
    ============================================================ */
 
-const DISTANCES = [2000, 5000, 10000, 20000, 50000];
+const DISTANCES = [2000, 5000, 10000, 20000];
 const MAX_MARKERS = 500;
 
 /* =========================
