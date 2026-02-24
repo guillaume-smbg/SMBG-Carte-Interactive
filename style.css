@@ -670,7 +670,7 @@ html, body {
     left: 0;
     width: 100%;
     transform: translateY(-50%);
-    pointer-events: none;
+    pointer-events: auto;
     z-index: 2;
 }
 
@@ -681,6 +681,12 @@ html, body {
     background: #E1782C;
     border-radius: 50%;
     transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.distance-dots span:hover {
+    transform: translate(-50%, -50%) scale(1.25);
 }
 
 /* Alignement exact bord gauche / bord droit */
@@ -1032,6 +1038,7 @@ html, body {
 #module-enseignes.collapsed #enseigne-count {
     display: none;
 }
+
 
 
 
