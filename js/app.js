@@ -1702,6 +1702,75 @@ inputActivite.addEventListener("input", () => {
 });
 
 /* =========================
+   AUTOCOMPLETE ENSEIGNE
+========================= */
+
+const inputBrand = document.getElementById("search-brand");
+const brandDropdown = document.getElementById("brand-autocomplete");
+const brandChipsContainer = document.getElementById("selected-brands");
+
+inputBrand.addEventListener("input", () => {
+
+    const value = inputBrand.value.toLowerCase().trim();
+    brandDropdown.innerHTML = "";
+
+    if (!value) {
+        brandDropdown.style.display = "none";
+        return;
+    }
+
+    const matches = allBrands
+        .filter(b => b.toLowerCase().includes(value))
+        .slice(0, 20);
+
+    matches.forEach(brand => {
+
+        const div = document.createElement("div");
+        div.className = "autocomplete-item";
+        div.textContent = brand;
+
+        div.addEventListener("click", () => {
+
+            if (!retailState.selectedBrands.includes(brand)) {
+                retailState.selectedBrands.push(brand);
+            }
+
+            inputBrand.value = "";
+            brandDropdown.style.display = "none";
+
+            refreshBrandChips();
+        });
+
+        brandDropdown.appendChild(div);
+    });
+
+    brandDropdown.style.display = matches.length ? "block" : "none";
+});
+
+
+function refreshBrandChips() {
+
+    brandChipsContainer.innerHTML = "";
+
+    retailState.selectedBrands.forEach(brand => {
+
+        const chip = document.createElement("div");
+        chip.className = "selected-item";
+        chip.innerHTML = `${brand} <span class="remove">✕</span>`;
+
+        chip.querySelector(".remove").addEventListener("click", () => {
+
+            retailState.selectedBrands =
+                retailState.selectedBrands.filter(b => b !== brand);
+
+            refreshBrandChips();
+        });
+
+        brandChipsContainer.appendChild(chip);
+    });
+}
+   
+/* =========================
    LANCER RECHERCHE
 ========================= */
 
