@@ -78,13 +78,14 @@ map.on("click", () => {
 
     const dropdown = document.getElementById("retail-dropdown");
 
-    /* Si le dropdown activité est ouvert,
-       on ne ferme PAS le volet droit */
     if (dropdown && dropdown.classList.contains("open")) {
         return;
     }
 
-    fermerPanneau();
+    // 🔥 On ferme uniquement les popups Leaflet
+    map.closePopup();
+
+    // ❌ On ne touche plus au panneau droit
 });
 
 /* ============================================================
