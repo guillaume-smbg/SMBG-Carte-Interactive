@@ -1239,21 +1239,21 @@ function filterSelectedBrandsByActivity() {
 
     retailState.selectedBrands = retailState.selectedBrands.filter(brand => {
 
-        return retailState.cache
-            ? Object.values(retailState.cache).flat().some(r =>
-                r.name === brand &&
-                effectiveSubgroups.some(sub =>
-                    Object.values(RETAIL_STRUCTURE).some(g =>
-                        g.subgroups[sub] &&
-                        g.subgroups[sub].some(tag =>
-                            r.tags.shop === tag ||
-                            r.tags.amenity === tag ||
-                            r.tags.leisure === tag
-                        )
+        return Object.values(retailState.cache).flat().some(r =>
+
+            r.name === brand &&
+
+            effectiveSubgroups.some(sub =>
+                Object.values(RETAIL_STRUCTURE).some(g =>
+                    g.subgroups[sub] &&
+                    g.subgroups[sub].some(tag =>
+                        r.tags.shop === tag ||
+                        r.tags.amenity === tag ||
+                        r.tags.leisure === tag
                     )
                 )
             )
-            : false;
+        );
 
     });
 
@@ -1362,7 +1362,8 @@ async function _fetchRetail(lat, lng, retryCount = 0) {
 
         const key =
             `${lat}_${lng}_${retailState.selectedDistance}_` +
-            `${effectiveSubgroups.sort().join("-")}`;
+            `${effectiveSubgroups.sort().join("-")}_` +
+            `${retailState.selectedBrands.sort().join("-")}`;
 
         /* 🔹 Si cache existe mais vide → on ignore */
         if (retailState.cache[key] && retailState.cache[key].length) {
@@ -1821,6 +1822,13 @@ inputBrand.addEventListener("input", () => {
             brandDropdown.style.display = "none";
 
             refreshBrandChips();
+
+            if (retailState.lastLotCoords) {
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
+            }
         });
 
         brandDropdown.appendChild(div);
@@ -1836,9 +1844,66 @@ function refreshBrandChips() {
 
     retailState.selectedBrands.forEach(brand => {
 
+        let color = "#E1782C";
+
+        // Cherche la couleur via le cache
+        Object.values(retailState.cache).flat().forEach(r => {
+
+            if (r.name === brand) {
+
+                Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
+
+                    const subs = Object.keys(gData.subgroups);
+
+                    subs.forEach((subName, index) => {
+
+                        if (
+                            gData.subgroups[subName].some(tag =>
+                                r.tags.shop === tag ||
+                                r.tags.amenity === tag ||
+                                r.tags.leisure === tag
+                            )
+                        ) {
+                            color = generateSubgroupColor(
+                                gData.color,
+                                index,
+                                subs.length
+                            );
+                        }
+
+                    });
+
+                });
+
+            }
+
+        });
+
         const chip = document.createElement("div");
         chip.className = "selected-item";
+        chip.style.background = color;
+        chip.style.color = "#ffffff";
+
         chip.innerHTML = `${brand} <span class="remove">✕</span>`;
+
+        // Hover → grossir les pins
+        chip.addEventListener("mouseenter", () => {
+
+            retailLayer.eachLayer(layer => {
+
+                if (layer.getPopup()?.getContent()?.includes(brand)) {
+                    layer.setStyle({ radius: 9, opacity: 1, fillOpacity: 1 });
+                } else {
+                    layer.setStyle({ radius: 5, opacity: 0.25, fillOpacity: 0.25 });
+                }
+
+            });
+
+        });
+
+        chip.addEventListener("mouseleave", () => {
+            resetHighlight();
+        });
 
         chip.querySelector(".remove").addEventListener("click", () => {
 
@@ -1846,9 +1911,17 @@ function refreshBrandChips() {
                 retailState.selectedBrands.filter(b => b !== brand);
 
             refreshBrandChips();
+
+            if (retailState.lastLotCoords) {
+                fetchRetail(
+                    retailState.lastLotCoords.lat,
+                    retailState.lastLotCoords.lng
+                );
+            }
         });
 
         brandChipsContainer.appendChild(chip);
+
     });
 }
    
@@ -1876,8 +1949,9 @@ document.getElementById("launch-retail")
 document.getElementById("reset-enseignes")
     .addEventListener("click", () => {
 
-        retailState.selectedGroups = [];
-        retailState.selectedSubgroups = [];
+      retailState.selectedGroups = [];
+      retailState.selectedSubgroups = [];
+      retailState.selectedBrands = [];
 
         document.querySelectorAll(".group-checkbox")
             .forEach(cb => cb.checked = false);
@@ -1887,7 +1961,8 @@ document.getElementById("reset-enseignes")
 
         retailLayer.clearLayers();
         refreshChips();
-
+        refreshBrandChips();
+       
         const counter = document.getElementById("enseigne-count");
         if (counter) counter.innerHTML = "";
     });
