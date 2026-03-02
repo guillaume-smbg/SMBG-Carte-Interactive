@@ -939,14 +939,38 @@ function hideInlineLoader() {
 let retailState = {
     selectedGroups: [],
     selectedSubgroups: [],
+    selectedBrands: [],     // 🔥 NOUVEAU
     selectedDistance: 5000,
     lastLotCoords: null,
     cache: {}
 };
 
+let allBrands = [];         // 🔥 liste complète chargée depuis GitHub
+
 let retailLayer = L.layerGroup().addTo(map);
 let retailRequestController = null;
 let retailDebounceTimer = null;
+
+/* =========================
+   LOAD ENSEIGNES JSON
+========================= */
+
+let allBrands = [];   // 🔥 NOUVEAU
+
+async function loadBrands() {
+
+    try {
+        const res = await fetch("data/enseignes.json");
+        const data = await res.json();
+
+        allBrands = data.map(b => b.name);
+
+        console.log("Enseignes chargées :", allBrands.length);
+
+    } catch (e) {
+        console.error("Erreur chargement enseignes :", e);
+    }
+}
 
 /* =========================
    BUILD HIERARCHY
@@ -1532,6 +1556,7 @@ function masquerModuleEnseignes() {
 async function init() {
 
     DATA = await loadExcel();
+    await loadBrands();
     REGIONS_MAP = buildRegionsMap();
     construireRegionsEtDepartements();
 
