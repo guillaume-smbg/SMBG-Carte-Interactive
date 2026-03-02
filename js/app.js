@@ -944,8 +944,7 @@ let retailState = {
     lastLotCoords: null,
     cache: {},
 
-    brandToSubgroup: {},   // 🔥 mapping stable
-    brandToColor: {}       // 🔥 couleur stable
+    brandToSubgroup: {}    // mapping stable uniquement
 };
 
 let allBrands = [];         // 🔥 liste complète chargée depuis GitHub
@@ -1214,6 +1213,33 @@ function generateSubgroupColor(baseColor,index,total){
     const step=total>1?spread/(total-1):0;
     const light=Math.max(25,Math.min(75,hsl.l-spread/2+step*index));
     return hslToHex(hsl.h,hsl.s,light);
+}
+
+function getColorFromSubgroup(subName) {
+
+    let finalColor = "#E1782C";
+
+    Object.entries(RETAIL_STRUCTURE).forEach(([groupName, groupData]) => {
+
+        const subs = Object.keys(groupData.subgroups);
+
+        subs.forEach((s, index) => {
+
+            if (s === subName) {
+
+                finalColor = generateSubgroupColor(
+                    groupData.color,
+                    index,
+                    subs.length
+                );
+
+            }
+
+        });
+
+    });
+
+    return finalColor;
 }
 
 /* =========================
@@ -1511,43 +1537,9 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
 
         /* 4️⃣ Couleur stable */
 
-        let color = null;
-
-        if (stableSub) {
-
-            Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
-
-                const subs = Object.keys(gData.subgroups);
-
-                subs.forEach((subName, index) => {
-
-                    if (subName === stableSub) {
-
-                        color = generateSubgroupColor(
-                            gData.color,
-                            index,
-                            subs.length
-                        );
-
-                    }
-
-                });
-
-            });
-
-        }
-
-        color = color || "#E1782C";
-
-        /* 🔥 Stabilisation couleur brand */
-        if (r.name && stableSub) {
-
-            if (!retailState.brandToColor[r.name]) {
-                retailState.brandToColor[r.name] = color;
-            }
-
-            color = retailState.brandToColor[r.name];
-        }
+        const color = stableSub
+            ? getColorFromSubgroup(stableSub)
+            : "#E1782C";
        
         /* 5️⃣ Marker */
 
@@ -1888,8 +1880,11 @@ function refreshBrandChips() {
 
     retailState.selectedBrands.forEach(brand => {
 
-    let color = retailState.brandToColor[brand] || "#E1782C";
-
+   const sub = retailState.brandToSubgroup[brand];
+   const color = sub
+       ? getColorFromSubgroup(sub)
+       : "#E1782C";
+       
         const chip = document.createElement("div");
         chip.className = "selected-item";
         chip.style.background = color;
