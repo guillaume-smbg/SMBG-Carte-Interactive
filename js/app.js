@@ -1448,11 +1448,14 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
 
         let matchedSubgroup = null;
 
-        /* 1️⃣ Identifier sous-groupe */
+        /* 1️⃣ Identifier le sous-groupe */
 
         Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
+
             Object.entries(gData.subgroups).forEach(([subName, tags]) => {
+
                 tags.forEach(tag => {
+
                     if (
                         r.tags.shop === tag ||
                         r.tags.amenity === tag ||
@@ -1460,8 +1463,11 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
                     ) {
                         matchedSubgroup = subName;
                     }
+
                 });
+
             });
+
         });
 
         if (!matchedSubgroup && effectiveSubgroups.length) return;
@@ -1469,18 +1475,29 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
         /* 2️⃣ Stabiliser mapping brand → subgroup */
 
         if (r.name && matchedSubgroup) {
+
             if (!retailState.brandToSubgroup[r.name]) {
                 retailState.brandToSubgroup[r.name] = matchedSubgroup;
             }
+
         }
 
-        /* 3️⃣ Déterminer couleur stable */
+        /* 3️⃣ Récupérer sous-groupe stable */
 
-        let color = "#E1782C";
+        const stableSub =
+            retailState.brandToSubgroup[r.name] || matchedSubgroup;
 
-        const stableSub = retailState.brandToSubgroup[r.name];
+        if (effectiveSubgroups.length &&
+            !effectiveSubgroups.includes(stableSub)) {
+            return;
+        }
 
-        if (stableSub) {
+        /* 4️⃣ Couleur stable */
+
+        let color = retailState.brandToColor[r.name];
+
+        if (!color && stableSub) {
+
             Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
 
                 const subs = Object.keys(gData.subgroups);
@@ -1501,11 +1518,12 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
                 });
 
             });
+
         }
 
-        /* =============================
-           3️⃣ Création du marker
-        ============================== */
+        color = color || "#E1782C";
+
+        /* 5️⃣ Marker */
 
         const dist = Math.round(distanceMeters(
             {lat: lotLat, lng: lotLng},
@@ -1519,7 +1537,8 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
             fillOpacity: 0.9
         });
 
-        marker._retailSubgroup = matchedSubgroup;
+        marker._retailSubgroup = stableSub;
+        marker._brand = r.name;
 
         marker.bindPopup(`
             <strong>${r.name || "Enseigne"}</strong><br>
