@@ -939,10 +939,13 @@ function hideInlineLoader() {
 let retailState = {
     selectedGroups: [],
     selectedSubgroups: [],
-    selectedBrands: [],     // 🔥 NOUVEAU
+    selectedBrands: [],
     selectedDistance: 5000,
     lastLotCoords: null,
-    cache: {}
+    cache: {},
+
+    brandToSubgroup: {},   // 🔥 mapping stable
+    brandToColor: {}       // 🔥 couleur stable
 };
 
 let allBrands = [];         // 🔥 liste complète chargée depuis GitHub
@@ -1237,34 +1240,21 @@ function filterSelectedBrandsByActivity() {
 
     if (!effectiveSubgroups.length) return;
 
-    retailState.selectedBrands = retailState.selectedBrands.filter(brand => {
+    retailState.selectedBrands =
+        retailState.selectedBrands.filter(brand => {
 
-        return Object.values(retailState.cache).flat().some(r =>
+            const sub = retailState.brandToSubgroup[brand];
+            return sub && effectiveSubgroups.includes(sub);
+        });
 
-            r.name === brand &&
+    refreshBrandChips();
 
-            effectiveSubgroups.some(sub =>
-                Object.values(RETAIL_STRUCTURE).some(g =>
-                    g.subgroups[sub] &&
-                    g.subgroups[sub].some(tag =>
-                        r.tags.shop === tag ||
-                        r.tags.amenity === tag ||
-                        r.tags.leisure === tag
-                    )
-                )
-            )
+    if (retailState.lastLotCoords) {
+        fetchRetail(
+            retailState.lastLotCoords.lat,
+            retailState.lastLotCoords.lng
         );
-
-    });
-
-   refreshBrandChips();
-
-   if (retailState.lastLotCoords) {
-       fetchRetail(
-           retailState.lastLotCoords.lat,
-           retailState.lastLotCoords.lng
-       );
-   }
+    }
 }
    
     // Ajouter les sous-groupes sélectionnés individuellement
@@ -1458,16 +1448,11 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
 
         let matchedSubgroup = null;
 
-        /* =============================
-           1️⃣ Identifier le sous-groupe correspondant
-        ============================== */
+        /* 1️⃣ Identifier sous-groupe */
 
         Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
-
             Object.entries(gData.subgroups).forEach(([subName, tags]) => {
-
                 tags.forEach(tag => {
-
                     if (
                         r.tags.shop === tag ||
                         r.tags.amenity === tag ||
@@ -1475,41 +1460,48 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
                     ) {
                         matchedSubgroup = subName;
                     }
+                });
+            });
+        });
+
+        if (!matchedSubgroup && effectiveSubgroups.length) return;
+
+        /* 2️⃣ Stabiliser mapping brand → subgroup */
+
+        if (r.name && matchedSubgroup) {
+            if (!retailState.brandToSubgroup[r.name]) {
+                retailState.brandToSubgroup[r.name] = matchedSubgroup;
+            }
+        }
+
+        /* 3️⃣ Déterminer couleur stable */
+
+        let color = "#E1782C";
+
+        const stableSub = retailState.brandToSubgroup[r.name];
+
+        if (stableSub) {
+            Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
+
+                const subs = Object.keys(gData.subgroups);
+
+                subs.forEach((subName, index) => {
+
+                    if (subName === stableSub) {
+
+                        color = generateSubgroupColor(
+                            gData.color,
+                            index,
+                            subs.length
+                        );
+
+                        retailState.brandToColor[r.name] = color;
+                    }
 
                 });
 
             });
-
-        });
-
-        // Si aucune activité sélectionnée → on accepte même sans sous-groupe
-        if (!matchedSubgroup && effectiveSubgroups.length) return;
-
-        /* =============================
-           2️⃣ Calcul couleur
-        ============================== */
-
-        let color = "#E1782C";
-
-        Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
-
-            const subs = Object.keys(gData.subgroups);
-
-            subs.forEach((subName, index) => {
-
-                if (subName === matchedSubgroup) {
-
-                    color = generateSubgroupColor(
-                        gData.color,
-                        index,
-                        subs.length
-                    );
-
-                }
-
-            });
-
-        });
+        }
 
         /* =============================
            3️⃣ Création du marker
@@ -1849,40 +1841,7 @@ function refreshBrandChips() {
 
     retailState.selectedBrands.forEach(brand => {
 
-        let color = "#E1782C";
-
-        // Cherche la couleur via le cache
-        Object.values(retailState.cache).flat().forEach(r => {
-
-            if (r.name === brand) {
-
-                Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
-
-                    const subs = Object.keys(gData.subgroups);
-
-                    subs.forEach((subName, index) => {
-
-                        if (
-                            gData.subgroups[subName].some(tag =>
-                                r.tags.shop === tag ||
-                                r.tags.amenity === tag ||
-                                r.tags.leisure === tag
-                            )
-                        ) {
-                            color = generateSubgroupColor(
-                                gData.color,
-                                index,
-                                subs.length
-                            );
-                        }
-
-                    });
-
-                });
-
-            }
-
-        });
+    let color = retailState.brandToColor[brand] || "#E1782C";
 
         const chip = document.createElement("div");
         chip.className = "selected-item";
