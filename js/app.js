@@ -1239,57 +1239,57 @@ function getEffectiveSubgroups(){
    OVERPASS
 ========================= */
 
-function buildOverpassQuery(lat, lng, radius, subgroups, brands)
+function buildOverpassQuery(lat, lng, radius, subgroups, brands) {
 
-   let filters = [];
+    let filters = [];
 
-   // 🔹 Si brands sélectionnées → on filtre par brand
-   if (brands && brands.length) {
+    // 🔹 Si brands sélectionnées → on filtre par brand
+    if (brands && brands.length) {
 
-       brands.forEach(brand => {
+        brands.forEach(brand => {
 
-           filters.push(`
-               node(around:${radius},${lat},${lng})["brand"="${brand}"];
-               way(around:${radius},${lat},${lng})["brand"="${brand}"];
-               relation(around:${radius},${lat},${lng})["brand"="${brand}"];
-           `);
+            filters.push(`
+                node(around:${radius},${lat},${lng})["brand"="${brand}"];
+                way(around:${radius},${lat},${lng})["brand"="${brand}"];
+                relation(around:${radius},${lat},${lng})["brand"="${brand}"];
+            `);
 
-       });
+        });
 
-   }
+    }
 
-   // 🔹 Sinon on filtre par activités
-   else if (subgroups && subgroups.length) {
+    // 🔹 Sinon on filtre par activités
+    else if (subgroups && subgroups.length) {
 
-       subgroups.forEach(sub => {
+        subgroups.forEach(sub => {
 
-           Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
+            Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
 
-               if (!gData.subgroups[sub]) return;
+                if (!gData.subgroups[sub]) return;
 
-               gData.subgroups[sub].forEach(tag => {
+                gData.subgroups[sub].forEach(tag => {
 
-                   filters.push(`
-                       node(around:${radius},${lat},${lng})[shop=${tag}];
-                       node(around:${radius},${lat},${lng})[amenity=${tag}];
-                       node(around:${radius},${lat},${lng})[leisure=${tag}];
-                   `);
+                    filters.push(`
+                        node(around:${radius},${lat},${lng})[shop=${tag}];
+                        node(around:${radius},${lat},${lng})[amenity=${tag}];
+                        node(around:${radius},${lat},${lng})[leisure=${tag}];
+                    `);
 
-               });
+                });
 
-           });
+            });
 
-       });
+        });
 
-   }
+    }
 
-   return `
-       [out:json][timeout:10];
-       (
-           ${filters.join("\n")}
-       );
-       out center;
-   `;
+    return `
+        [out:json][timeout:10];
+        (
+            ${filters.join("\n")}
+        );
+        out center;
+    `;
 }
 
 /* =========================
