@@ -1239,37 +1239,57 @@ function getEffectiveSubgroups(){
    OVERPASS
 ========================= */
 
-function buildOverpassQuery(lat, lng, radius, subgroups) {
+function buildOverpassQuery(lat, lng, radius, subgroups, brands)
 
-    let filters = [];
+   let filters = [];
 
-    subgroups.forEach(sub => {
+   // 🔹 Si brands sélectionnées → on filtre par brand
+   if (brands && brands.length) {
 
-        Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
+       brands.forEach(brand => {
 
-            if (!gData.subgroups[sub]) return;
+           filters.push(`
+               node(around:${radius},${lat},${lng})["brand"="${brand}"];
+               way(around:${radius},${lat},${lng})["brand"="${brand}"];
+               relation(around:${radius},${lat},${lng})["brand"="${brand}"];
+           `);
 
-            gData.subgroups[sub].forEach(tag => {
+       });
 
-                filters.push(`
-                    node(around:${radius},${lat},${lng})[shop=${tag}];
-                    node(around:${radius},${lat},${lng})[amenity=${tag}];
-                    node(around:${radius},${lat},${lng})[leisure=${tag}];
-                `);
+   }
 
-            });
+   // 🔹 Sinon on filtre par activités
+   else if (subgroups && subgroups.length) {
 
-        });
+       subgroups.forEach(sub => {
 
-    });
+           Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
 
-    return `
-        [out:json][timeout:10];
-        (
-            ${filters.join("\n")}
-        );
-        out center;
-    `;
+               if (!gData.subgroups[sub]) return;
+
+               gData.subgroups[sub].forEach(tag => {
+
+                   filters.push(`
+                       node(around:${radius},${lat},${lng})[shop=${tag}];
+                       node(around:${radius},${lat},${lng})[amenity=${tag}];
+                       node(around:${radius},${lat},${lng})[leisure=${tag}];
+                   `);
+
+               });
+
+           });
+
+       });
+
+   }
+
+   return `
+       [out:json][timeout:10];
+       (
+           ${filters.join("\n")}
+       );
+       out center;
+   `;
 }
 
 /* =========================
@@ -1287,14 +1307,15 @@ function fetchRetail(lat, lng) {
 
 async function _fetchRetail(lat, lng, retryCount = 0) {
 
-    const effectiveSubgroups = getEffectiveSubgroups();
+   const effectiveSubgroups = getEffectiveSubgroups();
+   const selectedBrands = retailState.selectedBrands;
 
-    if (!effectiveSubgroups.length) {
-        retailLayer.clearLayers();
-        const counter = document.getElementById("enseigne-count");
-        if (counter) counter.innerHTML = "";
-        return;
-    }
+   if (!effectiveSubgroups.length && !selectedBrands.length) {
+       retailLayer.clearLayers();
+       const counter = document.getElementById("enseigne-count");
+       if (counter) counter.innerHTML = "";
+       return;
+   }
 
     showInlineLoader();
 
@@ -1326,7 +1347,8 @@ async function _fetchRetail(lat, lng, retryCount = 0) {
             lat,
             lng,
             retailState.selectedDistance,
-            effectiveSubgroups
+            effectiveSubgroups,
+            selectedBrands
         );
 
         const res = await fetch(
