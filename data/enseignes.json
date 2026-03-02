@@ -1,1 +1,6718 @@
-
+[
+  {
+    "name": "La Poste",
+    "count": 11487
+  },
+  {
+    "name": "Crédit Agricole",
+    "count": 5384
+  },
+  {
+    "name": "Caisse D'Épargne",
+    "count": 3318
+  },
+  {
+    "name": "Intermarché",
+    "count": 3050
+  },
+  {
+    "name": "Crédit Mutuel",
+    "count": 2619
+  },
+  {
+    "name": "Renault",
+    "count": 2211
+  },
+  {
+    "name": "Banque Populaire",
+    "count": 1999
+  },
+  {
+    "name": "Bnp Paribas",
+    "count": 1779
+  },
+  {
+    "name": "Lidl",
+    "count": 1740
+  },
+  {
+    "name": "Cic",
+    "count": 1651
+  },
+  {
+    "name": "Lcl",
+    "count": 1625
+  },
+  {
+    "name": "Mcdonald'S",
+    "count": 1594
+  },
+  {
+    "name": "Vélib' Métropole",
+    "count": 1555
+  },
+  {
+    "name": "Carrefour",
+    "count": 1532
+  },
+  {
+    "name": "Sg",
+    "count": 1466
+  },
+  {
+    "name": "Total",
+    "count": 1392
+  },
+  {
+    "name": "Aldi",
+    "count": 1349
+  },
+  {
+    "name": "Peugeot",
+    "count": 1326
+  },
+  {
+    "name": "La Banque Postale",
+    "count": 1278
+  },
+  {
+    "name": "Super U",
+    "count": 1270
+  },
+  {
+    "name": "Carrefour Market",
+    "count": 1259
+  },
+  {
+    "name": "Selecta",
+    "count": 1202
+  },
+  {
+    "name": "Mondial Relay",
+    "count": 1160
+  },
+  {
+    "name": "Vival",
+    "count": 1153
+  },
+  {
+    "name": "Carrefour City",
+    "count": 1066
+  },
+  {
+    "name": "Citroën",
+    "count": 1054
+  },
+  {
+    "name": "Picard",
+    "count": 1028
+  },
+  {
+    "name": "E.Leclerc",
+    "count": 973
+  },
+  {
+    "name": "Totalenergies",
+    "count": 968
+  },
+  {
+    "name": "Proxi",
+    "count": 900
+  },
+  {
+    "name": "Carrefour Express",
+    "count": 814
+  },
+  {
+    "name": "Franprix",
+    "count": 791
+  },
+  {
+    "name": "Action",
+    "count": 766
+  },
+  {
+    "name": "Spar",
+    "count": 757
+  },
+  {
+    "name": "Optic 2000",
+    "count": 747
+  },
+  {
+    "name": "Biocoop",
+    "count": 744
+  },
+  {
+    "name": "Intersport",
+    "count": 723
+  },
+  {
+    "name": "Krys",
+    "count": 717
+  },
+  {
+    "name": "Carrefour Contact",
+    "count": 702
+  },
+  {
+    "name": "Société Générale",
+    "count": 693
+  },
+  {
+    "name": "Yves Rocher",
+    "count": 682
+  },
+  {
+    "name": "Gamm Vert",
+    "count": 656
+  },
+  {
+    "name": "Avia",
+    "count": 647
+  },
+  {
+    "name": "Marie Blachère",
+    "count": 621
+  },
+  {
+    "name": "E.Leclerc Drive",
+    "count": 600
+  },
+  {
+    "name": "Burger King",
+    "count": 570
+  },
+  {
+    "name": "Amazon Hub",
+    "count": 557
+  },
+  {
+    "name": "Alain Afflelou",
+    "count": 530
+  },
+  {
+    "name": "Maison De La Presse",
+    "count": 530
+  },
+  {
+    "name": "Autovision",
+    "count": 530
+  },
+  {
+    "name": "Amazon Locker",
+    "count": 530
+  },
+  {
+    "name": "Optical Center",
+    "count": 508
+  },
+  {
+    "name": "Photomaton",
+    "count": 501
+  },
+  {
+    "name": "Bricomarché",
+    "count": 494
+  },
+  {
+    "name": "Gifi",
+    "count": 491
+  },
+  {
+    "name": "Auchan",
+    "count": 486
+  },
+  {
+    "name": "Point P",
+    "count": 477
+  },
+  {
+    "name": "Nicolas",
+    "count": 476
+  },
+  {
+    "name": "Total Access",
+    "count": 460
+  },
+  {
+    "name": "Netto",
+    "count": 457
+  },
+  {
+    "name": "Atol",
+    "count": 456
+  },
+  {
+    "name": "Intermarché Super",
+    "count": 453
+  },
+  {
+    "name": "Esso",
+    "count": 446
+  },
+  {
+    "name": "Dekra",
+    "count": 445
+  },
+  {
+    "name": "Coccimarket",
+    "count": 436
+  },
+  {
+    "name": "Vélôtoulouse",
+    "count": 431
+  },
+  {
+    "name": "Pickup Station",
+    "count": 429
+  },
+  {
+    "name": "Générale D'Optique",
+    "count": 420
+  },
+  {
+    "name": "Autosur",
+    "count": 414
+  },
+  {
+    "name": "Orange",
+    "count": 410
+  },
+  {
+    "name": "Sfr",
+    "count": 407
+  },
+  {
+    "name": "Darty",
+    "count": 405
+  },
+  {
+    "name": "Sécuritest",
+    "count": 402
+  },
+  {
+    "name": "U Express",
+    "count": 399
+  },
+  {
+    "name": "Écouter Voir",
+    "count": 396
+  },
+  {
+    "name": "Mobisdec",
+    "count": 389
+  },
+  {
+    "name": "Chaussea",
+    "count": 388
+  },
+  {
+    "name": "Norauto",
+    "count": 378
+  },
+  {
+    "name": "Kfc",
+    "count": 369
+  },
+  {
+    "name": "Monoprix",
+    "count": 368
+  },
+  {
+    "name": "Ford",
+    "count": 366
+  },
+  {
+    "name": "E. Leclerc",
+    "count": 366
+  },
+  {
+    "name": "Guichet Transilien",
+    "count": 361
+  },
+  {
+    "name": "Gémo",
+    "count": 360
+  },
+  {
+    "name": "Volkswagen",
+    "count": 357
+  },
+  {
+    "name": "Decathlon",
+    "count": 352
+  },
+  {
+    "name": "Noz",
+    "count": 350
+  },
+  {
+    "name": "Armand Thiery",
+    "count": 349
+  },
+  {
+    "name": "Feu Vert",
+    "count": 349
+  },
+  {
+    "name": "Utile",
+    "count": 347
+  },
+  {
+    "name": "Midas",
+    "count": 344
+  },
+  {
+    "name": "Paul",
+    "count": 340
+  },
+  {
+    "name": "Sport 2000",
+    "count": 340
+  },
+  {
+    "name": "Elan",
+    "count": 335
+  },
+  {
+    "name": "Toyota",
+    "count": 335
+  },
+  {
+    "name": "La Halle",
+    "count": 332
+  },
+  {
+    "name": "Speedy",
+    "count": 332
+  },
+  {
+    "name": "Buffalo Grill",
+    "count": 331
+  },
+  {
+    "name": "Grand Frais",
+    "count": 328
+  },
+  {
+    "name": "Mr.Bricolage",
+    "count": 325
+  },
+  {
+    "name": "Ad",
+    "count": 325
+  },
+  {
+    "name": "Subway",
+    "count": 324
+  },
+  {
+    "name": "Kiabi",
+    "count": 324
+  },
+  {
+    "name": "Centrakor",
+    "count": 321
+  },
+  {
+    "name": "Auchan Supermarché",
+    "count": 319
+  },
+  {
+    "name": "Nocibé",
+    "count": 318
+  },
+  {
+    "name": "Système U",
+    "count": 316
+  },
+  {
+    "name": "Jeff De Bruges",
+    "count": 315
+  },
+  {
+    "name": "Domino'S",
+    "count": 314
+  },
+  {
+    "name": "Franck Provost",
+    "count": 310
+  },
+  {
+    "name": "Etam",
+    "count": 307
+  },
+  {
+    "name": "La Vie Claire",
+    "count": 302
+  },
+  {
+    "name": "Relay",
+    "count": 302
+  },
+  {
+    "name": "Bouygues Telecom",
+    "count": 297
+  },
+  {
+    "name": "Amplifon",
+    "count": 295
+  },
+  {
+    "name": "Pfg",
+    "count": 295
+  },
+  {
+    "name": "But",
+    "count": 295
+  },
+  {
+    "name": "Crédit Mutuel De Bretagne",
+    "count": 295
+  },
+  {
+    "name": "Maxi Zoo",
+    "count": 283
+  },
+  {
+    "name": "Celio",
+    "count": 281
+  },
+  {
+    "name": "Marionnaud",
+    "count": 281
+  },
+  {
+    "name": "Tchip",
+    "count": 281
+  },
+  {
+    "name": "Promod",
+    "count": 279
+  },
+  {
+    "name": "Ionity",
+    "count": 274
+  },
+  {
+    "name": "Jules",
+    "count": 271
+  },
+  {
+    "name": "Audika",
+    "count": 264
+  },
+  {
+    "name": "Le Petit Casino",
+    "count": 262
+  },
+  {
+    "name": "Bureau Vallée",
+    "count": 262
+  },
+  {
+    "name": "King Jouet",
+    "count": 259
+  },
+  {
+    "name": "Starbucks",
+    "count": 259
+  },
+  {
+    "name": "Point S",
+    "count": 249
+  },
+  {
+    "name": "Tesla Supercharger",
+    "count": 248
+  },
+  {
+    "name": "Casino Shop",
+    "count": 246
+  },
+  {
+    "name": "Schmidt",
+    "count": 244
+  },
+  {
+    "name": "Histoire D'Or",
+    "count": 242
+  },
+  {
+    "name": "Sephora",
+    "count": 242
+  },
+  {
+    "name": "Banette",
+    "count": 239
+  },
+  {
+    "name": "Weldom",
+    "count": 239
+  },
+  {
+    "name": "O'Tacos",
+    "count": 234
+  },
+  {
+    "name": "Carglass",
+    "count": 230
+  },
+  {
+    "name": "Devred",
+    "count": 229
+  },
+  {
+    "name": "Éléphant Bleu",
+    "count": 229
+  },
+  {
+    "name": "Euromaster",
+    "count": 229
+  },
+  {
+    "name": "Europcar",
+    "count": 227
+  },
+  {
+    "name": "Ange",
+    "count": 227
+  },
+  {
+    "name": "Vélo'V",
+    "count": 226
+  },
+  {
+    "name": "Cuisinella",
+    "count": 225
+  },
+  {
+    "name": "La Mie Câline",
+    "count": 223
+  },
+  {
+    "name": "Durex",
+    "count": 223
+  },
+  {
+    "name": "Point Vert",
+    "count": 220
+  },
+  {
+    "name": "Micromania",
+    "count": 219
+  },
+  {
+    "name": "Zeeman",
+    "count": 216
+  },
+  {
+    "name": "Okaïdi",
+    "count": 214
+  },
+  {
+    "name": "Esso Express",
+    "count": 213
+  },
+  {
+    "name": "Selectour",
+    "count": 213
+  },
+  {
+    "name": "Jouéclub",
+    "count": 212
+  },
+  {
+    "name": "Bred",
+    "count": 211
+  },
+  {
+    "name": "Mercedes-Benz",
+    "count": 210
+  },
+  {
+    "name": "Opel",
+    "count": 206
+  },
+  {
+    "name": "Brioche Dorée",
+    "count": 205
+  },
+  {
+    "name": "Body Minute",
+    "count": 205
+  },
+  {
+    "name": "Boulanger",
+    "count": 202
+  },
+  {
+    "name": "Casino",
+    "count": 199
+  },
+  {
+    "name": "Bp",
+    "count": 198
+  },
+  {
+    "name": "Orchestra",
+    "count": 198
+  },
+  {
+    "name": "Leroy Merlin",
+    "count": 197
+  },
+  {
+    "name": "Wash",
+    "count": 196
+  },
+  {
+    "name": "G20",
+    "count": 196
+  },
+  {
+    "name": "Jean Louis David",
+    "count": 195
+  },
+  {
+    "name": "Naturalia",
+    "count": 192
+  },
+  {
+    "name": "Coiff&Co",
+    "count": 192
+  },
+  {
+    "name": "Bmw",
+    "count": 191
+  },
+  {
+    "name": "Sergent Major",
+    "count": 191
+  },
+  {
+    "name": "Cache Cache",
+    "count": 191
+  },
+  {
+    "name": "Dacia",
+    "count": 191
+  },
+  {
+    "name": "V'Lille",
+    "count": 189
+  },
+  {
+    "name": "Ikks",
+    "count": 188
+  },
+  {
+    "name": "Roc-Eclerc",
+    "count": 188
+  },
+  {
+    "name": "Besson Chaussures",
+    "count": 187
+  },
+  {
+    "name": "Groupama",
+    "count": 184
+  },
+  {
+    "name": "Ccf",
+    "count": 182
+  },
+  {
+    "name": "Gedimat",
+    "count": 181
+  },
+  {
+    "name": "Conforama",
+    "count": 180
+  },
+  {
+    "name": "Ristorante Del Arte",
+    "count": 180
+  },
+  {
+    "name": "Au Bureau",
+    "count": 178
+  },
+  {
+    "name": "La Foir'Fouille",
+    "count": 175
+  },
+  {
+    "name": "Columbus Café & Co",
+    "count": 175
+  },
+  {
+    "name": "Flowbird",
+    "count": 175
+  },
+  {
+    "name": "Julien D'Orcel",
+    "count": 175
+  },
+  {
+    "name": "Audi",
+    "count": 174
+  },
+  {
+    "name": "Fnac",
+    "count": 173
+  },
+  {
+    "name": "Indigo",
+    "count": 173
+  },
+  {
+    "name": "Caroll",
+    "count": 173
+  },
+  {
+    "name": "Pimkie",
+    "count": 172
+  },
+  {
+    "name": "Nissan",
+    "count": 171
+  },
+  {
+    "name": "Effia",
+    "count": 170
+  },
+  {
+    "name": "Quick",
+    "count": 170
+  },
+  {
+    "name": "Seat",
+    "count": 170
+  },
+  {
+    "name": "Leonidas",
+    "count": 169
+  },
+  {
+    "name": "Delko",
+    "count": 167
+  },
+  {
+    "name": "Centre Commercial E.Leclerc",
+    "count": 167
+  },
+  {
+    "name": "Calzedonia",
+    "count": 166
+  },
+  {
+    "name": "Mg",
+    "count": 166
+  },
+  {
+    "name": "Vulco",
+    "count": 165
+  },
+  {
+    "name": "Mango",
+    "count": 164
+  },
+  {
+    "name": "Courir",
+    "count": 164
+  },
+  {
+    "name": "Rexel",
+    "count": 164
+  },
+  {
+    "name": "Crédit Du Nord",
+    "count": 161
+  },
+  {
+    "name": "Tape À L'Œil",
+    "count": 161
+  },
+  {
+    "name": "Kiloutou",
+    "count": 161
+  },
+  {
+    "name": "Lissac",
+    "count": 160
+  },
+  {
+    "name": "Mouvement Emmaüs",
+    "count": 160
+  },
+  {
+    "name": "Altinova",
+    "count": 160
+  },
+  {
+    "name": "France Pare-Brise",
+    "count": 159
+  },
+  {
+    "name": "Avis",
+    "count": 158
+  },
+  {
+    "name": "Le Kiosque À Pizzas",
+    "count": 158
+  },
+  {
+    "name": "Jardiland",
+    "count": 156
+  },
+  {
+    "name": "Thiriet",
+    "count": 155
+  },
+  {
+    "name": "Bigmat",
+    "count": 154
+  },
+  {
+    "name": "Monceau Fleurs",
+    "count": 153
+  },
+  {
+    "name": "Intermarché Contact",
+    "count": 153
+  },
+  {
+    "name": "Axa",
+    "count": 153
+  },
+  {
+    "name": "Hertz",
+    "count": 153
+  },
+  {
+    "name": "Free",
+    "count": 151
+  },
+  {
+    "name": "Škoda",
+    "count": 150
+  },
+  {
+    "name": "H&M",
+    "count": 150
+  },
+  {
+    "name": "Flunch",
+    "count": 149
+  },
+  {
+    "name": "Fiat",
+    "count": 148
+  },
+  {
+    "name": "E-Charge50",
+    "count": 146
+  },
+  {
+    "name": "Bonobo",
+    "count": 145
+  },
+  {
+    "name": "Maisons Du Monde",
+    "count": 144
+  },
+  {
+    "name": "Havas Voyages",
+    "count": 142
+  },
+  {
+    "name": "Bonjour",
+    "count": 139
+  },
+  {
+    "name": "Rougegorge",
+    "count": 139
+  },
+  {
+    "name": "Dessange",
+    "count": 139
+  },
+  {
+    "name": "Ecf",
+    "count": 139
+  },
+  {
+    "name": "Grandoptical",
+    "count": 139
+  },
+  {
+    "name": "Yélo",
+    "count": 139
+  },
+  {
+    "name": "Mobalpa",
+    "count": 137
+  },
+  {
+    "name": "Saint Algue",
+    "count": 136
+  },
+  {
+    "name": "Powerdot",
+    "count": 136
+  },
+  {
+    "name": "Brico Dépôt",
+    "count": 135
+  },
+  {
+    "name": "V And B",
+    "count": 135
+  },
+  {
+    "name": "Claire'S",
+    "count": 134
+  },
+  {
+    "name": "Honda",
+    "count": 134
+  },
+  {
+    "name": "Croix-Rouge Française",
+    "count": 134
+  },
+  {
+    "name": "Match",
+    "count": 133
+  },
+  {
+    "name": "Connect & Go",
+    "count": 133
+  },
+  {
+    "name": "Chausson Matériaux",
+    "count": 131
+  },
+  {
+    "name": "Kiko Milano",
+    "count": 130
+  },
+  {
+    "name": "Le Vélo Par Tbm",
+    "count": 130
+  },
+  {
+    "name": "8 À Huit",
+    "count": 129
+  },
+  {
+    "name": "Jennyfer",
+    "count": 129
+  },
+  {
+    "name": "Grain De Malice",
+    "count": 129
+  },
+  {
+    "name": "Naolib Vélo",
+    "count": 128
+  },
+  {
+    "name": "Vinted Go",
+    "count": 127
+  },
+  {
+    "name": "Maison De La Literie",
+    "count": 125
+  },
+  {
+    "name": "Grand Litier",
+    "count": 125
+  },
+  {
+    "name": "Adopt'",
+    "count": 125
+  },
+  {
+    "name": "Socoo'C",
+    "count": 123
+  },
+  {
+    "name": "Petit Bateau",
+    "count": 123
+  },
+  {
+    "name": "Audition Conseil",
+    "count": 123
+  },
+  {
+    "name": "Vapostore",
+    "count": 123
+  },
+  {
+    "name": "Suzuki",
+    "count": 120
+  },
+  {
+    "name": "Ixina",
+    "count": 120
+  },
+  {
+    "name": "Tui",
+    "count": 119
+  },
+  {
+    "name": "Pizza Hut",
+    "count": 118
+  },
+  {
+    "name": "Du Pareil Au Même",
+    "count": 118
+  },
+  {
+    "name": "Stokomani",
+    "count": 118
+  },
+  {
+    "name": "Éram",
+    "count": 117
+  },
+  {
+    "name": "Zara",
+    "count": 116
+  },
+  {
+    "name": "Courtepaille",
+    "count": 115
+  },
+  {
+    "name": "Kia",
+    "count": 115
+  },
+  {
+    "name": "Beauty Success",
+    "count": 113
+  },
+  {
+    "name": "Pokawa",
+    "count": 112
+  },
+  {
+    "name": "Blackstore",
+    "count": 112
+  },
+  {
+    "name": "Shell",
+    "count": 111
+  },
+  {
+    "name": "5Àsec",
+    "count": 111
+  },
+  {
+    "name": "Hyundai",
+    "count": 111
+  },
+  {
+    "name": "Casa",
+    "count": 110
+  },
+  {
+    "name": "Aubert",
+    "count": 110
+  },
+  {
+    "name": "Rapid Pare Brise",
+    "count": 110
+  },
+  {
+    "name": "Castorama",
+    "count": 109
+  },
+  {
+    "name": "Votre Marché",
+    "count": 109
+  },
+  {
+    "name": "Loxam",
+    "count": 109
+  },
+  {
+    "name": "Sixt",
+    "count": 108
+  },
+  {
+    "name": "Eni",
+    "count": 107
+  },
+  {
+    "name": "Leader Price",
+    "count": 107
+  },
+  {
+    "name": "Easycash",
+    "count": 106
+  },
+  {
+    "name": "La Grande Récré",
+    "count": 106
+  },
+  {
+    "name": "Sud Express",
+    "count": 106
+  },
+  {
+    "name": "Cultura",
+    "count": 105
+  },
+  {
+    "name": "Centre Communal D'Action Sociale",
+    "count": 105
+  },
+  {
+    "name": "Mondial Pare-Brise",
+    "count": 105
+  },
+  {
+    "name": "Colruyt",
+    "count": 105
+  },
+  {
+    "name": "Entendre",
+    "count": 105
+  },
+  {
+    "name": "Trilib'",
+    "count": 105
+  },
+  {
+    "name": "Undiz",
+    "count": 104
+  },
+  {
+    "name": "Foot Locker",
+    "count": 103
+  },
+  {
+    "name": "Intermarché Express",
+    "count": 102
+  },
+  {
+    "name": "Rituals",
+    "count": 102
+  },
+  {
+    "name": "Roady",
+    "count": 101
+  },
+  {
+    "name": "Camille Albane",
+    "count": 101
+  },
+  {
+    "name": "De Neuville",
+    "count": 101
+  },
+  {
+    "name": "Petit Casino",
+    "count": 100
+  },
+  {
+    "name": "C&A",
+    "count": 100
+  },
+  {
+    "name": "Ldlc",
+    "count": 100
+  },
+  {
+    "name": "Parkeon",
+    "count": 100
+  },
+  {
+    "name": "Lacoste",
+    "count": 100
+  },
+  {
+    "name": "Volvo",
+    "count": 100
+  },
+  {
+    "name": "La Croissanterie",
+    "count": 100
+  },
+  {
+    "name": "Vélivert",
+    "count": 99
+  },
+  {
+    "name": "La Boucherie",
+    "count": 99
+  },
+  {
+    "name": "Darjeeling",
+    "count": 99
+  },
+  {
+    "name": "Levi'S",
+    "count": 98
+  },
+  {
+    "name": "Bricorama",
+    "count": 98
+  },
+  {
+    "name": "Interflora",
+    "count": 98
+  },
+  {
+    "name": "Natur House",
+    "count": 98
+  },
+  {
+    "name": "Panier Sympa",
+    "count": 97
+  },
+  {
+    "name": "A+Glass",
+    "count": 97
+  },
+  {
+    "name": "Hippopotamus",
+    "count": 96
+  },
+  {
+    "name": "Pascal Coste",
+    "count": 96
+  },
+  {
+    "name": "Normal",
+    "count": 96
+  },
+  {
+    "name": "Ada",
+    "count": 95
+  },
+  {
+    "name": "Mda",
+    "count": 94
+  },
+  {
+    "name": "Morgan",
+    "count": 93
+  },
+  {
+    "name": "Motrio",
+    "count": 93
+  },
+  {
+    "name": "Naf Naf",
+    "count": 93
+  },
+  {
+    "name": "Dyneff",
+    "count": 92
+  },
+  {
+    "name": "Pitaya",
+    "count": 92
+  },
+  {
+    "name": "Speed Queen",
+    "count": 92
+  },
+  {
+    "name": "Monop'",
+    "count": 92
+  },
+  {
+    "name": "Virta",
+    "count": 92
+  },
+  {
+    "name": "Vision Plus",
+    "count": 91
+  },
+  {
+    "name": "Ronde Des Pains",
+    "count": 91
+  },
+  {
+    "name": "Lapeyre",
+    "count": 91
+  },
+  {
+    "name": "Campanile",
+    "count": 91
+  },
+  {
+    "name": "Le Relais",
+    "count": 91
+  },
+  {
+    "name": "Audilab",
+    "count": 90
+  },
+  {
+    "name": "Mag Presse",
+    "count": 90
+  },
+  {
+    "name": "Bleu Libellule",
+    "count": 90
+  },
+  {
+    "name": "Poltronesofà",
+    "count": 89
+  },
+  {
+    "name": "Yamaha",
+    "count": 89
+  },
+  {
+    "name": "First Stop",
+    "count": 89
+  },
+  {
+    "name": "Bi1",
+    "count": 89
+  },
+  {
+    "name": "Coccinelle Express",
+    "count": 89
+  },
+  {
+    "name": "Monsieur Store",
+    "count": 87
+  },
+  {
+    "name": "Pandora",
+    "count": 87
+  },
+  {
+    "name": "Lime;Pony",
+    "count": 87
+  },
+  {
+    "name": "La Fée Maraboutée",
+    "count": 86
+  },
+  {
+    "name": "Izivia",
+    "count": 86
+  },
+  {
+    "name": "La Panetière",
+    "count": 86
+  },
+  {
+    "name": "Chargepoint",
+    "count": 86
+  },
+  {
+    "name": "Les Opticiens Mutualistes",
+    "count": 85
+  },
+  {
+    "name": "Wash Me",
+    "count": 85
+  },
+  {
+    "name": "Hyper U",
+    "count": 84
+  },
+  {
+    "name": "Lafayette",
+    "count": 82
+  },
+  {
+    "name": "L'Occitane",
+    "count": 82
+  },
+  {
+    "name": "Go Sport",
+    "count": 82
+  },
+  {
+    "name": "Les Petits Chaperons Rouges",
+    "count": 82
+  },
+  {
+    "name": "Amorino",
+    "count": 82
+  },
+  {
+    "name": "Ressourcerie",
+    "count": 82
+  },
+  {
+    "name": "Idecycle",
+    "count": 82
+  },
+  {
+    "name": "Boulangerie Louise",
+    "count": 81
+  },
+  {
+    "name": "Mondial Tissus",
+    "count": 80
+  },
+  {
+    "name": "Class'Croute",
+    "count": 80
+  },
+  {
+    "name": "Sushi Shop",
+    "count": 79
+  },
+  {
+    "name": "C.Vélo",
+    "count": 79
+  },
+  {
+    "name": "Yesss Électrique",
+    "count": 79
+  },
+  {
+    "name": "Banque Populaire Grand Ouest",
+    "count": 79
+  },
+  {
+    "name": "Bréal",
+    "count": 78
+  },
+  {
+    "name": "Damart",
+    "count": 78
+  },
+  {
+    "name": "Bastide Le Confort Médical",
+    "count": 78
+  },
+  {
+    "name": "Giant",
+    "count": 78
+  },
+  {
+    "name": "U",
+    "count": 77
+  },
+  {
+    "name": "Swarovski",
+    "count": 77
+  },
+  {
+    "name": "Palais Des Thés",
+    "count": 76
+  },
+  {
+    "name": "Auchan Drive",
+    "count": 76
+  },
+  {
+    "name": "Top Garage",
+    "count": 75
+  },
+  {
+    "name": "Mephisto",
+    "count": 75
+  },
+  {
+    "name": "Pharmacie Principale",
+    "count": 75
+  },
+  {
+    "name": "Cgr",
+    "count": 74
+  },
+  {
+    "name": "Carré Blanc",
+    "count": 73
+  },
+  {
+    "name": "Esthetic Center",
+    "count": 73
+  },
+  {
+    "name": "Banque De France",
+    "count": 73
+  },
+  {
+    "name": "Christine Laure",
+    "count": 73
+  },
+  {
+    "name": "Electra",
+    "count": 73
+  },
+  {
+    "name": "Auto Sécurité",
+    "count": 72
+  },
+  {
+    "name": "La Pataterie",
+    "count": 72
+  },
+  {
+    "name": "Q-Park",
+    "count": 71
+  },
+  {
+    "name": "Pro&Cie",
+    "count": 71
+  },
+  {
+    "name": "Manix",
+    "count": 71
+  },
+  {
+    "name": "Mangeons Frais",
+    "count": 71
+  },
+  {
+    "name": "Districenter",
+    "count": 71
+  },
+  {
+    "name": "Crédit Coopératif",
+    "count": 70
+  },
+  {
+    "name": "Botanic",
+    "count": 70
+  },
+  {
+    "name": "Jd Sports",
+    "count": 70
+  },
+  {
+    "name": "Monsieur Meuble",
+    "count": 70
+  },
+  {
+    "name": "Metro",
+    "count": 70
+  },
+  {
+    "name": "Société Marseillaise De Crédit",
+    "count": 69
+  },
+  {
+    "name": "Animalis",
+    "count": 68
+  },
+  {
+    "name": "Électro Dépôt",
+    "count": 68
+  },
+  {
+    "name": "Armor Lux",
+    "count": 68
+  },
+  {
+    "name": "La Boutique Du Coiffeur",
+    "count": 68
+  },
+  {
+    "name": "Superdry",
+    "count": 66
+  },
+  {
+    "name": "Gitem",
+    "count": 66
+  },
+  {
+    "name": "Roche Bobois",
+    "count": 66
+  },
+  {
+    "name": "Intermarché Drive",
+    "count": 66
+  },
+  {
+    "name": "Station U",
+    "count": 65
+  },
+  {
+    "name": "Bistro Régent",
+    "count": 65
+  },
+  {
+    "name": "Truffaut",
+    "count": 65
+  },
+  {
+    "name": "Centre Commercial E. Leclerc",
+    "count": 65
+  },
+  {
+    "name": "As 24",
+    "count": 64
+  },
+  {
+    "name": "Guinot",
+    "count": 64
+  },
+  {
+    "name": "The Kooples",
+    "count": 64
+  },
+  {
+    "name": "Bio C' Bon",
+    "count": 64
+  },
+  {
+    "name": "Feuillette",
+    "count": 64
+  },
+  {
+    "name": "Sherpa",
+    "count": 63
+  },
+  {
+    "name": "Independent",
+    "count": 63
+  },
+  {
+    "name": "Acuitis",
+    "count": 63
+  },
+  {
+    "name": "Bijou Brigitte",
+    "count": 63
+  },
+  {
+    "name": "Agip",
+    "count": 62
+  },
+  {
+    "name": "Repair Café",
+    "count": 62
+  },
+  {
+    "name": "Pickup",
+    "count": 62
+  },
+  {
+    "name": "Rent A Car",
+    "count": 61
+  },
+  {
+    "name": "Lexus",
+    "count": 61
+  },
+  {
+    "name": "Épi Service",
+    "count": 61
+  },
+  {
+    "name": "Galeries Lafayette",
+    "count": 60
+  },
+  {
+    "name": "Norma",
+    "count": 60
+  },
+  {
+    "name": "123 Pare-Brise",
+    "count": 60
+  },
+  {
+    "name": "Würth",
+    "count": 60
+  },
+  {
+    "name": "Nature & Découvertes",
+    "count": 59
+  },
+  {
+    "name": "Tamaris",
+    "count": 59
+  },
+  {
+    "name": "Jimmy Fairly",
+    "count": 59
+  },
+  {
+    "name": "Jacadi",
+    "count": 59
+  },
+  {
+    "name": "Babilou",
+    "count": 59
+  },
+  {
+    "name": "Norisko",
+    "count": 58
+  },
+  {
+    "name": "Geox",
+    "count": 58
+  },
+  {
+    "name": "Esprit",
+    "count": 58
+  },
+  {
+    "name": "Maje",
+    "count": 58
+  },
+  {
+    "name": "Bestdrive",
+    "count": 58
+  },
+  {
+    "name": "Crédit Maritime",
+    "count": 58
+  },
+  {
+    "name": "Hema",
+    "count": 57
+  },
+  {
+    "name": "Des Petits Hauts",
+    "count": 57
+  },
+  {
+    "name": "Renault Trucks",
+    "count": 57
+  },
+  {
+    "name": "Jysk",
+    "count": 57
+  },
+  {
+    "name": "Fram",
+    "count": 56
+  },
+  {
+    "name": "Mazda",
+    "count": 56
+  },
+  {
+    "name": "Minelli",
+    "count": 56
+  },
+  {
+    "name": "Antonelle",
+    "count": 56
+  },
+  {
+    "name": "La Compagnie Du Lit",
+    "count": 56
+  },
+  {
+    "name": "Kusmi Tea",
+    "count": 56
+  },
+  {
+    "name": "Ikea",
+    "count": 56
+  },
+  {
+    "name": "Sandro",
+    "count": 56
+  },
+  {
+    "name": "Cigusto",
+    "count": 56
+  },
+  {
+    "name": "Viveco",
+    "count": 56
+  },
+  {
+    "name": "Un Jour Ailleurs",
+    "count": 55
+  },
+  {
+    "name": "Festival Des Pains",
+    "count": 55
+  },
+  {
+    "name": "3 Brasseurs",
+    "count": 55
+  },
+  {
+    "name": "Maison 123",
+    "count": 55
+  },
+  {
+    "name": "Chamas Tacos",
+    "count": 54
+  },
+  {
+    "name": "Hsbc",
+    "count": 54
+  },
+  {
+    "name": "Ds Automobiles",
+    "count": 54
+  },
+  {
+    "name": "Izac",
+    "count": 53
+  },
+  {
+    "name": "American Vintage",
+    "count": 53
+  },
+  {
+    "name": "Bocage",
+    "count": 53
+  },
+  {
+    "name": "Intermarché Hyper",
+    "count": 52
+  },
+  {
+    "name": "Magasin Vert",
+    "count": 52
+  },
+  {
+    "name": "Sophie Lebreuilly",
+    "count": 52
+  },
+  {
+    "name": "Vertbaudet",
+    "count": 52
+  },
+  {
+    "name": "Mini",
+    "count": 51
+  },
+  {
+    "name": "Ducati",
+    "count": 51
+  },
+  {
+    "name": "Ideal Audition",
+    "count": 51
+  },
+  {
+    "name": "Pathé",
+    "count": 50
+  },
+  {
+    "name": "Ugc",
+    "count": 50
+  },
+  {
+    "name": "Culture Vélo",
+    "count": 50
+  },
+  {
+    "name": "Aubade",
+    "count": 50
+  },
+  {
+    "name": "Vog Coiffure",
+    "count": 50
+  },
+  {
+    "name": "Vélo²",
+    "count": 50
+  },
+  {
+    "name": "Vito",
+    "count": 50
+  },
+  {
+    "name": "Kookaï",
+    "count": 49
+  },
+  {
+    "name": "Parfois",
+    "count": 49
+  },
+  {
+    "name": "Cotélac",
+    "count": 49
+  },
+  {
+    "name": "Ba&Sh",
+    "count": 49
+  },
+  {
+    "name": "Dépil Tech",
+    "count": 49
+  },
+  {
+    "name": "Le Temps Des Cerises",
+    "count": 49
+  },
+  {
+    "name": "Pomme De Pain",
+    "count": 49
+  },
+  {
+    "name": "Enterprise",
+    "count": 49
+  },
+  {
+    "name": "Brice",
+    "count": 49
+  },
+  {
+    "name": "Adidas",
+    "count": 49
+  },
+  {
+    "name": "Revolution Laundry",
+    "count": 49
+  },
+  {
+    "name": "Toutounet",
+    "count": 49
+  },
+  {
+    "name": "Villaverde",
+    "count": 48
+  },
+  {
+    "name": "Tesla",
+    "count": 48
+  },
+  {
+    "name": "Tom & Co",
+    "count": 48
+  },
+  {
+    "name": "Total Contact",
+    "count": 47
+  },
+  {
+    "name": "Promovacances",
+    "count": 47
+  },
+  {
+    "name": "Riu Paris",
+    "count": 47
+  },
+  {
+    "name": "Devernois",
+    "count": 47
+  },
+  {
+    "name": "Chateau D'Ax",
+    "count": 47
+  },
+  {
+    "name": "Comptoir Des Cotonniers",
+    "count": 47
+  },
+  {
+    "name": "Giphar",
+    "count": 46
+  },
+  {
+    "name": "Basilic & Co",
+    "count": 46
+  },
+  {
+    "name": "Saint James",
+    "count": 46
+  },
+  {
+    "name": "Sonepar",
+    "count": 46
+  },
+  {
+    "name": "Marguerite & Cie",
+    "count": 46
+  },
+  {
+    "name": "Or En Cash",
+    "count": 45
+  },
+  {
+    "name": "Big Fernand",
+    "count": 45
+  },
+  {
+    "name": "Porsche",
+    "count": 45
+  },
+  {
+    "name": "Mise Au Green",
+    "count": 45
+  },
+  {
+    "name": "Marc Orian",
+    "count": 45
+  },
+  {
+    "name": "Altinnova",
+    "count": 45
+  },
+  {
+    "name": "Tesla, Inc.",
+    "count": 45
+  },
+  {
+    "name": "Memphis",
+    "count": 45
+  },
+  {
+    "name": "Aigle",
+    "count": 45
+  },
+  {
+    "name": "Amazon",
+    "count": 45
+  },
+  {
+    "name": "Bershka",
+    "count": 45
+  },
+  {
+    "name": "New Yorker",
+    "count": 45
+  },
+  {
+    "name": "La Halle Aux Chaussures",
+    "count": 44
+  },
+  {
+    "name": "Côté Sushi",
+    "count": 44
+  },
+  {
+    "name": "Lynx Optique",
+    "count": 44
+  },
+  {
+    "name": "Cyrillus",
+    "count": 44
+  },
+  {
+    "name": "Jack & Jones",
+    "count": 44
+  },
+  {
+    "name": "Bricoman",
+    "count": 44
+  },
+  {
+    "name": "Caixa Geral De Depósitos",
+    "count": 43
+  },
+  {
+    "name": "Ms Mode",
+    "count": 43
+  },
+  {
+    "name": "Pret A Manger",
+    "count": 43
+  },
+  {
+    "name": "Vib'S",
+    "count": 43
+  },
+  {
+    "name": "E.Leclerc Express",
+    "count": 43
+  },
+  {
+    "name": "Zadig & Voltaire",
+    "count": 42
+  },
+  {
+    "name": "Qipao",
+    "count": 42
+  },
+  {
+    "name": "Nespresso",
+    "count": 42
+  },
+  {
+    "name": "Cerise Et Potiron",
+    "count": 41
+  },
+  {
+    "name": "Tout Faire Matériaux",
+    "count": 41
+  },
+  {
+    "name": "Linvosges",
+    "count": 41
+  },
+  {
+    "name": "Domino'S Pizza",
+    "count": 41
+  },
+  {
+    "name": "Chicken Street",
+    "count": 41
+  },
+  {
+    "name": "Montres And Co",
+    "count": 41
+  },
+  {
+    "name": "Triumph",
+    "count": 41
+  },
+  {
+    "name": "Harley-Davidson",
+    "count": 41
+  },
+  {
+    "name": "Rubis'Vélo",
+    "count": 41
+  },
+  {
+    "name": "Office Depot",
+    "count": 41
+  },
+  {
+    "name": "Eric Kayser",
+    "count": 40
+  },
+  {
+    "name": "Cinéode",
+    "count": 40
+  },
+  {
+    "name": "Maxi Toys",
+    "count": 40
+  },
+  {
+    "name": "Maxi Bazar",
+    "count": 40
+  },
+  {
+    "name": "Nike",
+    "count": 40
+  },
+  {
+    "name": "Avril",
+    "count": 40
+  },
+  {
+    "name": "Eurotyre",
+    "count": 40
+  },
+  {
+    "name": "Mitsubishi",
+    "count": 40
+  },
+  {
+    "name": "Diviavélodi",
+    "count": 40
+  },
+  {
+    "name": "Campaillette",
+    "count": 39
+  },
+  {
+    "name": "Bosch Car Service",
+    "count": 39
+  },
+  {
+    "name": "Cyclable",
+    "count": 39
+  },
+  {
+    "name": "Bizzbee",
+    "count": 39
+  },
+  {
+    "name": "Carlance",
+    "count": 39
+  },
+  {
+    "name": "Claudie Pierlot",
+    "count": 39
+  },
+  {
+    "name": "Sonance Audition",
+    "count": 39
+  },
+  {
+    "name": "Land Rover",
+    "count": 39
+  },
+  {
+    "name": "Coccinelle Supermarché",
+    "count": 39
+  },
+  {
+    "name": "K-Way",
+    "count": 38
+  },
+  {
+    "name": "Intimissimi",
+    "count": 38
+  },
+  {
+    "name": "Eden Park",
+    "count": 38
+  },
+  {
+    "name": "Copy-Top",
+    "count": 38
+  },
+  {
+    "name": "Bcp",
+    "count": 38
+  },
+  {
+    "name": "Kawasaki",
+    "count": 38
+  },
+  {
+    "name": "Godot & Fils",
+    "count": 38
+  },
+  {
+    "name": "Faguo",
+    "count": 37
+  },
+  {
+    "name": "Au Vieux Campeur",
+    "count": 37
+  },
+  {
+    "name": "Médor Et Compagnie",
+    "count": 37
+  },
+  {
+    "name": "Lovisa",
+    "count": 37
+  },
+  {
+    "name": "Princesse Tam.Tam",
+    "count": 37
+  },
+  {
+    "name": "Megarama",
+    "count": 37
+  },
+  {
+    "name": "Cleor",
+    "count": 37
+  },
+  {
+    "name": "Mister Minit",
+    "count": 37
+  },
+  {
+    "name": "La Casa De Las Carcasas",
+    "count": 37
+  },
+  {
+    "name": "Cash Converters",
+    "count": 37
+  },
+  {
+    "name": "E.Leclerc Espace Culturel",
+    "count": 37
+  },
+  {
+    "name": "Vélo'+",
+    "count": 37
+  },
+  {
+    "name": "Lush",
+    "count": 36
+  },
+  {
+    "name": "La Cervoiserie",
+    "count": 36
+  },
+  {
+    "name": "Club Med",
+    "count": 36
+  },
+  {
+    "name": "Mauboussin",
+    "count": 36
+  },
+  {
+    "name": "Warhammer",
+    "count": 36
+  },
+  {
+    "name": "Hugo Boss",
+    "count": 35
+  },
+  {
+    "name": "Tommy Hilfiger",
+    "count": 35
+  },
+  {
+    "name": "Brico Cash",
+    "count": 35
+  },
+  {
+    "name": "Five Guys",
+    "count": 35
+  },
+  {
+    "name": "Léon De Bruxelles",
+    "count": 35
+  },
+  {
+    "name": "La Boîte À Pizza",
+    "count": 35
+  },
+  {
+    "name": "L'Atelier",
+    "count": 34
+  },
+  {
+    "name": "G La Dalle",
+    "count": 34
+  },
+  {
+    "name": "Casden",
+    "count": 34
+  },
+  {
+    "name": "Arthur",
+    "count": 34
+  },
+  {
+    "name": "Les Comptoirs De La Bio",
+    "count": 34
+  },
+  {
+    "name": "Freshmile",
+    "count": 34
+  },
+  {
+    "name": "Spa",
+    "count": 34
+  },
+  {
+    "name": "Banque Dupuy De Parseval",
+    "count": 34
+  },
+  {
+    "name": "Satoriz",
+    "count": 33
+  },
+  {
+    "name": "B&M",
+    "count": 33
+  },
+  {
+    "name": "Yogurt Factory",
+    "count": 33
+  },
+  {
+    "name": "Quiksilver",
+    "count": 33
+  },
+  {
+    "name": "Agatha",
+    "count": 33
+  },
+  {
+    "name": "Cavavin",
+    "count": 33
+  },
+  {
+    "name": "Le Marché D'À Côté",
+    "count": 33
+  },
+  {
+    "name": "Ktm",
+    "count": 33
+  },
+  {
+    "name": "Serge Blanco",
+    "count": 33
+  },
+  {
+    "name": "Dats 24",
+    "count": 33
+  },
+  {
+    "name": "Audition Santé",
+    "count": 33
+  },
+  {
+    "name": "Écomiam",
+    "count": 33
+  },
+  {
+    "name": "Biguine",
+    "count": 33
+  },
+  {
+    "name": "Banque De Savoie",
+    "count": 32
+  },
+  {
+    "name": "Primark",
+    "count": 32
+  },
+  {
+    "name": "Jeep",
+    "count": 32
+  },
+  {
+    "name": "La Criée",
+    "count": 32
+  },
+  {
+    "name": "United Colors Of Benetton",
+    "count": 31
+  },
+  {
+    "name": "Léon",
+    "count": 31
+  },
+  {
+    "name": "Autour De Bébé",
+    "count": 31
+  },
+  {
+    "name": "Uniqlo",
+    "count": 31
+  },
+  {
+    "name": "Biomonde",
+    "count": 31
+  },
+  {
+    "name": "Briconautes",
+    "count": 31
+  },
+  {
+    "name": "Mondial Relay Locker",
+    "count": 31
+  },
+  {
+    "name": "Signorizza",
+    "count": 31
+  },
+  {
+    "name": "Fabio Salsa",
+    "count": 31
+  },
+  {
+    "name": "Alfen",
+    "count": 31
+  },
+  {
+    "name": "Pizza Cosy",
+    "count": 30
+  },
+  {
+    "name": "Cash Express",
+    "count": 30
+  },
+  {
+    "name": "Comtesse Du Barry",
+    "count": 30
+  },
+  {
+    "name": "Univairmer",
+    "count": 30
+  },
+  {
+    "name": "Boconcept",
+    "count": 30
+  },
+  {
+    "name": "The North Face",
+    "count": 30
+  },
+  {
+    "name": "Western Union",
+    "count": 30
+  },
+  {
+    "name": "Lavomatic",
+    "count": 30
+  },
+  {
+    "name": "Allego",
+    "count": 30
+  },
+  {
+    "name": "Brico",
+    "count": 30
+  },
+  {
+    "name": "Vélam",
+    "count": 30
+  },
+  {
+    "name": "Proximarché",
+    "count": 29
+  },
+  {
+    "name": "Søstrene Grene",
+    "count": 29
+  },
+  {
+    "name": "L'Eau Vive",
+    "count": 29
+  },
+  {
+    "name": "Pathé Gaumont",
+    "count": 29
+  },
+  {
+    "name": "Just Over The Top",
+    "count": 29
+  },
+  {
+    "name": "Fresh",
+    "count": 29
+  },
+  {
+    "name": "Le Pétrin Ribeïrou",
+    "count": 29
+  },
+  {
+    "name": "Flying Tiger Copenhagen",
+    "count": 29
+  },
+  {
+    "name": "E.Leclerc Parapharmacie",
+    "count": 29
+  },
+  {
+    "name": "Ieo",
+    "count": 29
+  },
+  {
+    "name": "Bexley",
+    "count": 29
+  },
+  {
+    "name": "E-Totem",
+    "count": 29
+  },
+  {
+    "name": "Yves Thuriès",
+    "count": 29
+  },
+  {
+    "name": "Pull & Bear",
+    "count": 29
+  },
+  {
+    "name": "Cojean",
+    "count": 29
+  },
+  {
+    "name": "Smyths",
+    "count": 29
+  },
+  {
+    "name": "Naturéo",
+    "count": 29
+  },
+  {
+    "name": "Mobilier De France",
+    "count": 28
+  },
+  {
+    "name": "Saint-Maclou",
+    "count": 28
+  },
+  {
+    "name": "Le Fournil",
+    "count": 28
+  },
+  {
+    "name": "Le Roi Du Matelas",
+    "count": 28
+  },
+  {
+    "name": "Kodak Express",
+    "count": 28
+  },
+  {
+    "name": "Bricopro",
+    "count": 28
+  },
+  {
+    "name": "Jonak",
+    "count": 28
+  },
+  {
+    "name": "Ehpad Du Ch",
+    "count": 28
+  },
+  {
+    "name": "A+ Glass",
+    "count": 28
+  },
+  {
+    "name": "Ninkasi",
+    "count": 27
+  },
+  {
+    "name": "France Loisirs",
+    "count": 27
+  },
+  {
+    "name": "Häagen-Dazs",
+    "count": 27
+  },
+  {
+    "name": "Café Coton",
+    "count": 27
+  },
+  {
+    "name": "L'Entrepôt Du Bricolage",
+    "count": 27
+  },
+  {
+    "name": "Iveco",
+    "count": 27
+  },
+  {
+    "name": "Altao",
+    "count": 27
+  },
+  {
+    "name": "Mondovélo",
+    "count": 27
+  },
+  {
+    "name": "Lindt",
+    "count": 27
+  },
+  {
+    "name": "Guess",
+    "count": 27
+  },
+  {
+    "name": "As24",
+    "count": 27
+  },
+  {
+    "name": "Jaguar",
+    "count": 27
+  },
+  {
+    "name": "Vélostan'Lib",
+    "count": 27
+  },
+  {
+    "name": "Phildar",
+    "count": 26
+  },
+  {
+    "name": "The Body Shop",
+    "count": 26
+  },
+  {
+    "name": "André",
+    "count": 26
+  },
+  {
+    "name": "Go Sport Montagne",
+    "count": 26
+  },
+  {
+    "name": "Exki",
+    "count": 26
+  },
+  {
+    "name": "Bagel Corner",
+    "count": 26
+  },
+  {
+    "name": "Snipes",
+    "count": 26
+  },
+  {
+    "name": "Aixam",
+    "count": 26
+  },
+  {
+    "name": "Crèche People & Baby",
+    "count": 26
+  },
+  {
+    "name": "Sitis",
+    "count": 26
+  },
+  {
+    "name": "Le Pain Du Jour",
+    "count": 26
+  },
+  {
+    "name": "Timberland",
+    "count": 25
+  },
+  {
+    "name": "Poivre Rouge",
+    "count": 25
+  },
+  {
+    "name": "Eurorepar",
+    "count": 25
+  },
+  {
+    "name": "France Literie",
+    "count": 25
+  },
+  {
+    "name": "Day By Day",
+    "count": 25
+  },
+  {
+    "name": "Une Heure Pour Soi",
+    "count": 25
+  },
+  {
+    "name": "Autoprimo",
+    "count": 25
+  },
+  {
+    "name": "Evbox",
+    "count": 25
+  },
+  {
+    "name": "Chaussexpo",
+    "count": 25
+  },
+  {
+    "name": "Précisium",
+    "count": 25
+  },
+  {
+    "name": "Diagonal",
+    "count": 25
+  },
+  {
+    "name": "Tutti Pizza",
+    "count": 25
+  },
+  {
+    "name": "Vélomagg'",
+    "count": 25
+  },
+  {
+    "name": "Nouvelles Frontières",
+    "count": 24
+  },
+  {
+    "name": "Réauté Chocolat",
+    "count": 24
+  },
+  {
+    "name": "Chanel",
+    "count": 24
+  },
+  {
+    "name": "Apple Store",
+    "count": 24
+  },
+  {
+    "name": "Renault;Dacia",
+    "count": 24
+  },
+  {
+    "name": "Stradivarius",
+    "count": 24
+  },
+  {
+    "name": "Vélhop",
+    "count": 24
+  },
+  {
+    "name": "Banana Moon",
+    "count": 23
+  },
+  {
+    "name": "Maty",
+    "count": 23
+  },
+  {
+    "name": "Tally Weijl",
+    "count": 23
+  },
+  {
+    "name": "Škoda Auto",
+    "count": 23
+  },
+  {
+    "name": "Promocash",
+    "count": 23
+  },
+  {
+    "name": "Hermès",
+    "count": 23
+  },
+  {
+    "name": "Gant",
+    "count": 23
+  },
+  {
+    "name": "Euronet",
+    "count": 23
+  },
+  {
+    "name": "Lego",
+    "count": 23
+  },
+  {
+    "name": "Izivia Fast",
+    "count": 23
+  },
+  {
+    "name": "Nous Anti-Gaspi",
+    "count": 23
+  },
+  {
+    "name": "Ubitricity",
+    "count": 23
+  },
+  {
+    "name": "Banque Courtois",
+    "count": 23
+  },
+  {
+    "name": "Printemps",
+    "count": 22
+  },
+  {
+    "name": "Les Burgers De Papa",
+    "count": 22
+  },
+  {
+    "name": "Descamps",
+    "count": 22
+  },
+  {
+    "name": "Les Briconautes",
+    "count": 22
+  },
+  {
+    "name": "Voisin",
+    "count": 22
+  },
+  {
+    "name": "Expert",
+    "count": 22
+  },
+  {
+    "name": "Eborn",
+    "count": 22
+  },
+  {
+    "name": "Tezenis",
+    "count": 22
+  },
+  {
+    "name": "Dbt",
+    "count": 22
+  },
+  {
+    "name": "Jardival",
+    "count": 22
+  },
+  {
+    "name": "Carrefour Montagne",
+    "count": 21
+  },
+  {
+    "name": "Tabac Presse",
+    "count": 21
+  },
+  {
+    "name": "Mac Cosmetics",
+    "count": 21
+  },
+  {
+    "name": "Dammann Frères",
+    "count": 21
+  },
+  {
+    "name": "Bébé 9",
+    "count": 21
+  },
+  {
+    "name": "Kärcher",
+    "count": 21
+  },
+  {
+    "name": "Éric Bompard",
+    "count": 21
+  },
+  {
+    "name": "Distinxion",
+    "count": 21
+  },
+  {
+    "name": "Yves Delorme",
+    "count": 21
+  },
+  {
+    "name": "Longchamp",
+    "count": 21
+  },
+  {
+    "name": "Heytens",
+    "count": 21
+  },
+  {
+    "name": "Dhl",
+    "count": 21
+  },
+  {
+    "name": "Only",
+    "count": 21
+  },
+  {
+    "name": "Byd",
+    "count": 21
+  },
+  {
+    "name": "Air Liquide",
+    "count": 21
+  },
+  {
+    "name": "Karl Marc John",
+    "count": 21
+  },
+  {
+    "name": "Clever Series",
+    "count": 21
+  },
+  {
+    "name": "Pharmavie",
+    "count": 20
+  },
+  {
+    "name": "Tchip Coiffure",
+    "count": 20
+  },
+  {
+    "name": "Dacia;Renault",
+    "count": 20
+  },
+  {
+    "name": "Bagelstein",
+    "count": 20
+  },
+  {
+    "name": "Swatch",
+    "count": 20
+  },
+  {
+    "name": "Dim",
+    "count": 20
+  },
+  {
+    "name": "Desigual",
+    "count": 20
+  },
+  {
+    "name": "Engie",
+    "count": 20
+  },
+  {
+    "name": "Hager",
+    "count": 20
+  },
+  {
+    "name": "Popeyes",
+    "count": 20
+  },
+  {
+    "name": "Doras",
+    "count": 20
+  },
+  {
+    "name": "Le Chocolat Alain Ducasse",
+    "count": 20
+  },
+  {
+    "name": "Vel'In",
+    "count": 20
+  },
+  {
+    "name": "Coop Atlantique",
+    "count": 20
+  },
+  {
+    "name": "Supeco",
+    "count": 19
+  },
+  {
+    "name": "Liu Jo",
+    "count": 19
+  },
+  {
+    "name": "Moneygram",
+    "count": 19
+  },
+  {
+    "name": "Manfield",
+    "count": 19
+  },
+  {
+    "name": "Madura",
+    "count": 19
+  },
+  {
+    "name": "Ligne Roset",
+    "count": 19
+  },
+  {
+    "name": "Chronodrive",
+    "count": 19
+  },
+  {
+    "name": "Agnès B.",
+    "count": 19
+  },
+  {
+    "name": "Pressing",
+    "count": 19
+  },
+  {
+    "name": "Alfa Romeo",
+    "count": 19
+  },
+  {
+    "name": "Vinted",
+    "count": 19
+  },
+  {
+    "name": "E.Leclerc Location",
+    "count": 19
+  },
+  {
+    "name": "New School Tacos",
+    "count": 19
+  },
+  {
+    "name": "Top Office",
+    "count": 19
+  },
+  {
+    "name": "Louis Pion",
+    "count": 19
+  },
+  {
+    "name": "Atac",
+    "count": 19
+  },
+  {
+    "name": "Fastned",
+    "count": 19
+  },
+  {
+    "name": "E. Leclerc Express",
+    "count": 19
+  },
+  {
+    "name": "E.Leclerc Jardi",
+    "count": 19
+  },
+  {
+    "name": "Cinéville",
+    "count": 19
+  },
+  {
+    "name": "Jardi E.Leclerc",
+    "count": 19
+  },
+  {
+    "name": "Max Mara",
+    "count": 18
+  },
+  {
+    "name": "Kinepolis",
+    "count": 18
+  },
+  {
+    "name": "Gibert Joseph",
+    "count": 18
+  },
+  {
+    "name": "Royal Kebab",
+    "count": 18
+  },
+  {
+    "name": "Delbard",
+    "count": 18
+  },
+  {
+    "name": "Wall Street English",
+    "count": 18
+  },
+  {
+    "name": "Attijariwafa Bank",
+    "count": 18
+  },
+  {
+    "name": "Schneider Electric",
+    "count": 18
+  },
+  {
+    "name": "Smart",
+    "count": 18
+  },
+  {
+    "name": "G-Star Raw",
+    "count": 18
+  },
+  {
+    "name": "Ucar",
+    "count": 17
+  },
+  {
+    "name": "Citron Vert",
+    "count": 17
+  },
+  {
+    "name": "Total Wash",
+    "count": 17
+  },
+  {
+    "name": "Dreams",
+    "count": 17
+  },
+  {
+    "name": "Dr. Martens",
+    "count": 17
+  },
+  {
+    "name": "Indiana Café",
+    "count": 17
+  },
+  {
+    "name": "Côté Nature",
+    "count": 17
+  },
+  {
+    "name": "La Civette",
+    "count": 17
+  },
+  {
+    "name": "Carrefour Énergies",
+    "count": 17
+  },
+  {
+    "name": "E.Leclerc Brico",
+    "count": 17
+  },
+  {
+    "name": "Engie Vianeo",
+    "count": 17
+  },
+  {
+    "name": "Libélo",
+    "count": 16
+  },
+  {
+    "name": "Chez L'Ancien",
+    "count": 16
+  },
+  {
+    "name": "Banque Palatine",
+    "count": 16
+  },
+  {
+    "name": "De Fursac",
+    "count": 16
+  },
+  {
+    "name": "Louis Vuitton",
+    "count": 16
+  },
+  {
+    "name": "Salaün Holidays",
+    "count": 16
+  },
+  {
+    "name": "Lycamobile",
+    "count": 16
+  },
+  {
+    "name": "Meubles Gautier",
+    "count": 16
+  },
+  {
+    "name": "Parcel Pending",
+    "count": 16
+  },
+  {
+    "name": "Ewigo",
+    "count": 16
+  },
+  {
+    "name": "Nyx",
+    "count": 16
+  },
+  {
+    "name": "Bmw;Mini",
+    "count": 16
+  },
+  {
+    "name": "Libertium",
+    "count": 16
+  },
+  {
+    "name": "Takko Fashion",
+    "count": 16
+  },
+  {
+    "name": "Toutes Marques",
+    "count": 16
+  },
+  {
+    "name": "Vélocité",
+    "count": 16
+  },
+  {
+    "name": "Lamaison.Fr",
+    "count": 16
+  },
+  {
+    "name": "Coccinelle",
+    "count": 16
+  },
+  {
+    "name": "Pb Poulet Braisé",
+    "count": 16
+  },
+  {
+    "name": "Banque Tarneaud",
+    "count": 16
+  },
+  {
+    "name": "Vélobleu",
+    "count": 16
+  },
+  {
+    "name": "Cora",
+    "count": 15
+  },
+  {
+    "name": "Cinémas Grand Écran",
+    "count": 15
+  },
+  {
+    "name": "Skiset",
+    "count": 15
+  },
+  {
+    "name": "Autogrill",
+    "count": 15
+  },
+  {
+    "name": "La Procure",
+    "count": 15
+  },
+  {
+    "name": "Habitat",
+    "count": 15
+  },
+  {
+    "name": "La Mie De Pain",
+    "count": 15
+  },
+  {
+    "name": "Ekosport",
+    "count": 15
+  },
+  {
+    "name": "Fedex",
+    "count": 15
+  },
+  {
+    "name": "Shell Select",
+    "count": 15
+  },
+  {
+    "name": "Élan",
+    "count": 15
+  },
+  {
+    "name": "Punt Roma",
+    "count": 15
+  },
+  {
+    "name": "Yellowkorner",
+    "count": 15
+  },
+  {
+    "name": "Le Creuset",
+    "count": 15
+  },
+  {
+    "name": "Imo Car Wash",
+    "count": 15
+  },
+  {
+    "name": "Carrefour Energies",
+    "count": 15
+  },
+  {
+    "name": "Dior",
+    "count": 15
+  },
+  {
+    "name": "Boutique Grandes Lignes",
+    "count": 15
+  },
+  {
+    "name": "Catimini",
+    "count": 15
+  },
+  {
+    "name": "Mim",
+    "count": 15
+  },
+  {
+    "name": "Gautier",
+    "count": 15
+  },
+  {
+    "name": "Equivalenza",
+    "count": 15
+  },
+  {
+    "name": "Les Éleveurs De La Charentonne",
+    "count": 15
+  },
+  {
+    "name": "Baobab",
+    "count": 15
+  },
+  {
+    "name": "Benoit Audition",
+    "count": 15
+  },
+  {
+    "name": "Izivia Express",
+    "count": 15
+  },
+  {
+    "name": "Banque Laydernier",
+    "count": 14
+  },
+  {
+    "name": "L'Osteria",
+    "count": 14
+  },
+  {
+    "name": "Le Collectif Des Lunetiers",
+    "count": 14
+  },
+  {
+    "name": "Fathers & Sons",
+    "count": 14
+  },
+  {
+    "name": "Avatacar",
+    "count": 14
+  },
+  {
+    "name": "Rieker",
+    "count": 14
+  },
+  {
+    "name": "Soeur",
+    "count": 14
+  },
+  {
+    "name": "Porcelanosa",
+    "count": 14
+  },
+  {
+    "name": "Cartridge World",
+    "count": 14
+  },
+  {
+    "name": "Z",
+    "count": 14
+  },
+  {
+    "name": "Puma",
+    "count": 14
+  },
+  {
+    "name": "Billabong",
+    "count": 14
+  },
+  {
+    "name": "Vans",
+    "count": 14
+  },
+  {
+    "name": "Ligier",
+    "count": 14
+  },
+  {
+    "name": "Shurgard",
+    "count": 14
+  },
+  {
+    "name": "Brico Pro",
+    "count": 14
+  },
+  {
+    "name": "Chocolaterie Monbana",
+    "count": 14
+  },
+  {
+    "name": "Maison Bécam",
+    "count": 14
+  },
+  {
+    "name": "Shell Recharge",
+    "count": 14
+  },
+  {
+    "name": "Skimium",
+    "count": 13
+  },
+  {
+    "name": "Gls",
+    "count": 13
+  },
+  {
+    "name": "Vapiano",
+    "count": 13
+  },
+  {
+    "name": "Espace Emeraude",
+    "count": 13
+  },
+  {
+    "name": "Scania",
+    "count": 13
+  },
+  {
+    "name": "Skechers",
+    "count": 13
+  },
+  {
+    "name": "Fusalp",
+    "count": 13
+  },
+  {
+    "name": "Kujten",
+    "count": 13
+  },
+  {
+    "name": "Pablo",
+    "count": 13
+  },
+  {
+    "name": "Le Coq Sportif",
+    "count": 13
+  },
+  {
+    "name": "Salamander",
+    "count": 13
+  },
+  {
+    "name": "Brut Butcher",
+    "count": 13
+  },
+  {
+    "name": "Flammes Du Monde",
+    "count": 13
+  },
+  {
+    "name": "Evzen",
+    "count": 13
+  },
+  {
+    "name": "Ligier Store",
+    "count": 13
+  },
+  {
+    "name": "Stationrev",
+    "count": 13
+  },
+  {
+    "name": "Alpine",
+    "count": 13
+  },
+  {
+    "name": "Autosécurité",
+    "count": 13
+  },
+  {
+    "name": "Saris",
+    "count": 13
+  },
+  {
+    "name": "Le Pain Quotidien",
+    "count": 13
+  },
+  {
+    "name": "Solaris",
+    "count": 13
+  },
+  {
+    "name": "Révéo",
+    "count": 13
+  },
+  {
+    "name": "Banque Chalus",
+    "count": 12
+  },
+  {
+    "name": "Provenc'Halles",
+    "count": 12
+  },
+  {
+    "name": "France Rurale",
+    "count": 12
+  },
+  {
+    "name": "Bulthaup",
+    "count": 12
+  },
+  {
+    "name": "Cos",
+    "count": 12
+  },
+  {
+    "name": "Ria",
+    "count": 12
+  },
+  {
+    "name": "Old Wild West",
+    "count": 12
+  },
+  {
+    "name": "Bang & Olufsen",
+    "count": 12
+  },
+  {
+    "name": "Figaret",
+    "count": 12
+  },
+  {
+    "name": "Falconeri",
+    "count": 12
+  },
+  {
+    "name": "Napapijri",
+    "count": 12
+  },
+  {
+    "name": "Mail Boxes Etc.",
+    "count": 12
+  },
+  {
+    "name": "Subaru",
+    "count": 12
+  },
+  {
+    "name": "Alizé",
+    "count": 12
+  },
+  {
+    "name": "Pulsat",
+    "count": 12
+  },
+  {
+    "name": "Le Choix Funéraire",
+    "count": 12
+  },
+  {
+    "name": "Cupra",
+    "count": 12
+  },
+  {
+    "name": "Nature Et Découvertes",
+    "count": 12
+  },
+  {
+    "name": "Evlink",
+    "count": 12
+  },
+  {
+    "name": "Manège À Bijoux",
+    "count": 12
+  },
+  {
+    "name": "Iecharge",
+    "count": 12
+  },
+  {
+    "name": "Univers Pharmacie",
+    "count": 12
+  },
+  {
+    "name": "Gang Of Pizza",
+    "count": 12
+  },
+  {
+    "name": "Segafredo",
+    "count": 12
+  },
+  {
+    "name": "Terrena",
+    "count": 12
+  },
+  {
+    "name": "Pizza Paï",
+    "count": 12
+  },
+  {
+    "name": "Prise Direct'",
+    "count": 12
+  },
+  {
+    "name": "Gucci",
+    "count": 12
+  },
+  {
+    "name": "Easy Charge",
+    "count": 12
+  },
+  {
+    "name": "Mk2",
+    "count": 12
+  },
+  {
+    "name": "Ernest & Valentin",
+    "count": 12
+  },
+  {
+    "name": "Flam'S",
+    "count": 11
+  },
+  {
+    "name": "Volcom",
+    "count": 11
+  },
+  {
+    "name": "Frédéric Moreno",
+    "count": 11
+  },
+  {
+    "name": "Montblanc",
+    "count": 11
+  },
+  {
+    "name": "Citroën;Peugeot",
+    "count": 11
+  },
+  {
+    "name": "Alice Délice",
+    "count": 11
+  },
+  {
+    "name": "Carrefour Banque",
+    "count": 11
+  },
+  {
+    "name": "My Auchan",
+    "count": 11
+  },
+  {
+    "name": "Wolford",
+    "count": 11
+  },
+  {
+    "name": "The Coffee",
+    "count": 11
+  },
+  {
+    "name": "Point Vision",
+    "count": 11
+  },
+  {
+    "name": "Eisenia",
+    "count": 11
+  },
+  {
+    "name": "Café Du Centre",
+    "count": 11
+  },
+  {
+    "name": "Xpeng",
+    "count": 11
+  },
+  {
+    "name": "Butagaz",
+    "count": 11
+  },
+  {
+    "name": "Cartier",
+    "count": 11
+  },
+  {
+    "name": "Driveco",
+    "count": 11
+  },
+  {
+    "name": "Bike-Energy",
+    "count": 11
+  },
+  {
+    "name": "Vintedgo",
+    "count": 11
+  },
+  {
+    "name": "Boîte À Lire",
+    "count": 11
+  },
+  {
+    "name": "Banque Chaix",
+    "count": 11
+  },
+  {
+    "name": "Orcanta",
+    "count": 11
+  },
+  {
+    "name": "Oki",
+    "count": 11
+  },
+  {
+    "name": "L'Atelier Papilles",
+    "count": 11
+  },
+  {
+    "name": "La Compagnie Des Petits",
+    "count": 11
+  },
+  {
+    "name": "Kartell",
+    "count": 11
+  },
+  {
+    "name": "Loding",
+    "count": 11
+  },
+  {
+    "name": "Biscuiterie De Kerlann",
+    "count": 11
+  },
+  {
+    "name": "Tacos Avenue",
+    "count": 11
+  },
+  {
+    "name": "Le Marché De Léopold",
+    "count": 11
+  },
+  {
+    "name": "Havaianas",
+    "count": 11
+  },
+  {
+    "name": "Budget",
+    "count": 11
+  },
+  {
+    "name": "Technocity",
+    "count": 11
+  },
+  {
+    "name": "La Bouquinerie Du Sart",
+    "count": 11
+  },
+  {
+    "name": "Proxy",
+    "count": 10
+  },
+  {
+    "name": "Apm Monaco",
+    "count": 10
+  },
+  {
+    "name": "Roblot",
+    "count": 10
+  },
+  {
+    "name": "New Holland",
+    "count": 10
+  },
+  {
+    "name": "Barclays",
+    "count": 10
+  },
+  {
+    "name": "Aesop",
+    "count": 10
+  },
+  {
+    "name": "Rolex",
+    "count": 10
+  },
+  {
+    "name": "Dinh Van",
+    "count": 10
+  },
+  {
+    "name": "Polo Ralph Lauren",
+    "count": 10
+  },
+  {
+    "name": "Weekend Max Mara",
+    "count": 10
+  },
+  {
+    "name": "Vanessa Bruno",
+    "count": 10
+  },
+  {
+    "name": "Mon Vélo",
+    "count": 10
+  },
+  {
+    "name": "Euro Repar",
+    "count": 10
+  },
+  {
+    "name": "Ups",
+    "count": 10
+  },
+  {
+    "name": "Siligom",
+    "count": 10
+  },
+  {
+    "name": "Michael Kors",
+    "count": 10
+  },
+  {
+    "name": "Daf",
+    "count": 10
+  },
+  {
+    "name": "Cafpi",
+    "count": 10
+  },
+  {
+    "name": "Legrand",
+    "count": 10
+  },
+  {
+    "name": "Boulangerie Feuillette",
+    "count": 10
+  },
+  {
+    "name": "Du Bruit Dans La Cuisine",
+    "count": 10
+  },
+  {
+    "name": "La Station U",
+    "count": 10
+  },
+  {
+    "name": "Banque Postale",
+    "count": 10
+  },
+  {
+    "name": "Fleurs Ô Naturel",
+    "count": 10
+  },
+  {
+    "name": "Pedra Alta",
+    "count": 10
+  },
+  {
+    "name": "Banque Kolb",
+    "count": 10
+  },
+  {
+    "name": "Samsonite",
+    "count": 10
+  },
+  {
+    "name": "Deichmann",
+    "count": 10
+  },
+  {
+    "name": "Coccimarket City",
+    "count": 10
+  },
+  {
+    "name": "Api",
+    "count": 10
+  },
+  {
+    "name": "Saint Laurent",
+    "count": 10
+  },
+  {
+    "name": "Joe & The Juice",
+    "count": 10
+  },
+  {
+    "name": "A.P.C.",
+    "count": 10
+  },
+  {
+    "name": "Aprium",
+    "count": 9
+  },
+  {
+    "name": "Les Fournils De France",
+    "count": 9
+  },
+  {
+    "name": "Cargo",
+    "count": 9
+  },
+  {
+    "name": "Tati",
+    "count": 9
+  },
+  {
+    "name": "Chevrolet",
+    "count": 9
+  },
+  {
+    "name": "École De La Deuxième Chance",
+    "count": 9
+  },
+  {
+    "name": "Villeroy & Boch",
+    "count": 9
+  },
+  {
+    "name": "Frans Bonhomme",
+    "count": 9
+  },
+  {
+    "name": "Citiz",
+    "count": 9
+  },
+  {
+    "name": "Ciffréo Bona",
+    "count": 9
+  },
+  {
+    "name": "J.M. Weston",
+    "count": 9
+  },
+  {
+    "name": "Sugar",
+    "count": 9
+  },
+  {
+    "name": "Foussier",
+    "count": 9
+  },
+  {
+    "name": "Hypercacher",
+    "count": 9
+  },
+  {
+    "name": "Calvin Klein",
+    "count": 9
+  },
+  {
+    "name": "Stations-E",
+    "count": 9
+  },
+  {
+    "name": "Westfield",
+    "count": 9
+  },
+  {
+    "name": "Fly",
+    "count": 9
+  },
+  {
+    "name": "Axial",
+    "count": 9
+  },
+  {
+    "name": "John Deere",
+    "count": 9
+  },
+  {
+    "name": "Peugeot;Citroën",
+    "count": 9
+  },
+  {
+    "name": "Momen'Tea",
+    "count": 9
+  },
+  {
+    "name": "Coca-Cola",
+    "count": 9
+  },
+  {
+    "name": "Au Pain De Mon Grand-Père",
+    "count": 9
+  },
+  {
+    "name": "Lions Club",
+    "count": 9
+  },
+  {
+    "name": "Volfoni",
+    "count": 9
+  },
+  {
+    "name": "Amazon Hub Locker",
+    "count": 9
+  },
+  {
+    "name": "Alamo",
+    "count": 9
+  },
+  {
+    "name": "Café Joyeux",
+    "count": 9
+  },
+  {
+    "name": "Paris Store",
+    "count": 9
+  },
+  {
+    "name": "Claas",
+    "count": 9
+  },
+  {
+    "name": "Utopia",
+    "count": 9
+  },
+  {
+    "name": "Pharmacie Du Soleil",
+    "count": 9
+  },
+  {
+    "name": "Mobive",
+    "count": 9
+  },
+  {
+    "name": "Natalys",
+    "count": 9
+  },
+  {
+    "name": "Xing Fu Tang",
+    "count": 9
+  },
+  {
+    "name": "Lebara",
+    "count": 9
+  },
+  {
+    "name": "Marché U",
+    "count": 8
+  },
+  {
+    "name": "Materiel-Velo.Com",
+    "count": 8
+  },
+  {
+    "name": "Saga Cosmetics",
+    "count": 8
+  },
+  {
+    "name": "Aviva",
+    "count": 8
+  },
+  {
+    "name": "Zara Home",
+    "count": 8
+  },
+  {
+    "name": "Crédit Municipal",
+    "count": 8
+  },
+  {
+    "name": "Pralus",
+    "count": 8
+  },
+  {
+    "name": "Maison Janin",
+    "count": 8
+  },
+  {
+    "name": "Baraka Jeux",
+    "count": 8
+  },
+  {
+    "name": "Salomon",
+    "count": 8
+  },
+  {
+    "name": "Coco",
+    "count": 8
+  },
+  {
+    "name": "Guy Degrenne",
+    "count": 8
+  },
+  {
+    "name": "Fulli",
+    "count": 8
+  },
+  {
+    "name": "Cedeo",
+    "count": 8
+  },
+  {
+    "name": "Flot Bleu",
+    "count": 8
+  },
+  {
+    "name": "Total Energies",
+    "count": 8
+  },
+  {
+    "name": "Abb",
+    "count": 8
+  },
+  {
+    "name": "Les Mousquetaires",
+    "count": 8
+  },
+  {
+    "name": "Restaurante Popular",
+    "count": 8
+  },
+  {
+    "name": "Milence",
+    "count": 8
+  },
+  {
+    "name": "Alliance",
+    "count": 8
+  },
+  {
+    "name": "Specialized",
+    "count": 8
+  },
+  {
+    "name": "Securitest",
+    "count": 8
+  },
+  {
+    "name": "Gap",
+    "count": 8
+  },
+  {
+    "name": "Victoria'S Secret",
+    "count": 8
+  },
+  {
+    "name": "Hollister",
+    "count": 8
+  },
+  {
+    "name": "Asics",
+    "count": 8
+  },
+  {
+    "name": "Poke House",
+    "count": 8
+  },
+  {
+    "name": "Paprika",
+    "count": 8
+  },
+  {
+    "name": "Majestic",
+    "count": 8
+  },
+  {
+    "name": "Extra",
+    "count": 8
+  },
+  {
+    "name": "Géant Casino",
+    "count": 8
+  },
+  {
+    "name": "À L'Aise Breizh",
+    "count": 8
+  },
+  {
+    "name": "L'Incroyable",
+    "count": 8
+  },
+  {
+    "name": "U Drive",
+    "count": 8
+  },
+  {
+    "name": "Nike Factory Store",
+    "count": 8
+  },
+  {
+    "name": "Interparking",
+    "count": 8
+  },
+  {
+    "name": "Crédit Agricole Alsace Vosges",
+    "count": 8
+  },
+  {
+    "name": "Crédit Foncier",
+    "count": 8
+  },
+  {
+    "name": "Arthus Bertrand",
+    "count": 8
+  },
+  {
+    "name": "Cercles De Gascogne",
+    "count": 8
+  },
+  {
+    "name": "Valentino",
+    "count": 8
+  },
+  {
+    "name": "Birkenstock",
+    "count": 8
+  },
+  {
+    "name": "La Laveuse",
+    "count": 8
+  },
+  {
+    "name": "Vilebrequin",
+    "count": 8
+  },
+  {
+    "name": "Burberry",
+    "count": 8
+  },
+  {
+    "name": "Une Pièce En Plus",
+    "count": 8
+  },
+  {
+    "name": "Cyclocube",
+    "count": 8
+  },
+  {
+    "name": "Mezzo Di Pasta",
+    "count": 7
+  },
+  {
+    "name": "Banque Rhône-Alpes",
+    "count": 7
+  },
+  {
+    "name": "Aprium Pharmacie",
+    "count": 7
+  },
+  {
+    "name": "Haut Et Court",
+    "count": 7
+  },
+  {
+    "name": "Island Poké",
+    "count": 7
+  },
+  {
+    "name": "Cabaïa",
+    "count": 7
+  },
+  {
+    "name": "Sncf",
+    "count": 7
+  },
+  {
+    "name": "Point Fort Fichet",
+    "count": 7
+  },
+  {
+    "name": "Bose",
+    "count": 7
+  },
+  {
+    "name": "Le Petit Vapoteur",
+    "count": 7
+  },
+  {
+    "name": "Inpost",
+    "count": 7
+  },
+  {
+    "name": "Columbia",
+    "count": 7
+  },
+  {
+    "name": "Camaïeu",
+    "count": 7
+  },
+  {
+    "name": "Chaabi Bank",
+    "count": 7
+  },
+  {
+    "name": "Ferrari",
+    "count": 7
+  },
+  {
+    "name": "Profil Plus",
+    "count": 7
+  },
+  {
+    "name": "Gouiran Beauté",
+    "count": 7
+  },
+  {
+    "name": "Next",
+    "count": 7
+  },
+  {
+    "name": "Bouchara",
+    "count": 7
+  },
+  {
+    "name": "Resotainer",
+    "count": 7
+  },
+  {
+    "name": "Seiko",
+    "count": 7
+  },
+  {
+    "name": "Paraboot",
+    "count": 7
+  },
+  {
+    "name": "Chevignon",
+    "count": 7
+  },
+  {
+    "name": "Abarth",
+    "count": 7
+  },
+  {
+    "name": "Fossil",
+    "count": 7
+  },
+  {
+    "name": "Massimo Dutti",
+    "count": 7
+  },
+  {
+    "name": "Leica",
+    "count": 7
+  },
+  {
+    "name": "Toasushi",
+    "count": 7
+  },
+  {
+    "name": "New Balance",
+    "count": 7
+  },
+  {
+    "name": "Olivier Desforges",
+    "count": 7
+  },
+  {
+    "name": "Mariette",
+    "count": 7
+  },
+  {
+    "name": "E. Leclerc Drive",
+    "count": 7
+  },
+  {
+    "name": "231 East Street",
+    "count": 7
+  },
+  {
+    "name": "Diesel",
+    "count": 7
+  },
+  {
+    "name": "Stihl",
+    "count": 7
+  },
+  {
+    "name": "Maserati",
+    "count": 7
+  },
+  {
+    "name": "Leadersanté",
+    "count": 7
+  },
+  {
+    "name": "Fiat Professional",
+    "count": 7
+  },
+  {
+    "name": "Gulf",
+    "count": 7
+  },
+  {
+    "name": "Distri Club Medical",
+    "count": 7
+  },
+  {
+    "name": "Prada",
+    "count": 7
+  },
+  {
+    "name": "All",
+    "count": 7
+  },
+  {
+    "name": "Miniso",
+    "count": 7
+  },
+  {
+    "name": "Springfield",
+    "count": 7
+  },
+  {
+    "name": "Indian Motorcycle",
+    "count": 7
+  },
+  {
+    "name": "V-Gas",
+    "count": 7
+  },
+  {
+    "name": "Paul Marius",
+    "count": 7
+  },
+  {
+    "name": "Pizzaexpress",
+    "count": 7
+  },
+  {
+    "name": "Cœur De Blé",
+    "count": 7
+  },
+  {
+    "name": "L'Agence Automobilière",
+    "count": 7
+  },
+  {
+    "name": "Trek",
+    "count": 7
+  },
+  {
+    "name": "Vivason",
+    "count": 7
+  },
+  {
+    "name": "Le Slip Français",
+    "count": 7
+  },
+  {
+    "name": "Orpi",
+    "count": 7
+  },
+  {
+    "name": "Cultivert",
+    "count": 7
+  },
+  {
+    "name": "Espace Terrena",
+    "count": 7
+  },
+  {
+    "name": "Plein Ciel",
+    "count": 7
+  },
+  {
+    "name": "Banque Populaire Du Nord",
+    "count": 7
+  },
+  {
+    "name": "Sinéquanone",
+    "count": 7
+  },
+  {
+    "name": "Carrefour Drive",
+    "count": 7
+  },
+  {
+    "name": "Celine",
+    "count": 7
+  },
+  {
+    "name": "Bp Shop",
+    "count": 7
+  },
+  {
+    "name": "Nomad",
+    "count": 7
+  },
+  {
+    "name": "Maison Planchot",
+    "count": 7
+  },
+  {
+    "name": "Arche",
+    "count": 7
+  },
+  {
+    "name": "Siemens",
+    "count": 7
+  },
+  {
+    "name": "Oysho",
+    "count": 7
+  },
+  {
+    "name": "La Tarte Tropézienne",
+    "count": 7
+  },
+  {
+    "name": "Bet'Lib",
+    "count": 7
+  },
+  {
+    "name": "La Talemelerie",
+    "count": 6
+  },
+  {
+    "name": "Milleis Banque",
+    "count": 6
+  },
+  {
+    "name": "Agri Sud Est",
+    "count": 6
+  },
+  {
+    "name": "King Kebab",
+    "count": 6
+  },
+  {
+    "name": "Little Free Library",
+    "count": 6
+  },
+  {
+    "name": "Anton & Willem",
+    "count": 6
+  },
+  {
+    "name": "Bata",
+    "count": 6
+  },
+  {
+    "name": "Dafy Moto",
+    "count": 6
+  },
+  {
+    "name": "Kunz",
+    "count": 6
+  },
+  {
+    "name": "Mary Cohr",
+    "count": 6
+  },
+  {
+    "name": "Toolstation",
+    "count": 6
+  },
+  {
+    "name": "Travelex",
+    "count": 6
+  },
+  {
+    "name": "Le Grand Panier Bio",
+    "count": 6
+  },
+  {
+    "name": "Dufoux Chocolats",
+    "count": 6
+  },
+  {
+    "name": "Bonne Gueule",
+    "count": 6
+  },
+  {
+    "name": "Camper",
+    "count": 6
+  },
+  {
+    "name": "Messika",
+    "count": 6
+  },
+  {
+    "name": "Omega",
+    "count": 6
+  },
+  {
+    "name": "Tag Heuer",
+    "count": 6
+  },
+  {
+    "name": "Max",
+    "count": 6
+  },
+  {
+    "name": "Cuir Center",
+    "count": 6
+  },
+  {
+    "name": "Breitling",
+    "count": 6
+  },
+  {
+    "name": "Banque Bcp",
+    "count": 6
+  },
+  {
+    "name": "Cash Services",
+    "count": 6
+  },
+  {
+    "name": "Antargaz",
+    "count": 6
+  },
+  {
+    "name": "Izivia Grand Lyon",
+    "count": 6
+  },
+  {
+    "name": "Dignité Funéraire",
+    "count": 6
+  },
+  {
+    "name": "Gmc",
+    "count": 6
+  },
+  {
+    "name": "Boite À Livres",
+    "count": 6
+  },
+  {
+    "name": "Gérard Darel",
+    "count": 6
+  },
+  {
+    "name": "Crous",
+    "count": 6
+  },
+  {
+    "name": "Fendi",
+    "count": 6
+  },
+  {
+    "name": "Moncler",
+    "count": 6
+  },
+  {
+    "name": "Écomarché",
+    "count": 6
+  },
+  {
+    "name": "Audi;Seat;Škoda;Volkswagen",
+    "count": 6
+  },
+  {
+    "name": "Citroen",
+    "count": 6
+  },
+  {
+    "name": "Mon Contrôle Technique",
+    "count": 6
+  },
+  {
+    "name": "Best Western",
+    "count": 6
+  },
+  {
+    "name": "Shopi",
+    "count": 6
+  },
+  {
+    "name": "Bzb",
+    "count": 6
+  },
+  {
+    "name": "Aux Doux Fournils",
+    "count": 6
+  },
+  {
+    "name": "Ibis",
+    "count": 6
+  },
+  {
+    "name": "Kyriad",
+    "count": 6
+  },
+  {
+    "name": "Atlante",
+    "count": 6
+  },
+  {
+    "name": "Flot Bleau",
+    "count": 6
+  },
+  {
+    "name": "Dpd",
+    "count": 6
+  },
+  {
+    "name": "Coste",
+    "count": 6
+  },
+  {
+    "name": "S.Oliver",
+    "count": 6
+  },
+  {
+    "name": "Lunettes Pour Tous",
+    "count": 6
+  },
+  {
+    "name": "Salsa",
+    "count": 6
+  },
+  {
+    "name": "Garage Premier",
+    "count": 6
+  },
+  {
+    "name": "Café De La Mairie",
+    "count": 6
+  },
+  {
+    "name": "Karl Lagerfeld",
+    "count": 6
+  },
+  {
+    "name": "Michel Cluizel",
+    "count": 6
+  },
+  {
+    "name": "Hmarket",
+    "count": 6
+  },
+  {
+    "name": "Dia",
+    "count": 6
+  },
+  {
+    "name": "Crédit Agricole Nord De France",
+    "count": 6
+  },
+  {
+    "name": "Wok To Walk",
+    "count": 6
+  },
+  {
+    "name": "Bnp",
+    "count": 6
+  },
+  {
+    "name": "Nw Iecharge",
+    "count": 6
+  },
+  {
+    "name": "Interview Coiffure",
+    "count": 6
+  },
+  {
+    "name": "Bâtiland",
+    "count": 6
+  },
+  {
+    "name": "So.Bio",
+    "count": 6
+  },
+  {
+    "name": "Aire C",
+    "count": 6
+  },
+  {
+    "name": "Garandeau Matériaux",
+    "count": 6
+  },
+  {
+    "name": "Pizza Papa",
+    "count": 6
+  },
+  {
+    "name": "Espace Jardin",
+    "count": 6
+  },
+  {
+    "name": "Yi Fang Tea",
+    "count": 6
+  },
+  {
+    "name": "Te53",
+    "count": 6
+  },
+  {
+    "name": "Bulgari",
+    "count": 6
+  },
+  {
+    "name": "Dolce & Gabbana",
+    "count": 6
+  },
+  {
+    "name": "Bottega Veneta",
+    "count": 6
+  },
+  {
+    "name": "Monop'Daily",
+    "count": 6
+  },
+  {
+    "name": "Oakberry Açaí Bowls",
+    "count": 6
+  },
+  {
+    "name": "Naturenville",
+    "count": 6
+  },
+  {
+    "name": "Kuoni",
+    "count": 6
+  },
+  {
+    "name": "Sadaharu Aoki",
+    "count": 6
+  },
+  {
+    "name": "Chatime",
+    "count": 6
+  },
+  {
+    "name": "Krispy Kreme",
+    "count": 6
+  },
+  {
+    "name": "Bchef",
+    "count": 5
+  },
+  {
+    "name": "Mccafé",
+    "count": 5
+  },
+  {
+    "name": "La Panière",
+    "count": 5
+  },
+  {
+    "name": "China Wok",
+    "count": 5
+  },
+  {
+    "name": "Hello Pharmacie",
+    "count": 5
+  },
+  {
+    "name": "Pharmactiv",
+    "count": 5
+  },
+  {
+    "name": "Phone House",
+    "count": 5
+  },
+  {
+    "name": "Marina Rinaldi",
+    "count": 5
+  },
+  {
+    "name": "Maxxess",
+    "count": 5
+  },
+  {
+    "name": "Ecox",
+    "count": 5
+  },
+  {
+    "name": "Patagonia",
+    "count": 5
+  },
+  {
+    "name": "Gabor",
+    "count": 5
+  },
+  {
+    "name": "Tartine Et Chocolat",
+    "count": 5
+  },
+  {
+    "name": "Antoine Et Lili",
+    "count": 5
+  },
+  {
+    "name": "Converse",
+    "count": 5
+  },
+  {
+    "name": "Vorwerk",
+    "count": 5
+  },
+  {
+    "name": "Diptyque'",
+    "count": 5
+  },
+  {
+    "name": "Boggi Milano",
+    "count": 5
+  },
+  {
+    "name": "Oxbow",
+    "count": 5
+  },
+  {
+    "name": "Barbour",
+    "count": 5
+  },
+  {
+    "name": "Kubota",
+    "count": 5
+  },
+  {
+    "name": "Eat Salad",
+    "count": 5
+  },
+  {
+    "name": "Isuzu",
+    "count": 5
+  },
+  {
+    "name": "Brechotte",
+    "count": 5
+  },
+  {
+    "name": "Boesner",
+    "count": 5
+  },
+  {
+    "name": "Zeborne",
+    "count": 5
+  },
+  {
+    "name": "Aston Martin",
+    "count": 5
+  },
+  {
+    "name": "Marché Aux Affaires",
+    "count": 5
+  },
+  {
+    "name": "Le Tacos De Lyon",
+    "count": 5
+  },
+  {
+    "name": "Bosch",
+    "count": 5
+  },
+  {
+    "name": "Wash.Me",
+    "count": 5
+  },
+  {
+    "name": "Auto Primo",
+    "count": 5
+  },
+  {
+    "name": "Scotch & Soda",
+    "count": 5
+  },
+  {
+    "name": "Volvo Trucks",
+    "count": 5
+  },
+  {
+    "name": "4Murs",
+    "count": 5
+  },
+  {
+    "name": "Autodistribution",
+    "count": 5
+  },
+  {
+    "name": "Chipotle",
+    "count": 5
+  },
+  {
+    "name": "Muji",
+    "count": 5
+  },
+  {
+    "name": "Scame",
+    "count": 5
+  },
+  {
+    "name": "Alltricks",
+    "count": 5
+  },
+  {
+    "name": "Espace Coiffure",
+    "count": 5
+  },
+  {
+    "name": "Meilleurtaux.Com",
+    "count": 5
+  },
+  {
+    "name": "Polaris",
+    "count": 5
+  },
+  {
+    "name": "Ledistrib",
+    "count": 5
+  },
+  {
+    "name": "Vicomte A",
+    "count": 5
+  },
+  {
+    "name": "Komilfo",
+    "count": 5
+  },
+  {
+    "name": "Q8",
+    "count": 5
+  },
+  {
+    "name": "Just Queen",
+    "count": 5
+  },
+  {
+    "name": "Novettino",
+    "count": 5
+  },
+  {
+    "name": "Crédit Agricole Du Morbihan",
+    "count": 5
+  },
+  {
+    "name": "La Trinitaine",
+    "count": 5
+  },
+  {
+    "name": "Star",
+    "count": 5
+  },
+  {
+    "name": "Vivéco",
+    "count": 5
+  },
+  {
+    "name": "Leclerc",
+    "count": 5
+  },
+  {
+    "name": "Hilti",
+    "count": 5
+  },
+  {
+    "name": "Proxi Confort",
+    "count": 5
+  },
+  {
+    "name": "Tbs",
+    "count": 5
+  },
+  {
+    "name": "City Market",
+    "count": 5
+  },
+  {
+    "name": "Power Dot",
+    "count": 5
+  },
+  {
+    "name": "Mercedes-Benz;Smart",
+    "count": 5
+  },
+  {
+    "name": "R3",
+    "count": 5
+  },
+  {
+    "name": "Tradition Des Vosges",
+    "count": 5
+  },
+  {
+    "name": "Authentic Men",
+    "count": 5
+  },
+  {
+    "name": "Beillevaire",
+    "count": 5
+  },
+  {
+    "name": "Chronopost",
+    "count": 5
+  },
+  {
+    "name": "Clarks",
+    "count": 5
+  },
+  {
+    "name": "Escada",
+    "count": 5
+  },
+  {
+    "name": "Pepe Jeans",
+    "count": 5
+  },
+  {
+    "name": "Cahors",
+    "count": 5
+  },
+  {
+    "name": "Thrifty",
+    "count": 5
+  },
+  {
+    "name": "Machi Machi",
+    "count": 5
+  },
+  {
+    "name": "Bluebus",
+    "count": 5
+  },
+  {
+    "name": "Station-E",
+    "count": 5
+  },
+  {
+    "name": "Notting Hill Coffee",
+    "count": 5
+  },
+  {
+    "name": "Pharmacie Du Château",
+    "count": 5
+  },
+  {
+    "name": "Arthur Bonnet",
+    "count": 5
+  },
+  {
+    "name": "Adidas Originals",
+    "count": 5
+  },
+  {
+    "name": "Monop'Station",
+    "count": 5
+  },
+  {
+    "name": "Bred Banque Populaire",
+    "count": 5
+  },
+  {
+    "name": "Wasabi",
+    "count": 5
+  },
+  {
+    "name": "Miele",
+    "count": 5
+  },
+  {
+    "name": "Meuh! Restaurant",
+    "count": 5
+  },
+  {
+    "name": "Alterbase",
+    "count": 5
+  },
+  {
+    "name": "Le Soleil Est La Terre",
+    "count": 5
+  },
+  {
+    "name": "Calitom",
+    "count": 5
+  },
+  {
+    "name": "Sunglass Hut",
+    "count": 5
+  },
+  {
+    "name": "La Boulangerie D'Honoré",
+    "count": 5
+  },
+  {
+    "name": "Societé Génerale",
+    "count": 5
+  },
+  {
+    "name": "Debotté",
+    "count": 5
+  },
+  {
+    "name": "Chlorophylle",
+    "count": 5
+  },
+  {
+    "name": "Zapa",
+    "count": 5
+  },
+  {
+    "name": "Emporio Armani",
+    "count": 5
+  },
+  {
+    "name": "Dulac Cinémas",
+    "count": 5
+  },
+  {
+    "name": "Paul Smith",
+    "count": 5
+  },
+  {
+    "name": "Sports Direct",
+    "count": 5
+  },
+  {
+    "name": "Tiffany & Company",
+    "count": 5
+  },
+  {
+    "name": "Wild & The Moon",
+    "count": 5
+  },
+  {
+    "name": "Ubeeqo",
+    "count": 5
+  },
+  {
+    "name": "Belib'",
+    "count": 5
+  },
+  {
+    "name": "Chloé",
+    "count": 5
+  },
+  {
+    "name": "Chocolat Chapon",
+    "count": 5
+  },
+  {
+    "name": "Sigeif",
+    "count": 5
+  },
+  {
+    "name": "Hair Studio",
+    "count": 4
+  },
+  {
+    "name": "Crédit Agricole Des Savoie",
+    "count": 4
+  },
+  {
+    "name": "Provifruits",
+    "count": 4
+  },
+  {
+    "name": "Mercedes",
+    "count": 4
+  },
+  {
+    "name": "Ambiance & Styles",
+    "count": 4
+  },
+  {
+    "name": "Banque Nuger",
+    "count": 4
+  },
+  {
+    "name": "Leader Price Express",
+    "count": 4
+  },
+  {
+    "name": "L'Atelier Du Sourcil",
+    "count": 4
+  },
+  {
+    "name": "Domidom",
+    "count": 4
+  },
+  {
+    "name": "O2",
+    "count": 4
+  },
+  {
+    "name": "Big M",
+    "count": 4
+  },
+  {
+    "name": "Lotus",
+    "count": 4
+  },
+  {
+    "name": "Crédit Immobilier De France",
+    "count": 4
+  },
+  {
+    "name": "Decitre",
+    "count": 4
+  },
+  {
+    "name": "Etam Lingerie",
+    "count": 4
+  },
+  {
+    "name": "San Marina",
+    "count": 4
+  },
+  {
+    "name": "Avia Xpress",
+    "count": 4
+  },
+  {
+    "name": "Autosecuritas",
+    "count": 4
+  },
+  {
+    "name": "Pom D'Api",
+    "count": 4
+  },
+  {
+    "name": "Artisans Du Monde",
+    "count": 4
+  },
+  {
+    "name": "La Route Des Arômes",
+    "count": 4
+  },
+  {
+    "name": "Momoni",
+    "count": 4
+  },
+  {
+    "name": "Sebago",
+    "count": 4
+  },
+  {
+    "name": "Samse",
+    "count": 4
+  },
+  {
+    "name": "Bobbi Brown",
+    "count": 4
+  },
+  {
+    "name": "Sequoia Pressing",
+    "count": 4
+  },
+  {
+    "name": "Pylones",
+    "count": 4
+  },
+  {
+    "name": "Levélo",
+    "count": 4
+  },
+  {
+    "name": "Majuscule",
+    "count": 4
+  },
+  {
+    "name": "Yacco",
+    "count": 4
+  },
+  {
+    "name": "Comptoir Des Vignes",
+    "count": 4
+  },
+  {
+    "name": "Bolia",
+    "count": 4
+  },
+  {
+    "name": "Calida",
+    "count": 4
+  },
+  {
+    "name": "Sirmat",
+    "count": 4
+  },
+  {
+    "name": "Total Energie",
+    "count": 4
+  },
+  {
+    "name": "Le Bistro",
+    "count": 4
+  },
+  {
+    "name": "Boîte À Livres",
+    "count": 4
+  },
+  {
+    "name": "Promeom",
+    "count": 4
+  },
+  {
+    "name": "Easy Cash",
+    "count": 4
+  },
+  {
+    "name": "Pointcode",
+    "count": 4
+  },
+  {
+    "name": "Prolians",
+    "count": 4
+  },
+  {
+    "name": "Laverap",
+    "count": 4
+  },
+  {
+    "name": "Le Pinocchio",
+    "count": 4
+  },
+  {
+    "name": "Ymanci",
+    "count": 4
+  },
+  {
+    "name": "Man",
+    "count": 4
+  },
+  {
+    "name": "Abriplus",
+    "count": 4
+  },
+  {
+    "name": "E-Vadea",
+    "count": 4
+  },
+  {
+    "name": "Bosh Ebike",
+    "count": 4
+  },
+  {
+    "name": "L’Agence Automobilière",
+    "count": 4
+  },
+  {
+    "name": "Bio Monde",
+    "count": 4
+  },
+  {
+    "name": "Cora Drive",
+    "count": 4
+  },
+  {
+    "name": "Tritium",
+    "count": 4
+  },
+  {
+    "name": "Marc Verdant",
+    "count": 4
+  },
+  {
+    "name": "Husqvarna",
+    "count": 4
+  },
+  {
+    "name": "Mma",
+    "count": 4
+  },
+  {
+    "name": "Admr",
+    "count": 4
+  },
+  {
+    "name": "Iris Galerie",
+    "count": 4
+  },
+  {
+    "name": "Le Comptoir Irlandais",
+    "count": 4
+  },
+  {
+    "name": "Poulaillon",
+    "count": 4
+  },
+  {
+    "name": "Replay",
+    "count": 4
+  },
+  {
+    "name": "Revolution",
+    "count": 4
+  },
+  {
+    "name": "Driveeco",
+    "count": 4
+  },
+  {
+    "name": "Espace Culturel E. Leclerc",
+    "count": 4
+  },
+  {
+    "name": "La Place",
+    "count": 4
+  },
+  {
+    "name": "Brev'Car",
+    "count": 4
+  },
+  {
+    "name": "Cer",
+    "count": 4
+  },
+  {
+    "name": "Skoda",
+    "count": 4
+  },
+  {
+    "name": "Precisium",
+    "count": 4
+  },
+  {
+    "name": "Lysadis",
+    "count": 4
+  },
+  {
+    "name": "Opel;Chevrolet",
+    "count": 4
+  },
+  {
+    "name": "Pharmabest",
+    "count": 4
+  },
+  {
+    "name": "Viva La Vie",
+    "count": 4
+  },
+  {
+    "name": "La Mie Dorée",
+    "count": 4
+  },
+  {
+    "name": "Marceau & Inès",
+    "count": 4
+  },
+  {
+    "name": "Zunder",
+    "count": 4
+  },
+  {
+    "name": "Modulo",
+    "count": 4
+  },
+  {
+    "name": "Doppio Malto",
+    "count": 4
+  },
+  {
+    "name": "E-Motum",
+    "count": 4
+  },
+  {
+    "name": "Çiğköftem",
+    "count": 4
+  },
+  {
+    "name": "A2Pas",
+    "count": 4
+  },
+  {
+    "name": "Lee Cooper",
+    "count": 4
+  },
+  {
+    "name": "Kymco",
+    "count": 4
+  },
+  {
+    "name": "Hans Anders",
+    "count": 4
+  },
+  {
+    "name": "Phox",
+    "count": 4
+  },
+  {
+    "name": "Kuoni;Univairmer",
+    "count": 4
+  },
+  {
+    "name": "Pink",
+    "count": 4
+  },
+  {
+    "name": "Sparklin",
+    "count": 4
+  },
+  {
+    "name": "Power Dot France",
+    "count": 4
+  },
+  {
+    "name": "Prink",
+    "count": 4
+  },
+  {
+    "name": "Costco",
+    "count": 4
+  },
+  {
+    "name": "Connect&Go",
+    "count": 4
+  },
+  {
+    "name": "Finsbury",
+    "count": 4
+  },
+  {
+    "name": "Lilas",
+    "count": 4
+  },
+  {
+    "name": "Pronto Pizza",
+    "count": 4
+  },
+  {
+    "name": "Pizza Nova",
+    "count": 4
+  },
+  {
+    "name": "Oxybul",
+    "count": 4
+  },
+  {
+    "name": "Free Lance",
+    "count": 4
+  },
+  {
+    "name": "Fendt",
+    "count": 4
+  },
+  {
+    "name": "New Look",
+    "count": 4
+  },
+  {
+    "name": "Carrefour Energie",
+    "count": 4
+  },
+  {
+    "name": "Coop",
+    "count": 4
+  },
+  {
+    "name": "O'Neill",
+    "count": 4
+  },
+  {
+    "name": "Bouticycle",
+    "count": 4
+  },
+  {
+    "name": "Pita Pit",
+    "count": 4
+  },
+  {
+    "name": "Cyclocamp",
+    "count": 4
+  },
+  {
+    "name": "Multimarque",
+    "count": 4
+  },
+  {
+    "name": "Legrand Greenup",
+    "count": 4
+  },
+  {
+    "name": "Ingeteam",
+    "count": 4
+  },
+  {
+    "name": "Frip'In Shop",
+    "count": 4
+  },
+  {
+    "name": "Espace Conduite",
+    "count": 4
+  },
+  {
+    "name": "Le Temple Du Jeu",
+    "count": 4
+  },
+  {
+    "name": "Loro Piana",
+    "count": 4
+  },
+  {
+    "name": "Salvatore Ferragamo",
+    "count": 4
+  },
+  {
+    "name": "Siematic",
+    "count": 4
+  },
+  {
+    "name": "Balenciaga",
+    "count": 4
+  },
+  {
+    "name": "Au Forum Du Bâtiment",
+    "count": 4
+  },
+  {
+    "name": "Simone",
+    "count": 4
+  },
+  {
+    "name": "Tod'S",
+    "count": 4
+  },
+  {
+    "name": "Giorgio Armani",
+    "count": 4
+  },
+  {
+    "name": "Pinko",
+    "count": 4
+  },
+  {
+    "name": "Carl'S Jr.",
+    "count": 4
+  },
+  {
+    "name": "Yuba;Urban Arrow;Tern;Moustache;Cannondale;Peugeot;Gitane;Giant;Winora;Haibike",
+    "count": 4
+  },
+  {
+    "name": "À La Mère De Famille",
+    "count": 4
+  },
+  {
+    "name": "& Other Stories",
+    "count": 4
+  },
+  {
+    "name": "Farrow & Ball",
+    "count": 4
+  },
+  {
+    "name": "Altinnova Altao Pump",
+    "count": 4
+  },
+  {
+    "name": "Guichet Ratp",
+    "count": 4
+  },
+  {
+    "name": "Dunkin'",
+    "count": 4
+  },
+  {
+    "name": "Maison Margiela",
+    "count": 4
+  },
+  {
+    "name": "Toni & Guy",
+    "count": 4
+  },
+  {
+    "name": "Lavazza",
+    "count": 4
+  },
+  {
+    "name": "Clever Series Ifix",
+    "count": 4
+  },
+  {
+    "name": "Guidepost Montessori",
+    "count": 4
+  },
+  {
+    "name": "Panerai",
+    "count": 3
+  },
+  {
+    "name": "Banque Chabrières",
+    "count": 3
+  },
+  {
+    "name": "Citröen",
+    "count": 3
+  },
+  {
+    "name": "Volkswagen;Seat",
+    "count": 3
+  },
+  {
+    "name": "Maxilivres",
+    "count": 3
+  },
+  {
+    "name": "Ulla Popken",
+    "count": 3
+  },
+  {
+    "name": "Richart",
+    "count": 3
+  },
+  {
+    "name": "Bijouterie Fournier",
+    "count": 3
+  },
+  {
+    "name": "Casino Express",
+    "count": 3
+  },
+  {
+    "name": "Le Petit Souk",
+    "count": 3
+  },
+  {
+    "name": "Banque Martin Maurel",
+    "count": 3
+  },
+  {
+    "name": "Tissus Des Ursules",
+    "count": 3
+  },
+  {
+    "name": "Crédit Agricole Centre France",
+    "count": 3
+  },
+  {
+    "name": "Grand Optical",
+    "count": 3
+  },
+  {
+    "name": "Auto Control",
+    "count": 3
+  },
+  {
+    "name": "Carré Santé Beauté",
+    "count": 3
+  },
+  {
+    "name": "Crédit Agricole Centre-Est",
+    "count": 3
+  },
+  {
+    "name": "Total Excellium",
+    "count": 3
+  },
+  {
+    "name": "Jordan Tomas Pizza",
+    "count": 3
+  },
+  {
+    "name": "Netski",
+    "count": 3
+  },
+  {
+    "name": "Autocontrol",
+    "count": 3
+  },
+  {
+    "name": "Moa",
+    "count": 3
+  },
+  {
+    "name": "Foot Korner",
+    "count": 3
+  },
+  {
+    "name": "Father & Sons",
+    "count": 3
+  },
+  {
+    "name": "Mondial Piscine",
+    "count": 3
+  },
+  {
+    "name": "Joys Tacos",
+    "count": 3
+  },
+  {
+    "name": "Sève",
+    "count": 3
+  },
+  {
+    "name": "Zolpan",
+    "count": 3
+  },
+  {
+    "name": "Bazarland",
+    "count": 3
+  },
+  {
+    "name": "Credit Agricole",
+    "count": 3
+  },
+  {
+    "name": "Avenue",
+    "count": 3
+  },
+  {
+    "name": "Infiniti",
+    "count": 3
+  },
+  {
+    "name": "Clarins",
+    "count": 3
+  },
+  {
+    "name": "Isabel Marant",
+    "count": 3
+  },
+  {
+    "name": "Endesa",
+    "count": 3
+  },
+  {
+    "name": "Vérif'Autos",
+    "count": 3
+  },
+  {
+    "name": "Jb Martin",
+    "count": 3
+  },
+  {
+    "name": "Vitton Clop",
+    "count": 3
+  },
+  {
+    "name": "Peggy Sage",
+    "count": 3
+  },
+  {
+    "name": "Haribo",
+    "count": 3
+  },
+  {
+    "name": "Richardson",
+    "count": 3
+  },
+  {
+    "name": "Rue Des Producteurs",
+    "count": 3
+  },
+  {
+    "name": "Dentego",
+    "count": 3
+  },
+  {
+    "name": "Animo-Concept",
+    "count": 3
+  },
+  {
+    "name": "Florentin",
+    "count": 3
+  },
+  {
+    "name": "Augustin",
+    "count": 3
+  },
+  {
+    "name": "Biogroup",
+    "count": 3
+  },
+  {
+    "name": "Le Comptoir De Mathilde",
+    "count": 3
+  },
+  {
+    "name": "Chez Jules",
+    "count": 3
+  },
+  {
+    "name": "Thomas Cook",
+    "count": 3
+  },
+  {
+    "name": "Valege",
+    "count": 3
+  },
+  {
+    "name": "K Par K",
+    "count": 3
+  },
+  {
+    "name": "Cged",
+    "count": 3
+  },
+  {
+    "name": "Mariage Frères",
+    "count": 3
+  },
+  {
+    "name": "Ben & Jerry'S",
+    "count": 3
+  },
+  {
+    "name": "Pum",
+    "count": 3
+  },
+  {
+    "name": "Wolkswagen",
+    "count": 3
+  },
+  {
+    "name": "Auto Distribution",
+    "count": 3
+  },
+  {
+    "name": "Dekra-Norisko",
+    "count": 3
+  },
+  {
+    "name": "Gls;Relais Colis;Ups",
+    "count": 3
+  },
+  {
+    "name": "Euro-Relais",
+    "count": 3
+  },
+  {
+    "name": "Piscines Desjoyaux",
+    "count": 3
+  },
+  {
+    "name": "Bosch Ebike Systems",
+    "count": 3
+  },
+  {
+    "name": "Alfa Romeo;Fiat",
+    "count": 3
+  },
+  {
+    "name": "Terranimo",
+    "count": 3
+  },
+  {
+    "name": "Brunello Cucinelli",
+    "count": 3
+  },
+  {
+    "name": "Biscuit Bouvard",
+    "count": 3
+  },
+  {
+    "name": "Carter-Cash",
+    "count": 3
+  },
+  {
+    "name": "Eléphant Bleu",
+    "count": 3
+  },
+  {
+    "name": "Terranova",
+    "count": 3
+  },
+  {
+    "name": "Jura Restauration",
+    "count": 3
+  },
+  {
+    "name": "Mathieu Paget",
+    "count": 3
+  },
+  {
+    "name": "Pizza Roma",
+    "count": 3
+  },
+  {
+    "name": "Café De La Poste",
+    "count": 3
+  },
+  {
+    "name": "Fiat;Alfa Romeo",
+    "count": 3
+  },
+  {
+    "name": "Superjet",
+    "count": 3
+  },
+  {
+    "name": "Alinéa",
+    "count": 3
+  },
+  {
+    "name": "Passage Bleu",
+    "count": 3
+  },
+  {
+    "name": "Total Énergie",
+    "count": 3
+  },
+  {
+    "name": "Equans",
+    "count": 3
+  },
+  {
+    "name": "Five Star",
+    "count": 3
+  },
+  {
+    "name": "Fiat;Lancia",
+    "count": 3
+  },
+  {
+    "name": "Mercure",
+    "count": 3
+  },
+  {
+    "name": "Caréco",
+    "count": 3
+  },
+  {
+    "name": "Dia Market",
+    "count": 3
+  },
+  {
+    "name": "Emmaüs",
+    "count": 3
+  },
+  {
+    "name": "Tom Tailor",
+    "count": 3
+  },
+  {
+    "name": "L'Auto E. Leclerc",
+    "count": 3
+  },
+  {
+    "name": "Vero Moda",
+    "count": 3
+  },
+  {
+    "name": "Tedi",
+    "count": 3
+  },
+  {
+    "name": "Vianor",
+    "count": 3
+  },
+  {
+    "name": "Stych",
+    "count": 3
+  },
+  {
+    "name": "Happy Cash",
+    "count": 3
+  },
+  {
+    "name": "Ecocuisine",
+    "count": 3
+  },
+  {
+    "name": "Ouest Charge",
+    "count": 3
+  },
+  {
+    "name": "B&B Hotels",
+    "count": 3
+  },
+  {
+    "name": "La Ronde Des Pains",
+    "count": 3
+  },
+  {
+    "name": "Profil+",
+    "count": 3
+  },
+  {
+    "name": "Ad Expert",
+    "count": 3
+  },
+  {
+    "name": "Elf",
+    "count": 3
+  },
+  {
+    "name": "Pharmacie De L'Église",
+    "count": 3
+  },
+  {
+    "name": "Singer",
+    "count": 3
+  },
+  {
+    "name": "La Passion Du Fromage",
+    "count": 3
+  },
+  {
+    "name": "Costa",
+    "count": 3
+  },
+  {
+    "name": "Arkose",
+    "count": 3
+  },
+  {
+    "name": "Cewe",
+    "count": 3
+  },
+  {
+    "name": "Toc",
+    "count": 3
+  },
+  {
+    "name": "Famille Mary",
+    "count": 3
+  },
+  {
+    "name": "Mat De Misaine",
+    "count": 3
+  },
+  {
+    "name": "Man Truck & Bus",
+    "count": 3
+  },
+  {
+    "name": "Patàpain",
+    "count": 3
+  },
+  {
+    "name": "Seat;Škoda Auto",
+    "count": 3
+  },
+  {
+    "name": "Le Paradis Du Fruit",
+    "count": 3
+  },
+  {
+    "name": "Univet",
+    "count": 3
+  },
+  {
+    "name": "Autosecurité",
+    "count": 3
+  },
+  {
+    "name": "Crédit Agricole Du Nord-Est",
+    "count": 3
+  },
+  {
+    "name": "Picwictoys",
+    "count": 3
+  },
+  {
+    "name": "Elena Mirò",
+    "count": 3
+  },
+  {
+    "name": "Seidensticker",
+    "count": 3
+  },
+  {
+    "name": "Marc O'Polo",
+    "count": 3
+  },
+  {
+    "name": "Nuance",
+    "count": 3
+  },
+  {
+    "name": "Blanc Des Vosges",
+    "count": 3
+  },
+  {
+    "name": "Redken",
+    "count": 3
+  },
+  {
+    "name": "Viva",
+    "count": 3
+  },
+  {
+    "name": "Copaline",
+    "count": 3
+  },
+  {
+    "name": "Ecco",
+    "count": 3
+  },
+  {
+    "name": "Vélogalaxie",
+    "count": 3
+  },
+  {
+    "name": "Ies",
+    "count": 3
+  },
+  {
+    "name": "Nexans",
+    "count": 3
+  },
+  {
+    "name": "Armani Exchange",
+    "count": 3
+  },
+  {
+    "name": "La Belle-Iloise",
+    "count": 3
+  },
+  {
+    "name": "Cabane À Livres",
+    "count": 3
+  },
+  {
+    "name": "Easy Charge Services",
+    "count": 3
+  },
+  {
+    "name": "Bookcrossing",
+    "count": 3
+  },
+  {
+    "name": "Relais Colis",
+    "count": 3
+  },
+  {
+    "name": "Panda Express",
+    "count": 3
+  },
+  {
+    "name": "On The Run",
+    "count": 3
+  },
+  {
+    "name": "Chantelle",
+    "count": 3
+  },
+  {
+    "name": "Homebox",
+    "count": 3
+  },
+  {
+    "name": "Steak 'N Shake",
+    "count": 3
+  },
+  {
+    "name": "Electrolux",
+    "count": 3
+  },
+  {
+    "name": "Orne Transition",
+    "count": 3
+  },
+  {
+    "name": "Pizza King",
+    "count": 3
+  },
+  {
+    "name": "New Style",
+    "count": 3
+  },
+  {
+    "name": "La Belle Iloise",
+    "count": 3
+  },
+  {
+    "name": "Lancel",
+    "count": 3
+  },
+  {
+    "name": "Balibaris",
+    "count": 3
+  },
+  {
+    "name": "Cosmoparis",
+    "count": 3
+  },
+  {
+    "name": "Ampm",
+    "count": 3
+  },
+  {
+    "name": "Aprilia",
+    "count": 3
+  },
+  {
+    "name": "Piaggio",
+    "count": 3
+  },
+  {
+    "name": "Iléwatt",
+    "count": 3
+  },
+  {
+    "name": "Renault Dacia",
+    "count": 3
+  },
+  {
+    "name": "Rapid'Market",
+    "count": 3
+  },
+  {
+    "name": "Logis",
+    "count": 3
+  },
+  {
+    "name": "Primaprix",
+    "count": 3
+  },
+  {
+    "name": "Naturgy",
+    "count": 3
+  },
+  {
+    "name": "Mbk",
+    "count": 3
+  },
+  {
+    "name": "Lancaster",
+    "count": 3
+  },
+  {
+    "name": "Te61",
+    "count": 3
+  },
+  {
+    "name": "Novotel",
+    "count": 3
+  },
+  {
+    "name": "Saint Maclou",
+    "count": 3
+  },
+  {
+    "name": "Citroën;Ds",
+    "count": 3
+  },
+  {
+    "name": "Sga Mobility",
+    "count": 3
+  },
+  {
+    "name": "Dune London",
+    "count": 3
+  },
+  {
+    "name": "Lafon",
+    "count": 3
+  },
+  {
+    "name": "Lamborghini",
+    "count": 3
+  },
+  {
+    "name": "Loc Eco",
+    "count": 3
+  },
+  {
+    "name": "Carhartt",
+    "count": 3
+  },
+  {
+    "name": "Enerstock",
+    "count": 3
+  },
+  {
+    "name": "Evobox",
+    "count": 3
+  },
+  {
+    "name": "Everblue",
+    "count": 3
+  },
+  {
+    "name": "Ilo",
+    "count": 3
+  },
+  {
+    "name": "Smyths Toys",
+    "count": 3
+  },
+  {
+    "name": "Carrefour Voyages",
+    "count": 3
+  },
+  {
+    "name": "Campus",
+    "count": 3
+  },
+  {
+    "name": "Crédit Agricole Du Languedoc",
+    "count": 3
+  },
+  {
+    "name": "Riejui;Ycf;Honda;Kawasaki;Ktm;Suzuki;Silence;Piaggio",
+    "count": 3
+  },
+  {
+    "name": "Résidence Hotelière Astoria",
+    "count": 3
+  },
+  {
+    "name": "Ssangyong",
+    "count": 3
+  },
+  {
+    "name": "Smoov",
+    "count": 3
+  },
+  {
+    "name": "Mondial Relais",
+    "count": 3
+  },
+  {
+    "name": "Can-Am",
+    "count": 3
+  },
+  {
+    "name": "Une Tartine De Bonheur",
+    "count": 3
+  },
+  {
+    "name": "Le Zed",
+    "count": 3
+  },
+  {
+    "name": "Spok",
+    "count": 3
+  },
+  {
+    "name": "Japanim",
+    "count": 3
+  },
+  {
+    "name": "Mabaguette",
+    "count": 3
+  },
+  {
+    "name": "Toiles De Mayenne",
+    "count": 3
+  },
+  {
+    "name": "Sessùn",
+    "count": 3
+  },
+  {
+    "name": "Garage Ad Expert",
+    "count": 3
+  },
+  {
+    "name": "Colissimo",
+    "count": 3
+  },
+  {
+    "name": "Api Distribution Sas",
+    "count": 3
+  },
+  {
+    "name": "Potager City",
+    "count": 3
+  },
+  {
+    "name": "K9",
+    "count": 3
+  },
+  {
+    "name": "Marcel & Fils",
+    "count": 3
+  },
+  {
+    "name": "Ermenegildo Zegna",
+    "count": 3
+  },
+  {
+    "name": "Chaumet",
+    "count": 3
+  },
+  {
+    "name": "Humana",
+    "count": 3
+  },
+  {
+    "name": "Larecharge",
+    "count": 3
+  },
+  {
+    "name": "Wiiiz",
+    "count": 3
+  },
+  {
+    "name": "Jimmy Choo",
+    "count": 3
+  },
+  {
+    "name": "Sabon",
+    "count": 3
+  },
+  {
+    "name": "Aldo",
+    "count": 3
+  },
+  {
+    "name": "Granado",
+    "count": 3
+  },
+  {
+    "name": "Grom",
+    "count": 3
+  },
+  {
+    "name": "Poîlane",
+    "count": 3
+  },
+  {
+    "name": "Maison Landemaine",
+    "count": 3
+  },
+  {
+    "name": "Bpi",
+    "count": 3
+  },
+  {
+    "name": "Givenchy",
+    "count": 3
+  },
+  {
+    "name": "Chicken Spot",
+    "count": 3
+  },
+  {
+    "name": "Guerlain",
+    "count": 3
+  },
+  {
+    "name": "Garden Price",
+    "count": 3
+  },
+  {
+    "name": "Versace",
+    "count": 3
+  },
+  {
+    "name": "Ubs",
+    "count": 3
+  },
+  {
+    "name": "Kiehl'S",
+    "count": 3
+  },
+  {
+    "name": "Ugg",
+    "count": 3
+  },
+  {
+    "name": "Gina Gino",
+    "count": 3
+  },
+  {
+    "name": "La Borne Bleue",
+    "count": 3
+  },
+  {
+    "name": "Doré Doré",
+    "count": 3
+  },
+  {
+    "name": "Tumi",
+    "count": 3
+  },
+  {
+    "name": "Samsung",
+    "count": 3
+  },
+  {
+    "name": "Millie'S Cookies",
+    "count": 3
+  }
+]
