@@ -955,8 +955,6 @@ let retailDebounceTimer = null;
    LOAD ENSEIGNES JSON
 ========================= */
 
-let allBrands = [];   // 🔥 NOUVEAU
-
 async function loadBrands() {
 
     try {
