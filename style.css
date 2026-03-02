@@ -1042,10 +1042,34 @@ html, body {
     display: none;
 }
 
+/* =========================
+   AUTOCOMPLETE ENSEIGNE
+========================= */
 
+.autocomplete-dropdown {
+    position: relative;
+    background: #0b2c3d;
+    border: 1px solid #1f4558;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    margin-top: 4px;
+    z-index: 1000;
+}
 
+.autocomplete-item {
+    padding: 6px 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
 
+.autocomplete-item:hover {
+    background: #1f4558;
+}
 
-
-
-
+.selected-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
