@@ -1257,7 +1257,14 @@ function filterSelectedBrandsByActivity() {
 
     });
 
-    refreshBrandChips();
+   refreshBrandChips();
+
+   if (retailState.lastLotCoords) {
+       fetchRetail(
+           retailState.lastLotCoords.lat,
+           retailState.lastLotCoords.lng
+       );
+   }
 }
    
     // Ajouter les sous-groupes sélectionnés individuellement
@@ -1458,8 +1465,6 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
         Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
 
             Object.entries(gData.subgroups).forEach(([subName, tags]) => {
-
-                if (!effectiveSubgroups.includes(subName)) return;
 
                 tags.forEach(tag => {
 
