@@ -1246,8 +1246,25 @@ function filterSelectedBrandsByActivity() {
 
     const effectiveSubgroups = getEffectiveSubgroups();
 
-    if (!effectiveSubgroups.length) return;
+    /* 🔥 Si plus aucune activité sélectionnée
+       → on vide totalement les enseignes */
+    if (!effectiveSubgroups.length) {
 
+        retailState.selectedBrands = [];
+        refreshBrandChips();
+
+        if (retailState.lastLotCoords) {
+            fetchRetail(
+                retailState.lastLotCoords.lat,
+                retailState.lastLotCoords.lng
+            );
+        }
+
+        return;
+    }
+
+    /* 🔥 Sinon on garde uniquement
+       les brands compatibles avec l’activité */
     retailState.selectedBrands =
         retailState.selectedBrands.filter(brand => {
 
@@ -1522,6 +1539,16 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
 
         color = color || "#E1782C";
 
+        /* 🔥 Stabilisation couleur brand */
+        if (r.name && stableSub) {
+
+            if (!retailState.brandToColor[r.name]) {
+                retailState.brandToColor[r.name] = color;
+            }
+
+            color = retailState.brandToColor[r.name];
+        }
+       
         /* 5️⃣ Marker */
 
         const dist = Math.round(distanceMeters(
