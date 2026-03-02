@@ -1074,7 +1074,9 @@ function buildRetailHierarchy() {
                 }
 
                 refreshChips();
-
+                filterSelectedBrandsByActivity();
+                refreshBrandChips();
+               
                 if (retailState.lastLotCoords) {
                     fetchRetail(
                         retailState.lastLotCoords.lat,
@@ -1120,6 +1122,8 @@ function buildRetailHierarchy() {
                 }
 
                 refreshChips();
+                filterSelectedBrandsByActivity();
+                refreshBrandChips();
 
                 if (retailState.lastLotCoords) {
                     fetchRetail(
@@ -1227,6 +1231,35 @@ function getEffectiveSubgroups(){
 
     });
 
+function filterSelectedBrandsByActivity() {
+
+    const effectiveSubgroups = getEffectiveSubgroups();
+
+    if (!effectiveSubgroups.length) return;
+
+    retailState.selectedBrands = retailState.selectedBrands.filter(brand => {
+
+        return retailState.cache
+            ? Object.values(retailState.cache).flat().some(r =>
+                r.name === brand &&
+                effectiveSubgroups.some(sub =>
+                    Object.values(RETAIL_STRUCTURE).some(g =>
+                        g.subgroups[sub] &&
+                        g.subgroups[sub].some(tag =>
+                            r.tags.shop === tag ||
+                            r.tags.amenity === tag ||
+                            r.tags.leisure === tag
+                        )
+                    )
+                )
+            )
+            : false;
+
+    });
+
+    refreshBrandChips();
+}
+   
     // Ajouter les sous-groupes sélectionnés individuellement
     retailState.selectedSubgroups.forEach(sub => {
         set.add(sub);
@@ -1443,8 +1476,8 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
 
         });
 
-        /* Si aucun sous-groupe match → on ignore */
-        if (!matchedSubgroup) return;
+        // Si aucune activité sélectionnée → on accepte même sans sous-groupe
+        if (!matchedSubgroup && effectiveSubgroups.length) return;
 
         /* =============================
            2️⃣ Calcul couleur
@@ -1741,9 +1774,36 @@ inputBrand.addEventListener("input", () => {
         return;
     }
 
-    const matches = allBrands
-        .filter(b => b.toLowerCase().includes(value))
-        .slice(0, 20);
+   let filteredBrands = allBrands;
+
+   const effectiveSubgroups = getEffectiveSubgroups();
+
+   if (effectiveSubgroups.length) {
+
+       filteredBrands = allBrands.filter(brand => {
+
+           return retailState.cache
+               ? Object.values(retailState.cache).flat().some(r =>
+                   r.name === brand &&
+                   effectiveSubgroups.some(sub =>
+                       Object.values(RETAIL_STRUCTURE).some(g =>
+                           g.subgroups[sub] &&
+                           g.subgroups[sub].some(tag =>
+                               r.tags.shop === tag ||
+                               r.tags.amenity === tag ||
+                               r.tags.leisure === tag
+                           )
+                       )
+                   )
+               )
+            : false;
+
+       });
+   }
+
+   const matches = filteredBrands
+       .filter(b => b.toLowerCase().includes(value))
+       .slice(0, 20);
 
     matches.forEach(brand => {
 
