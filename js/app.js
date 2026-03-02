@@ -1705,9 +1705,9 @@ inputActivite.addEventListener("input", () => {
    AUTOCOMPLETE ENSEIGNE
 ========================= */
 
-const inputBrand = document.getElementById("search-brand");
-const brandDropdown = document.getElementById("brand-autocomplete");
-const brandChipsContainer = document.getElementById("selected-brands");
+const inputBrand = document.getElementById("search-enseigne");
+const brandDropdown = document.getElementById("autocomplete-enseigne");
+const brandChipsContainer = document.getElementById("selected-enseignes");
 
 inputBrand.addEventListener("input", () => {
 
