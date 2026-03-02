@@ -1224,7 +1224,7 @@ function getEffectiveSubgroups(){
 
     const set = new Set();
 
-    // Ajouter tous les sous-groupes des groupes actifs
+    // Groupes → tous leurs sous-groupes
     retailState.selectedGroups.forEach(group => {
 
         if (RETAIL_STRUCTURE[group]) {
@@ -1233,6 +1233,14 @@ function getEffectiveSubgroups(){
         }
 
     });
+
+    // Sous-groupes individuels
+    retailState.selectedSubgroups.forEach(sub => {
+        set.add(sub);
+    });
+
+    return Array.from(set);
+}
 
 function filterSelectedBrandsByActivity() {
 
@@ -1255,14 +1263,6 @@ function filterSelectedBrandsByActivity() {
             retailState.lastLotCoords.lng
         );
     }
-}
-   
-    // Ajouter les sous-groupes sélectionnés individuellement
-    retailState.selectedSubgroups.forEach(sub => {
-        set.add(sub);
-    });
-
-    return Array.from(set);
 }
 
 /* =========================
@@ -1494,9 +1494,9 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
 
         /* 4️⃣ Couleur stable */
 
-        let color = retailState.brandToColor[r.name];
+        let color = null;
 
-        if (!color && stableSub) {
+        if (stableSub) {
 
             Object.entries(RETAIL_STRUCTURE).forEach(([gName, gData]) => {
 
@@ -1512,7 +1512,6 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
                             subs.length
                         );
 
-                        retailState.brandToColor[r.name] = color;
                     }
 
                 });
@@ -1818,9 +1817,11 @@ inputBrand.addEventListener("input", () => {
        });
    }
 
-   const matches = filteredBrands
-       .filter(b => b.toLowerCase().includes(value))
-       .slice(0, 20);
+  const normalized = normaliser(value);
+
+  const matches = filteredBrands
+      .filter(b => normaliser(b).includes(normalized))
+      .slice(0, 20);
 
     matches.forEach(brand => {
 
@@ -1874,10 +1875,10 @@ function refreshBrandChips() {
 
             retailLayer.eachLayer(layer => {
 
-                if (layer.getPopup()?.getContent()?.includes(brand)) {
+                if (layer._brand === brand) {
                     layer.setStyle({ radius: 9, opacity: 1, fillOpacity: 1 });
                 } else {
-                    layer.setStyle({ radius: 5, opacity: 0.25, fillOpacity: 0.25 });
+                    layer.setStyle({ radius: 5, opacity: 0.2, fillOpacity: 0.2 });
                 }
 
             });
