@@ -961,10 +961,32 @@ let retailDebounceTimer = null;
 async function loadBrands() {
 
     try {
-        const res = await fetch("data/enseignes.json");
+
+        const res = await fetch("data/enseignes_V8_dominance.json");
         const data = await res.json();
 
-        allBrands = data.map(b => b.name);
+        allBrands = [];
+        retailState.brandToSubgroup = {};
+
+        data.forEach(b => {
+
+            allBrands.push(b.name);
+
+            // 🔥 On associe chaque marque à UN sous-groupe stable
+            // Ici on mappe au groupe dominant (pas sous-groupe précis)
+
+            const group = b.activity_group;
+
+            if (RETAIL_STRUCTURE[group]) {
+
+                // On prend le 1er sous-groupe du groupe comme référence stable
+                const firstSub =
+                    Object.keys(RETAIL_STRUCTURE[group].subgroups)[0];
+
+                retailState.brandToSubgroup[b.name] = firstSub;
+            }
+
+        });
 
         console.log("Enseignes chargées :", allBrands.length);
 
