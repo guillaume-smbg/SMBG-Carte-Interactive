@@ -976,14 +976,13 @@ async function loadBrands() {
             // Ici on mappe au groupe dominant (pas sous-groupe précis)
 
             const group = b.activity_group;
+            const sub = b.activity_subgroup;
 
-            if (RETAIL_STRUCTURE[group]) {
-
-                // On prend le 1er sous-groupe du groupe comme référence stable
-                const firstSub =
-                    Object.keys(RETAIL_STRUCTURE[group].subgroups)[0];
-
-                retailState.brandToSubgroup[b.name] = firstSub;
+            if (
+                RETAIL_STRUCTURE[group] &&
+                RETAIL_STRUCTURE[group].subgroups[sub]
+            ) {
+                retailState.brandToSubgroup[b.name] = sub;
             }
 
         });
@@ -1790,7 +1789,9 @@ inputActivite.addEventListener("input", () => {
             autocomplete.style.display = "none";
 
             refreshChips();
-
+            filterSelectedBrandsByActivity();   // 🔥 IMPORTANT
+            refreshBrandChips();
+           
             if (retailState.lastLotCoords)
                 fetchRetail(
                     retailState.lastLotCoords.lat,
