@@ -1830,21 +1830,9 @@ inputBrand.addEventListener("input", () => {
 
        filteredBrands = allBrands.filter(brand => {
 
-           return retailState.cache
-               ? Object.values(retailState.cache).flat().some(r =>
-                   r.name === brand &&
-                   effectiveSubgroups.some(sub =>
-                       Object.values(RETAIL_STRUCTURE).some(g =>
-                           g.subgroups[sub] &&
-                           g.subgroups[sub].some(tag =>
-                               r.tags.shop === tag ||
-                               r.tags.amenity === tag ||
-                               r.tags.leisure === tag
-                           )
-                       )
-                   )
-               )
-            : false;
+           const sub = retailState.brandToSubgroup[brand];
+
+           return sub && effectiveSubgroups.includes(sub);
 
        });
    }
