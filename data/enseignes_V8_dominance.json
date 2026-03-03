@@ -1,0 +1,7316 @@
+[
+  {
+    "name": "Crédit Agricole",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 1299
+  },
+  {
+    "name": "Intermarché",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 919
+  },
+  {
+    "name": "Caisse d'Épargne",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 760
+  },
+  {
+    "name": "Renault",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 725
+  },
+  {
+    "name": "Crédit Mutuel",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 592
+  },
+  {
+    "name": "Lidl",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 534
+  },
+  {
+    "name": "Peugeot",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 473
+  },
+  {
+    "name": "McDonald's",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 462
+  },
+  {
+    "name": "Aldi",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 459
+  },
+  {
+    "name": "Carrefour",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 434
+  },
+  {
+    "name": "Banque Populaire",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 420
+  },
+  {
+    "name": "Super U",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 415
+  },
+  {
+    "name": "Total",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 401
+  },
+  {
+    "name": "Carrefour Market",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 364
+  },
+  {
+    "name": "Citroën",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 346
+  },
+  {
+    "name": "CIC",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 334
+  },
+  {
+    "name": "Vival",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 319
+  },
+  {
+    "name": "E.Leclerc",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 299
+  },
+  {
+    "name": "BNP Paribas",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 285
+  },
+  {
+    "name": "Proxi",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 278
+  },
+  {
+    "name": "Carrefour Express",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 260
+  },
+  {
+    "name": "TotalEnergies",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 250
+  },
+  {
+    "name": "Avia",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 244
+  },
+  {
+    "name": "LCL",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 228
+  },
+  {
+    "name": "Carrefour Contact",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 215
+  },
+  {
+    "name": "Spar",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 214
+  },
+  {
+    "name": "Biocoop",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 213
+  },
+  {
+    "name": "Optic 2000",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 212
+  },
+  {
+    "name": "Esso",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 207
+  },
+  {
+    "name": "Intersport",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 202
+  },
+  {
+    "name": "Burger King",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 200
+  },
+  {
+    "name": "Yves Rocher",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 198
+  },
+  {
+    "name": "Gamm Vert",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 197
+  },
+  {
+    "name": "Carrefour City",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 194
+  },
+  {
+    "name": "Krys",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 182
+  },
+  {
+    "name": "Maison de la Presse",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 167
+  },
+  {
+    "name": "Marie Blachère",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 163
+  },
+  {
+    "name": "SG",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 163
+  },
+  {
+    "name": "Société Générale",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 161
+  },
+  {
+    "name": "Alain Afflelou",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 152
+  },
+  {
+    "name": "Ford",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 147
+  },
+  {
+    "name": "Volkswagen",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 145
+  },
+  {
+    "name": "Optical Center",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 143
+  },
+  {
+    "name": "Intermarché Super",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 136
+  },
+  {
+    "name": "Orange",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 136
+  },
+  {
+    "name": "Atol",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 135
+  },
+  {
+    "name": "Chaussea",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 134
+  },
+  {
+    "name": "Netto",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 132
+  },
+  {
+    "name": "Toyota",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 127
+  },
+  {
+    "name": "U Express",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 125
+  },
+  {
+    "name": "Générale d'Optique",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 125
+  },
+  {
+    "name": "Écouter Voir",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 124
+  },
+  {
+    "name": "Auchan",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 124
+  },
+  {
+    "name": "Elan",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 121
+  },
+  {
+    "name": "Armand Thiery",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 120
+  },
+  {
+    "name": "Norauto",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 119
+  },
+  {
+    "name": "Decathlon",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 116
+  },
+  {
+    "name": "Q8",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 114
+  },
+  {
+    "name": "Darty",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 113
+  },
+  {
+    "name": "E. Leclerc",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 111
+  },
+  {
+    "name": "AD",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 111
+  },
+  {
+    "name": "Gémo",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 108
+  },
+  {
+    "name": "Total Access",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 107
+  },
+  {
+    "name": "SFR",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 107
+  },
+  {
+    "name": "Kiabi",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 106
+  },
+  {
+    "name": "Feu Vert",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 106
+  },
+  {
+    "name": "Système U",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 106
+  },
+  {
+    "name": "Sport 2000",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 104
+  },
+  {
+    "name": "Shell",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 104
+  },
+  {
+    "name": "CocciMarket",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 103
+  },
+  {
+    "name": "La Halle",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 102
+  },
+  {
+    "name": "Centrakor",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 101
+  },
+  {
+    "name": "Domino's",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 98
+  },
+  {
+    "name": "Buffalo Grill",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 96
+  },
+  {
+    "name": "Maxi Zoo",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 95
+  },
+  {
+    "name": "La Banque Postale",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 95
+  },
+  {
+    "name": "Mercedes-Benz",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 95
+  },
+  {
+    "name": "Nocibé",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 95
+  },
+  {
+    "name": "KFC",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 94
+  },
+  {
+    "name": "Eni",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 92
+  },
+  {
+    "name": "Promod",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 92
+  },
+  {
+    "name": "But",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 92
+  },
+  {
+    "name": "Jules",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 91
+  },
+  {
+    "name": "Amplifon",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 90
+  },
+  {
+    "name": "Fiat",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 90
+  },
+  {
+    "name": "Opel",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 89
+  },
+  {
+    "name": "Point S",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 88
+  },
+  {
+    "name": "Audi",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 86
+  },
+  {
+    "name": "Etam",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 85
+  },
+  {
+    "name": "Zeeman",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 85
+  },
+  {
+    "name": "Crédit Mutuel de Bretagne",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 84
+  },
+  {
+    "name": "Utile",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 83
+  },
+  {
+    "name": "BMW",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 83
+  },
+  {
+    "name": "Colruyt",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 81
+  },
+  {
+    "name": "Euromaster",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 80
+  },
+  {
+    "name": "Seat",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 80
+  },
+  {
+    "name": "Jeff de Bruges",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 79
+  },
+  {
+    "name": "Tchip",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 79
+  },
+  {
+    "name": "Midas",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 79
+  },
+  {
+    "name": "Coop",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 79
+  },
+  {
+    "name": "Grand Frais",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 78
+  },
+  {
+    "name": "Carglass",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 78
+  },
+  {
+    "name": "Dacia",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 78
+  },
+  {
+    "name": "Coiff&Co",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 78
+  },
+  {
+    "name": "Bouygues Telecom",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 76
+  },
+  {
+    "name": "Denner",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 76
+  },
+  {
+    "name": "Škoda",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 75
+  },
+  {
+    "name": "Okaïdi",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 75
+  },
+  {
+    "name": "Paul",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 75
+  },
+  {
+    "name": "Speedy",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 75
+  },
+  {
+    "name": "Subway",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 73
+  },
+  {
+    "name": "La Mie Câline",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 73
+  },
+  {
+    "name": "Point Vert",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 73
+  },
+  {
+    "name": "Celio",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 72
+  },
+  {
+    "name": "Audika",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 71
+  },
+  {
+    "name": "La Vie Claire",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 71
+  },
+  {
+    "name": "Ange",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 70
+  },
+  {
+    "name": "Suzuki",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 69
+  },
+  {
+    "name": "Sephora",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 68
+  },
+  {
+    "name": "Cache Cache",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 67
+  },
+  {
+    "name": "Devred",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 67
+  },
+  {
+    "name": "Nissan",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 67
+  },
+  {
+    "name": "Ikks",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 66
+  },
+  {
+    "name": "Leonidas",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 65
+  },
+  {
+    "name": "Orchestra",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 64
+  },
+  {
+    "name": "Sergent Major",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 63
+  },
+  {
+    "name": "Histoire d'Or",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 63
+  },
+  {
+    "name": "H&M",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 62
+  },
+  {
+    "name": "Julien d'Orcel",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 61
+  },
+  {
+    "name": "Hyundai",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 61
+  },
+  {
+    "name": "Micromania",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 61
+  },
+  {
+    "name": "Franck Provost",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 61
+  },
+  {
+    "name": "Groupama",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 60
+  },
+  {
+    "name": "Casino Shop",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 60
+  },
+  {
+    "name": "Selectour",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 59
+  },
+  {
+    "name": "Monoprix",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 59
+  },
+  {
+    "name": "Le Kiosque à Pizzas",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 59
+  },
+  {
+    "name": "Kia",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 59
+  },
+  {
+    "name": "Pimkie",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 59
+  },
+  {
+    "name": "Relay",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 59
+  },
+  {
+    "name": "Honda",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 59
+  },
+  {
+    "name": "Migros",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 58
+  },
+  {
+    "name": "BP",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 58
+  },
+  {
+    "name": "AXA",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 57
+  },
+  {
+    "name": "MG",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 57
+  },
+  {
+    "name": "Conforama",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 57
+  },
+  {
+    "name": "Beauty Success",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 57
+  },
+  {
+    "name": "Aral",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 57
+  },
+  {
+    "name": "O'Tacos",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 55
+  },
+  {
+    "name": "Starbucks",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 55
+  },
+  {
+    "name": "Tape à l'Œil",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 55
+  },
+  {
+    "name": "IP",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 55
+  },
+  {
+    "name": "UniCredit Bank",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 55
+  },
+  {
+    "name": "Banette",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 54
+  },
+  {
+    "name": "Fnac",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 52
+  },
+  {
+    "name": "Jardiland",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 52
+  },
+  {
+    "name": "Eroski",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 52
+  },
+  {
+    "name": "Le Petit Casino",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 51
+  },
+  {
+    "name": "Boulanger",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 51
+  },
+  {
+    "name": "Centre Commercial E.Leclerc",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 51
+  },
+  {
+    "name": "RougeGorge",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 51
+  },
+  {
+    "name": "Volvo",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 51
+  },
+  {
+    "name": "Delhaize",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 51
+  },
+  {
+    "name": "Intermarché Contact",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 50
+  },
+  {
+    "name": "GrandOptical",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 50
+  },
+  {
+    "name": "France Pare-Brise",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 49
+  },
+  {
+    "name": "Flunch",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 49
+  },
+  {
+    "name": "Caixabank",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 49
+  },
+  {
+    "name": "Marionnaud",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 48
+  },
+  {
+    "name": "Delko",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 48
+  },
+  {
+    "name": "Maisons du Monde",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 48
+  },
+  {
+    "name": "Bonjour",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 48
+  },
+  {
+    "name": "Besson Chaussures",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 47
+  },
+  {
+    "name": "Auchan Supermarché",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 47
+  },
+  {
+    "name": "TUI",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 47
+  },
+  {
+    "name": "Bonobo",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 47
+  },
+  {
+    "name": "Caroll",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 47
+  },
+  {
+    "name": "Calzedonia",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 47
+  },
+  {
+    "name": "Esso Express",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 47
+  },
+  {
+    "name": "Grain de Malice",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 46
+  },
+  {
+    "name": "Au Bureau",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 46
+  },
+  {
+    "name": "BCEE",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 46
+  },
+  {
+    "name": "Columbus Café & Co",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 45
+  },
+  {
+    "name": "Tamoil",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 45
+  },
+  {
+    "name": "k kiosk",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 45
+  },
+  {
+    "name": "Vulco",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 44
+  },
+  {
+    "name": "Match",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 44
+  },
+  {
+    "name": "Quick",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 43
+  },
+  {
+    "name": "Courir",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 43
+  },
+  {
+    "name": "KIKO Milano",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 43
+  },
+  {
+    "name": "Mango",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 43
+  },
+  {
+    "name": "Brioche Dorée",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 42
+  },
+  {
+    "name": "claire's",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 42
+  },
+  {
+    "name": "Dessange",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 41
+  },
+  {
+    "name": "Jean Louis David",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 41
+  },
+  {
+    "name": "Ristorante Del Arte",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 41
+  },
+  {
+    "name": "Hyper U",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 41
+  },
+  {
+    "name": "Crédit du Nord",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 40
+  },
+  {
+    "name": "Repsol",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 40
+  },
+  {
+    "name": "CASA",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 39
+  },
+  {
+    "name": "Intesa Sanpaolo",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 39
+  },
+  {
+    "name": "Raiffeisen",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 39
+  },
+  {
+    "name": "EDEKA",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 39
+  },
+  {
+    "name": "Petit Bateau",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 38
+  },
+  {
+    "name": "U",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 38
+  },
+  {
+    "name": "Adopt'",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 38
+  },
+  {
+    "name": "Audilab",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 38
+  },
+  {
+    "name": "JYSK",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 38
+  },
+  {
+    "name": "Lissac",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 37
+  },
+  {
+    "name": "Blackstore",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 37
+  },
+  {
+    "name": "C&A",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 37
+  },
+  {
+    "name": "Mag Presse",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 36
+  },
+  {
+    "name": "Jennyfer",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 36
+  },
+  {
+    "name": "Crai",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 35
+  },
+  {
+    "name": "Épi Service",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 35
+  },
+  {
+    "name": "Banque populaire Grand Ouest",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 35
+  },
+  {
+    "name": "ING",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 35
+  },
+  {
+    "name": "Mondial Pare-Brise",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 34
+  },
+  {
+    "name": "Independent",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 34
+  },
+  {
+    "name": "La Boucherie",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 34
+  },
+  {
+    "name": "Leader Price",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 34
+  },
+  {
+    "name": "Rituals",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 34
+  },
+  {
+    "name": "In's Mercato",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 34
+  },
+  {
+    "name": "Audition Conseil",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 33
+  },
+  {
+    "name": "Havas Voyages",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 33
+  },
+  {
+    "name": "First Stop",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 33
+  },
+  {
+    "name": "Free",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 33
+  },
+  {
+    "name": "Morgan",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 33
+  },
+  {
+    "name": "Darjeeling",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 32
+  },
+  {
+    "name": "La Fée Maraboutée",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 32
+  },
+  {
+    "name": "DATS 24",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 32
+  },
+  {
+    "name": "Wash Me",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 32
+  },
+  {
+    "name": "Vito",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 32
+  },
+  {
+    "name": "BGL BNP Paribas",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 32
+  },
+  {
+    "name": "Belfius",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 32
+  },
+  {
+    "name": "Sud Express",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 31
+  },
+  {
+    "name": "Casino",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 31
+  },
+  {
+    "name": "Campanile",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 31
+  },
+  {
+    "name": "Yamaha",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 31
+  },
+  {
+    "name": "Mazda",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 31
+  },
+  {
+    "name": "Foot Locker",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 31
+  },
+  {
+    "name": "Speed Queen",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 31
+  },
+  {
+    "name": "Caja Rural",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 31
+  },
+  {
+    "name": "Rapid Pare Brise",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 30
+  },
+  {
+    "name": "Vision Plus",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 30
+  },
+  {
+    "name": "DistriCenter",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 30
+  },
+  {
+    "name": "Zara",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 30
+  },
+  {
+    "name": "Éram",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 30
+  },
+  {
+    "name": "NORMA",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 30
+  },
+  {
+    "name": "Banco Santander",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 30
+  },
+  {
+    "name": "Dia",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 29
+  },
+  {
+    "name": "Saint Algue",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 29
+  },
+  {
+    "name": "Lacoste",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 29
+  },
+  {
+    "name": "Levi's",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 29
+  },
+  {
+    "name": "Pandora",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 29
+  },
+  {
+    "name": "Giant",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 28
+  },
+  {
+    "name": "Pizza Hut",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 28
+  },
+  {
+    "name": "NAF NAF",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 28
+  },
+  {
+    "name": "Bréal",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 28
+  },
+  {
+    "name": "Mitsubishi",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 28
+  },
+  {
+    "name": "Viveco",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 28
+  },
+  {
+    "name": "BNP Paribas Fortis",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 28
+  },
+  {
+    "name": "Bijou Brigitte",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 27
+  },
+  {
+    "name": "Roady",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 27
+  },
+  {
+    "name": "MDA",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 27
+  },
+  {
+    "name": "Würth",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 27
+  },
+  {
+    "name": "PRO&Cie",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 27
+  },
+  {
+    "name": "Pharmacie Principale",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 27
+  },
+  {
+    "name": "Station U",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 27
+  },
+  {
+    "name": "TEXACO",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 27
+  },
+  {
+    "name": "Poltronesofà",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 26
+  },
+  {
+    "name": "Esprit",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 26
+  },
+  {
+    "name": "A+Glass",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 26
+  },
+  {
+    "name": "Undiz",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 26
+  },
+  {
+    "name": "Body Minute",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 26
+  },
+  {
+    "name": "Boulangerie Louise",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 26
+  },
+  {
+    "name": "LDLC",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 25
+  },
+  {
+    "name": "Alfa Romeo",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 25
+  },
+  {
+    "name": "Pascal Coste",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 25
+  },
+  {
+    "name": "Ronde des Pains",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 25
+  },
+  {
+    "name": "Les Opticiens Mutualistes",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 25
+  },
+  {
+    "name": "Cultura",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 25
+  },
+  {
+    "name": "Pitaya",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 25
+  },
+  {
+    "name": "CCF",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 25
+  },
+  {
+    "name": "Coccinelle Express",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 25
+  },
+  {
+    "name": "Tom & Co",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 25
+  },
+  {
+    "name": "Cactus",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 25
+  },
+  {
+    "name": "Jeep",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 24
+  },
+  {
+    "name": "Pokawa",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 24
+  },
+  {
+    "name": "L'Occitane",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 24
+  },
+  {
+    "name": "Du Pareil au Même",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 24
+  },
+  {
+    "name": "Mephisto",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 24
+  },
+  {
+    "name": "bi1",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 24
+  },
+  {
+    "name": "Swarovski",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 24
+  },
+  {
+    "name": "Lafayette",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 24
+  },
+  {
+    "name": "Damart",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 24
+  },
+  {
+    "name": "Entendre",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 24
+  },
+  {
+    "name": "Penny",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 24
+  },
+  {
+    "name": "Volksbank",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 24
+  },
+  {
+    "name": "Interflora",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 23
+  },
+  {
+    "name": "Courtepaille",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 23
+  },
+  {
+    "name": "Panier Sympa",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 23
+  },
+  {
+    "name": "8 à Huit",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 23
+  },
+  {
+    "name": "Grand Litier",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 23
+  },
+  {
+    "name": "KTM",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 23
+  },
+  {
+    "name": "Feuillette",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 23
+  },
+  {
+    "name": "Camille Albane",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 23
+  },
+  {
+    "name": "Christine Laure",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 23
+  },
+  {
+    "name": "ALDI Süd",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 23
+  },
+  {
+    "name": "Kawasaki",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 22
+  },
+  {
+    "name": "Mini",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 22
+  },
+  {
+    "name": "AS 24",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 22
+  },
+  {
+    "name": "Bastide le confort médical",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 22
+  },
+  {
+    "name": "Agip",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 22
+  },
+  {
+    "name": "Pam",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 22
+  },
+  {
+    "name": "Dyneff",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 21
+  },
+  {
+    "name": "Mangeons Frais",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 21
+  },
+  {
+    "name": "Gulf",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 21
+  },
+  {
+    "name": "Acuitis",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 21
+  },
+  {
+    "name": "La Pataterie",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 21
+  },
+  {
+    "name": "Motrio",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 21
+  },
+  {
+    "name": "Jack & Jones",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 21
+  },
+  {
+    "name": "Auchan Drive",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 21
+  },
+  {
+    "name": "Sparkasse",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 21
+  },
+  {
+    "name": "BRED",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 21
+  },
+  {
+    "name": "Laboral Kutxa",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 21
+  },
+  {
+    "name": "Covirán",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 21
+  },
+  {
+    "name": "Votre Marché",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 20
+  },
+  {
+    "name": "DS Automobiles",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 20
+  },
+  {
+    "name": "GO Sport",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 20
+  },
+  {
+    "name": "Monceau Fleurs",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 20
+  },
+  {
+    "name": "Banque Cantonale Vaudoise",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 20
+  },
+  {
+    "name": "La Croissanterie",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 20
+  },
+  {
+    "name": "Monsieur Meuble",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 20
+  },
+  {
+    "name": "JD Sports",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 20
+  },
+  {
+    "name": "BM",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 20
+  },
+  {
+    "name": "Banca Sella",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 20
+  },
+  {
+    "name": "Franprix",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "Petit Casino",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "E.Leclerc Parapharmacie",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "Benu",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "New Yorker",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "Superdry",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "United Colors of Benetton",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "American Vintage",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "BestDrive",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "Banque de France",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "REWE",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "BIL",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "Lukoil",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "Multipharma",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "Arcaplanet",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 19
+  },
+  {
+    "name": "Ducati",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 18
+  },
+  {
+    "name": "Gitem",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 18
+  },
+  {
+    "name": "Sherpa",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 18
+  },
+  {
+    "name": "Geox",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 18
+  },
+  {
+    "name": "Roche Bobois",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 18
+  },
+  {
+    "name": "Mise au Green",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 18
+  },
+  {
+    "name": "IKEA",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 18
+  },
+  {
+    "name": "La Panetière",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 18
+  },
+  {
+    "name": "E.Leclerc Espace Culturel",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 18
+  },
+  {
+    "name": "Crelan",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 18
+  },
+  {
+    "name": "Porsche",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "Chateau d'Ax",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "Top Garage",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "Électro Dépôt",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "Intermarché Drive",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "Vib's",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "Domino's Pizza",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "Brice",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "Class'croute",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "Netto Marken-Discount",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "AD Delhaize",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "Q8 Easy",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "OVS",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "Mercatò",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "La Piadineria",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 17
+  },
+  {
+    "name": "Guinot",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "Lynx Optique",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "Europam",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "MS Mode",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "Fram",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "Fressnapf",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "Intimissimi",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "Signorizza",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "Centre Commercial E. Leclerc",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "Total Contact",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "Revolution Laundry",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "KBC",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "Gabriëls",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "Ogi Berri",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 16
+  },
+  {
+    "name": "Truffaut",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "Botanic",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "Intermarché Hyper",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "Tally Weijl",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "Api-Ip",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "Armor Lux",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "Bershka",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "Land Rover",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "De Neuville",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "Tamaris",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "Un Jour Ailleurs",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "Izac",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "Jacadi",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 15
+  },
+  {
+    "name": "Chamas Tacos",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "123 Pare-Brise",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Bistro Régent",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Lexus",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Festival des Pains",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Sonance Audition",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Promovacances",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Riu Paris",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Antonelle",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Jardival",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Maison 123",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Amavita",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "K-Way",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Des Petits Hauts",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Sushi Shop",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Tezenis",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Harley-Davidson",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "ONLY",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Bosch Car Service",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "G20",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Aigle",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Quiksilver",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Argenta",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "BBVA",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 14
+  },
+  {
+    "name": "Qipao",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "Les Comptoirs De La Bio",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "Sun Store SA",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "Vertbaudet",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "Bocage",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "Cyrillus",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "Amorino",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "La Boîte à Pizza",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "Magasin Vert",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "Shell Select",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "The Kooples",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "3 Brasseurs",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "Casden",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "Vog Coiffure",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "Moeve",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 13
+  },
+  {
+    "name": "Le Temps des Cerises",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Poivre Rouge",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Eurotyre",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Giphar",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Kookaï",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Dépil Tech",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Coop Pronto",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Cotélac",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Snipes",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Tommy Hilfiger",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Eden Park",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Mauboussin",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Naturalia",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Maje",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Sandro",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Ba&sh",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Triumph",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Lovisa",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Coccinelle Supermarché",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Saint James",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Précisium",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "KiK",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Volksbanken und Raiffeisenbanken",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Peters gute Backstube",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Guess",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Beobank",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Okay",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "EuroSpin",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 12
+  },
+  {
+    "name": "Sophie Lebreuilly",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Culture Vélo",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Intermarché Express",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "La Halle aux Chaussures",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Marc Orian",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Serge Blanco",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Villaverde",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Subaru",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Médor et Compagnie",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Le Fournil",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "E.Leclerc Express",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Dosenbach",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "UBS",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Parfois",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Devernois",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Esthetic Center",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Lush",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Lavomatic",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Avril",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "GANT",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Crédit Coopératif",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Cleor",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Chaussexpo",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "ICI PARIS XL",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Pearle",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Renmans",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Coop Atlantique",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "BPER Banca",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 11
+  },
+  {
+    "name": "Mondovélo",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Minelli",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Montres and Co",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Basilic & Co",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Carlance",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "A+ Glass",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Autogrill",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Aixam",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Volg",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "The North Face",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "France Loisirs",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Migrol",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Jaguar",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Douglas",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Timberland",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Bizzbee",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Manège à Bijoux",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "bft",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Deichmann",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Peter's gute Backstube",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "JBC",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Panos",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Proxy Delhaize",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Old Wild West",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Bel&Bo",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Mercadona",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Socogas",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Total Erg",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 10
+  },
+  {
+    "name": "Phildar",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Le Pétrin Ribeïrou",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Abarth",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "GO Sport Montagne",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Chevrolet",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Socar",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Proximarché",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Promocash",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Ligier",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Sun Store",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Yogurt Factory",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Just Over the Top",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Tesla",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Takko Fashion",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Biomonde",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Adidas",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "E.Leclerc Jardi",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Monop'",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Arthur",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Hippopotamus",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "L'Atelier",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Aubade",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Hunkemöller",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Krëfel",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Fischer",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Hans Anders",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Veritas",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Kutxabank",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Ibercaja",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "CONAD",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "BNL",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 9
+  },
+  {
+    "name": "Chicken Street",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Kodak Express",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "GiFi",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Lancia",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Carrefour Montagne",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Memphis",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "BYD",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Univairmer",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Fust",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Interdiscount",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "MediaMarkt",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Léon de Bruxelles",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Søstrene Grene",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Renault Trucks",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Pull & Bear",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Animalis",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Stradivarius",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "HSBC",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "MATY",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Réauté Chocolat",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Côté Sushi",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Nouvelles Frontières",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Crédit Maritime",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "G La Dalle",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Princesse tam.tam",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Club Med",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Ideal Audition",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Jimmy Fairly",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Audition Santé",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Mister Minit",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Nike",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Raiffeisenbank",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Shell Express",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Aveve",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Banque Courtois",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "Ekom",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "MD",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 8
+  },
+  {
+    "name": "V and B",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Ewigo",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Banque Chaix",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Eurorepar",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Isuzu",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "La Poste",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "André",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Credit Suisse",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Mobilier de France",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "AS24",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Expert",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Extra",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Zebra",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Migrolino",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Fielmann",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "day by day",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Lapierre",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Banque Kolb",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Maison Bécam",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Citron Vert",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Campaillette",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Une Heure Pour Soi",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Baobab",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Springfield",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Fabio Salsa",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Faguo",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Zadig & Voltaire",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Apollo-Optik",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Hugo Boss",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Ryanhair",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Lunch Garden",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Di",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Deutsche Bank",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Agip Eni",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 7
+  },
+  {
+    "name": "Bata",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Piaggio",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Pizza Cosy",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Royal Kebab",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Siligom",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Specialized",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Sunrise",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Satoriz",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Škoda Auto",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Pulsat",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "AUTOPRIMO",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Smart",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Swatch",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Longchamp",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Hermès",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "SsangYong",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "The Body Shop",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "L'Agence Automobilière",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "L'Eau Vive",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Fresh",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Banque Cantonale du Jura",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Orbea",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Coccinelle",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "NOUS anti-gaspi",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Terrena",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "BoConcept",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Apple Store",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Karl Marc John",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Le Coq Sportif",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Banana Moon",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Segafredo",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Gautier",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "ZG Raiffeisen",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "naturéO",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Ernsting's family",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Vodafone",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Desigual",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Ferber",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "ZEB",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "G-Star Raw",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Die Lohner's",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Claudie Pierlot",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Comptoir des Cotonniers",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Benoit Audition",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "LolaLiza",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Fintro",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Standaard Boekhandel",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Billabong",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Cercles de Gascogne",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Banque Tarneaud",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Banca Popolare di Novara",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Dis-Car",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Costantin",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Unieuro",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Pam Local",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "La Romana",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "U2",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Roadhouse",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 6
+  },
+  {
+    "name": "Interview Coiffure",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Le Collectif des Lunetiers",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Supeco",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "France Rurale",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Mim",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Espace Emeraude",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Tati",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Banque Cantonale de Fribourg",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "VW",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Liu Jo",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "avec",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Le Pain Quotidien",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Calida",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Five Guys",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Street One",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Ateapic",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Max Mara",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Trek",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "APM Monaco",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Scott",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Aprilia",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Fly",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Agatha",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Aux Doux Fournils",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Cyclable",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Moustache",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Cube",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "s.Oliver",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "DEKRA",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "La Station U",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Lamaison.fr",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Boulangerie Feuillette",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Yves Thuriès",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Les Éleveurs de la Charentonne",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "BCP",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Big Fernand",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Fiat Professional",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "E. Leclerc Express",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Pomme de Pain",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Riese & Müller",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Dr. Martens",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Takko",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Puma",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Volcom",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Lindt",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Exki",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Sports Direct",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Massimo Dutti",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Euronics",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Press Shop",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Vanden Borre",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Cupra",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Power",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Wibra",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Café Coton",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Primark",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Maes",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "AN Energéticos",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Terranova",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Api",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Société Marseillaise de Crédit",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Banco BPM",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Scarpe&Scarpe",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Esselunga",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Ipercoop",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Fineco",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Salmoiraghi & Viganò",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Rossopomodoro",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Monte dei Paschi di Siena",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "GrandVision",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Negozio Leggero",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "L'Isola dei Tesori",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 5
+  },
+  {
+    "name": "Carrefour Banque",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Vespa",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Les Mousquetaires",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Foussier",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Stihl",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "GMC",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Banque Cantonale du Valais",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Migros Restaurant",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Mercedes",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Avia XPress",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Ibis",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Z",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Les Burgers de Papa",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Agrola",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Chicorée",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Mobilezone",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Ochsner Sport",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Tchip Coiffure",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Christ",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Swisscom",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Louis Vuitton",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Brezelkönig",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Valiant",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Ferrari",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Dia Market",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "La Compagnie des Petits",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Rieker",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Léon",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Toutes Marques",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Kymco",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Ligier Store",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Volfoni",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Taco Bell",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Espace Terrena",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Chocolaterie Monbana",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Banque Palatine",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Salaün Holidays",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Lysadis",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Elf",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Fleurs Ô Naturel",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Cora",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Equivalenza",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Havaianas",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "L'Atelier Papilles",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Kartell",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Armbruster",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "A.T.U",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Kaufland",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Coffee Fellows",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Depot",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "O2",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Pepe Jeans",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "NKD",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Salamander",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Camaïeu",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "My Auchan",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Igorance",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Dim",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Catimini",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Paprika",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "COS",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Habitat",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Bexley",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Pizza Paï",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Eldi",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Schoenen Torfs",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "E5 Mode",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Albert Heijn",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Jonak",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Xpeng",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Babboe",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Telepizza",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Caprabo",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Le Marché de Léopold",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Polo Ralph Lauren",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Bantierra",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "CEPSA",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "MediaWorld",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "La Feltrinelli",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Grom",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "NaturaSì",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Dpiù",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Parafarmacia Conad",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Trony",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "Original Marines",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 4
+  },
+  {
+    "name": "San Marina",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Gilera",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "MAN",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Provenc'halles",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Shopi",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Distinxion",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Point Vision",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Agri Sud Est",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Jura Restauration",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Euro repar",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Louis Pion",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Bigmat",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Kuoni",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Avatacar",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Visilab",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Salt",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Dune London",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Vero Moda",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Brechotte",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Focus",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Distri Club Medical",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Cora Drive",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Look",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Atac",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Marc Verdant",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Revolution",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Bagelstein",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "La Foir'Fouille",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Au Pain de mon Grand-Père",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Lada",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Côté Nature",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Jardi E.Leclerc",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Univers Pharmacie",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Bagel Corner",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Air Liquide",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Nike Factory Store",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Éric Bompard",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "PharmaVie",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Maserati",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Café de la Mairie",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "L'Osteria",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Sym",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Derbi",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "MBK",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Markt-Bäckerei",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Lambretta",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Manfield",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "BZB",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "DER Reisebüro",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Deutsche Telekom",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Postbank",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Asics",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Calvin Klein",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Finsbury",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Ketterthill",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Häagen-Dazs",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Restopolis",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "New Balance",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "O'Neill",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Zara Home",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Circle K",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "BOGGI Milano",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Michael Kors",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Tern",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Alpine",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Sparda-Bank Südwest",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "ED",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Eurospar",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Lapperre",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Kreatos",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "PMO",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Jumbo",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Neuhaus",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Chronodrive",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Leen Bakker",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Martens",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Écomarché",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Mât de Misaine",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Adidas Originals",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Yuba",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Pressing",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Hollister",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Galp",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Petronor",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Foster's Hollywood",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Oysho",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Simply Market",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Suma",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Halcón Viajes",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Kiffy",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Next",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Moto Guzzi",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Coaliment",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "BonÀrea",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Aire C",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Poke House",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Chlorophylle",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Api distribution SAS",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Soeur",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "À l'Aise Breizh",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Erg",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Unes",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Il Gigante",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Goldenpoint",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Mei Shi Mei Ke",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Banca di Asti",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "PittaRosso",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Bluespirit",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Spazio Conad",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Conad City",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Conbipel",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Libraccio",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Arci",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 3
+  },
+  {
+    "name": "Bricomarché",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Proxi Confort",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Fage Energies",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Chez l'Ancien",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "connexion",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Skiset",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Crédit agricole Sud Rhône Alpes",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Etam Lingerie",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Proxy",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Frédéric Moreno",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Bazarland",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Banque de Savoie",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Banque Laydernier",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Cerise et Potiron",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Coop Restaurant",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "MiniPrix",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Cofruits",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "multimarque",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Apple",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Fulli",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Shell Shop",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Mathieu Paget",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Mary Cohr",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Axial",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Import Parfumerie",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Blackout",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Mio",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Livique",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Saga Cosmetics",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Café du Centre",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "4MURS",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "LAPEYRE",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Basta",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "McCafé",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Landi",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Butchers & Bicycles",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Gidor",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Moa",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Shop Coiffure",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Hotelplan",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Breitling",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Migros Take Away",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Jubin",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Bio Monde",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Daihatsu",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Mini Prix",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Cœur de Blé",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "New School Tacos",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Paul Marius",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Fivel",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Napapijri",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Pylones",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Dafy Moto",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Vivason",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Iris Galerie",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "évole énergies",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Marché U",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "BEBECO",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Yahama",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "La Vie en Rose",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Demeusy",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Bulls",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Stevens",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Cannondale",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Cervélo",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Crédit agricole Alsace Vosges",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Concept Optique",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Jules & John",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Sushi Man",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Le Manège à Bijoux",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Gasgas",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Fuji",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Bledi Market",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Optica Visual (desde 1989)",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Maximilien",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Mr Jardinage",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Labyrinth",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Poulaillon",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Waffle Factory",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Sugar",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Eurêka ma maison",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "V-Gas",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Five Star",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Archea",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Tabac Presse",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Kyriad",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Doppio Malto",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Engie",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Crédit Municipal",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Indian Motorcycle",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Momen'Tea",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Pharmabest",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "KIS Wash",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "La Criée",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Krachenfels",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Fantic",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Malaguti",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Brixton",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Meubles Gautier",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Anton & Willem",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Takos King",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Jet",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "HEM",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Classic",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "nah und gut",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Witt Weiden",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Nahkauf",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Mömax",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "CAP",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Marc O'Polo",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Salomon",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Mix Markt",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Niu",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Karl Lagerfeld",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "GEERS",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Telekom",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Serpa",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Q1",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Frei",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Freie Tankstelle",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Klier",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Mustang",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Tom Tailor",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Fossil",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Garcia",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Converse",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Lloyds Pharmacy",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Wasabi",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "River Woods",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Diesel",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Miele",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Roller",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Alavita",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Fusalp",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Mosella",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Loding",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Ernster",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Bolia",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Uniqlo",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Marina Rinaldi",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Gucci",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Bentley",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Gazelle",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "De Fursac",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Ulla Popken",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "tankpool24",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Globus",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "OIL!",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Crédit agricole du Nord Est",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "La Procure",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Valege",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Carrefour Drive",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "L'Incroyable",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Banque populaire du Nord",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Crédit agricole Nord de France",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "New Look",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Europabank",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Bristol",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Label Vie",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Bouchara",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Lotus",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Aprium Pharmacie",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Bio-Planet",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Figaret",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Samsonite",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Skechers",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "HEMA",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Fathers & Sons",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Buffetrille",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Sitis",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Eric Kayser",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Solaris",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "La Belle-Îloise",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Gérard Darel",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Chaabi Bank",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Yvonne",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Douze",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Nyx",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Madura",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Unicaja Banco",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Game",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Multiópticas",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Wok to Walk",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Viajes El Corte Inglés",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "La Tagliatella",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Women'secret",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "General Óptica",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Petroprix",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Primor",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Alcampo",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "GAES",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Aralar",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Popeyes",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Phox",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Barclays",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Bio C' Bon",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Banque Michel Inchauspé - Bami",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Carhartt",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Vans",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Caixa Geral de Depósitos",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Profil Plus",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Delbard",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "All",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Imajeans",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Cuir Center",
+    "activity_group": "Maison & Décoration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Valentino",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Le Fournil du Marais",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Brut Butcher",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Fendt",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Viena",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Tutti Pizza",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Express",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "La Mie de Pain",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Maison Planchot",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "La Boulangerie d'Honoré",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Hibiscus Fleurs",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Café Joyeux",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Rieju",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Pablo",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Victoria's Secret",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Un Hair Naturel",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Ressourcerie",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Biguine",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Paraboot",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Nuoo",
+    "activity_group": "Beauté & Bien-être",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "French Kiss",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Diagonal",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Patrice Bréal",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Attijariwafa Bank",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Chanel",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Logis",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Oil Italia",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Gasprin",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Petmark",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Stroili Oro",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Banco Desio",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "InCoop",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Credem",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Banca Popolare di Sondrio",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Giunti al Punto",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Natura",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Sigma",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Banca Carige",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Borello Supermercati",
+    "activity_group": "Alimentaire",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "OVS Kids",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Intimissimi Uomo",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Yamamay",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Prada",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Coffee Time",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "UBI Banca",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Calliope",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Legami",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Alice",
+    "activity_group": "Restauration",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Sassano",
+    "activity_group": "Électronique",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "NAU!",
+    "activity_group": "Santé",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Compass",
+    "activity_group": "Services",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Pirelli",
+    "activity_group": "Automobile",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Alcott",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Gamelife",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Mondadori",
+    "activity_group": "Culture & Média",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Kappa",
+    "activity_group": "Sport & Loisirs",
+    "activity_subgroup": null,
+    "count": 2
+  },
+  {
+    "name": "Globo",
+    "activity_group": "Mode & Accessoires",
+    "activity_subgroup": null,
+    "count": 2
+  }
+]
