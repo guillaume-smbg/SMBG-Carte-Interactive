@@ -1538,16 +1538,6 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
 
         if (!matchedSubgroup && effectiveSubgroups.length) return;
 
-        /* 2️⃣ Stabiliser mapping brand → subgroup */
-
-        if (r.name && matchedSubgroup) {
-
-            if (!retailState.brandToSubgroup[r.name]) {
-                retailState.brandToSubgroup[r.name] = matchedSubgroup;
-            }
-
-        }
-
         /* 3️⃣ Récupérer sous-groupe stable */
 
         const stableSub =
