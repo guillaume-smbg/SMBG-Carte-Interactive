@@ -1724,22 +1724,41 @@ inputActivite.addEventListener("focus", () => {
 
 document.addEventListener("click", (e) => {
 
+    const dropdown = document.getElementById("retail-dropdown");
+    const autocompleteActivite = document.getElementById("autocomplete-activite");
+
+    const inputBrand = document.getElementById("search-enseigne");
+    const brandDropdown = document.getElementById("autocomplete-enseigne");
+
     const clickedInsideDropdown = e.target.closest("#retail-dropdown");
     const clickedOnSearchInput = e.target.closest("#search-activite");
-    const clickedInsideModule = e.target.closest("#module-enseignes");
-    const clickedOnPin = e.target.closest(".leaflet-marker-icon");
-    const clickedOnMap = e.target.closest("#map");
-    const isDropdownOpen = dropdown.classList.contains("open");
+
+    const clickedInsideBrandDropdown = e.target.closest("#autocomplete-enseigne");
+    const clickedOnBrandInput = e.target.closest("#search-enseigne");
+
+    /* =========================
+       FERMETURE MENU ACTIVITÉ
+    ========================== */
 
     if (
-        isDropdownOpen &&
+        dropdown.classList.contains("open") &&
         !clickedInsideDropdown &&
         !clickedOnSearchInput
     ) {
         dropdown.classList.remove("open");
-        inputActivite.value = "";
-        autocomplete.style.display = "none";
-        return;
+        autocompleteActivite.style.display = "none";
+    }
+
+    /* =========================
+       FERMETURE AUTOCOMPLETE ENSEIGNE
+    ========================== */
+
+    if (
+        !clickedInsideBrandDropdown &&
+        !clickedOnBrandInput
+    ) {
+        brandDropdown.style.display = "none";
+        inputBrand.value = "";
     }
 
 });
