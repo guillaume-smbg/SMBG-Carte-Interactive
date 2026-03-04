@@ -970,24 +970,25 @@ async function loadBrands() {
 
         data.forEach(b => {
 
-            allBrands.push(b.name);
+            if (!b.name || !b.activity_group || !b.activity_subgroup) {
+                return;
+            }
 
-            // 🔥 On associe chaque marque à UN sous-groupe stable
-            // Ici on mappe au groupe dominant (pas sous-groupe précis)
-
-            const group = b.activity_group;
-            const sub = b.activity_subgroup;
+            const group = b.activity_group.trim();
+            const sub   = b.activity_subgroup.trim();
+            const name  = b.name.trim();
 
             if (
                 RETAIL_STRUCTURE[group] &&
                 RETAIL_STRUCTURE[group].subgroups[sub]
             ) {
-                retailState.brandToSubgroup[b.name] = sub;
+                allBrands.push(name);
+                retailState.brandToSubgroup[name] = sub;
             }
 
         });
 
-        console.log("Enseignes chargées :", allBrands.length);
+        console.log("Brands loaded:", allBrands.length);
 
     } catch (e) {
         console.error("Erreur chargement enseignes :", e);
