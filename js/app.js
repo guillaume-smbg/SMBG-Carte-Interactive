@@ -1125,8 +1125,12 @@ function buildRetailHierarchy() {
                 refreshChips();
                 filterSelectedBrandsByActivity();
                 refreshBrandChips();
-               
+
+                // 🔥 LANCEMENT AUTOMATIQUE RECHERCHE
                 if (retailState.lastLotCoords) {
+
+                    retailLayer.clearLayers();
+
                     fetchRetail(
                         retailState.lastLotCoords.lat,
                         retailState.lastLotCoords.lng
@@ -1174,7 +1178,11 @@ function buildRetailHierarchy() {
                 filterSelectedBrandsByActivity();
                 refreshBrandChips();
 
+                // 🔥 LANCEMENT AUTOMATIQUE RECHERCHE
                 if (retailState.lastLotCoords) {
+
+                    retailLayer.clearLayers();
+
                     fetchRetail(
                         retailState.lastLotCoords.lat,
                         retailState.lastLotCoords.lng
