@@ -960,6 +960,7 @@ async function loadBrands() {
         const res = await fetch("data/enseignes_V8_dominance.json");
         console.log("Fetch status:", res.status);
         const data = await res.json();
+        console.log("Premier objet JSON :", data[0]);
 
         allBrands = [];
         retailState.brandToSubgroup = {};
