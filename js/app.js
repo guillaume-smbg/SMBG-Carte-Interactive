@@ -1099,25 +1099,21 @@ function buildRetailHierarchy() {
 
                 if (subCheckbox.checked) {
 
-                    // Retirer le groupe parent s'il est actif
                     retailState.selectedGroups =
                         retailState.selectedGroups.filter(g => g !== groupName);
 
-                    // Décocher visuellement le groupe parent
                     document.querySelectorAll(".group-checkbox")
                         .forEach(cb => {
-                          if (cb.dataset.group === groupName)
-                            cb.checked = false;
-                         });
-                   
-                    // Ajouter ce sous-groupe s'il n'existe pas déjà
+                            if (cb.dataset.group === groupName)
+                                cb.checked = false;
+                        });
+
                     if (!retailState.selectedSubgroups.includes(subName)) {
                         retailState.selectedSubgroups.push(subName);
                     }
 
                 } else {
 
-                    // Retirer uniquement ce sous-groupe
                     retailState.selectedSubgroups =
                         retailState.selectedSubgroups.filter(s => s !== subName);
                 }
@@ -1126,7 +1122,6 @@ function buildRetailHierarchy() {
                 filterSelectedBrandsByActivity();
                 refreshBrandChips();
 
-                // 🔥 LANCEMENT AUTOMATIQUE RECHERCHE
                 if (retailState.lastLotCoords) {
 
                     retailLayer.clearLayers();
@@ -1136,6 +1131,7 @@ function buildRetailHierarchy() {
                         retailState.lastLotCoords.lng
                     );
                 }
+
             });
         });
 
@@ -1147,13 +1143,11 @@ function buildRetailHierarchy() {
 
                 if (checkbox.checked) {
 
-                    // 🔥 Retirer sous-groupes de CE groupe
                     retailState.selectedSubgroups =
                         retailState.selectedSubgroups.filter(
                             s => !subNames.includes(s)
                         );
 
-                    // 🔥 Décocher visuellement ces sous-groupes
                     document.querySelectorAll(".sub-checkbox")
                         .forEach(cb => {
                             if (
@@ -1178,7 +1172,6 @@ function buildRetailHierarchy() {
                 filterSelectedBrandsByActivity();
                 refreshBrandChips();
 
-                // 🔥 LANCEMENT AUTOMATIQUE RECHERCHE
                 if (retailState.lastLotCoords) {
 
                     retailLayer.clearLayers();
@@ -1327,25 +1320,12 @@ function filterSelectedBrandsByActivity() {
 
     const effectiveSubgroups = getEffectiveSubgroups();
 
-    /* 🔥 Si plus aucune activité sélectionnée
-       → on vide totalement les enseignes */
     if (!effectiveSubgroups.length) {
-
         retailState.selectedBrands = [];
         refreshBrandChips();
-
-        if (retailState.lastLotCoords) {
-            fetchRetail(
-                retailState.lastLotCoords.lat,
-                retailState.lastLotCoords.lng
-            );
-        }
-
         return;
     }
 
-    /* 🔥 Sinon on garde uniquement
-       les brands compatibles avec l’activité */
     retailState.selectedBrands =
         retailState.selectedBrands.filter(brand => {
 
@@ -1354,13 +1334,6 @@ function filterSelectedBrandsByActivity() {
         });
 
     refreshBrandChips();
-
-    if (retailState.lastLotCoords) {
-        fetchRetail(
-            retailState.lastLotCoords.lat,
-            retailState.lastLotCoords.lng
-        );
-    }
 }
 
 /* =========================
