@@ -957,8 +957,13 @@ async function loadBrands() {
 
     try {
 
-        const res = await fetch("data/enseignes_V8_dominance.json");
+        const res = await fetch("./data/enseignes_V8_dominance.json");
         console.log("Fetch status:", res.status);
+
+        if (!res.ok) {
+            throw new Error("Fichier JSON introuvable");
+        }
+
         const data = await res.json();
         console.log("Premier objet JSON :", data[0]);
 
@@ -967,28 +972,33 @@ async function loadBrands() {
 
         data.forEach(b => {
 
-            if (!b.name || !b.activity_group || !b.activity_subgroup) {
-                return;
-            }
+            if (!b.name || !b.activity_group) return;
 
-            const group = b.activity_group.trim();
-            const sub   = b.activity_subgroup.trim();
             const name  = b.name.trim();
+            const group = b.activity_group.trim();
+            let sub     = b.activity_subgroup;
 
-            if (
-                RETAIL_STRUCTURE[group] &&
-                RETAIL_STRUCTURE[group].subgroups[sub]
-            ) {
-                allBrands.push(name);
-                retailState.brandToSubgroup[name] = sub;
+            if (!RETAIL_STRUCTURE[group]) return;
+
+            // 🔥 Si sous-groupe manquant → fallback intelligent
+            if (!sub || !RETAIL_STRUCTURE[group].subgroups[sub]) {
+
+                sub = Object.keys(RETAIL_STRUCTURE[group].subgroups)[0];
             }
+
+            allBrands.push(name);
+            retailState.brandToSubgroup[name] = sub;
 
         });
 
         console.log("Brands loaded:", allBrands.length);
 
     } catch (e) {
+
         console.error("Erreur chargement enseignes :", e);
+
+        allBrands = [];
+        retailState.brandToSubgroup = {};
     }
 }
 
