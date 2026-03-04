@@ -74,15 +74,24 @@ function fermerPanneau() {
 }
 
 /* 🔹 CLIC CARTE — fermeture conditionnelle */
+
 map.on("click", () => {
 
     map.closePopup();
 
     const dropdown = document.getElementById("retail-dropdown");
+    const brandDropdown = document.getElementById("autocomplete-enseigne");
 
-    // Si le menu activité est ouvert
-    if (dropdown && dropdown.classList.contains("open")) {
-        return; // 🔥 on ne ferme PAS le panneau
+    const isActiviteOpen =
+        dropdown && dropdown.classList.contains("open");
+
+    const isBrandOpen =
+        brandDropdown &&
+        brandDropdown.style.display === "block";
+
+    // 🔥 Si un menu est ouvert → on ne ferme PAS le panneau
+    if (isActiviteOpen || isBrandOpen) {
+        return;
     }
 
     // Sinon on ferme tout
