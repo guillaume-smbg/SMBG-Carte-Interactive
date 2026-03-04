@@ -78,6 +78,14 @@ map.on("click", () => {
 
     map.closePopup();
 
+    const dropdown = document.getElementById("retail-dropdown");
+
+    // Si le menu activité est ouvert
+    if (dropdown && dropdown.classList.contains("open")) {
+        return; // 🔥 on ne ferme PAS le panneau
+    }
+
+    // Sinon on ferme tout
     fermerPanneau();
     masquerModuleEnseignes();
 
