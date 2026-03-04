@@ -76,16 +76,11 @@ function fermerPanneau() {
 /* 🔹 CLIC CARTE — fermeture conditionnelle */
 map.on("click", () => {
 
-    const dropdown = document.getElementById("retail-dropdown");
-
-    if (dropdown && dropdown.classList.contains("open")) {
-        return;
-    }
-
-    // 🔥 On ferme uniquement les popups Leaflet
     map.closePopup();
 
-    // ❌ On ne touche plus au panneau droit
+    fermerPanneau();
+    masquerModuleEnseignes();
+
 });
 
 /* ============================================================
@@ -963,6 +958,7 @@ async function loadBrands() {
     try {
 
         const res = await fetch("data/enseignes_V8_dominance.json");
+        console.log("Fetch status:", res.status);
         const data = await res.json();
 
         allBrands = [];
@@ -1571,10 +1567,14 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
         marker._retailSubgroup = stableSub;
         marker._brand = r.name;
 
-        marker.bindPopup(`
+        marker.bindTooltip(`
             <strong>${r.name || "Enseigne"}</strong><br>
             Distance : ${dist} m
-        `);
+        `, {
+            direction: "top",
+            offset: [0, -8],
+            opacity: 0.95
+        });
 
         marker.addTo(retailLayer);
         count++;
