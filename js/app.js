@@ -1645,10 +1645,18 @@ function afficherModuleEnseignes(lat, lng) {
 
     retailState.lastLotCoords = { lat, lng };
 
-    // 🔥 Toujours relancer la recherche
-    retailLayer.clearLayers();
+    // 🔥 On ne lance la recherche que
+    // si un filtre existe déjà
 
-    fetchRetail(lat, lng);
+    const effectiveSubgroups = getEffectiveSubgroups();
+    const hasBrands = retailState.selectedBrands.length > 0;
+
+    if (effectiveSubgroups.length || hasBrands) {
+
+        retailLayer.clearLayers();
+
+        fetchRetail(lat, lng);
+    }
 }
 
 function masquerModuleEnseignes() {
