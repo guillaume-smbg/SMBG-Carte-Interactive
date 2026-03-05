@@ -1124,7 +1124,7 @@ function buildRetailHierarchy() {
 
                 refreshChips();
                 filterSelectedBrandsByActivity();
-                refreshBrandChips();
+                if (typeof refreshBrandChips === "function") refreshBrandChips();
 
                 // 🔥 LANCEMENT AUTOMATIQUE (même chemin que le bouton)
                 const btnLaunch = document.getElementById("launch-retail");
@@ -1168,7 +1168,7 @@ function buildRetailHierarchy() {
 
                 refreshChips();
                 filterSelectedBrandsByActivity();
-                refreshBrandChips();
+                if (typeof refreshBrandChips === "function") refreshBrandChips();
 
                 // 🔥 LANCEMENT AUTOMATIQUE (même chemin que le bouton)
                 const btnLaunch = document.getElementById("launch-retail");
