@@ -1401,11 +1401,8 @@ function buildOverpassQuery(lat, lng, radius, subgroups, brands) {
 
 function fetchRetail(lat, lng) {
 
-    clearTimeout(retailDebounceTimer);
+    _fetchRetail(lat, lng);
 
-    retailDebounceTimer = setTimeout(() => {
-        _fetchRetail(lat, lng);
-    }, 250);
 }
 
 async function _fetchRetail(lat, lng, retryCount = 0) {
