@@ -46,7 +46,11 @@ function ouvrirPanneau(lat, lng) {
     sidebarRight.classList.add("open");
 
     /* 🔹 Affichage module enseignes */
-    if (typeof afficherModuleEnseignes === "function" && lat && lng) {
+    if (
+        typeof afficherModuleEnseignes === "function" &&
+        Number.isFinite(lat) &&
+        Number.isFinite(lng)
+    ) {
         afficherModuleEnseignes(lat, lng);
     }
 }
