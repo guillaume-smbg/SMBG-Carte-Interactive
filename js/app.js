@@ -1126,16 +1126,9 @@ function buildRetailHierarchy() {
                 filterSelectedBrandsByActivity();
                 refreshBrandChips();
 
-                // 🔥 LANCEMENT SANS CONDITION
-                if (retailState.lastLotCoords !== null) {
-
-                    retailLayer.clearLayers();
-
-                    fetchRetail(
-                        retailState.lastLotCoords.lat,
-                        retailState.lastLotCoords.lng
-                    );
-                }
+                // 🔥 LANCEMENT AUTOMATIQUE (même chemin que le bouton)
+                const btnLaunch = document.getElementById("launch-retail");
+                if (btnLaunch) btnLaunch.click();
 
             });
         });
@@ -1177,16 +1170,9 @@ function buildRetailHierarchy() {
                 filterSelectedBrandsByActivity();
                 refreshBrandChips();
 
-                // 🔥 LANCEMENT SANS CONDITION
-                if (retailState.lastLotCoords !== null) {
-
-                    retailLayer.clearLayers();
-
-                    fetchRetail(
-                        retailState.lastLotCoords.lat,
-                        retailState.lastLotCoords.lng
-                    );
-                }
+                // 🔥 LANCEMENT AUTOMATIQUE (même chemin que le bouton)
+                const btnLaunch = document.getElementById("launch-retail");
+                if (btnLaunch) btnLaunch.click();
 
             });
 
@@ -1831,14 +1817,12 @@ inputActivite.addEventListener("input", () => {
             autocomplete.style.display = "none";
 
             refreshChips();
-            filterSelectedBrandsByActivity();   // 🔥 IMPORTANT
+            filterSelectedBrandsByActivity();
             refreshBrandChips();
-           
-            if (retailState.lastLotCoords)
-                fetchRetail(
-                    retailState.lastLotCoords.lat,
-                    retailState.lastLotCoords.lng
-                );
+
+            // 🔥 LANCEMENT AUTOMATIQUE (même chemin que le bouton)
+            const btnLaunch = document.getElementById("launch-retail");
+            if (btnLaunch) btnLaunch.click();
         });
 
         autocomplete.appendChild(div);
