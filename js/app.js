@@ -1122,7 +1122,8 @@ function buildRetailHierarchy() {
                 filterSelectedBrandsByActivity();
                 refreshBrandChips();
 
-                if (retailState.lastLotCoords) {
+                // 🔥 LANCEMENT SANS CONDITION
+                if (retailState.lastLotCoords !== null) {
 
                     retailLayer.clearLayers();
 
@@ -1172,7 +1173,8 @@ function buildRetailHierarchy() {
                 filterSelectedBrandsByActivity();
                 refreshBrandChips();
 
-                if (retailState.lastLotCoords) {
+                // 🔥 LANCEMENT SANS CONDITION
+                if (retailState.lastLotCoords !== null) {
 
                     retailLayer.clearLayers();
 
