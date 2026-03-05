@@ -1641,14 +1641,10 @@ function afficherModuleEnseignes(lat, lng) {
     const module = document.getElementById("module-enseignes");
     if (module) module.style.display = "block";
 
-    const newCoords = { lat, lng };
+    retailState.lastLotCoords = { lat, lng };
 
-    if (retailState.lastLotCoords) {
-        const d = distanceMeters(retailState.lastLotCoords, newCoords);
-        if (d < 150) return;
-    }
-
-    retailState.lastLotCoords = newCoords;
+    // 🔥 Toujours relancer la recherche
+    retailLayer.clearLayers();
 
     fetchRetail(lat, lng);
 }
