@@ -1314,7 +1314,7 @@ function filterSelectedBrandsByActivity() {
 
     if (!effectiveSubgroups.length) {
         retailState.selectedBrands = [];
-        refreshBrandChips();
+        if (typeof refreshBrandChips === "function") refreshBrandChips();
         return;
     }
 
@@ -1325,7 +1325,7 @@ function filterSelectedBrandsByActivity() {
             return sub && effectiveSubgroups.includes(sub);
         });
 
-    refreshBrandChips();
+    if (typeof refreshBrandChips === "function") refreshBrandChips();
 }
 
 /* =========================
