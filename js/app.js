@@ -1548,10 +1548,14 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
             retailState.brandToSubgroup[r.name] || matchedSubgroup;
 
         // 🔥 Si on n’a aucun sous-groupe détecté → on ne bloque pas
-        if (effectiveSubgroups.length &&
-            stableSub &&
-            !effectiveSubgroups.includes(stableSub)) {
-            return;
+        if (effectiveSubgroups.length) {
+
+            const match = effectiveSubgroups.some(sub =>
+                stableSub &&
+                stableSub.toLowerCase() === sub.toLowerCase()
+            );
+
+            if (!match) return;
         }
 
         /* 4️⃣ Couleur stable */
