@@ -1547,7 +1547,9 @@ function renderRetail(results, lotLat, lotLng, effectiveSubgroups) {
         const stableSub =
             retailState.brandToSubgroup[r.name] || matchedSubgroup;
 
+        // 🔥 Si on n’a aucun sous-groupe détecté → on ne bloque pas
         if (effectiveSubgroups.length &&
+            stableSub &&
             !effectiveSubgroups.includes(stableSub)) {
             return;
         }
