@@ -1377,7 +1377,7 @@ function buildOverpassQuery(lat, lng, radius, subgroups, brands) {
     }
 
     return `
-        [out:json][timeout:25];
+        [out:json][timeout:10];
         (
             ${filters.join("\n")}
         );
