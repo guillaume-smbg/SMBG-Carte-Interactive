@@ -1519,7 +1519,8 @@ async function _fetchRetail(lat, lng, retryCount = 0) {
 
         renderRetail(results, lat, lng, effectiveSubgroups);
 
-    } catch (err) {
+    } 
+        catch (err) {
 
         if (err.name !== "AbortError") {
 
@@ -1527,6 +1528,15 @@ async function _fetchRetail(lat, lng, retryCount = 0) {
 
             if (retryCount < 1) {
                 return _fetchRetail(lat, lng, retryCount + 1);
+            }
+
+            console.error("Erreur finale Overpass :", err);
+
+            retailLayer.clearLayers();
+
+            const counter = document.getElementById("enseigne-count");
+            if (counter) {
+                counter.innerHTML = "Erreur de chargement";
             }
         }
     }
