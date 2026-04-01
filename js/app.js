@@ -1434,6 +1434,7 @@ async function _fetchRetail(lat, lng, retryCount = 0) {
                 effectiveSubgroups
             );
             hideInlineLoader();
+            retailState.loading = false;
             return;
         }
 
@@ -1462,7 +1463,7 @@ async function _fetchRetail(lat, lng, retryCount = 0) {
                 try {
 
                     const controller = new AbortController();
-                    const timeout = setTimeout(() => controller.abort(), 20000);
+                    const timeout = setTimeout(() => controller.abort(), 12000);
 
                     const res = await fetch(url, {
                         method: "POST",
