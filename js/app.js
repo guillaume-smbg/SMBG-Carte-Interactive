@@ -1677,9 +1677,51 @@ async function init() {
    
     initSliderSurface(DATA.map(x => parseInt(x["Surface GLA"] || 0)));
     initSliderLoyer(DATA.map(x => parseInt(x["Loyer annuel"] || 0)));
+document.querySelectorAll("#sidebar-left input")
+    .forEach(el => el.addEventListener("input", appliquerFiltres));
 
-    document.querySelectorAll("#sidebar-left input")
-        .forEach(el => el.addEventListener("input", appliquerFiltres));
+/* =========================
+   RESET FILTRES GLOBAL
+========================= */
+
+document.getElementById("btn-reset")
+    .addEventListener("click", () => {
+
+    /* 🔹 décocher toutes les checkbox */
+    document.querySelectorAll("#sidebar-left input[type='checkbox']")
+        .forEach(cb => cb.checked = false);
+
+    /* 🔹 reset sliders surface */
+    const surfMin = document.getElementById("surface-min");
+    const surfMax = document.getElementById("surface-max");
+
+    surfMin.value = surfMin.min;
+    surfMax.value = surfMax.max;
+
+    /* 🔹 reset sliders loyer */
+    const loyMin = document.getElementById("loyer-min");
+    const loyMax = document.getElementById("loyer-max");
+
+    loyMin.value = loyMin.min;
+    loyMax.value = loyMax.max;
+
+    /* 🔹 remettre checkbox >1000 et >200k */
+    document.getElementById("checkbox-grand-surface").checked = true;
+    document.getElementById("checkbox-grand-loyer").checked = true;
+
+    /* 🔹 reset affichage sliders */
+    document.getElementById("surface-min").dispatchEvent(new Event("input"));
+    document.getElementById("surface-max").dispatchEvent(new Event("input"));
+    document.getElementById("loyer-min").dispatchEvent(new Event("input"));
+    document.getElementById("loyer-max").dispatchEvent(new Event("input"));
+
+    /* 🔹 reset régions (fermer départements) */
+    document.querySelectorAll(".departements-container")
+        .forEach(d => d.style.display = "none");
+
+    /* 🔹 relancer filtre */
+    appliquerFiltres();
+});
 
     buildRetailHierarchy();
 
