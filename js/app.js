@@ -1377,7 +1377,7 @@ function buildOverpassQuery(lat, lng, radius, subgroups, brands) {
     }
 
     return `
-        [out:json][timeout:10];
+        [out:json][timeout:25];
         (
             ${filters.join("\n")}
         );
@@ -1407,8 +1407,11 @@ async function _fetchRetail(lat, lng, retryCount = 0) {
        return;
    }
 
-    showInlineLoader();
+    if (retailState.loading) return;
+    retailState.loading = true;
 
+    showInlineLoader();
+   
     try {
 
         if (retailRequestController) {
@@ -1442,20 +1445,58 @@ async function _fetchRetail(lat, lng, retryCount = 0) {
             selectedBrands
         );
 
-        const res = await fetch(
+        const OVERPASS_SERVERS = [
             "https://overpass-api.de/api/interpreter",
-            {
-                method: "POST",
-                body: query,
-                signal: retailRequestController.signal
-            }
-        );
+            "https://overpass.kumi.systems/api/interpreter",
+            "https://overpass.openstreetmap.ru/api/interpreter"
+        ];
 
-        if (!res.ok) {
-            throw new Error("HTTP error");
+        async function fetchWithRetry(query, retryCount = 0) {
+
+            const MAX_RETRY = 3;
+
+            for (let i = 0; i < OVERPASS_SERVERS.length; i++) {
+
+                const url = OVERPASS_SERVERS[i];
+
+                try {
+
+                    const controller = new AbortController();
+                    const timeout = setTimeout(() => controller.abort(), 20000);
+
+                    const res = await fetch(url, {
+                        method: "POST",
+                        body: query,
+                        signal: controller.signal
+                    });
+
+                    clearTimeout(timeout);
+
+                    if (!res.ok) throw new Error("HTTP error");
+
+                    const data = await res.json();
+
+                    if (!data.elements) throw new Error("Empty data");
+
+                    return data;
+
+                } catch (err) {
+
+                    console.warn("Overpass failed:", url, err);
+
+                    if (i === OVERPASS_SERVERS.length - 1) {
+                        if (retryCount < MAX_RETRY) {
+                            await new Promise(r => setTimeout(r, 1000));
+                            return fetchWithRetry(query, retryCount + 1);
+                        } else {
+                            throw err;
+                        }
+                    }
+                }
+            }
         }
 
-        const data = await res.json();
+        const data = await fetchWithRetry(query);
 
         const results = (data.elements || [])
             .filter(el => el.tags)
@@ -1491,6 +1532,7 @@ async function _fetchRetail(lat, lng, retryCount = 0) {
     }
 
     hideInlineLoader();
+    retailState.loading = false;
 }
 
 /* =========================
