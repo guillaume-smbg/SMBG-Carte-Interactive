@@ -1721,6 +1721,7 @@ document.getElementById("btn-reset")
 
     /* 🔹 relancer filtre */
     appliquerFiltres();
+    fermerPanneau();
 });
 
     buildRetailHierarchy();
