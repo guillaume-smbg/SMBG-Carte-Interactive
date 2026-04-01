@@ -1523,6 +1523,8 @@ async function _fetchRetail(lat, lng, retryCount = 0) {
     } 
         catch (err) {
 
+        retailState.loading = false;
+           
         if (err.name !== "AbortError") {
 
             console.warn("Overpass error → retry");
