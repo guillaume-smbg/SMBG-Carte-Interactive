@@ -345,6 +345,40 @@ html, body {
     margin-bottom: 20px;
 }
 
+/* 💻 Laptop */
+@media (max-width: 1500px) {
+    #ref-annonce {
+        font-size: 22px;
+    }
+
+    .info-line {
+        font-size: 13px;
+        padding: 6px 0;
+    }
+
+    .btn-maps {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+}
+
+/* 💻 Petit laptop */
+@media (max-width: 1300px) {
+    #ref-annonce {
+        font-size: 20px;
+    }
+
+    .info-line {
+        font-size: 12px;
+        padding: 5px 0;
+    }
+
+    .btn-maps {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+}
+
 .info-line {
     display: flex;
     padding: 8px 0;
@@ -401,6 +435,20 @@ html, body {
 /* 💻 Laptop */
 @media (max-width: 1500px) {
     #carousel-wrapper {
+        height: 140px;
+    }
+}
+
+/* 💻 Petit laptop */
+@media (max-width: 1300px) {
+    #carousel-wrapper {
+        height: 120px;
+    }
+}
+
+/* 💻 Laptop */
+@media (max-width: 1500px) {
+    #carousel-wrapper {
         left: calc(240px + 12px);
         right: calc(280px + 30px);
     }
@@ -438,6 +486,20 @@ html, body {
     cursor: pointer;
     position: relative;
     top: 6px;
+}
+
+/* 💻 Laptop */
+@media (max-width: 1500px) {
+    #photo-carousel img {
+        height: 120px;
+    }
+}
+
+/* 💻 Petit laptop */
+@media (max-width: 1300px) {
+    #photo-carousel img {
+        height: 100px;
+    }
 }
 
 #photo-carousel img:hover {
@@ -566,6 +628,52 @@ html, body {
 
     z-index: 550;
     display: none;
+}
+
+/* 💻 Laptop */
+@media (max-width: 1500px) {
+    #module-enseignes {
+        width: 240px;
+        padding: 12px;
+    }
+
+    .module-title {
+        font-size: 16px;
+        margin-bottom: 14px;
+    }
+
+    #search-enseigne,
+    #search-activite {
+        font-size: 13px;
+        padding: 8px 10px;
+    }
+
+    .distance-label {
+        font-size: 13px;
+    }
+}
+
+/* 💻 Petit laptop */
+@media (max-width: 1300px) {
+    #module-enseignes {
+        width: 220px;
+        padding: 10px;
+    }
+
+    .module-title {
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    #search-enseigne,
+    #search-activite {
+        font-size: 12px;
+        padding: 7px 9px;
+    }
+
+    .distance-label {
+        font-size: 12px;
+    }
 }
 
 /* ───────────── TITRE ───────────── */
