@@ -33,6 +33,20 @@ html, body {
     overflow: hidden;
 }
 
+/* 💻 Laptop */
+@media (max-width: 1500px) {
+    #sidebar-left {
+        width: 240px;
+    }
+}
+
+/* 💻 Petit laptop */
+@media (max-width: 1300px) {
+    #sidebar-left {
+        width: 210px;
+    }
+}
+
 #sidebar-left .sidebar-inner {
     height: 100%;
     overflow-y: auto;
@@ -217,6 +231,20 @@ html, body {
     background: transparent !important;
 }
 
+/* 💻 Laptop */
+@media (max-width: 1500px) {
+    #map-container {
+        left: 240px;
+    }
+}
+
+/* 💻 Petit laptop */
+@media (max-width: 1300px) {
+    #map-container {
+        left: 210px;
+    }
+}
+
 #map {
     width: 100%;
     height: 100%;
@@ -278,7 +306,21 @@ html, body {
     transform: translateX(100%);
     transition: transform 0.35s ease;
 
-    z-index: 2000;   /* 🔥 AU-DESSUS DE LEAFLET */
+    z-index: 2000;
+}
+
+/* 💻 Laptop */
+@media (max-width: 1500px) {
+    #sidebar-right {
+        width: 280px;
+    }
+}
+
+/* 💻 Petit laptop */
+@media (max-width: 1300px) {
+    #sidebar-right {
+        width: 240px;
+    }
 }
 
 #sidebar-right.open {
@@ -343,17 +385,33 @@ html, body {
     position: fixed;
     bottom: 20px;
 
-    left: calc(290px + 12px);
-    right: calc(340px + 30px);
+    left: calc(275px + 12px);
+    right: calc(325px + 30px);
 
     height: 160px;
 
-    z-index: 2000;   /* 🔥 AU-DESSUS DE LA CARTE */
+    z-index: 2000;
 
     align-items: center;
     justify-content: center;
 
     display: none;
+}
+
+/* 💻 Laptop */
+@media (max-width: 1500px) {
+    #carousel-wrapper {
+        left: calc(240px + 12px);
+        right: calc(280px + 30px);
+    }
+}
+
+/* 💻 Petit laptop */
+@media (max-width: 1300px) {
+    #carousel-wrapper {
+        left: calc(210px + 12px);
+        right: calc(240px + 30px);
+    }
 }
 
 #photo-carousel {
