@@ -140,36 +140,19 @@ document.addEventListener("keydown", e => {
 
 
 /* ============================================================
-   4. CHARGEMENT DU FICHIER EXCEL AVEC MACROS
+   4. CHARGEMENT EXCEL
    ============================================================ */
 
 async function loadExcel() {
-
-    const url =
-        "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsm";
-
+    const url = "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsm";
     const res = await fetch(url);
 
-    if (!res.ok) {
-        throw new Error(
-            `Impossible de charger le fichier Liste des lots.xlsm : erreur ${res.status}`
-        );
-    }
+    if (!res.ok) throw new Error(`Erreur chargement Excel : ${res.status}`);
 
-    const buf = await res.arrayBuffer();
+    const wb = XLSX.read(await res.arrayBuffer(), { type: "array" });
+    const feuille = wb.Sheets["Liste des lots"];
 
-    const wb = XLSX.read(buf, {
-        type: "array"
-    });
-
-    const nomFeuille = "Liste des lots";
-    const feuille = wb.Sheets[nomFeuille];
-
-    if (!feuille) {
-        throw new Error(
-            `La feuille "${nomFeuille}" est introuvable. Feuilles disponibles : ${wb.SheetNames.join(", ")}`
-        );
-    }
+    if (!feuille) throw new Error("Feuille 'Liste des lots' introuvable");
 
     return XLSX.utils.sheet_to_json(feuille, {
         defval: "",
@@ -189,40 +172,44 @@ function formatReference(r) {
 }
 
 function formatValue(key, val) {
-    if (!val || ["-", "/", "O"].includes(val)) return null;
+    if (val === null || val === undefined) return null;
 
     val = val.toString().trim();
 
-    if (key === "Dépôt de garantie" || key === "GAPD") {
+    if (["", "-", "/", "O", "0", "0,00", "0.00"].includes(val)) {
+        return null;
+    }
+
+    if (["Dépôt de garantie", "GAPD"].includes(key)) {
         return val;
     }
 
-    if (key === "Loyer variable" || key === "Gestion") {
+    if (["Loyer variable", "Gestion"].includes(key)) {
         const n = parseFloat(val.replace(",", "."));
-        if (isNaN(n)) return val;
-        const pct = n <= 1 ? n * 100 : n;
-        return Math.round(pct) + " %";
+        return !n ? null : Math.round(n <= 1 ? n * 100 : n) + " %";
     }
 
     const euros = [
         "Cession / Droit au bail",
-        "Loyer annuel","Loyer Mensuel","Loyer €/m²",
-        "Charges annuelles","Charges Mensuelles","Charges €/m²",
-        "Taxe foncière","Taxe foncière €/m²",
-        "Marketing","Marketing €/m²",
+        "Loyer annuel", "Loyer Mensuel", "Loyer €/m²",
+        "Charges annuelles", "Charges Mensuelles", "Charges €/m²",
+        "Taxe foncière", "Taxe foncière €/m²",
+        "Marketing", "Marketing €/m²",
         "Total (L+C+M)"
     ];
 
-    const surfaces = ["Surface GLA","Surface utile"];
+    const surfaces = ["Surface GLA", "Surface utile"];
+
+    const n = parseFloat(
+        val.replace(/\s/g, "").replace(",", ".")
+    );
 
     if (euros.includes(key)) {
-        const n = Math.round(parseFloat(val.replace(/\s/g,"")));
-        return isNaN(n) ? val : n.toLocaleString("fr-FR") + " €";
+        return !n ? null : Math.round(n).toLocaleString("fr-FR") + " €";
     }
 
     if (surfaces.includes(key)) {
-        const n = Math.round(parseFloat(val.replace(/\s/g,"")));
-        return isNaN(n) ? val : n.toLocaleString("fr-FR") + " m²";
+        return !n ? null : Math.round(n).toLocaleString("fr-FR") + " m²";
     }
 
     return val;
