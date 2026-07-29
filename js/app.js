@@ -150,9 +150,9 @@ async function loadExcel() {
     if (!res.ok) throw new Error(`Erreur chargement Excel : ${res.status}`);
 
     const wb = XLSX.read(await res.arrayBuffer(), { type: "array" });
-    const feuille = wb.Sheets["Liste des lots"];
+    const feuille = wb.Sheets["Tableau recherche"];
 
-    if (!feuille) throw new Error("Feuille 'Liste des lots' introuvable");
+    if (!feuille) throw new Error("Feuille 'Tableau recherche' introuvable");
 
     return XLSX.utils.sheet_to_json(feuille, {
         defval: "",
