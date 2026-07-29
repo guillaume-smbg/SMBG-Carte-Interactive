@@ -144,11 +144,31 @@ document.addEventListener("keydown", e => {
    ============================================================ */
 async function loadExcel() {
     const url =
-      "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsx";
+      "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsm";
+
     const res = await fetch(url);
+
+    if (!res.ok) {
+        throw new Error(
+            `Impossible de charger le fichier Liste des lots.xlsm : ${res.status}`
+        );
+    }
+
     const buf = await res.arrayBuffer();
-    const wb = XLSX.read(buf, { type: "array" });
-    return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: "" });
+
+    const wb = XLSX.read(buf, {
+        type: "array"
+    });
+
+    const premiereFeuille = wb.SheetNames[0];
+
+    return XLSX.utils.sheet_to_json(
+        wb.Sheets[premiereFeuille],
+        {
+            defval: "",
+            raw: false
+        }
+    );
 }
 
 let DATA = [];
