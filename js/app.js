@@ -140,17 +140,19 @@ document.addEventListener("keydown", e => {
 
 
 /* ============================================================
-   4. CHARGEMENT EXCEL
+   4. CHARGEMENT DU FICHIER EXCEL AVEC MACROS
    ============================================================ */
+
 async function loadExcel() {
+
     const url =
-      "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsm";
+        "https://raw.githubusercontent.com/guillaume-smbg/SMBG-Carte-Interactive/main/Liste%20des%20lots.xlsm";
 
     const res = await fetch(url);
 
     if (!res.ok) {
         throw new Error(
-            `Impossible de charger le fichier Liste des lots.xlsm : ${res.status}`
+            `Impossible de charger le fichier Liste des lots.xlsm : erreur ${res.status}`
         );
     }
 
@@ -160,15 +162,19 @@ async function loadExcel() {
         type: "array"
     });
 
-    const premiereFeuille = wb.SheetNames[0];
+    const nomFeuille = "Liste des lots";
+    const feuille = wb.Sheets[nomFeuille];
 
-    return XLSX.utils.sheet_to_json(
-        wb.Sheets[premiereFeuille],
-        {
-            defval: "",
-            raw: false
-        }
-    );
+    if (!feuille) {
+        throw new Error(
+            `La feuille "${nomFeuille}" est introuvable. Feuilles disponibles : ${wb.SheetNames.join(", ")}`
+        );
+    }
+
+    return XLSX.utils.sheet_to_json(feuille, {
+        defval: "",
+        raw: true
+    });
 }
 
 let DATA = [];
