@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow,noarchive">
 <title>Recherche appartement Montparnasse</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">\n<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">\n<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 <style>
 :root{--bg:#f5f6f8;--panel:#fff;--line:#dfe4ea;--text:#17202a;--muted:#697586;--green:#157347;--amber:#ad6400;--red:#b42318;--blue:#2457d6}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
@@ -22,7 +22,7 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
 .photo{height:230px;background:#e8edf2;position:relative}.photo img{width:100%;height:100%;object-fit:cover;display:block}.tag{position:absolute;left:10px;top:10px;background:#fffffff0;border:1px solid #fff;border-radius:999px;padding:5px 8px;font-weight:750;font-size:11px}.tag.available{color:var(--green)}.tag.uncertain{color:var(--amber)}.tag.removed{color:var(--red)}
 .body{padding:13px}.row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.price{font-size:22px;font-weight:850}.score{font-size:12px;font-weight:800;background:#edf2ff;color:#254aa5;padding:5px 7px;border-radius:7px}.loc{font-size:13px;color:var(--muted);margin-top:2px}.facts{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.fact{font-size:12px;background:#f2f4f7;border-radius:7px;padding:5px 7px}.foot{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:11px}.empty{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;text-align:center;color:var(--muted)}
 .modal{display:none;position:fixed;inset:0;background:#111827a6;z-index:1200;padding:24px;overflow:auto}.modal.open{display:block}.sheet{max-width:1000px;margin:auto;background:#fff;border-radius:18px;overflow:hidden}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:3}.close{border:0;background:#eef1f4;border-radius:999px;width:38px;height:38px;font-size:22px}.gallery{display:flex;gap:8px;overflow:auto;padding:12px;background:#f6f7f8}.gallery img{height:280px;min-width:400px;max-width:560px;object-fit:cover;border-radius:10px;background:#e8edf2}.detail{padding:18px}.detail h2{font-size:27px;margin:0}.where{color:var(--muted);margin-top:4px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}.kv{background:#f5f6f8;border-radius:9px;padding:9px}.kv small{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}.section{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.section h3{font-size:14px;margin:0 0 6px}.section p{margin:0;line-height:1.55;color:#414b58}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}.actions button,.actions a{border:1px solid #d1d8e0;background:#fff;border-radius:9px;padding:9px 11px;text-decoration:none;color:var(--text);font-weight:750;cursor:pointer}.actions a{background:#17202a;color:#fff}.actions button.sel{outline:2px solid var(--blue);background:#edf2ff}
-.price-marker-wrap{background:transparent!important;border:0!important}.marker{width:66px;height:30px;display:flex;align-items:center;justify-content:center;background:#17202a;color:#fff;border:2px solid #fff;border-radius:999px;padding:0 7px;font-weight:850;font-size:11px;white-space:nowrap;box-shadow:0 2px 8px #0005;transform:translateZ(0)}.marker:after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid #17202a}.marker.warn{background:var(--amber)}.marker.warn:after{border-top-color:var(--amber)}.marker.off{background:#777}.marker.off:after{border-top-color:#777}.photo-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;color:#657181;font-size:12px;font-weight:700;background:linear-gradient(145deg,#eef1f5,#e4e9ef)}
+.rental-cluster{background:#fff;border:2px solid #17202a;border-radius:999px;color:#17202a;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 9px #0004}.price-marker-wrap{background:transparent!important;border:0!important}.marker{width:66px;height:30px;display:flex;align-items:center;justify-content:center;background:#17202a;color:#fff;border:2px solid #fff;border-radius:999px;padding:0 7px;font-weight:850;font-size:11px;white-space:nowrap;box-shadow:0 2px 8px #0005;transform:translateZ(0)}.marker:after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid #17202a}.marker.warn{background:var(--amber)}.marker.warn:after{border-top-color:var(--amber)}.marker.off{background:#777}.marker.off:after{border-top-color:#777}.photo-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;color:#657181;font-size:12px;font-weight:700;background:linear-gradient(145deg,#eef1f5,#e4e9ef)}
 .notice{max-width:900px;margin:60px auto;padding:22px;background:#fff;border:1px solid var(--line);border-radius:14px}
 @media(max-width:1150px){main,body.map-xxl main{grid-template-columns:minmax(520px,57%) 1fr}.photo{height:210px}}
 @media(max-width:900px){header{position:relative}.top{display:block}.summary{justify-content:flex-start;margin-top:8px}.wrap{padding:12px}.filters input{min-width:100%}main,body.map-xxl main{grid-template-columns:1fr;padding:10px}.map-shell{position:relative;top:auto;height:460px;min-height:0}.list{grid-template-columns:1fr}.zone-panel{max-width:280px}}
@@ -75,7 +75,7 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>\n<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script>
 const API="https://hemanobijzarxvnktccn.supabase.co/functions/v1/rental-search";
 const params=new URLSearchParams(location.search);
@@ -85,7 +85,7 @@ const num=n=>n==null?"—":new Intl.NumberFormat("fr-FR",{maximumFractionDigits:
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const apiUrl=(extra="")=>API+"?k="+encodeURIComponent(KEY)+(extra?"&"+extra:"");
 const prefs=JSON.parse(localStorage.getItem("rentalPrefsV1")||"{}");
-let listings=[],filtered=[],markers=[],favoritesOnly=false;
+let listings=[],filtered=[],markers=[],favoritesOnly=false;\nconst markerGroup=L.markerClusterGroup({showCoverageOnHover:false,spiderfyOnMaxZoom:true,zoomToBoundsOnClick:true,maxClusterRadius:42,disableClusteringAtZoom:17,iconCreateFunction:c=>L.divIcon({html:"<div class=\\\"rental-cluster\\\">"+c.getChildCount()+" biens</div>",className:"",iconSize:[58,34],iconAnchor:[29,17]})});
 let savedPolygon=null,pendingPolygon=null,zoneLayer=null;
 
 function userStatus(x){return prefs[x.id]||"active"}
@@ -108,7 +108,7 @@ function kv(k,v){return '<div class="kv"><small>'+esc(k)+'</small><b>'+esc(v)+'<
 
 const map=L.map("map").setView([48.8407,2.3176],14);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(map);
-L.circleMarker([48.8409,2.3207],{radius:8,color:"#c7352d",weight:3,fillColor:"#fff",fillOpacity:1}).addTo(map).bindPopup("<b>Gare Montparnasse</b>");
+L.circleMarker([48.8409,2.3207],{radius:8,color:"#c7352d",weight:3,fillColor:"#fff",fillOpacity:1}).addTo(map).bindPopup("<b>Gare Montparnasse</b>");\nmarkerGroup.addTo(map);
 
 function geoToLayer(polygon){
   if(zoneLayer){map.removeLayer(zoneLayer);zoneLayer=null}
@@ -171,16 +171,17 @@ document.getElementById("saveZone").addEventListener("click",saveZone);
 document.getElementById("clearZone").addEventListener("click",clearZone);
 document.getElementById("zoneFilter").addEventListener("change",render);
 
-function clearMarkers(){markers.forEach(m=>map.removeLayer(m));markers=[]}
+function clearMarkers(){markerGroup.clearLayers();markers=[]}
 function drawMarkers(){
   clearMarkers();
   filtered.forEach(x=>{
     if(x.latitude==null||x.longitude==null)return;
     const cls=x.available_status==="uncertain"?"warn":x.available_status==="removed"?"off":"";
     const icon=L.divIcon({className:"price-marker-wrap",html:'<div class="marker '+cls+'">'+Math.round(Number(x.rent_cc))+' €</div>',iconSize:[66,37],iconAnchor:[33,37]});
-    const m=L.marker([Number(x.latitude),Number(x.longitude)],{icon,riseOnHover:true}).addTo(map);
+    const m=L.marker([Number(x.latitude),Number(x.longitude)],{icon,riseOnHover:true});
     m.bindTooltip(esc(x.location_label)+" · "+euro(x.rent_cc));
     m.on("click",()=>openDetail(x.id));
+    markerGroup.addLayer(m);
     markers.push(m);
   });
 }
