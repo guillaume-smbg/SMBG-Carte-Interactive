@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Recherche appartement Montparnasse</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--bg:#f5f6f8;--panel:#fff;--line:#dfe4ea;--text:#17202a;--muted:#697586;--green:#157347;--amber:#ad6400;--red:#b42318;--blue:#2457d6}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:700}
+.wrap{max-width:1520px;margin:auto;padding:14px 18px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand h1{font-size:20px;margin:0}.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}.summary{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.pill{border:1px solid var(--line);border-radius:999px;padding:6px 9px;font-size:12px;background:#fff}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.filters select,.filters button,.filters input{border:1px solid #cfd6de;border-radius:9px;background:#fff;padding:8px 10px;font:inherit;font-size:13px}.filters input{min-width:220px}.filters button.active{background:#17202a;color:white}
+main{max-width:1520px;margin:auto;padding:14px 18px;display:grid;grid-template-columns:minmax(420px,45%) 1fr;gap:14px}.map-shell{height:calc(100vh - 170px);min-height:520px;position:sticky;top:156px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#e8edf2}.map{height:100%}
+.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-content:start}.card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:.15s transform,.15s border-color}.card:hover{transform:translateY(-1px);border-color:#b8c1cd}.photo{height:190px;background:#e8edf2;position:relative}.photo img{width:100%;height:100%;object-fit:cover;display:block}.tag{position:absolute;left:10px;top:10px;background:#fffffff0;border:1px solid #fff;border-radius:999px;padding:5px 8px;font-weight:750;font-size:11px}.tag.available{color:var(--green)}.tag.uncertain{color:var(--amber)}.tag.removed{color:var(--red)}
+.body{padding:13px}.row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.price{font-size:22px;font-weight:850}.score{font-size:12px;font-weight:800;background:#edf2ff;color:#254aa5;padding:5px 7px;border-radius:7px}.loc{font-size:13px;color:var(--muted);margin-top:2px}.facts{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.fact{font-size:12px;background:#f2f4f7;border-radius:7px;padding:5px 7px}.foot{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:11px}.empty{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;text-align:center;color:var(--muted)}
+.modal{display:none;position:fixed;inset:0;background:#111827a6;z-index:1200;padding:24px;overflow:auto}.modal.open{display:block}.sheet{max-width:1000px;margin:auto;background:#fff;border-radius:18px;overflow:hidden}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:3}.close{border:0;background:#eef1f4;border-radius:999px;width:38px;height:38px;font-size:22px}.gallery{display:flex;gap:8px;overflow:auto;padding:12px;background:#f6f7f8}.gallery img{height:260px;min-width:380px;max-width:540px;object-fit:cover;border-radius:10px;background:#e8edf2}.detail{padding:18px}.detail h2{font-size:27px;margin:0}.where{color:var(--muted);margin-top:4px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}.kv{background:#f5f6f8;border-radius:9px;padding:9px}.kv small{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}.section{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.section h3{font-size:14px;margin:0 0 6px}.section p{margin:0;line-height:1.55;color:#414b58}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}.actions button,.actions a{border:1px solid #d1d8e0;background:#fff;border-radius:9px;padding:9px 11px;text-decoration:none;color:var(--text);font-weight:750;cursor:pointer}.actions a{background:#17202a;color:#fff}.actions button.sel{outline:2px solid var(--blue);background:#edf2ff}
+.marker{background:#17202a;color:#fff;border:2px solid #fff;border-radius:999px;padding:5px 7px;font-weight:800;font-size:11px;box-shadow:0 2px 7px #0004}.marker.warn{background:var(--amber)}.marker.off{background:#777}
+.notice{max-width:900px;margin:60px auto;padding:22px;background:#fff;border:1px solid var(--line);border-radius:14px}
+@media(max-width:980px){header{position:relative}.top{display:block}.summary{justify-content:flex-start;margin-top:8px}.wrap{padding:12px}.filters input{min-width:100%}main{grid-template-columns:1fr;padding:10px}.map-shell{position:relative;top:auto;height:390px;min-height:0}.list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.list{grid-template-columns:1fr}.gallery img{min-width:88vw;height:220px}.grid{grid-template-columns:repeat(2,1fr)}.modal{padding:0}.sheet{border-radius:0}.photo{height:210px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <h1>Recherche appartement Montparnasse</h1>
+        <p>Location vide · ≥ 37 m² · ≤ 1 800 € CC · environ 20 min à pied</p>
+      </div>
+      <div class="summary" id="summary"></div>
+    </div>
+    <div class="filters">
+      <select id="budget"><option value="1600">≤ 1 600 € CC</option><option value="1800" selected>≤ 1 800 € CC</option></select>
+      <select id="status"><option value="live" selected>Disponibles + à vérifier</option><option value="available">Disponibles</option><option value="uncertain">À vérifier</option><option value="all">Tout l'historique</option></select>
+      <select id="elevator"><option value="all">Ascenseur indifférent</option><option value="yes">Ascenseur uniquement</option></select>
+      <select id="sort"><option value="score">Pertinence</option><option value="price">Prix croissant</option><option value="surface">Surface décroissante</option><option value="walk">Distance Montparnasse</option></select>
+      <input id="search" placeholder="Rue, quartier, source…">
+      <button id="favorites">★ Favoris / visites</button>
+    </div>
+  </div>
+</header>
+<main id="app">
+  <div class="map-shell"><div id="map" class="map"></div></div>
+  <section class="list" id="list"></section>
+</main>
+<div class="modal" id="modal">
+  <div class="sheet">
+    <div class="modal-head"><b>Fiche appartement</b><button class="close" id="close" aria-label="Fermer">×</button></div>
+    <div id="detail"></div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const API="https://hemanobijzarxvnktccn.supabase.co/functions/v1/rental-search";
+const params=new URLSearchParams(location.search);
+const KEY=params.get("k")||"";
+const euro=n=>n==null?"—":new Intl.NumberFormat("fr-FR",{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(Number(n));
+const num=n=>n==null?"—":new Intl.NumberFormat("fr-FR",{maximumFractionDigits:2}).format(Number(n));
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const apiUrl=(extra="")=>API+"?k="+encodeURIComponent(KEY)+(extra?"&"+extra:"");
+const prefs=JSON.parse(localStorage.getItem("rentalPrefsV1")||"{}");
+let listings=[],filtered=[],markers=[],favoritesOnly=false;
+
+function userStatus(x){return prefs[x.id]||"active"}
+function score(x){
+  let s=100;
+  s-=Math.max(0,(Number(x.rent_cc)-1300)/20);
+  s-=Math.max(0,(Number(x.walk_min_high||25)-8))*1.25;
+  s+=Math.min(10,Math.max(0,(Number(x.surface)-37)*.6));
+  if(x.elevator===true)s+=5;
+  if(x.office_fit==="good")s+=5;
+  if(x.furnished_status==="unfurnished")s+=5;
+  if(x.available_status==="uncertain")s-=12;
+  if(Number(x.walk_min_high||99)>20)s-=8;
+  return Math.max(0,Math.min(100,Math.round(s)));
+}
+function stateLabel(s){return s==="available"?"Disponible":s==="uncertain"?"À vérifier":"Retirée / indisponible"}
+function officeLabel(s){return s==="good"?"Favorable":s==="possible"?"Possible":s==="poor"?"Difficile":"À vérifier"}
+function furnLabel(s){return s==="unfurnished"?"Non meublé":s==="furnished"?"Meublé":"À confirmer"}
+function kv(k,v){return '<div class="kv"><small>'+esc(k)+'</small><b>'+esc(v)+'</b></div>'}
+
+const map=L.map("map").setView([48.8407,2.3176],14);
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(map);
+L.circleMarker([48.8409,2.3207],{radius:8,color:"#c7352d",weight:3,fillColor:"#fff",fillOpacity:1}).addTo(map).bindPopup("<b>Gare Montparnasse</b>");
+
+function clearMarkers(){markers.forEach(m=>map.removeLayer(m));markers=[]}
+function drawMarkers(){
+  clearMarkers();
+  filtered.forEach(x=>{
+    if(x.latitude==null||x.longitude==null)return;
+    const cls=x.available_status==="uncertain"?"warn":x.available_status==="removed"?"off":"";
+    const icon=L.divIcon({className:"",html:'<div class="marker '+cls+'">'+Math.round(Number(x.rent_cc))+' €</div>'});
+    const m=L.marker([Number(x.latitude),Number(x.longitude)],{icon}).addTo(map);
+    m.bindTooltip(esc(x.location_label)+" · "+euro(x.rent_cc));
+    m.on("click",()=>openDetail(x.id));
+    markers.push(m);
+  });
+}
+
+function render(){
+  const budget=Number(document.getElementById("budget").value);
+  const status=document.getElementById("status").value;
+  const elevator=document.getElementById("elevator").value;
+  const sort=document.getElementById("sort").value;
+  const q=document.getElementById("search").value.trim().toLowerCase();
+  filtered=listings.filter(x=>{
+    if(Number(x.surface)<37||Number(x.rent_cc)>budget)return false;
+    if(status==="available"&&x.available_status!=="available")return false;
+    if(status==="uncertain"&&x.available_status!=="uncertain")return false;
+    if(status==="live"&&x.available_status==="removed")return false;
+    if(elevator==="yes"&&x.elevator!==true)return false;
+    if(favoritesOnly&&!["favorite","visit"].includes(userStatus(x)))return false;
+    if(q&&!((x.location_label||"")+" "+(x.title||"")+" "+(x.source_name||"")).toLowerCase().includes(q))return false;
+    return true;
+  });
+  filtered.sort((a,b)=>{
+    if(sort==="price")return Number(a.rent_cc)-Number(b.rent_cc);
+    if(sort==="surface")return Number(b.surface)-Number(a.surface);
+    if(sort==="walk")return Number(a.walk_min_high||99)-Number(b.walk_min_high||99);
+    return score(b)-score(a);
+  });
+  const available=filtered.filter(x=>x.available_status==="available").length;
+  const uncertain=filtered.filter(x=>x.available_status==="uncertain").length;
+  document.getElementById("summary").innerHTML=
+    '<span class="pill"><b>'+filtered.length+'</b> affichées</span>'+
+    '<span class="pill"><b>'+available+'</b> disponibles</span>'+
+    '<span class="pill"><b>'+uncertain+'</b> à vérifier</span>';
+  const list=document.getElementById("list");
+  if(!filtered.length){list.innerHTML='<div class="empty">Aucune annonce ne correspond aux filtres actuels.</div>';drawMarkers();return}
+  list.innerHTML=filtered.map(x=>{
+    const st=userStatus(x);
+    return '<article class="card" data-id="'+esc(x.id)+'">'+
+      '<div class="photo"><img loading="lazy" referrerpolicy="no-referrer" src="'+apiUrl("image="+encodeURIComponent(x.id)+"&n=0")+'" alt="">'+
+      '<span class="tag '+esc(x.available_status)+'">'+stateLabel(x.available_status)+'</span></div>'+
+      '<div class="body"><div class="row"><div class="price">'+euro(x.rent_cc)+' CC</div><div class="score">'+score(x)+'/100</div></div>'+
+      '<div class="loc">'+esc(x.location_label)+'</div>'+
+      '<div class="facts"><span class="fact">'+num(x.surface)+' m²</span><span class="fact">'+(x.rooms||"—")+' pièce'+(Number(x.rooms)>1?"s":"")+'</span>'+
+      '<span class="fact">🚶 '+(x.walk_min_low||"?")+'–'+(x.walk_min_high||"?")+' min</span>'+
+      (x.elevator===true?'<span class="fact">Ascenseur</span>':'')+
+      (x.dpe?'<span class="fact">DPE '+esc(x.dpe)+'</span>':'')+'</div>'+
+      '<div class="foot"><span>'+esc(x.source_name)+' · '+esc(st)+'</span><span>vérifié '+new Date(x.last_checked).toLocaleDateString("fr-FR")+'</span></div></div></article>';
+  }).join("");
+  list.querySelectorAll(".card").forEach(c=>c.addEventListener("click",()=>openDetail(c.dataset.id)));
+  drawMarkers();
+}
+
+async function openDetail(id){
+  const x=listings.find(v=>v.id===id); if(!x)return;
+  const d=document.getElementById("detail");
+  d.innerHTML=
+   '<div class="gallery" id="gallery"><img referrerpolicy="no-referrer" src="'+apiUrl("image="+encodeURIComponent(id)+"&n=0")+'" alt=""></div>'+
+   '<div class="detail"><h2>'+euro(x.rent_cc)+' CC · '+num(x.surface)+' m²</h2>'+
+   '<div class="where">'+esc(x.title)+' — '+esc(x.location_label)+'</div>'+
+   '<div class="grid">'+
+     kv("Pièces",x.rooms||"—")+kv("Étage",x.floor_label||"—")+kv("Ascenseur",x.elevator===true?"Oui":x.elevator===false?"Non":"À confirmer")+kv("Montparnasse",(x.walk_min_low||"?")+"–"+(x.walk_min_high||"?")+" min")+
+     kv("Loyer HC",euro(x.rent_hc))+kv("Charges",euro(x.charges))+kv("DPE",x.dpe||"À confirmer")+kv("GES",x.ges||"À confirmer")+
+     kv("Location",furnLabel(x.furnished_status))+kv("Chauffage",x.heating||"À confirmer")+kv("Honoraires",euro(x.fees))+kv("Dépôt",euro(x.deposit))+
+   '</div>'+
+   '<div class="section"><h3>Description synthétique</h3><p>'+esc(x.description_summary||"")+'</p></div>'+
+   '<div class="section"><h3>Coin bureau</h3><p><b>'+officeLabel(x.office_fit)+'.</b> '+esc(x.office_note||"")+'</p></div>'+
+   '<div class="section"><h3>Disponibilité et contrôles</h3><p><b>'+stateLabel(x.available_status)+'.</b> '+esc(x.availability_note||"")+' Dernière vérification : '+new Date(x.last_checked).toLocaleString("fr-FR")+'. '+esc(x.publication_note||"")+'</p></div>'+
+   '<div class="actions">'+
+      '<button data-s="favorite">★ Favori</button><button data-s="visit">✓ À visiter</button><button data-s="rejected">✕ Écarter</button><button data-s="active">↺ Réactiver</button>'+
+      '<a href="'+esc(x.source_url)+'" target="_blank" rel="noopener noreferrer">Annonce originale ↗</a>'+
+   '</div></div>';
+  const buttons=d.querySelectorAll("button[data-s]");
+  buttons.forEach(b=>{
+    if(b.dataset.s===userStatus(x))b.classList.add("sel");
+    b.addEventListener("click",ev=>{
+      ev.stopPropagation();
+      prefs[x.id]=b.dataset.s;
+      localStorage.setItem("rentalPrefsV1",JSON.stringify(prefs));
+      buttons.forEach(z=>z.classList.toggle("sel",z===b));
+      render();
+    });
+  });
+  document.getElementById("modal").classList.add("open");
+  try{
+    const r=await fetch(apiUrl("api=images&id="+encodeURIComponent(id)));
+    const j=await r.json();
+    if(Array.isArray(j.images)&&j.images.length){
+      document.getElementById("gallery").innerHTML=j.images.slice(0,10).map((_,i)=>
+        '<img loading="lazy" referrerpolicy="no-referrer" src="'+apiUrl("image="+encodeURIComponent(id)+"&n="+i)+'" alt="">'
+      ).join("");
+    }
+  }catch{}
+}
+
+async function init(){
+  if(!KEY){
+    document.body.innerHTML='<div class="notice"><h2>Lien incomplet</h2><p>La clé d’accès manque dans l’URL.</p></div>';
+    return;
+  }
+  try{
+    const r=await fetch(apiUrl());
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    const j=await r.json();
+    listings=Array.isArray(j.listings)?j.listings:[];
+    render();
+  }catch(e){
+    document.getElementById("app").innerHTML='<div class="notice"><h2>Impossible de charger les annonces</h2><p>'+esc(e.message||e)+'</p></div>';
+  }
+}
+
+document.querySelectorAll("#budget,#status,#elevator,#sort").forEach(el=>el.addEventListener("change",render));
+document.getElementById("search").addEventListener("input",render);
+document.getElementById("favorites").addEventListener("click",e=>{favoritesOnly=!favoritesOnly;e.currentTarget.classList.toggle("active",favoritesOnly);render()});
+document.getElementById("close").addEventListener("click",()=>document.getElementById("modal").classList.remove("open"));
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")e.currentTarget.classList.remove("open")});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("modal").classList.remove("open")});
+init();
+</script>
+</body>
+</html>
