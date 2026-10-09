@@ -6,20 +6,27 @@
 <meta name="robots" content="noindex,nofollow,noarchive">
 <title>Recherche appartement Montparnasse</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
 <style>
 :root{--bg:#f5f6f8;--panel:#fff;--line:#dfe4ea;--text:#17202a;--muted:#697586;--green:#157347;--amber:#ad6400;--red:#b42318;--blue:#2457d6}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
 header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:700}
-.wrap{max-width:1520px;margin:auto;padding:14px 18px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand h1{font-size:20px;margin:0}.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}.summary{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.pill{border:1px solid var(--line);border-radius:999px;padding:6px 9px;font-size:12px;background:#fff}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.filters select,.filters button,.filters input{border:1px solid #cfd6de;border-radius:9px;background:#fff;padding:8px 10px;font:inherit;font-size:13px}.filters input{min-width:220px}.filters button.active{background:#17202a;color:white}
-main{max-width:1520px;margin:auto;padding:14px 18px;display:grid;grid-template-columns:minmax(420px,45%) 1fr;gap:14px}.map-shell{height:calc(100vh - 170px);min-height:520px;position:sticky;top:156px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#e8edf2}.map{height:100%}
-.list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-content:start}.card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:.15s transform,.15s border-color}.card:hover{transform:translateY(-1px);border-color:#b8c1cd}.photo{height:190px;background:#e8edf2;position:relative}.photo img{width:100%;height:100%;object-fit:cover;display:block}.tag{position:absolute;left:10px;top:10px;background:#fffffff0;border:1px solid #fff;border-radius:999px;padding:5px 8px;font-weight:750;font-size:11px}.tag.available{color:var(--green)}.tag.uncertain{color:var(--amber)}.tag.removed{color:var(--red)}
+.wrap{max-width:1700px;margin:auto;padding:13px 18px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand h1{font-size:20px;margin:0}.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}.summary{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.pill{border:1px solid var(--line);border-radius:999px;padding:6px 9px;font-size:12px;background:#fff}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.filters select,.filters button,.filters input{border:1px solid #cfd6de;border-radius:9px;background:#fff;padding:8px 10px;font:inherit;font-size:13px}.filters input{min-width:210px}.filters button.active{background:#17202a;color:white}
+main{max-width:1700px;margin:auto;padding:14px 18px;display:grid;grid-template-columns:minmax(650px,62%) minmax(340px,38%);gap:14px}
+body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
+.map-shell{height:calc(100vh - 166px);min-height:560px;position:sticky;top:152px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#e8edf2}.map{height:100%}
+.zone-panel{position:absolute;z-index:550;left:12px;bottom:12px;background:#ffffffed;border:1px solid #d5dce4;border-radius:12px;padding:10px;box-shadow:0 4px 14px #0001;max-width:310px}
+.zone-title{font-weight:800;font-size:12px;margin-bottom:6px}.zone-help{font-size:11px;color:var(--muted);margin-bottom:7px;line-height:1.35}.zone-actions{display:flex;gap:6px;flex-wrap:wrap}.zone-actions button{border:1px solid #cfd6de;background:white;border-radius:8px;padding:7px 9px;font-size:12px;font-weight:700;cursor:pointer}.zone-actions button.primary{background:#17202a;color:white}.zone-actions button:disabled{opacity:.45;cursor:not-allowed}.zone-check{display:flex;gap:7px;align-items:center;margin-top:8px;font-size:12px}.zone-state{font-size:11px;color:var(--muted);margin-top:6px}
+.list{display:grid;grid-template-columns:1fr;gap:12px;align-content:start}.card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:.15s transform,.15s border-color}.card:hover{transform:translateY(-1px);border-color:#b8c1cd}
+.photo{height:230px;background:#e8edf2;position:relative}.photo img{width:100%;height:100%;object-fit:cover;display:block}.tag{position:absolute;left:10px;top:10px;background:#fffffff0;border:1px solid #fff;border-radius:999px;padding:5px 8px;font-weight:750;font-size:11px}.tag.available{color:var(--green)}.tag.uncertain{color:var(--amber)}.tag.removed{color:var(--red)}
 .body{padding:13px}.row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.price{font-size:22px;font-weight:850}.score{font-size:12px;font-weight:800;background:#edf2ff;color:#254aa5;padding:5px 7px;border-radius:7px}.loc{font-size:13px;color:var(--muted);margin-top:2px}.facts{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.fact{font-size:12px;background:#f2f4f7;border-radius:7px;padding:5px 7px}.foot{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:11px}.empty{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;text-align:center;color:var(--muted)}
-.modal{display:none;position:fixed;inset:0;background:#111827a6;z-index:1200;padding:24px;overflow:auto}.modal.open{display:block}.sheet{max-width:1000px;margin:auto;background:#fff;border-radius:18px;overflow:hidden}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:3}.close{border:0;background:#eef1f4;border-radius:999px;width:38px;height:38px;font-size:22px}.gallery{display:flex;gap:8px;overflow:auto;padding:12px;background:#f6f7f8}.gallery img{height:260px;min-width:380px;max-width:540px;object-fit:cover;border-radius:10px;background:#e8edf2}.detail{padding:18px}.detail h2{font-size:27px;margin:0}.where{color:var(--muted);margin-top:4px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}.kv{background:#f5f6f8;border-radius:9px;padding:9px}.kv small{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}.section{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.section h3{font-size:14px;margin:0 0 6px}.section p{margin:0;line-height:1.55;color:#414b58}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}.actions button,.actions a{border:1px solid #d1d8e0;background:#fff;border-radius:9px;padding:9px 11px;text-decoration:none;color:var(--text);font-weight:750;cursor:pointer}.actions a{background:#17202a;color:#fff}.actions button.sel{outline:2px solid var(--blue);background:#edf2ff}
+.modal{display:none;position:fixed;inset:0;background:#111827a6;z-index:1200;padding:24px;overflow:auto}.modal.open{display:block}.sheet{max-width:1000px;margin:auto;background:#fff;border-radius:18px;overflow:hidden}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:3}.close{border:0;background:#eef1f4;border-radius:999px;width:38px;height:38px;font-size:22px}.gallery{display:flex;gap:8px;overflow:auto;padding:12px;background:#f6f7f8}.gallery img{height:280px;min-width:400px;max-width:560px;object-fit:cover;border-radius:10px;background:#e8edf2}.detail{padding:18px}.detail h2{font-size:27px;margin:0}.where{color:var(--muted);margin-top:4px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}.kv{background:#f5f6f8;border-radius:9px;padding:9px}.kv small{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}.section{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.section h3{font-size:14px;margin:0 0 6px}.section p{margin:0;line-height:1.55;color:#414b58}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}.actions button,.actions a{border:1px solid #d1d8e0;background:#fff;border-radius:9px;padding:9px 11px;text-decoration:none;color:var(--text);font-weight:750;cursor:pointer}.actions a{background:#17202a;color:#fff}.actions button.sel{outline:2px solid var(--blue);background:#edf2ff}
 .marker{background:#17202a;color:#fff;border:2px solid #fff;border-radius:999px;padding:5px 7px;font-weight:800;font-size:11px;box-shadow:0 2px 7px #0004}.marker.warn{background:var(--amber)}.marker.off{background:#777}
 .notice{max-width:900px;margin:60px auto;padding:22px;background:#fff;border:1px solid var(--line);border-radius:14px}
-@media(max-width:980px){header{position:relative}.top{display:block}.summary{justify-content:flex-start;margin-top:8px}.wrap{padding:12px}.filters input{min-width:100%}main{grid-template-columns:1fr;padding:10px}.map-shell{position:relative;top:auto;height:390px;min-height:0}.list{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:650px){.list{grid-template-columns:1fr}.gallery img{min-width:88vw;height:220px}.grid{grid-template-columns:repeat(2,1fr)}.modal{padding:0}.sheet{border-radius:0}.photo{height:210px}}
+@media(max-width:1150px){main,body.map-xxl main{grid-template-columns:minmax(520px,57%) 1fr}.photo{height:210px}}
+@media(max-width:900px){header{position:relative}.top{display:block}.summary{justify-content:flex-start;margin-top:8px}.wrap{padding:12px}.filters input{min-width:100%}main,body.map-xxl main{grid-template-columns:1fr;padding:10px}.map-shell{position:relative;top:auto;height:460px;min-height:0}.list{grid-template-columns:1fr}.zone-panel{max-width:280px}}
+@media(max-width:650px){.gallery img{min-width:88vw;height:220px}.grid{grid-template-columns:repeat(2,1fr)}.modal{padding:0}.sheet{border-radius:0}.photo{height:220px}.zone-panel{left:8px;right:8px;max-width:none}}
 </style>
 </head>
 <body>
@@ -28,7 +35,7 @@ main{max-width:1520px;margin:auto;padding:14px 18px;display:grid;grid-template-c
     <div class="top">
       <div class="brand">
         <h1>Recherche appartement Montparnasse</h1>
-        <p>Location vide · ≥ 37 m² · ≤ 1 800 € CC · environ 20 min à pied</p>
+        <p>Location vide · ≥ 37 m² · ≤ 1 800 € CC · zone personnalisée possible</p>
       </div>
       <div class="summary" id="summary"></div>
     </div>
@@ -39,11 +46,25 @@ main{max-width:1520px;margin:auto;padding:14px 18px;display:grid;grid-template-c
       <select id="sort"><option value="score">Pertinence</option><option value="price">Prix croissant</option><option value="surface">Surface décroissante</option><option value="walk">Distance Montparnasse</option></select>
       <input id="search" placeholder="Rue, quartier, source…">
       <button id="favorites">★ Favoris / visites</button>
+      <button id="mapSize">↔ Carte XXL</button>
     </div>
   </div>
 </header>
 <main id="app">
-  <div class="map-shell"><div id="map" class="map"></div></div>
+  <div class="map-shell">
+    <div id="map" class="map"></div>
+    <div class="zone-panel">
+      <div class="zone-title">Périmètre de recherche</div>
+      <div class="zone-help">Dessine directement sur la carte la zone qui t'intéresse. Une fois enregistrée, elle sera aussi utilisée par les prochaines recherches automatiques.</div>
+      <div class="zone-actions">
+        <button id="drawZone" class="primary">✏ Dessiner</button>
+        <button id="saveZone" disabled>Enregistrer</button>
+        <button id="clearZone">Effacer</button>
+      </div>
+      <label class="zone-check"><input type="checkbox" id="zoneFilter" checked> Ne montrer que les annonces dans la zone</label>
+      <div class="zone-state" id="zoneState">Aucune zone enregistrée.</div>
+    </div>
+  </div>
   <section class="list" id="list"></section>
 </main>
 <div class="modal" id="modal">
@@ -54,6 +75,7 @@ main{max-width:1520px;margin:auto;padding:14px 18px;display:grid;grid-template-c
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 <script>
 const API="https://hemanobijzarxvnktccn.supabase.co/functions/v1/rental-search";
 const params=new URLSearchParams(location.search);
@@ -64,6 +86,7 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const apiUrl=(extra="")=>API+"?k="+encodeURIComponent(KEY)+(extra?"&"+extra:"");
 const prefs=JSON.parse(localStorage.getItem("rentalPrefsV1")||"{}");
 let listings=[],filtered=[],markers=[],favoritesOnly=false;
+let savedPolygon=null,pendingPolygon=null,zoneLayer=null;
 
 function userStatus(x){return prefs[x.id]||"active"}
 function score(x){
@@ -86,6 +109,67 @@ function kv(k,v){return '<div class="kv"><small>'+esc(k)+'</small><b>'+esc(v)+'<
 const map=L.map("map").setView([48.8407,2.3176],14);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(map);
 L.circleMarker([48.8409,2.3207],{radius:8,color:"#c7352d",weight:3,fillColor:"#fff",fillOpacity:1}).addTo(map).bindPopup("<b>Gare Montparnasse</b>");
+
+function geoToLayer(polygon){
+  if(zoneLayer){map.removeLayer(zoneLayer);zoneLayer=null}
+  if(!polygon)return;
+  const latlngs=polygon.coordinates[0].map(p=>[p[1],p[0]]);
+  zoneLayer=L.polygon(latlngs,{color:"#2457d6",weight:3,fillColor:"#2457d6",fillOpacity:.08}).addTo(map);
+}
+function layerToGeo(layer){
+  const lls=layer.getLatLngs()[0];
+  const ring=lls.map(ll=>[Number(ll.lng.toFixed(6)),Number(ll.lat.toFixed(6))]);
+  if(ring.length && (ring[0][0]!==ring[ring.length-1][0]||ring[0][1]!==ring[ring.length-1][1])) ring.push([...ring[0]]);
+  return {type:"Polygon",coordinates:[ring]};
+}
+function pointInPolygon(lon,lat,polygon){
+  if(!polygon||!polygon.coordinates?.[0])return true;
+  const ring=polygon.coordinates[0];
+  let inside=false;
+  for(let i=0,j=ring.length-1;i<ring.length;j=i++){
+    const xi=ring[i][0],yi=ring[i][1],xj=ring[j][0],yj=ring[j][1];
+    const hit=((yi>lat)!=(yj>lat))&&(lon<(xj-xi)*(lat-yi)/((yj-yi)||1e-12)+xi);
+    if(hit)inside=!inside;
+  }
+  return inside;
+}
+function zoneEnabled(){return document.getElementById("zoneFilter").checked && !!savedPolygon}
+function zoneText(){
+  const el=document.getElementById("zoneState");
+  if(pendingPolygon)el.textContent="Périmètre dessiné — clique sur Enregistrer.";
+  else if(savedPolygon)el.textContent="Zone enregistrée et utilisée par la veille automatique.";
+  else el.textContent="Aucune zone enregistrée.";
+}
+async function saveZone(){
+  const polygon=pendingPolygon||savedPolygon;
+  if(!polygon)return;
+  const r=await fetch(apiUrl("api=settings"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({polygon,zone_name:"Périmètre Montparnasse"})});
+  if(!r.ok){alert("Impossible d’enregistrer la zone.");return}
+  savedPolygon=polygon;pendingPolygon=null;
+  document.getElementById("saveZone").disabled=true;
+  geoToLayer(savedPolygon);zoneText();render();
+}
+async function clearZone(){
+  const r=await fetch(apiUrl("api=settings"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({polygon:null,zone_name:"Zone personnalisée"})});
+  if(!r.ok){alert("Impossible d’effacer la zone.");return}
+  savedPolygon=null;pendingPolygon=null;
+  if(zoneLayer){map.removeLayer(zoneLayer);zoneLayer=null}
+  document.getElementById("saveZone").disabled=true;
+  zoneText();render();
+}
+document.getElementById("drawZone").addEventListener("click",()=>{
+  const drawer=new L.Draw.Polygon(map,{showArea:false,shapeOptions:{color:"#2457d6",weight:3,fillOpacity:.08},allowIntersection:false});
+  drawer.enable();
+});
+map.on(L.Draw.Event.CREATED,e=>{
+  pendingPolygon=layerToGeo(e.layer);
+  geoToLayer(pendingPolygon);
+  document.getElementById("saveZone").disabled=false;
+  zoneText();
+});
+document.getElementById("saveZone").addEventListener("click",saveZone);
+document.getElementById("clearZone").addEventListener("click",clearZone);
+document.getElementById("zoneFilter").addEventListener("change",render);
 
 function clearMarkers(){markers.forEach(m=>map.removeLayer(m));markers=[]}
 function drawMarkers(){
@@ -115,6 +199,10 @@ function render(){
     if(elevator==="yes"&&x.elevator!==true)return false;
     if(favoritesOnly&&!["favorite","visit"].includes(userStatus(x)))return false;
     if(q&&!((x.location_label||"")+" "+(x.title||"")+" "+(x.source_name||"")).toLowerCase().includes(q))return false;
+    if(zoneEnabled()){
+      if(x.longitude==null||x.latitude==null)return false;
+      if(!pointInPolygon(Number(x.longitude),Number(x.latitude),savedPolygon))return false;
+    }
     return true;
   });
   filtered.sort((a,b)=>{
@@ -128,9 +216,10 @@ function render(){
   document.getElementById("summary").innerHTML=
     '<span class="pill"><b>'+filtered.length+'</b> affichées</span>'+
     '<span class="pill"><b>'+available+'</b> disponibles</span>'+
-    '<span class="pill"><b>'+uncertain+'</b> à vérifier</span>';
+    '<span class="pill"><b>'+uncertain+'</b> à vérifier</span>'+
+    (zoneEnabled()?'<span class="pill">📍 Zone active</span>':'');
   const list=document.getElementById("list");
-  if(!filtered.length){list.innerHTML='<div class="empty">Aucune annonce ne correspond aux filtres actuels.</div>';drawMarkers();return}
+  if(!filtered.length){list.innerHTML='<div class="empty">Aucune annonce ne correspond aux filtres actuels'+(zoneEnabled()?" et au périmètre dessiné":"")+'.</div>';drawMarkers();return}
   list.innerHTML=filtered.map(x=>{
     const st=userStatus(x);
     return '<article class="card" data-id="'+esc(x.id)+'">'+
@@ -183,7 +272,7 @@ async function openDetail(id){
     const r=await fetch(apiUrl("api=images&id="+encodeURIComponent(id)));
     const j=await r.json();
     if(Array.isArray(j.images)&&j.images.length){
-      document.getElementById("gallery").innerHTML=j.images.slice(0,10).map((_,i)=>
+      document.getElementById("gallery").innerHTML=j.images.slice(0,12).map((_,i)=>
         '<img loading="lazy" referrerpolicy="no-referrer" src="'+apiUrl("image="+encodeURIComponent(id)+"&n="+i)+'" alt="">'
       ).join("");
     }
@@ -192,23 +281,25 @@ async function openDetail(id){
 
 async function init(){
   if(!KEY){
-    document.body.innerHTML='<div class="notice"><h2>Lien incomplet</h2><p>La clé d’accès manque dans l’URL.</p></div>';
-    return;
+    document.body.innerHTML='<div class="notice"><h2>Lien incomplet</h2><p>La clé d’accès manque dans l’URL.</p></div>';return;
   }
   try{
     const r=await fetch(apiUrl());
     if(!r.ok)throw new Error("HTTP "+r.status);
     const j=await r.json();
     listings=Array.isArray(j.listings)?j.listings:[];
+    savedPolygon=j.settings?.preferred_polygon||null;
+    if(savedPolygon){geoToLayer(savedPolygon);try{map.fitBounds(zoneLayer.getBounds(),{padding:[25,25]})}catch{}}
+    zoneText();
     render();
   }catch(e){
     document.getElementById("app").innerHTML='<div class="notice"><h2>Impossible de charger les annonces</h2><p>'+esc(e.message||e)+'</p></div>';
   }
 }
-
 document.querySelectorAll("#budget,#status,#elevator,#sort").forEach(el=>el.addEventListener("change",render));
 document.getElementById("search").addEventListener("input",render);
 document.getElementById("favorites").addEventListener("click",e=>{favoritesOnly=!favoritesOnly;e.currentTarget.classList.toggle("active",favoritesOnly);render()});
+document.getElementById("mapSize").addEventListener("click",e=>{document.body.classList.toggle("map-xxl");e.currentTarget.classList.toggle("active");setTimeout(()=>map.invalidateSize(),150)});
 document.getElementById("close").addEventListener("click",()=>document.getElementById("modal").classList.remove("open"));
 document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")e.currentTarget.classList.remove("open")});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("modal").classList.remove("open")});
