@@ -55,13 +55,13 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
     <div id="map" class="map"></div>
     <div class="zone-panel">
       <div class="zone-title">Périmètre de recherche</div>
-      <div class="zone-help">Dessine directement sur la carte la zone qui t'intéresse. Les annonces situées juste à côté restent admises avec une tolérance de 250 m.</div>
+      <div class="zone-help">Dessine directement sur la carte la zone qui t'intéresse. Les annonces situées juste à côté restent admises avec une tolérance de 500 m.</div>
       <div class="zone-actions">
         <button id="drawZone" class="primary">✏ Dessiner</button>
         <button id="saveZone" disabled>Enregistrer</button>
         <button id="clearZone">Effacer</button>
       </div>
-      <label class="zone-check"><input type="checkbox" id="zoneFilter" checked> Afficher la zone + les annonces à moins de 250 m</label>
+      <label class="zone-check"><input type="checkbox" id="zoneFilter" checked> Afficher la zone + les annonces à moins de 500 m</label>
       <div class="zone-state" id="zoneState">Aucune zone enregistrée.</div>
     </div>
   </div>
@@ -232,8 +232,11 @@ function render(){
     if(favoritesOnly&&!["favorite","visit"].includes(userStatus(x)))return false;
     if(q&&!((x.location_label||"")+" "+(x.title||"")+" "+(x.source_name||"")).toLowerCase().includes(q))return false;
     if(zoneEnabled()){
-      if(x.longitude==null||x.latitude==null)return false;
-      if(distanceToZoneMeters(Number(x.longitude),Number(x.latitude))>nearZoneBufferM)return false;
+      if(x.longitude==null||x.latitude==null){
+        if(x.available_status!=="uncertain")return false;
+      } else if(distanceToZoneMeters(Number(x.longitude),Number(x.latitude))>nearZoneBufferM){
+        return false;
+      }
     }
     return true;
   });
@@ -263,6 +266,7 @@ function render(){
       '<span class="fact">🚶 '+(x.walk_min_low||"?")+'–'+(x.walk_min_high||"?")+' min</span>'+
       (x.elevator===true?'<span class="fact">Ascenseur</span>':'')+
       (x.dpe?'<span class="fact">DPE '+esc(x.dpe)+'</span>':'')+
+      (zoneEnabled()&&x.longitude==null?'<span class="fact near-zone">Localisation à confirmer</span>':'')+
       (zoneEnabled()&&x.longitude!=null&&x.latitude!=null&&distanceToZoneMeters(Number(x.longitude),Number(x.latitude))>0?'<span class="fact near-zone">Hors zone proche · '+Math.round(distanceToZoneMeters(Number(x.longitude),Number(x.latitude)))+' m</span>':'')+'</div>'+
       '<div class="foot"><span>'+esc(x.source_name)+' · '+esc(st)+'</span><span>vérifié '+new Date(x.last_checked).toLocaleDateString("fr-FR")+'</span></div></div></article>';
   }).join("");
