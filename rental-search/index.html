@@ -6,7 +6,9 @@
 <meta name="robots" content="noindex,nofollow,noarchive">
 <title>Recherche appartement Montparnasse</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">\n<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">\n<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 <style>
 :root{--bg:#f5f6f8;--panel:#fff;--line:#dfe4ea;--text:#17202a;--muted:#697586;--green:#157347;--amber:#ad6400;--red:#b42318;--blue:#2457d6}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
@@ -75,7 +77,8 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>\n<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script>
 const API="https://hemanobijzarxvnktccn.supabase.co/functions/v1/rental-search";
 const params=new URLSearchParams(location.search);
@@ -85,7 +88,8 @@ const num=n=>n==null?"—":new Intl.NumberFormat("fr-FR",{maximumFractionDigits:
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const apiUrl=(extra="")=>API+"?k="+encodeURIComponent(KEY)+(extra?"&"+extra:"");
 const prefs=JSON.parse(localStorage.getItem("rentalPrefsV1")||"{}");
-let listings=[],filtered=[],markers=[],favoritesOnly=false;\nconst markerGroup=L.markerClusterGroup({showCoverageOnHover:false,spiderfyOnMaxZoom:true,zoomToBoundsOnClick:true,maxClusterRadius:42,disableClusteringAtZoom:17,iconCreateFunction:c=>L.divIcon({html:"<div class=\\\"rental-cluster\\\">"+c.getChildCount()+" biens</div>",className:"",iconSize:[58,34],iconAnchor:[29,17]})});
+let listings=[],filtered=[],markers=[],favoritesOnly=false;
+const markerGroup=L.markerClusterGroup({showCoverageOnHover:false,spiderfyOnMaxZoom:true,zoomToBoundsOnClick:true,maxClusterRadius:42,disableClusteringAtZoom:17,iconCreateFunction:c=>L.divIcon({html:"<div class=\\\"rental-cluster\\\">"+c.getChildCount()+" biens</div>",className:"",iconSize:[58,34],iconAnchor:[29,17]})});
 let savedPolygon=null,pendingPolygon=null,zoneLayer=null;
 
 function userStatus(x){return prefs[x.id]||"active"}
@@ -108,7 +112,8 @@ function kv(k,v){return '<div class="kv"><small>'+esc(k)+'</small><b>'+esc(v)+'<
 
 const map=L.map("map").setView([48.8407,2.3176],14);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(map);
-L.circleMarker([48.8409,2.3207],{radius:8,color:"#c7352d",weight:3,fillColor:"#fff",fillOpacity:1}).addTo(map).bindPopup("<b>Gare Montparnasse</b>");\nmarkerGroup.addTo(map);
+L.circleMarker([48.8409,2.3207],{radius:8,color:"#c7352d",weight:3,fillColor:"#fff",fillOpacity:1}).addTo(map).bindPopup("<b>Gare Montparnasse</b>");
+markerGroup.addTo(map);
 
 function geoToLayer(polygon){
   if(zoneLayer){map.removeLayer(zoneLayer);zoneLayer=null}
