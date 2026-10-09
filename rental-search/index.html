@@ -86,8 +86,8 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const apiUrl=(extra="")=>API+"?k="+encodeURIComponent(KEY)+(extra?"&"+extra:"");
 const prefs=JSON.parse(localStorage.getItem("rentalPrefsV1")||"{}");
 let listings=[],filtered=[],markers=[],favoritesOnly=false;
-const markerGroup=L.markerClusterGroup({showCoverageOnHover:false,spiderfyOnMaxZoom:true,zoomToBoundsOnClick:true,maxClusterRadius:42,disableClusteringAtZoom:17,iconCreateFunction:c=>L.divIcon({html:"<div class=\\\"rental-cluster\\\">"+c.getChildCount()+" biens</div>",className:"",iconSize:[58,34],iconAnchor:[29,17]})});
 let savedPolygon=null,pendingPolygon=null,zoneLayer=null;
+let nearZoneBufferM=250;
 
 function userStatus(x){return prefs[x.id]||"active"}
 function score(x){
