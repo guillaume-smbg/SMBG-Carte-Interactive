@@ -7,8 +7,6 @@
 <title>Recherche appartement Montparnasse</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 <style>
 :root{--bg:#f5f6f8;--panel:#fff;--line:#dfe4ea;--text:#17202a;--muted:#697586;--green:#157347;--amber:#ad6400;--red:#b42318;--blue:#2457d6}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
@@ -22,9 +20,9 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
 .zone-title{font-weight:800;font-size:12px;margin-bottom:6px}.zone-help{font-size:11px;color:var(--muted);margin-bottom:7px;line-height:1.35}.zone-actions{display:flex;gap:6px;flex-wrap:wrap}.zone-actions button{border:1px solid #cfd6de;background:white;border-radius:8px;padding:7px 9px;font-size:12px;font-weight:700;cursor:pointer}.zone-actions button.primary{background:#17202a;color:white}.zone-actions button:disabled{opacity:.45;cursor:not-allowed}.zone-check{display:flex;gap:7px;align-items:center;margin-top:8px;font-size:12px}.zone-state{font-size:11px;color:var(--muted);margin-top:6px}
 .list{display:grid;grid-template-columns:1fr;gap:12px;align-content:start}.card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:.15s transform,.15s border-color}.card:hover{transform:translateY(-1px);border-color:#b8c1cd}
 .photo{height:230px;background:#e8edf2;position:relative}.photo img{width:100%;height:100%;object-fit:cover;display:block}.tag{position:absolute;left:10px;top:10px;background:#fffffff0;border:1px solid #fff;border-radius:999px;padding:5px 8px;font-weight:750;font-size:11px}.tag.available{color:var(--green)}.tag.uncertain{color:var(--amber)}.tag.removed{color:var(--red)}
-.body{padding:13px}.row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.price{font-size:22px;font-weight:850}.score{font-size:12px;font-weight:800;background:#edf2ff;color:#254aa5;padding:5px 7px;border-radius:7px}.loc{font-size:13px;color:var(--muted);margin-top:2px}.facts{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.fact{font-size:12px;background:#f2f4f7;border-radius:7px;padding:5px 7px}.foot{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:11px}.empty{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;text-align:center;color:var(--muted)}
+.body{padding:13px}.row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.price{font-size:22px;font-weight:850}.score{font-size:12px;font-weight:800;background:#edf2ff;color:#254aa5;padding:5px 7px;border-radius:7px}.loc{font-size:13px;color:var(--muted);margin-top:2px}.facts{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.fact{font-size:12px;background:#f2f4f7;border-radius:7px;padding:5px 7px}.fact.near-zone{background:#fff3df;color:#8a4d00;font-weight:750}.foot{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:11px}.empty{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;text-align:center;color:var(--muted)}
 .modal{display:none;position:fixed;inset:0;background:#111827a6;z-index:1200;padding:24px;overflow:auto}.modal.open{display:block}.sheet{max-width:1000px;margin:auto;background:#fff;border-radius:18px;overflow:hidden}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:3}.close{border:0;background:#eef1f4;border-radius:999px;width:38px;height:38px;font-size:22px}.gallery{display:flex;gap:8px;overflow:auto;padding:12px;background:#f6f7f8}.gallery img{height:280px;min-width:400px;max-width:560px;object-fit:cover;border-radius:10px;background:#e8edf2}.detail{padding:18px}.detail h2{font-size:27px;margin:0}.where{color:var(--muted);margin-top:4px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}.kv{background:#f5f6f8;border-radius:9px;padding:9px}.kv small{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}.section{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.section h3{font-size:14px;margin:0 0 6px}.section p{margin:0;line-height:1.55;color:#414b58}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}.actions button,.actions a{border:1px solid #d1d8e0;background:#fff;border-radius:9px;padding:9px 11px;text-decoration:none;color:var(--text);font-weight:750;cursor:pointer}.actions a{background:#17202a;color:#fff}.actions button.sel{outline:2px solid var(--blue);background:#edf2ff}
-.rental-cluster{background:#fff;border:2px solid #17202a;border-radius:999px;color:#17202a;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 9px #0004}.price-marker-wrap{background:transparent!important;border:0!important}.marker{width:66px;height:30px;display:flex;align-items:center;justify-content:center;background:#17202a;color:#fff;border:2px solid #fff;border-radius:999px;padding:0 7px;font-weight:850;font-size:11px;white-space:nowrap;box-shadow:0 2px 8px #0005;transform:translateZ(0)}.marker:after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid #17202a}.marker.warn{background:var(--amber)}.marker.warn:after{border-top-color:var(--amber)}.marker.off{background:#777}.marker.off:after{border-top-color:#777}.photo-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;color:#657181;font-size:12px;font-weight:700;background:linear-gradient(145deg,#eef1f5,#e4e9ef)}
+.price-marker-wrap{background:transparent!important;border:0!important}.marker{width:66px;height:30px;display:flex;align-items:center;justify-content:center;background:#17202a;color:#fff;border:2px solid #fff;border-radius:999px;padding:0 7px;font-weight:850;font-size:11px;white-space:nowrap;box-shadow:0 2px 8px #0005;transform:translateZ(0)}.marker:after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid #17202a}.marker.warn{background:var(--amber)}.marker.warn:after{border-top-color:var(--amber)}.marker.off{background:#777}.marker.off:after{border-top-color:#777}.photo-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;color:#657181;font-size:12px;font-weight:700;background:linear-gradient(145deg,#eef1f5,#e4e9ef)}
 .notice{max-width:900px;margin:60px auto;padding:22px;background:#fff;border:1px solid var(--line);border-radius:14px}
 @media(max-width:1150px){main,body.map-xxl main{grid-template-columns:minmax(520px,57%) 1fr}.photo{height:210px}}
 @media(max-width:900px){header{position:relative}.top{display:block}.summary{justify-content:flex-start;margin-top:8px}.wrap{padding:12px}.filters input{min-width:100%}main,body.map-xxl main{grid-template-columns:1fr;padding:10px}.map-shell{position:relative;top:auto;height:460px;min-height:0}.list{grid-template-columns:1fr}.zone-panel{max-width:280px}}
@@ -57,13 +55,13 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
     <div id="map" class="map"></div>
     <div class="zone-panel">
       <div class="zone-title">Périmètre de recherche</div>
-      <div class="zone-help">Dessine directement sur la carte la zone qui t'intéresse. Une fois enregistrée, elle sera aussi utilisée par les prochaines recherches automatiques.</div>
+      <div class="zone-help">Dessine directement sur la carte la zone qui t'intéresse. Les annonces situées juste à côté restent admises avec une tolérance de 250 m.</div>
       <div class="zone-actions">
         <button id="drawZone" class="primary">✏ Dessiner</button>
         <button id="saveZone" disabled>Enregistrer</button>
         <button id="clearZone">Effacer</button>
       </div>
-      <label class="zone-check"><input type="checkbox" id="zoneFilter" checked> Ne montrer que les annonces dans la zone</label>
+      <label class="zone-check"><input type="checkbox" id="zoneFilter" checked> Afficher la zone + les annonces à moins de 250 m</label>
       <div class="zone-state" id="zoneState">Aucune zone enregistrée.</div>
     </div>
   </div>
@@ -78,7 +76,6 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
-<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <script>
 const API="https://hemanobijzarxvnktccn.supabase.co/functions/v1/rental-search";
 const params=new URLSearchParams(location.search);
@@ -113,7 +110,6 @@ function kv(k,v){return '<div class="kv"><small>'+esc(k)+'</small><b>'+esc(v)+'<
 const map=L.map("map").setView([48.8407,2.3176],14);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(map);
 L.circleMarker([48.8409,2.3207],{radius:8,color:"#c7352d",weight:3,fillColor:"#fff",fillOpacity:1}).addTo(map).bindPopup("<b>Gare Montparnasse</b>");
-markerGroup.addTo(map);
 
 function geoToLayer(polygon){
   if(zoneLayer){map.removeLayer(zoneLayer);zoneLayer=null}
@@ -138,24 +134,44 @@ function pointInPolygon(lon,lat,polygon){
   }
   return inside;
 }
+
+function pointToSegmentMeters(lon,lat,lon1,lat1,lon2,lat2){
+  const rad=Math.PI/180,R=6371000,refLat=lat*rad;
+  const px=lon*rad*R*Math.cos(refLat),py=lat*rad*R;
+  const x1=lon1*rad*R*Math.cos(refLat),y1=lat1*rad*R;
+  const x2=lon2*rad*R*Math.cos(refLat),y2=lat2*rad*R;
+  const dx=x2-x1,dy=y2-y1;
+  const t=Math.max(0,Math.min(1,((px-x1)*dx+(py-y1)*dy)/((dx*dx+dy*dy)||1)));
+  return Math.hypot(px-(x1+t*dx),py-(y1+t*dy));
+}
+function distanceToZoneMeters(lon,lat){
+  if(!savedPolygon)return Infinity;
+  if(pointInPolygon(lon,lat,savedPolygon))return 0;
+  const ring=savedPolygon.coordinates[0];
+  let best=Infinity;
+  for(let i=1;i<ring.length;i++){
+    best=Math.min(best,pointToSegmentMeters(lon,lat,ring[i-1][0],ring[i-1][1],ring[i][0],ring[i][1]));
+  }
+  return best;
+}
 function zoneEnabled(){return document.getElementById("zoneFilter").checked && !!savedPolygon}
 function zoneText(){
   const el=document.getElementById("zoneState");
   if(pendingPolygon)el.textContent="Périmètre dessiné — clique sur Enregistrer.";
-  else if(savedPolygon)el.textContent="Zone enregistrée et utilisée par la veille automatique.";
+  else if(savedPolygon)el.textContent="Zone enregistrée + tolérance de "+nearZoneBufferM+" m utilisée par la veille automatique.";
   else el.textContent="Aucune zone enregistrée.";
 }
 async function saveZone(){
   const polygon=pendingPolygon||savedPolygon;
   if(!polygon)return;
-  const r=await fetch(apiUrl("api=settings"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({polygon,zone_name:"Périmètre Montparnasse"})});
+  const r=await fetch(apiUrl("api=settings"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({polygon,zone_name:"Périmètre Montparnasse",near_zone_buffer_m:nearZoneBufferM})});
   if(!r.ok){alert("Impossible d’enregistrer la zone.");return}
   savedPolygon=polygon;pendingPolygon=null;
   document.getElementById("saveZone").disabled=true;
   geoToLayer(savedPolygon);zoneText();render();
 }
 async function clearZone(){
-  const r=await fetch(apiUrl("api=settings"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({polygon:null,zone_name:"Zone personnalisée"})});
+  const r=await fetch(apiUrl("api=settings"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({polygon:null,zone_name:"Zone personnalisée",near_zone_buffer_m:nearZoneBufferM})});
   if(!r.ok){alert("Impossible d’effacer la zone.");return}
   savedPolygon=null;pendingPolygon=null;
   if(zoneLayer){map.removeLayer(zoneLayer);zoneLayer=null}
@@ -176,17 +192,27 @@ document.getElementById("saveZone").addEventListener("click",saveZone);
 document.getElementById("clearZone").addEventListener("click",clearZone);
 document.getElementById("zoneFilter").addEventListener("change",render);
 
-function clearMarkers(){markerGroup.clearLayers();markers=[]}
+function clearMarkers(){markers.forEach(m=>map.removeLayer(m));markers=[]}
 function drawMarkers(){
   clearMarkers();
-  filtered.forEach(x=>{
+  const placed=[];
+  filtered.forEach((x,idx)=>{
     if(x.latitude==null||x.longitude==null)return;
+    const baseLat=Number(x.latitude),baseLon=Number(x.longitude);
+    let lat=baseLat,lon=baseLon;
+    const nearby=placed.filter(p=>Math.abs(p.baseLat-baseLat)<0.00022&&Math.abs(p.baseLon-baseLon)<0.00032).length;
+    if(nearby){
+      const angle=(nearby*137.5)*Math.PI/180;
+      const radius=0.00009*(1+Math.floor((nearby-1)/6));
+      lat+=Math.sin(angle)*radius;
+      lon+=Math.cos(angle)*radius/Math.cos(baseLat*Math.PI/180);
+    }
+    placed.push({baseLat,baseLon});
     const cls=x.available_status==="uncertain"?"warn":x.available_status==="removed"?"off":"";
     const icon=L.divIcon({className:"price-marker-wrap",html:'<div class="marker '+cls+'">'+Math.round(Number(x.rent_cc))+' €</div>',iconSize:[66,37],iconAnchor:[33,37]});
-    const m=L.marker([Number(x.latitude),Number(x.longitude)],{icon,riseOnHover:true});
-    m.bindTooltip(esc(x.location_label)+" · "+euro(x.rent_cc));
+    const m=L.marker([lat,lon],{icon,riseOnHover:true}).addTo(map);
+    m.bindTooltip(esc(x.location_label)+" · "+euro(x.rent_cc)+(nearby?" · pin légèrement décalé pour lisibilité":""));
     m.on("click",()=>openDetail(x.id));
-    markerGroup.addLayer(m);
     markers.push(m);
   });
 }
@@ -207,7 +233,7 @@ function render(){
     if(q&&!((x.location_label||"")+" "+(x.title||"")+" "+(x.source_name||"")).toLowerCase().includes(q))return false;
     if(zoneEnabled()){
       if(x.longitude==null||x.latitude==null)return false;
-      if(!pointInPolygon(Number(x.longitude),Number(x.latitude),savedPolygon))return false;
+      if(distanceToZoneMeters(Number(x.longitude),Number(x.latitude))>nearZoneBufferM)return false;
     }
     return true;
   });
@@ -223,7 +249,7 @@ function render(){
     '<span class="pill"><b>'+filtered.length+'</b> affichées</span>'+
     '<span class="pill"><b>'+available+'</b> disponibles</span>'+
     '<span class="pill"><b>'+uncertain+'</b> à vérifier</span>'+
-    (zoneEnabled()?'<span class="pill">📍 Zone active</span>':'');
+    (zoneEnabled()?'<span class="pill">📍 Zone + '+nearZoneBufferM+' m</span>':'');
   const list=document.getElementById("list");
   if(!filtered.length){list.innerHTML='<div class="empty">Aucune annonce ne correspond aux filtres actuels'+(zoneEnabled()?" et au périmètre dessiné":"")+'.</div>';drawMarkers();return}
   list.innerHTML=filtered.map(x=>{
@@ -236,7 +262,8 @@ function render(){
       '<div class="facts"><span class="fact">'+num(x.surface)+' m²</span><span class="fact">'+(x.rooms||"—")+' pièce'+(Number(x.rooms)>1?"s":"")+'</span>'+
       '<span class="fact">🚶 '+(x.walk_min_low||"?")+'–'+(x.walk_min_high||"?")+' min</span>'+
       (x.elevator===true?'<span class="fact">Ascenseur</span>':'')+
-      (x.dpe?'<span class="fact">DPE '+esc(x.dpe)+'</span>':'')+'</div>'+
+      (x.dpe?'<span class="fact">DPE '+esc(x.dpe)+'</span>':'')+
+      (zoneEnabled()&&x.longitude!=null&&x.latitude!=null&&distanceToZoneMeters(Number(x.longitude),Number(x.latitude))>0?'<span class="fact near-zone">Hors zone proche · '+Math.round(distanceToZoneMeters(Number(x.longitude),Number(x.latitude)))+' m</span>':'')+'</div>'+
       '<div class="foot"><span>'+esc(x.source_name)+' · '+esc(st)+'</span><span>vérifié '+new Date(x.last_checked).toLocaleDateString("fr-FR")+'</span></div></div></article>';
   }).join("");
   list.querySelectorAll(".card").forEach(c=>c.addEventListener("click",()=>openDetail(c.dataset.id)));
@@ -295,6 +322,7 @@ async function init(){
     const j=await r.json();
     listings=Array.isArray(j.listings)?j.listings:[];
     savedPolygon=j.settings?.preferred_polygon||null;
+    nearZoneBufferM=Number(j.settings?.near_zone_buffer_m||250);
     if(savedPolygon){geoToLayer(savedPolygon);try{map.fitBounds(zoneLayer.getBounds(),{padding:[25,25]})}catch{}}
     zoneText();
     render();
