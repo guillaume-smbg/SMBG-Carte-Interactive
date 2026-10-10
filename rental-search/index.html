@@ -43,7 +43,7 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
       <select id="budget"><option value="1600">≤ 1 600 € CC</option><option value="1800" selected>≤ 1 800 € CC</option></select>
       <select id="status"><option value="live" selected>Disponibles + à vérifier</option><option value="available">Disponibles</option><option value="uncertain">À vérifier</option><option value="all">Tout l'historique</option></select>
       <select id="elevator"><option value="all">Ascenseur indifférent</option><option value="yes">Ascenseur uniquement</option></select>
-      <select id="sort"><option value="score">Pertinence</option><option value="price">Prix croissant</option><option value="surface">Surface décroissante</option><option value="walk">Distance Montparnasse</option></select>
+      <select id="sort"><option value="score">Pertinence</option><option value="price">Prix croissant</option><option value="sqm">Prix au m² croissant</option><option value="surface">Surface décroissante</option><option value="walk">Distance Montparnasse</option></select>
       <input id="search" placeholder="Rue, quartier, source…">
       <button id="favorites">★ Favoris / visites</button>
       <button id="mapSize">↔ Carte XXL</button>
@@ -82,6 +82,8 @@ const params=new URLSearchParams(location.search);
 const KEY=params.get("k")||"";
 const euro=n=>n==null?"—":new Intl.NumberFormat("fr-FR",{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(Number(n));
 const num=n=>n==null?"—":new Intl.NumberFormat("fr-FR",{maximumFractionDigits:2}).format(Number(n));
+const psm=(rent,surface)=>rent==null||surface==null||Number(surface)<=0?null:Number(rent)/Number(surface);
+const psmText=(rent,surface)=>{const v=psm(rent,surface);return v==null?"—":new Intl.NumberFormat("fr-FR",{minimumFractionDigits:1,maximumFractionDigits:1}).format(v)+" €/m²";};
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const apiUrl=(extra="")=>API+"?k="+encodeURIComponent(KEY)+(extra?"&"+extra:"");
 const prefs=JSON.parse(localStorage.getItem("rentalPrefsV1")||"{}");
@@ -242,6 +244,7 @@ function render(){
   });
   filtered.sort((a,b)=>{
     if(sort==="price")return Number(a.rent_cc)-Number(b.rent_cc);
+    if(sort==="sqm")return (psm(a.rent_cc,a.surface)??9999)-(psm(b.rent_cc,b.surface)??9999);
     if(sort==="surface")return Number(b.surface)-Number(a.surface);
     if(sort==="walk")return Number(a.walk_min_high||99)-Number(b.walk_min_high||99);
     return score(b)-score(a);
@@ -262,7 +265,7 @@ function render(){
       '<span class="tag '+esc(x.available_status)+'">'+stateLabel(x.available_status)+'</span></div>'+
       '<div class="body"><div class="row"><div class="price">'+euro(x.rent_cc)+' CC</div><div class="score">'+score(x)+'/100</div></div>'+
       '<div class="loc">'+esc(x.location_label)+'</div>'+
-      '<div class="facts"><span class="fact">'+num(x.surface)+' m²</span><span class="fact">'+(x.rooms||"—")+' pièce'+(Number(x.rooms)>1?"s":"")+'</span>'+
+      '<div class="facts"><span class="fact">'+num(x.surface)+' m²</span><span class="fact">'+psmText(x.rent_cc,x.surface)+' CC</span><span class="fact">'+(x.rooms||"—")+' pièce'+(Number(x.rooms)>1?"s":"")+'</span>'+
       '<span class="fact">🚶 '+(x.walk_min_low||"?")+'–'+(x.walk_min_high||"?")+' min</span>'+
       (x.elevator===true?'<span class="fact">Ascenseur</span>':'')+
       (x.dpe?'<span class="fact">DPE '+esc(x.dpe)+'</span>':'')+
@@ -283,7 +286,7 @@ async function openDetail(id){
    '<div class="where">'+esc(x.title)+' — '+esc(x.location_label)+'</div>'+
    '<div class="grid">'+
      kv("Pièces",x.rooms||"—")+kv("Étage",x.floor_label||"—")+kv("Ascenseur",x.elevator===true?"Oui":x.elevator===false?"Non":"À confirmer")+kv("Montparnasse",(x.walk_min_low||"?")+"–"+(x.walk_min_high||"?")+" min")+
-     kv("Loyer HC",euro(x.rent_hc))+kv("Charges",euro(x.charges))+kv("DPE",x.dpe||"À confirmer")+kv("GES",x.ges||"À confirmer")+
+     kv("Loyer HC",euro(x.rent_hc))+kv("Prix/m² CC",psmText(x.rent_cc,x.surface))+kv("Prix/m² HC",x.rent_hc==null?"—":psmText(x.rent_hc,x.surface))+kv("Charges",euro(x.charges))+kv("DPE",x.dpe||"À confirmer")+kv("GES",x.ges||"À confirmer")+
      kv("Location",furnLabel(x.furnished_status))+kv("Chauffage",x.heating||"À confirmer")+kv("Honoraires",euro(x.fees))+kv("Dépôt",euro(x.deposit))+
    '</div>'+
    '<div class="section"><h3>Description synthétique</h3><p>'+esc(x.description_summary||"")+'</p></div>'+
