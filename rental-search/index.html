@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow,noarchive">
 <title>Recherche appartement Montparnasse</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css'">
+<link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" onerror="this.onerror=null;this.href='https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.css'">
 <style>
 :root{--bg:#f5f6f8;--panel:#fff;--line:#dfe4ea;--text:#17202a;--muted:#697586;--green:#157347;--amber:#ad6400;--red:#b42318;--blue:#2457d6}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
@@ -15,7 +15,7 @@ header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.filters select,.filters button,.filters input{border:1px solid #cfd6de;border-radius:9px;background:#fff;padding:8px 10px;font:inherit;font-size:13px}.filters input{min-width:210px}.filters button.active{background:#17202a;color:white}
 main{max-width:1700px;margin:auto;padding:14px 18px;display:grid;grid-template-columns:minmax(650px,62%) minmax(340px,38%);gap:14px}
 body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
-.map-shell{height:calc(100vh - 166px);min-height:560px;position:sticky;top:152px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#e8edf2}.map{height:100%}
+.map-shell{height:calc(100vh - 166px);min-height:560px;position:sticky;top:152px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#e8edf2}.map{height:100%;width:100%}.leaflet-marker-pane{z-index:650!important}.price-marker-wrap{opacity:1!important;visibility:visible!important}.map-report{position:absolute;z-index:800;top:12px;right:12px;border:1px solid #cfd6de;border-radius:9px;background:#fffffff2;padding:8px 11px;font-size:12px;font-weight:750;box-shadow:0 2px 8px #0002}.map-report button{font:inherit;border:0;background:transparent;color:#2457d6;cursor:pointer;padding-left:8px}
 .zone-panel{position:absolute;z-index:550;left:12px;bottom:12px;background:#ffffffed;border:1px solid #d5dce4;border-radius:12px;padding:10px;box-shadow:0 4px 14px #0001;max-width:310px}
 .zone-title{font-weight:800;font-size:12px;margin-bottom:6px}.zone-help{font-size:11px;color:var(--muted);margin-bottom:7px;line-height:1.35}.zone-actions{display:flex;gap:6px;flex-wrap:wrap}.zone-actions button{border:1px solid #cfd6de;background:white;border-radius:8px;padding:7px 9px;font-size:12px;font-weight:700;cursor:pointer}.zone-actions button.primary{background:#17202a;color:white}.zone-actions button:disabled{opacity:.45;cursor:not-allowed}.zone-check{display:flex;gap:7px;align-items:center;margin-top:8px;font-size:12px}.zone-state{font-size:11px;color:var(--muted);margin-top:6px}
 .list{display:grid;grid-template-columns:1fr;gap:12px;align-content:start}.card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:.15s transform,.15s border-color}.card:hover{transform:translateY(-1px);border-color:#b8c1cd}
@@ -53,6 +53,7 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
 <main id="app">
   <div class="map-shell">
     <div id="map" class="map"></div>
+    <div class="map-report" id="mapReport" role="status" aria-live="polite">Chargement des annonces…</div>
     <div class="zone-panel">
       <div class="zone-title">Périmètre de recherche</div>
       <div class="zone-help">Dessine directement sur la carte la zone qui t'intéresse. Les annonces situées juste à côté restent admises avec une tolérance de 500 m.</div>
@@ -75,7 +76,10 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>if(!window.L)document.write('<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"><\/script>');</script>
 <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+<script>if(window.L&&!L.Draw)document.write('<script src="https://cdn.jsdelivr.net/npm/leaflet-draw@1.0.4/dist/leaflet.draw.js"><\/script>');</script>
+<script>if(!window.L)document.getElementById("app").innerHTML='<div class="notice">La carte ne peut pas démarrer : bibliothèque cartographique bloquée par le navigateur ou le réseau. Réessaye après actualisation.</div>';</script>
 <script>
 const API="https://hemanobijzarxvnktccn.supabase.co/functions/v1/rental-search";
 const params=new URLSearchParams(location.search);
@@ -86,10 +90,10 @@ const psm=(rent,surface)=>rent==null||surface==null||Number(surface)<=0?null:Num
 const psmText=(rent,surface)=>{const v=psm(rent,surface);return v==null?"—":new Intl.NumberFormat("fr-FR",{minimumFractionDigits:1,maximumFractionDigits:1}).format(v)+" €/m²";};
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const apiUrl=(extra="")=>API+"?k="+encodeURIComponent(KEY)+(extra?"&"+extra:"");
-const prefs=JSON.parse(localStorage.getItem("rentalPrefsV1")||"{}");
+let prefs={};try{prefs=JSON.parse(localStorage.getItem("rentalPrefsV1")||"{}")||{}}catch{prefs={}}
 let listings=[],filtered=[],markers=[],favoritesOnly=false;
 let savedPolygon=null,pendingPolygon=null,zoneLayer=null;
-let nearZoneBufferM=250;
+let nearZoneBufferM=500;
 
 function userStatus(x){return prefs[x.id]||"active"}
 function score(x){
@@ -181,26 +185,37 @@ async function clearZone(){
   zoneText();render();
 }
 document.getElementById("drawZone").addEventListener("click",()=>{
+  if(!L.Draw?.Polygon){alert("L’outil de dessin est temporairement indisponible. La consultation des annonces reste possible.");return}
   const drawer=new L.Draw.Polygon(map,{showArea:false,shapeOptions:{color:"#2457d6",weight:3,fillOpacity:.08},allowIntersection:false});
   drawer.enable();
 });
-map.on(L.Draw.Event.CREATED,e=>{
-  pendingPolygon=layerToGeo(e.layer);
-  geoToLayer(pendingPolygon);
-  document.getElementById("saveZone").disabled=false;
-  zoneText();
-});
+if(L.Draw?.Event?.CREATED){
+  map.on(L.Draw.Event.CREATED,e=>{
+    pendingPolygon=layerToGeo(e.layer);
+    geoToLayer(pendingPolygon);
+    document.getElementById("saveZone").disabled=false;
+    zoneText();
+  });
+}
 document.getElementById("saveZone").addEventListener("click",saveZone);
 document.getElementById("clearZone").addEventListener("click",clearZone);
 document.getElementById("zoneFilter").addEventListener("change",render);
 
 function clearMarkers(){markers.forEach(m=>map.removeLayer(m));markers=[]}
+function fitMapToPins(){
+  requestAnimationFrame(()=>{
+    map.invalidateSize();
+    if(markers.length)map.fitBounds(L.latLngBounds(markers.map(m=>m.getLatLng())),{padding:[50,50],maxZoom:15});
+    else if(zoneLayer)map.fitBounds(zoneLayer.getBounds(),{padding:[35,35]});
+  });
+}
 function drawMarkers(){
   clearMarkers();
   const placed=[];
   filtered.forEach((x,idx)=>{
     if(x.latitude==null||x.longitude==null)return;
     const baseLat=Number(x.latitude),baseLon=Number(x.longitude);
+    if(!Number.isFinite(baseLat)||!Number.isFinite(baseLon)||Math.abs(baseLat)>90||Math.abs(baseLon)>180)return;
     let lat=baseLat,lon=baseLon;
     const nearby=placed.filter(p=>Math.abs(p.baseLat-baseLat)<0.00022&&Math.abs(p.baseLon-baseLon)<0.00032).length;
     if(nearby){
@@ -212,11 +227,14 @@ function drawMarkers(){
     placed.push({baseLat,baseLon});
     const cls=x.available_status==="uncertain"?"warn":x.available_status==="removed"?"off":"";
     const icon=L.divIcon({className:"price-marker-wrap",html:'<div class="marker '+cls+'">'+Math.round(Number(x.rent_cc))+' €</div>',iconSize:[66,37],iconAnchor:[33,37]});
-    const m=L.marker([lat,lon],{icon,riseOnHover:true}).addTo(map);
+    const m=L.marker([lat,lon],{icon,riseOnHover:true,zIndexOffset:100}).addTo(map);
     m.bindTooltip(esc(x.location_label)+" · "+euro(x.rent_cc)+(nearby?" · pin légèrement décalé pour lisibilité":""));
     m.on("click",()=>openDetail(x.id));
     markers.push(m);
   });
+  const missing=filtered.length-markers.length;
+  document.getElementById("mapReport").innerHTML='<span>'+markers.length+' pins sur la carte · '+missing+' sans position</span><button type="button" id="recenterPins" aria-label="Voir tous les repères">Recentrer ↗</button>';
+  document.getElementById("recenterPins").addEventListener("click",fitMapToPins);
 }
 
 function render(){
@@ -257,7 +275,7 @@ function render(){
     '<span class="pill"><b>'+uncertain+'</b> à vérifier</span>'+
     (zoneEnabled()?'<span class="pill">📍 Zone + '+nearZoneBufferM+' m</span>':'');
   const list=document.getElementById("list");
-  if(!filtered.length){list.innerHTML='<div class="empty">Aucune annonce ne correspond aux filtres actuels'+(zoneEnabled()?" et au périmètre dessiné":"")+'.</div>';drawMarkers();return}
+  if(!filtered.length){list.innerHTML='<div class="empty">Aucune annonce ne correspond aux filtres actuels'+(zoneEnabled()?" et au périmètre dessiné":"")+'.</div>';drawMarkers();fitMapToPins();return}
   list.innerHTML=filtered.map(x=>{
     const st=userStatus(x);
     return '<article class="card" data-id="'+esc(x.id)+'">'+
@@ -275,6 +293,7 @@ function render(){
   }).join("");
   list.querySelectorAll(".card").forEach(c=>c.addEventListener("click",()=>openDetail(c.dataset.id)));
   drawMarkers();
+  fitMapToPins();
 }
 
 async function openDetail(id){
@@ -330,17 +349,19 @@ async function init(){
     listings=Array.isArray(j.listings)?j.listings:[];
     savedPolygon=j.settings?.preferred_polygon||null;
     nearZoneBufferM=Number(j.settings?.near_zone_buffer_m||250);
-    if(savedPolygon){geoToLayer(savedPolygon);try{map.fitBounds(zoneLayer.getBounds(),{padding:[25,25]})}catch{}}
+    if(savedPolygon){try{geoToLayer(savedPolygon)}catch(e){console.warn('Périmètre illisible',e);savedPolygon=null}}
     zoneText();
     render();
   }catch(e){
-    document.getElementById("app").innerHTML='<div class="notice"><h2>Impossible de charger les annonces</h2><p>'+esc(e.message||e)+'</p></div>';
+    document.getElementById("list").innerHTML='<div class="empty"><b>Impossible de charger les annonces.</b> '+esc(e.message||e)+' <button id="retryLoad">Réessayer</button></div>';
+    document.getElementById("mapReport").textContent="Annonces non chargées";
+    document.getElementById("retryLoad").addEventListener("click",init);
   }
 }
 document.querySelectorAll("#budget,#status,#elevator,#sort").forEach(el=>el.addEventListener("change",render));
 document.getElementById("search").addEventListener("input",render);
 document.getElementById("favorites").addEventListener("click",e=>{favoritesOnly=!favoritesOnly;e.currentTarget.classList.toggle("active",favoritesOnly);render()});
-document.getElementById("mapSize").addEventListener("click",e=>{document.body.classList.toggle("map-xxl");e.currentTarget.classList.toggle("active");setTimeout(()=>map.invalidateSize(),150)});
+document.getElementById("mapSize").addEventListener("click",e=>{document.body.classList.toggle("map-xxl");e.currentTarget.classList.toggle("active");setTimeout(()=>{map.invalidateSize();fitMapToPins()},150)});
 document.getElementById("close").addEventListener("click",()=>document.getElementById("modal").classList.remove("open"));
 document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")e.currentTarget.classList.remove("open")});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("modal").classList.remove("open")});
