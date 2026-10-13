@@ -12,7 +12,7 @@
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text)}
 header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:700}
 .wrap{max-width:1700px;margin:auto;padding:13px 18px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand h1{font-size:20px;margin:0}.brand p{margin:4px 0 0;color:var(--muted);font-size:12px}.summary{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}.pill{border:1px solid var(--line);border-radius:999px;padding:6px 9px;font-size:12px;background:#fff}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.filters select,.filters button,.filters input{border:1px solid #cfd6de;border-radius:9px;background:#fff;padding:8px 10px;font:inherit;font-size:13px}.filters input{min-width:210px}.filters button.active{background:#17202a;color:white}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}.filters select,.filters button,.filters input{border:1px solid #cfd6de;border-radius:9px;background:#fff;padding:8px 10px;font:inherit;font-size:13px}.filters input{min-width:210px}.filters button.active{background:#17202a;color:white}.view-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.view-tab{border:1px solid #cfd6de;background:#fff;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:750;cursor:pointer}.view-tab.active{background:#17202a;color:#fff}.quick-delete{position:absolute;right:10px;top:10px;width:31px;height:31px;border:1px solid #fff;background:#ffffffed;border-radius:999px;font-size:19px;line-height:1;color:#a32620;cursor:pointer;z-index:2;box-shadow:0 1px 5px #0002}.quick-delete:hover{background:#fff1ef}.location-approx{background:#edf3ff;color:#315aa5;font-weight:750}
 main{max-width:1700px;margin:auto;padding:14px 18px;display:grid;grid-template-columns:minmax(650px,62%) minmax(340px,38%);gap:14px}
 body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
 .map-shell{height:calc(100vh - 166px);min-height:560px;position:sticky;top:152px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#e8edf2}.map{height:100%;width:100%}.leaflet-marker-pane{z-index:650!important}.price-marker-wrap{opacity:1!important;visibility:visible!important}.map-report{position:absolute;z-index:800;top:12px;right:12px;border:1px solid #cfd6de;border-radius:9px;background:#fffffff2;padding:8px 11px;font-size:12px;font-weight:750;box-shadow:0 2px 8px #0002}.map-report button{font:inherit;border:0;background:transparent;color:#2457d6;cursor:pointer;padding-left:8px}
@@ -22,7 +22,7 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
 .photo{height:230px;background:#e8edf2;position:relative}.photo img{width:100%;height:100%;object-fit:cover;display:block}.tag{position:absolute;left:10px;top:10px;background:#fffffff0;border:1px solid #fff;border-radius:999px;padding:5px 8px;font-weight:750;font-size:11px}.tag.available{color:var(--green)}.tag.uncertain{color:var(--amber)}.tag.removed{color:var(--red)}
 .body{padding:13px}.row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}.price{font-size:22px;font-weight:850}.score{font-size:12px;font-weight:800;background:#edf2ff;color:#254aa5;padding:5px 7px;border-radius:7px}.loc{font-size:13px;color:var(--muted);margin-top:2px}.facts{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.fact{font-size:12px;background:#f2f4f7;border-radius:7px;padding:5px 7px}.fact.near-zone{background:#fff3df;color:#8a4d00;font-weight:750}.foot{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:11px}.empty{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;text-align:center;color:var(--muted)}
 .modal{display:none;position:fixed;inset:0;background:#111827a6;z-index:1200;padding:24px;overflow:auto}.modal.open{display:block}.sheet{max-width:1000px;margin:auto;background:#fff;border-radius:18px;overflow:hidden}.modal-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:3}.close{border:0;background:#eef1f4;border-radius:999px;width:38px;height:38px;font-size:22px}.gallery{display:flex;gap:8px;overflow:auto;padding:12px;background:#f6f7f8}.gallery img{height:280px;min-width:400px;max-width:560px;object-fit:cover;border-radius:10px;background:#e8edf2}.detail{padding:18px}.detail h2{font-size:27px;margin:0}.where{color:var(--muted);margin-top:4px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}.kv{background:#f5f6f8;border-radius:9px;padding:9px}.kv small{display:block;color:var(--muted);font-size:11px;margin-bottom:3px}.section{border-top:1px solid var(--line);padding-top:14px;margin-top:14px}.section h3{font-size:14px;margin:0 0 6px}.section p{margin:0;line-height:1.55;color:#414b58}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}.actions button,.actions a{border:1px solid #d1d8e0;background:#fff;border-radius:9px;padding:9px 11px;text-decoration:none;color:var(--text);font-weight:750;cursor:pointer}.actions a{background:#17202a;color:#fff}.actions button.sel{outline:2px solid var(--blue);background:#edf2ff}
-.price-marker-wrap{background:transparent!important;border:0!important}.marker{width:66px;height:30px;display:flex;align-items:center;justify-content:center;background:#17202a;color:#fff;border:2px solid #fff;border-radius:999px;padding:0 7px;font-weight:850;font-size:11px;white-space:nowrap;box-shadow:0 2px 8px #0005;transform:translateZ(0)}.marker:after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid #17202a}.marker.warn{background:var(--amber)}.marker.warn:after{border-top-color:var(--amber)}.marker.off{background:#777}.marker.off:after{border-top-color:#777}.photo-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;color:#657181;font-size:12px;font-weight:700;background:linear-gradient(145deg,#eef1f5,#e4e9ef)}
+.price-marker-wrap{background:transparent!important;border:0!important}.marker{width:66px;height:30px;display:flex;align-items:center;justify-content:center;background:#17202a;color:#fff;border:2px solid #fff;border-radius:999px;padding:0 7px;font-weight:850;font-size:11px;white-space:nowrap;box-shadow:0 2px 8px #0005;transform:translateZ(0)}.marker:after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);border-left:5px solid transparent;border-right:5px solid transparent;border-top:7px solid #17202a}.marker.warn{background:var(--amber)}.marker.warn:after{border-top-color:var(--amber)}.marker.off{background:#777}.marker.off:after{border-top-color:#777}.marker.approx{outline:2px dashed #315aa5;outline-offset:2px}.photo-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;color:#657181;font-size:12px;font-weight:700;background:linear-gradient(145deg,#eef1f5,#e4e9ef)}
 .notice{max-width:900px;margin:60px auto;padding:22px;background:#fff;border:1px solid var(--line);border-radius:14px}
 @media(max-width:1150px){main,body.map-xxl main{grid-template-columns:minmax(520px,57%) 1fr}.photo{height:210px}}
 @media(max-width:900px){header{position:relative}.top{display:block}.summary{justify-content:flex-start;margin-top:8px}.wrap{padding:12px}.filters input{min-width:100%}main,body.map-xxl main{grid-template-columns:1fr;padding:10px}.map-shell{position:relative;top:auto;height:460px;min-height:0}.list{grid-template-columns:1fr}.zone-panel{max-width:280px}}
@@ -47,6 +47,11 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
       <input id="search" placeholder="Rue, quartier, source…">
       <button id="favorites">★ Favoris / visites</button>
       <button id="mapSize">↔ Carte XXL</button>
+    </div>
+    <div class="view-tabs">
+      <button class="view-tab active" id="tabLocated" data-view="located">📍 Sur la carte</button>
+      <button class="view-tab" id="tabUnlocated" data-view="unlocated">◌ Sans localisation</button>
+      <button class="view-tab" id="tabRejected" data-view="rejected">🗑 Écartées</button>
     </div>
   </div>
 </header>
@@ -91,11 +96,34 @@ const psmText=(rent,surface)=>{const v=psm(rent,surface);return v==null?"—":ne
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const apiUrl=(extra="")=>API+"?k="+encodeURIComponent(KEY)+(extra?"&"+extra:"");
 let prefs={};try{prefs=JSON.parse(localStorage.getItem("rentalPrefsV1")||"{}")||{}}catch{prefs={}}
-let listings=[],filtered=[],markers=[],favoritesOnly=false;
+let listings=[],filtered=[],markers=[],favoritesOnly=false,viewMode="located";
 let savedPolygon=null,pendingPolygon=null,zoneLayer=null;
 let nearZoneBufferM=500;
 
-function userStatus(x){return prefs[x.id]||"active"}
+function userStatus(x){return x.user_action||prefs[x.id]||"active"}
+async function setUserAction(id,action){
+  const x=listings.find(v=>v.id===id);
+  if(x)x.user_action=action;
+  prefs[id]=action;
+  localStorage.setItem("rentalPrefsV1",JSON.stringify(prefs));
+  try{
+    await fetch(apiUrl("api=action"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({listing_id:id,action})});
+  }catch{}
+  render();
+}
+function locationPrecisionLabel(x){
+  if(x.latitude==null||x.longitude==null)return "Sans localisation";
+  if(x.location_precision==="exact")return "";
+  if(x.location_precision==="street")return "Position approximative · rue";
+  return "Position approximative";
+}
+function canApproxGeocode(x){
+  if(x.latitude!=null&&x.longitude!=null)return false;
+  const q=String(x.address_query||"").trim();
+  if(!q)return false;
+  if(/^Paris\s+(5e|6e|7e|14e|15e)(,|$)/i.test(q))return false;
+  return /rue|avenue|boulevard|quai|square|impasse|passage|place|Pasteur|Plaisance|Alésia|Alesia|Montsouris|Mouton|Ga[iî]té|Convention|Félix|Felix|Commerce|Porte d.Orléans|Necker/i.test(q);
+}
 function score(x){
   let s=100;
   s-=Math.max(0,(Number(x.rent_cc)-1300)/20);
@@ -225,7 +253,7 @@ function drawMarkers(){
       lon+=Math.cos(angle)*radius/Math.cos(baseLat*Math.PI/180);
     }
     placed.push({baseLat,baseLon});
-    const cls=x.available_status==="uncertain"?"warn":x.available_status==="removed"?"off":"";
+    const cls=(x.available_status==="uncertain"?"warn":x.available_status==="removed"?"off":"")+(x.location_precision&&x.location_precision!=="exact"?" approx":"");
     const icon=L.divIcon({className:"price-marker-wrap",html:'<div class="marker '+cls+'">'+Math.round(Number(x.rent_cc))+' €</div>',iconSize:[66,37],iconAnchor:[33,37]});
     const m=L.marker([lat,lon],{icon,riseOnHover:true,zIndexOffset:100}).addTo(map);
     m.bindTooltip(esc(x.location_label)+" · "+euro(x.rent_cc)+(nearby?" · pin légèrement décalé pour lisibilité":""));
@@ -245,19 +273,23 @@ function render(){
   const q=document.getElementById("search").value.trim().toLowerCase();
   filtered=listings.filter(x=>{
     if(Number(x.surface)<37||Number(x.rent_cc)>budget)return false;
-    if(status==="available"&&x.available_status!=="available")return false;
-    if(status==="uncertain"&&x.available_status!=="uncertain")return false;
-    if(status==="live"&&x.available_status==="removed")return false;
-    if(elevator==="yes"&&x.elevator!==true)return false;
-    if(favoritesOnly&&!["favorite","visit"].includes(userStatus(x)))return false;
-    if(q&&!((x.location_label||"")+" "+(x.title||"")+" "+(x.source_name||"")).toLowerCase().includes(q))return false;
-    if(zoneEnabled()){
-      if(x.longitude==null||x.latitude==null){
-        if(x.available_status!=="uncertain")return false;
-      } else if(distanceToZoneMeters(Number(x.longitude),Number(x.latitude))>nearZoneBufferM){
-        return false;
-      }
+    const us=userStatus(x);
+    if(viewMode==="rejected"){
+      if(us!=="rejected")return false;
+    }else{
+      if(us==="rejected")return false;
+      if(viewMode==="located"&&(x.longitude==null||x.latitude==null))return false;
+      if(viewMode==="unlocated"&&(x.longitude!=null&&x.latitude!=null))return false;
     }
+    if(viewMode!=="rejected"){
+      if(status==="available"&&x.available_status!=="available")return false;
+      if(status==="uncertain"&&x.available_status!=="uncertain")return false;
+      if(status==="live"&&x.available_status==="removed")return false;
+      if(elevator==="yes"&&x.elevator!==true)return false;
+      if(favoritesOnly&&!["favorite","visit"].includes(us))return false;
+      if(viewMode==="located"&&zoneEnabled()&&distanceToZoneMeters(Number(x.longitude),Number(x.latitude))>nearZoneBufferM)return false;
+    }
+    if(q&&!((x.location_label||"")+" "+(x.title||"")+" "+(x.source_name||"")).toLowerCase().includes(q))return false;
     return true;
   });
   filtered.sort((a,b)=>{
@@ -273,25 +305,31 @@ function render(){
     '<span class="pill"><b>'+filtered.length+'</b> affichées</span>'+
     '<span class="pill"><b>'+available+'</b> disponibles</span>'+
     '<span class="pill"><b>'+uncertain+'</b> à vérifier</span>'+
-    (zoneEnabled()?'<span class="pill">📍 Zone + '+nearZoneBufferM+' m</span>':'');
+    (viewMode==="located"&&zoneEnabled()?'<span class="pill">📍 Zone + '+nearZoneBufferM+' m</span>':'')+
+    (viewMode==="unlocated"?'<span class="pill">◌ Sans pin</span>':'')+
+    (viewMode==="rejected"?'<span class="pill">🗑 Écartées</span>':'');
   const list=document.getElementById("list");
-  if(!filtered.length){list.innerHTML='<div class="empty">Aucune annonce ne correspond aux filtres actuels'+(zoneEnabled()?" et au périmètre dessiné":"")+'.</div>';drawMarkers();fitMapToPins();return}
+  if(!filtered.length){list.innerHTML='<div class="empty">'+(viewMode==="unlocated"?"Aucune annonce sans localisation.":viewMode==="rejected"?"Aucune annonce écartée.":"Aucune annonce ne correspond aux filtres actuels.")+'</div>';drawMarkers();fitMapToPins();return}
   list.innerHTML=filtered.map(x=>{
     const st=userStatus(x);
     return '<article class="card" data-id="'+esc(x.id)+'">'+
       '<div class="photo"><img loading="lazy" referrerpolicy="no-referrer" src="'+apiUrl("image="+encodeURIComponent(x.id)+"&n=0")+'" alt="" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="photo-fallback" style="display:none">Photos non importables automatiquement<br>Ouvre la fiche pour accéder à l’annonce originale</div>'+
-      '<span class="tag '+esc(x.available_status)+'">'+stateLabel(x.available_status)+'</span></div>'+
+      '<span class="tag '+esc(x.available_status)+'">'+stateLabel(x.available_status)+'</span>'+
+      (viewMode==="rejected"?'<button class="quick-delete" data-restore="'+esc(x.id)+'" title="Restaurer">↺</button>':'<button class="quick-delete" data-delete="'+esc(x.id)+'" title="Supprimer cette annonce">×</button>')+'</div>'+
       '<div class="body"><div class="row"><div class="price">'+euro(x.rent_cc)+' CC</div><div class="score">'+score(x)+'/100</div></div>'+
       '<div class="loc">'+esc(x.location_label)+'</div>'+
       '<div class="facts"><span class="fact">'+num(x.surface)+' m²</span><span class="fact">'+psmText(x.rent_cc,x.surface)+' CC</span><span class="fact">'+(x.rooms||"—")+' pièce'+(Number(x.rooms)>1?"s":"")+'</span>'+
       '<span class="fact">🚶 '+(x.walk_min_low||"?")+'–'+(x.walk_min_high||"?")+' min</span>'+
       (x.elevator===true?'<span class="fact">Ascenseur</span>':'')+
       (x.dpe?'<span class="fact">DPE '+esc(x.dpe)+'</span>':'')+
+      (locationPrecisionLabel(x)?'<span class="fact location-approx">'+esc(locationPrecisionLabel(x))+'</span>':'')+
       (zoneEnabled()&&x.longitude==null?'<span class="fact near-zone">Localisation à confirmer</span>':'')+
       (zoneEnabled()&&x.longitude!=null&&x.latitude!=null&&distanceToZoneMeters(Number(x.longitude),Number(x.latitude))>0?'<span class="fact near-zone">Hors zone proche · '+Math.round(distanceToZoneMeters(Number(x.longitude),Number(x.latitude)))+' m</span>':'')+'</div>'+
       '<div class="foot"><span>'+esc(x.source_name)+' · '+esc(st)+'</span><span>vérifié '+new Date(x.last_checked).toLocaleDateString("fr-FR")+'</span></div></div></article>';
   }).join("");
   list.querySelectorAll(".card").forEach(c=>c.addEventListener("click",()=>openDetail(c.dataset.id)));
+  list.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setUserAction(b.dataset.delete,"rejected")}));
+  list.querySelectorAll("[data-restore]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setUserAction(b.dataset.restore,"active")}));
   drawMarkers();
   fitMapToPins();
 }
@@ -312,7 +350,7 @@ async function openDetail(id){
    '<div class="section"><h3>Coin bureau</h3><p><b>'+officeLabel(x.office_fit)+'.</b> '+esc(x.office_note||"")+'</p></div>'+
    '<div class="section"><h3>Disponibilité et contrôles</h3><p><b>'+stateLabel(x.available_status)+'.</b> '+esc(x.availability_note||"")+' Dernière vérification : '+new Date(x.last_checked).toLocaleString("fr-FR")+'. '+esc(x.publication_note||"")+'</p></div>'+
    '<div class="actions">'+
-      '<button data-s="favorite">★ Favori</button><button data-s="visit">✓ À visiter</button><button data-s="rejected">✕ Écarter</button><button data-s="active">↺ Réactiver</button>'+
+      '<button data-s="favorite">★ Favori</button><button data-s="visit">✓ À visiter</button><button data-s="rejected">🗑 Supprimer</button><button data-s="active">↺ Réactiver</button>'+
       '<a href="'+esc(x.source_url)+'" target="_blank" rel="noopener noreferrer">Annonce originale ↗</a>'+
    '</div></div>';
   const buttons=d.querySelectorAll("button[data-s]");
@@ -320,10 +358,8 @@ async function openDetail(id){
     if(b.dataset.s===userStatus(x))b.classList.add("sel");
     b.addEventListener("click",ev=>{
       ev.stopPropagation();
-      prefs[x.id]=b.dataset.s;
-      localStorage.setItem("rentalPrefsV1",JSON.stringify(prefs));
+      setUserAction(x.id,b.dataset.s);
       buttons.forEach(z=>z.classList.toggle("sel",z===b));
-      render();
     });
   });
   document.getElementById("modal").classList.add("open");
@@ -338,6 +374,34 @@ async function openDetail(id){
   }catch{}
 }
 
+async function hydrateApproxLocations(){
+  const candidates=listings.filter(x=>userStatus(x)!=="rejected"&&canApproxGeocode(x)).slice(0,30);
+  if(!candidates.length)return;
+  let changed=false;
+  for(const x of candidates){
+    try{
+      const r=await fetch(apiUrl("api=geocode&id="+encodeURIComponent(x.id)));
+      const j=await r.json();
+      if(j.ok&&j.latitude!=null&&j.longitude!=null){
+        x.latitude=Number(j.latitude);x.longitude=Number(j.longitude);
+        x.location_precision=j.location_precision||"neighborhood";
+        changed=true;
+      }
+    }catch{}
+    await new Promise(resolve=>setTimeout(resolve,850));
+  }
+  if(changed)render();
+}
+async function migrateLocalPrefs(){
+  const entries=Object.entries(prefs).filter(([id,a])=>["favorite","visit","rejected"].includes(String(a)));
+  for(const [id,action] of entries){
+    const x=listings.find(v=>v.id===id);
+    if(x&&(!x.user_action||x.user_action==="active")){
+      x.user_action=String(action);
+      try{await fetch(apiUrl("api=action"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({listing_id:id,action})});}catch{}
+    }
+  }
+}
 async function init(){
   if(!KEY){
     document.body.innerHTML='<div class="notice"><h2>Lien incomplet</h2><p>La clé d’accès manque dans l’URL.</p></div>';return;
@@ -351,7 +415,9 @@ async function init(){
     nearZoneBufferM=Number(j.settings?.near_zone_buffer_m||250);
     if(savedPolygon){try{geoToLayer(savedPolygon)}catch(e){console.warn('Périmètre illisible',e);savedPolygon=null}}
     zoneText();
+    await migrateLocalPrefs();
     render();
+    hydrateApproxLocations();
   }catch(e){
     document.getElementById("list").innerHTML='<div class="empty"><b>Impossible de charger les annonces.</b> '+esc(e.message||e)+' <button id="retryLoad">Réessayer</button></div>';
     document.getElementById("mapReport").textContent="Annonces non chargées";
