@@ -428,6 +428,17 @@ document.querySelectorAll("#budget,#status,#elevator,#sort").forEach(el=>el.addE
 document.getElementById("search").addEventListener("input",render);
 document.getElementById("favorites").addEventListener("click",e=>{favoritesOnly=!favoritesOnly;e.currentTarget.classList.toggle("active",favoritesOnly);render()});
 document.getElementById("mapSize").addEventListener("click",e=>{document.body.classList.toggle("map-xxl");e.currentTarget.classList.toggle("active");setTimeout(()=>{map.invalidateSize();fitMapToPins()},150)});
+document.querySelectorAll(".view-tab").forEach(btn=>btn.addEventListener("click",e=>{
+  e.preventDefault();
+  e.stopPropagation();
+  viewMode=btn.dataset.view||"located";
+  document.querySelectorAll(".view-tab").forEach(z=>z.classList.toggle("active",z===btn));
+  if(viewMode!=="located"){
+    document.body.classList.remove("map-xxl");
+    document.getElementById("mapSize").classList.remove("active");
+  }
+  render();
+}));
 document.getElementById("close").addEventListener("click",()=>document.getElementById("modal").classList.remove("open"));
 document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")e.currentTarget.classList.remove("open")});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")document.getElementById("modal").classList.remove("open")});
