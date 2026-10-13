@@ -274,6 +274,7 @@ function render(){
   filtered=listings.filter(x=>{
     if(Number(x.surface)<37||Number(x.rent_cc)>budget)return false;
     const us=userStatus(x);
+    if(viewMode!=="rejected"&&x.furnished_status==="furnished")return false;
     if(viewMode==="rejected"){
       if(us!=="rejected")return false;
     }else{
