@@ -376,7 +376,7 @@ async function openDetail(id){
 }
 
 async function hydrateApproxLocations(){
-  const candidates=listings.filter(x=>userStatus(x)!=="rejected"&&canApproxGeocode(x)).slice(0,30);
+  const candidates=listings.filter(x=>userStatus(x)!=="rejected"&&canApproxGeocode(x)).slice(0,60);
   if(!candidates.length)return;
   let changed=false;
   for(const x of candidates){
@@ -389,7 +389,7 @@ async function hydrateApproxLocations(){
         changed=true;
       }
     }catch{}
-    await new Promise(resolve=>setTimeout(resolve,850));
+    await new Promise(resolve=>setTimeout(resolve,180));
   }
   if(changed)render();
 }
