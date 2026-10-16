@@ -1,0 +1,48 @@
+name: Rental source catalog audit
+on:
+  workflow_dispatch:
+    inputs:
+      source_limit:
+        description: "Number of sources to sample (0 = all)"
+        required: false
+        default: "0"
+  # UTC candidate hours for 09, 13, 16, 19 in both CET and CEST.
+  schedule:
+    - cron: "0 7,8,11,12,14,15,17,18 * * *"
+permissions:
+  contents: read
+concurrency:
+  group: rental-source-audit
+  cancel-in-progress: false
+jobs:
+  source-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run only at Paris local 09, 13, 16 or 19 on schedule
+        id: when
+        env:
+          EVENT: ${{ github.event_name }}
+        run: |
+          HOUR=$(TZ=Europe/Paris date +%H)
+          if [ "$EVENT" = "workflow_dispatch" ] || [[ "$HOUR" =~ ^(09|13|16|19)$ ]]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Verify mandatory secrets are configured
+        if: steps.when.outputs.run == 'true'
+        env:
+          URL: ${{ secrets.RENTAL_SUPABASE_URL }}
+          KEY: ${{ secrets.RENTAL_SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          test -n "$URL" || { echo "Missing RENTAL_SUPABASE_URL"; exit 1; }
+          test -n "$KEY" || { echo "Missing RENTAL_SUPABASE_SERVICE_ROLE_KEY"; exit 1; }
+      - name: Check public source catalogs and log actual coverage
+        if: steps.when.outputs.run == 'true'
+        env:
+          SUPABASE_URL: ${{ secrets.RENTAL_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.RENTAL_SUPABASE_SERVICE_ROLE_KEY }}
+          SOURCE_LIMIT: ${{ github.event.inputs.source_limit || '0' }}
+        run: python3 tools/rental_source_audit.py
