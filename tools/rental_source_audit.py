@@ -101,7 +101,10 @@ def check_source(source):
     # A machine-detected candidate is not a verified qualifying listing; human verification required.
     return "not_checked_technical_limit", f"Read {visited} pages, found {candidates} candidate page(s); listing inventory and qualification still require review", 0
 
-def visited_if_unavailable(outcome, note):\n    return outcome in ("inaccessible", "login_required")\n\ndef main():
+def visited_if_unavailable(outcome, note):
+    return outcome in ("inaccessible", "login_required")
+
+def main():
     settings = api("rental_search_settings?id=eq.default&select=preferred_polygon,near_zone_buffer_m")
     if not settings: raise RuntimeError("Missing rental search settings")
     sources = api("rental_search_sources?active=eq.true&select=source_key,name,category,url,priority,access_mode&order=priority.asc,category.asc,name.asc")
@@ -114,7 +117,8 @@ def visited_if_unavailable(outcome, note):\n    return outcome in ("inaccessible
         outcome, note, count = check_source(source)
         totals[outcome] = totals.get(outcome, 0) + 1
         api("rental_source_checks", "POST", [{"run_key": RUN, "source_key": source["source_key"], "outcome": outcome, "discovered_count": count, "note": note[:600]}])
-        # A genuine network attempt counts as attempted even if detailed verification is incomplete.\n        if not note.startswith("Only entry page inspected") or visited_if_unavailable(outcome, note):
+        # A genuine network attempt counts as attempted even if detailed verification is incomplete.
+        if not note.startswith("Only entry page inspected") or visited_if_unavailable(outcome, note):
             key = urllib.parse.quote(source["source_key"], safe="")
             api("rental_search_sources?source_key=eq." + key, "PATCH", {"last_attempted_at": dt.datetime.now(dt.timezone.utc).isoformat(), "last_outcome": outcome})
         print(json.dumps({"source": source["name"], "outcome": outcome, "note": note}))
