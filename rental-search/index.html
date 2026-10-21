@@ -205,7 +205,8 @@ async function saveZone(){
   geoToLayer(savedPolygon);zoneText();render();
 }
 async function clearZone(){
-  const r=await fetch(apiUrl("api=settings"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({polygon:null,zone_name:"Zone personnalisée",near_zone_buffer_m:nearZoneBufferM})});
+  if(!window.confirm("Effacer le périmètre personnalisé ? Une copie sera sauvegardée côté serveur."))return;
+  const r=await fetch(apiUrl("api=settings"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({polygon:null,confirm_clear:true,zone_name:"Zone personnalisée",near_zone_buffer_m:nearZoneBufferM})});
   if(!r.ok){alert("Impossible d’effacer la zone.");return}
   savedPolygon=null;pendingPolygon=null;
   if(zoneLayer){map.removeLayer(zoneLayer);zoneLayer=null}
@@ -314,7 +315,7 @@ function render(){
   list.innerHTML=filtered.map(x=>{
     const st=userStatus(x);
     return '<article class="card" data-id="'+esc(x.id)+'">'+
-      '<div class="photo"><img loading="lazy" referrerpolicy="no-referrer" src="'+apiUrl("image="+encodeURIComponent(x.id)+"&n=0")+'" alt="" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'"><div class="photo-fallback" style="display:none">Photos non importables automatiquement<br>Ouvre la fiche pour accéder à l’annonce originale</div>'+
+      '<div class="photo"><div class="photo-fallback" style="display:flex">Photos non vérifiées masquées. Voir l’annonce originale.</div>'+
       '<span class="tag '+esc(x.available_status)+'">'+stateLabel(x.available_status)+'</span>'+
       (viewMode==="rejected"?'<button class="quick-delete" data-restore="'+esc(x.id)+'" title="Restaurer">↺</button>':'<button class="quick-delete" data-delete="'+esc(x.id)+'" title="Supprimer cette annonce">×</button>')+'</div>'+
       '<div class="body"><div class="row"><div class="price">'+euro(x.rent_cc)+' CC</div><div class="score">'+score(x)+'/100</div></div>'+
@@ -339,7 +340,7 @@ async function openDetail(id){
   const x=listings.find(v=>v.id===id); if(!x)return;
   const d=document.getElementById("detail");
   d.innerHTML=
-   '<div class="gallery" id="gallery"><div class="photo-fallback" style="position:relative;min-width:400px;height:280px;display:flex">Recherche des photos…</div></div>'+
+   '<div class="gallery" id="gallery"><div class="photo-fallback" style="position:relative;min-width:400px;height:280px;display:flex">Photos non vérifiées masquées — voir l’annonce originale.</div></div>'+
    '<div class="detail"><h2>'+euro(x.rent_cc)+' CC · '+num(x.surface)+' m²</h2>'+
    '<div class="where">'+esc(x.title)+' — '+esc(x.location_label)+'</div>'+
    '<div class="grid">'+
@@ -364,15 +365,7 @@ async function openDetail(id){
     });
   });
   document.getElementById("modal").classList.add("open");
-  try{
-    const r=await fetch(apiUrl("api=images&id="+encodeURIComponent(id)));
-    const j=await r.json();
-    if(Array.isArray(j.images)&&j.images.length){
-      document.getElementById("gallery").innerHTML=j.images.slice(0,12).map((_,i)=>
-        '<img loading="lazy" referrerpolicy="no-referrer" src="'+apiUrl("image="+encodeURIComponent(id)+"&n="+i)+'" alt="">'
-      ).join("");
-    }
-  }catch{}
+  // Photographies non vérifiées : aucun import et aucun affichage automatique.
 }
 
 async function hydrateApproxLocations(){
