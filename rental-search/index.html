@@ -99,6 +99,16 @@ let prefs={};try{prefs=JSON.parse(localStorage.getItem("rentalPrefsV1")||"{}")||
 let listings=[],filtered=[],markers=[],favoritesOnly=false,viewMode="located";
 let savedPolygon=null,pendingPolygon=null,zoneLayer=null;
 let nearZoneBufferM=500;
+// Keep a second, browser-local backup. This never replaces the original polygon silently.
+const ZONE_BACKUP_KEY="rentalMontparnassePolygonV2";
+const ZONE_DRAFT_KEY="rentalMontparnassePolygonDraftV2";
+function cacheZone(key,polygon){try{localStorage.setItem(key,JSON.stringify(polygon))}catch{}}
+function readZoneBackup(key){
+  try{
+    const p=JSON.parse(localStorage.getItem(key)||"null");
+    return p?.type==="Polygon"&&Array.isArray(p.coordinates?.[0])&&p.coordinates[0].length>=4?p:null;
+  }catch{return null}
+}
 
 function userStatus(x){return x.user_action||prefs[x.id]||"active"}
 async function setUserAction(id,action){
@@ -191,9 +201,10 @@ function distanceToZoneMeters(lon,lat){
 function zoneEnabled(){return document.getElementById("zoneFilter").checked && !!savedPolygon}
 function zoneText(){
   const el=document.getElementById("zoneState");
-  if(pendingPolygon)el.textContent="Périmètre dessiné — clique sur Enregistrer.";
-  else if(savedPolygon)el.textContent="Zone enregistrée + tolérance de "+nearZoneBufferM+" m utilisée par la veille automatique.";
-  else el.textContent="Aucune zone enregistrée.";
+  if(pendingPolygon)el.textContent="Périmètre retrouvé ou dessiné — clique sur Enregistrer pour confirmer dans Supabase.";
+  else if(savedPolygon)el.textContent="Zone sauvegardée avec une marge de "+nearZoneBufferM+" m. Chaque nouvelle annonce reste à vérifier.";
+  else el.textContent="Périmètre absent : redessine exactement la zone puis enregistre-la. Le filtre géographique ne peut pas fonctionner sans zone.";
+  el.style.color=(!pendingPolygon&&!savedPolygon)?"#b42318":"";
 }
 async function saveZone(){
   const polygon=pendingPolygon||savedPolygon;
@@ -201,6 +212,8 @@ async function saveZone(){
   const r=await fetch(apiUrl("api=settings"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({polygon,zone_name:"Périmètre Montparnasse",near_zone_buffer_m:nearZoneBufferM})});
   if(!r.ok){alert("Impossible d’enregistrer la zone.");return}
   savedPolygon=polygon;pendingPolygon=null;
+  cacheZone(ZONE_BACKUP_KEY,savedPolygon);
+  try{localStorage.removeItem(ZONE_DRAFT_KEY)}catch{}
   document.getElementById("saveZone").disabled=true;
   geoToLayer(savedPolygon);zoneText();render();
 }
@@ -209,6 +222,7 @@ async function clearZone(){
   const r=await fetch(apiUrl("api=settings"),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({polygon:null,confirm_clear:true,zone_name:"Zone personnalisée",near_zone_buffer_m:nearZoneBufferM})});
   if(!r.ok){alert("Impossible d’effacer la zone.");return}
   savedPolygon=null;pendingPolygon=null;
+  try{localStorage.removeItem(ZONE_BACKUP_KEY);localStorage.removeItem(ZONE_DRAFT_KEY)}catch{}
   if(zoneLayer){map.removeLayer(zoneLayer);zoneLayer=null}
   document.getElementById("saveZone").disabled=true;
   zoneText();render();
@@ -221,6 +235,7 @@ document.getElementById("drawZone").addEventListener("click",()=>{
 if(L.Draw?.Event?.CREATED){
   map.on(L.Draw.Event.CREATED,e=>{
     pendingPolygon=layerToGeo(e.layer);
+    cacheZone(ZONE_DRAFT_KEY,pendingPolygon);
     geoToLayer(pendingPolygon);
     document.getElementById("saveZone").disabled=false;
     zoneText();
@@ -407,7 +422,19 @@ async function init(){
     listings=Array.isArray(j.listings)?j.listings:[];
     savedPolygon=j.settings?.preferred_polygon||null;
     nearZoneBufferM=Number(j.settings?.near_zone_buffer_m||250);
-    if(savedPolygon){try{geoToLayer(savedPolygon)}catch(e){console.warn('Périmètre illisible',e);savedPolygon=null}}
+    if(savedPolygon){
+      try{geoToLayer(savedPolygon);cacheZone(ZONE_BACKUP_KEY,savedPolygon)}
+      catch(e){console.warn('Périmètre illisible',e);savedPolygon=null}
+    }
+    if(!savedPolygon){
+      // An exact prior browser backup may be restored, but never invent a new boundary.
+      const cached=readZoneBackup(ZONE_BACKUP_KEY)||readZoneBackup(ZONE_DRAFT_KEY);
+      if(cached){
+        pendingPolygon=cached;
+        try{geoToLayer(pendingPolygon);document.getElementById("saveZone").disabled=false}
+        catch(e){console.warn("Copie locale illisible",e);pendingPolygon=null}
+      }
+    }
     zoneText();
     await migrateLocalPrefs();
     render();
