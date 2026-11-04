@@ -1,243 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMBG – Carte Interactive</title>
-
-    <!-- Leaflet CSS -->
-    <link
-        rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        crossorigin=""
-    />
-
-    <!-- Style SMBG -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071f31">
+  <meta name="description" content="Découvrez les locaux commerciaux proposés par SMBG Conseil sur notre carte interactive.">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; frame-src https://crm.smbg-conseil.fr; style-src 'unsafe-inline'; img-src 'self'; base-uri 'none'; form-action 'none'">
+  <link rel="canonical" href="https://carte.smbg-conseil.fr/">
+  <link rel="icon" href="/assets/Logo%20bleu%20crop.png">
+  <title>SMBG Conseil — Carte des locaux commerciaux</title>
+  <style>
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #eef3f5; }
+    iframe { position: fixed; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
+  </style>
 </head>
-
 <body>
-
-    <!-- ─────────────────────────────────────────── -->
-    <!--              VOLET GAUCHE                   -->
-    <!-- ─────────────────────────────────────────── -->
-    <div id="sidebar-left">
-        <div class="sidebar-inner">
-
-            <!-- LOGO SMBG -->
-            <div id="logo-container">
-                <img id="logo-smbg" src="assets/Logo bleu crop.png" alt="Logo SMBG">
-            </div>
-
-            <!-- Compteur -->
-            <div id="compteur-annonces">Annonces sélectionnées : 0</div>
-            <div class="separator-smbg"></div>
-
-            <!-- Régions -->
-            <div class="filter-title">Régions</div>
-            <div id="filter-regions" class="filter-block"></div>
-
-            <!-- Surface -->
-            <div class="filter-title">Surface (m²)</div>
-
-            <div id="slider-surface" class="slider-block filter-block">
-                <div class="slider-row">
-                    <div class="slider-values" id="surface-values">0 — 0</div>
-                    <label class="biglot-label">
-                        <input type="checkbox" id="checkbox-grand-surface" checked>
-                        > 1000 m²
-                    </label>
-                </div>
-
-                <div class="slider-track">
-                    <input type="range" id="surface-min" min="0" max="100" value="0">
-                    <input type="range" id="surface-max" min="0" max="100" value="100">
-                </div>
-            </div>
-
-            <!-- Loyer -->
-            <div class="filter-title">Loyer (€)</div>
-
-            <div id="slider-loyer" class="slider-block filter-block">
-                <div class="slider-row">
-                    <div class="slider-values" id="loyer-values">0 — 0</div>
-                    <label class="biglot-label">
-                        <input type="checkbox" id="checkbox-grand-loyer" checked>
-                        > 200 k€
-                    </label>
-                </div>
-
-                <div class="slider-track">
-                    <input type="range" id="loyer-min" min="0" max="100" value="0">
-                    <input type="range" id="loyer-max" min="0" max="100" value="100">
-                </div>
-            </div>
-
-            <!-- Nature -->
-            <div class="filter-title">Nature</div>
-            <div id="filter-nature" class="filter-block"></div>
-            
-            <!-- Emplacement -->
-            <div class="filter-title">Emplacement</div>
-            <div id="filter-emplacement" class="filter-block"></div>
-
-            <!-- Typologie -->
-            <div class="filter-title">Typologie</div>
-            <div id="filter-typologie" class="filter-block"></div>
-
-            <!-- Extraction -->
-            <div class="filter-title">Extraction</div>
-            <div id="filter-extraction" class="filter-block"></div>
-
-            <!-- Restauration -->
-            <div class="filter-title">Restauration</div>
-            <div id="filter-restauration" class="filter-block"></div>
-
-            <button id="btn-reset">Réinitialiser</button>
-
-        </div>
-    </div>
-
-<!-- ─────────────────────────────────────────── -->
-<!--                   CARTE                     -->
-<!-- ─────────────────────────────────────────── -->
-<div id="map-container">
-
-    <div id="map"></div>
-
-<!-- ─────────────────────────────────────────── -->
-<!--              MODULE ENSEIGNES               -->
-<!-- ─────────────────────────────────────────── -->
-<div id="module-enseignes">
-
-<div class="module-title-bar">
-
-    <div class="module-title-left">
-        <span>Activité / Enseigne</span>
-        <span id="retail-loader-inline" class="loader-inline"></span>
-    </div>
-
-    <div id="toggle-retail-module" class="toggle-retail">−</div>
-
-</div>
-    
-  <!-- ───────────── ACTIVITÉ ───────────── -->
-<div class="module-search retail-activity-wrapper">
-
-    <div class="search-label">Activité</div>
-
-    <input type="text"
-           id="search-activite"
-           placeholder="Rechercher ou sélectionner une activité…"
-           autocomplete="off">
-
-    <div id="autocomplete-activite"></div>
-
-    <!-- DROPDOWN HIÉRARCHIQUE -->
-    <div id="retail-dropdown" class="retail-dropdown">
-
-        <!-- HIÉRARCHIE ACTIVITÉS -->
-        <div id="retail-hierarchy"></div>
-
-    </div>
-
-</div>
-
-<div id="selected-activites"></div>
-
-    <!-- ───────────── ENSEIGNE ───────────── -->
-    <div class="module-search">
-        <div class="search-label">Enseigne</div>
-        <input type="text" id="search-enseigne" placeholder="Rechercher une enseigne…">
-        <div id="autocomplete-enseigne"></div>
-    </div>
-
-    <div id="selected-enseignes"></div>
-    
-<!-- ───────────── DISTANCE ───────────── -->
-    <div class="module-distance">
-
-        <div class="distance-label">Distance</div>
-
-        <div class="slider-wrapper">
-            <input type="range" id="distance-slider" min="0" max="3" step="1" value="1">
-
-            <div class="distance-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-
-        <div class="distance-values">
-            <span>2 km</span>
-            <span>5 km</span>
-            <span>10 km</span>
-            <span>20 km</span>
-        </div>
-
-        <button id="launch-retail" class="btn-launch-retail">
-            Lancer la recherche
-        </button>
-        
-        <button id="reset-enseignes" class="btn-reset-enseignes">
-            Réinitialiser
-        </button>
-
-    </div>
-
-    <!-- Compteur -->
-    <div id="enseigne-count"></div>
-
-</div>
-
-    <!-- ─────────────────────────────────────────── -->
-    <!--                 VOLET DROIT                 -->
-    <!-- ─────────────────────────────────────────── -->
-    <div id="sidebar-right">
-        <div class="sidebar-inner">
-
-            <div id="ref-annonce">Référence</div>
-            <div id="info-lot"></div>
-            <div id="photos-lot"></div>
-
-        </div>
-    </div>
-
-    <!-- ─────────────────────────────────────────── -->
-    <!--           CARROUSEL + NAVIGATION            -->
-    <!-- ─────────────────────────────────────────── -->
-    <div id="carousel-wrapper">
-        <button id="carousel-left" class="car-arrow">‹</button>
-        <div id="photo-carousel"></div>
-        <button id="carousel-right" class="car-arrow">›</button>
-    </div>
-
-    <!-- ─────────────────────────────────────────── -->
-    <!--        LIGHTBOX ZOOM PLEIN ÉCRAN            -->
-    <!-- ─────────────────────────────────────────── -->
-    <div id="photo-lightbox">
-        <div class="lightbox-inner">
-            <button id="lightbox-prev" class="lightbox-nav lightbox-prev">‹</button>
-            <img id="lightbox-image" alt="">
-            <button id="lightbox-next" class="lightbox-nav lightbox-next">›</button>
-            <button id="lightbox-close" class="lightbox-close">×</button>
-        </div>
-    </div>
-
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-    <!-- Excel Reader -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-
-    <!-- Script -->
-    <script src="js/app.js"></script>
-
+  <iframe
+    src="https://crm.smbg-conseil.fr/carte/cat_c4877383929f511a889a4a3119edf6b0b2a4bcaea3faa0421e6f51e61e46105b"
+    title="Carte des locaux commerciaux SMBG Conseil"
+    referrerpolicy="no-referrer"
+    allow="fullscreen"
+    allowfullscreen
+  ></iframe>
 </body>
 </html>
-
-
-
