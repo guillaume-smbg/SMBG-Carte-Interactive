@@ -56,6 +56,55 @@ body.monitor-view .list{display:grid;grid-template-columns:repeat(auto-fit,minma
 #refreshMonitoring{cursor:pointer}
 @media(max-width:900px){body.monitor-view main{padding:10px}body.monitor-view .list{grid-template-columns:1fr}}
 
+
+/* Montparnasse compact redesign */
+header{position:relative;box-shadow:0 2px 14px #162f4a0d}
+.wrap{max-width:1620px;padding:13px 18px}
+.brand h1{letter-spacing:-.5px;font-weight:850}
+.filters{align-items:center}
+.filters input{flex:1;min-width:160px}
+.view-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:3px}
+.view-tab{white-space:nowrap;border-radius:9px}
+.view-tab.active{background:#eaf1fb;color:#214e91;border-color:#c9d9ec}
+main,body.map-xxl main{max-width:1620px;grid-template-columns:minmax(0,56%) minmax(380px,44%);gap:16px;padding:14px 18px}
+body.map-xxl main{grid-template-columns:minmax(0,66%) minmax(320px,34%)}
+.map-shell{height:calc(100vh - 170px);min-height:430px;max-height:850px;position:sticky;top:14px;border-radius:15px;box-shadow:0 4px 24px #18344a17}
+.map-report{background:#fff;box-shadow:0 5px 14px #1a37551d}
+.zone-panel{max-width:300px}
+.list{gap:9px;min-width:0}
+.card{border:1px solid #dee7ef;border-radius:13px;box-shadow:0 1px 5px #122c4c12;min-width:0}
+.card:hover,.card:focus-visible{border-color:#9cb9dc;box-shadow:0 5px 18px #234e911c;transform:none;outline:none}
+.photo{height:38px;background:#fff;overflow:visible;padding:10px 13px 0}
+.photo-fallback{display:none!important}
+.photo .tag{position:static;display:inline-block;padding:4px 7px;border:1px solid #edd8b9;background:#fff5e8;color:#996420;font-size:10px}
+.photo .tag.available{background:#eaf7ef;color:#196846;border-color:#c6e7d4}
+.photo .quick-delete{top:9px;right:12px;width:26px;height:26px;font-size:16px;border-color:#e1e5ec;box-shadow:none;background:#fff}
+.card .body{padding:7px 13px 12px}
+.card .price{font-size:22px;font-weight:850;letter-spacing:-.5px;color:#183a5e}
+.card .score{font-size:11px;padding:5px 7px}
+.card .loc{font-size:13px;font-weight:720;color:#283a51;margin-top:4px;line-height:1.4}
+.card .facts{margin:9px 0;gap:5px}
+.card .fact{padding:5px 7px;font-size:11px;background:#f2f5f9;color:#415673}
+.card .foot{border-top:1px solid #e9eef4;margin-top:9px;padding-top:9px;font-size:11px;align-items:center}
+.card .foot span:last-child{color:#94601d}
+.list-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:3px 0 4px}
+.list-toolbar h2{font-size:16px;font-weight:820;letter-spacing:-.2px;margin:0}
+.list-toolbar p{font-size:11px;color:#6a7b8e;margin:4px 0 0;line-height:1.45}
+.list-toolbar small{white-space:nowrap;color:#6a7b8e;font-weight:600}
+.list-warning{padding:10px 12px;background:#fff9ee;border:1px solid #f0dfbf;color:#865f20;font-size:12px;border-radius:10px;line-height:1.5}
+.load-more{width:100%;padding:12px;border:1px solid #c7d9ed;border-radius:10px;background:#fff;color:#245c99;cursor:pointer;font-weight:780}
+.load-more:hover{background:#f0f6ff}
+body.list-only main{display:block;max-width:1220px;margin:auto}
+body.list-only .map-shell{display:none}
+body.list-only .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+body.list-only .list-toolbar,body.list-only .list-warning,body.list-only .load-more{grid-column:1/-1}
+.detail-banner{padding:16px 18px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.detail-banner span{color:#965f1b;background:#fff5e8;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:760}
+.detail-banner small{color:#7d8da1;font-size:11px}
+@media(max-width:1100px){main,body.map-xxl main{grid-template-columns:minmax(0,53%) minmax(350px,47%);padding:12px;gap:12px}}
+@media(max-width:860px){main,body.map-xxl main{grid-template-columns:1fr}.map-shell{position:relative;top:auto;height:380px;min-height:0}body.list-only .list{grid-template-columns:1fr}}
+@media(max-width:560px){.map-shell{height:340px}.card .price{font-size:20px}.filters input{min-width:100%}}
+
 </style>
 </head>
 <body>
@@ -506,7 +555,7 @@ async function openDetail(id){
   const x=listings.find(v=>v.id===id); if(!x)return;
   const d=document.getElementById("detail");
   d.innerHTML=
-   '<div class="gallery" id="gallery"><div class="photo-fallback" style="position:relative;min-width:400px;height:280px;display:flex">Photos non vérifiées masquées — voir l’annonce originale.</div></div>'+
+   '<div class="detail-banner"><span>'+esc(currentStateLabel(x))+'</span><small>Photos non vérifiées · voir la source originale</small></div>'+
    '<div class="detail"><h2>'+euro(x.rent_cc)+' CC · '+num(x.surface)+' m²</h2>'+
    '<div class="where">'+esc(x.title)+' — '+esc(x.location_label)+'</div>'+
    '<div class="grid">'+
