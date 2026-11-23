@@ -19,7 +19,7 @@ Deno.serve(async(req:Request)=>{
   const mode=params.get("mode");
   if(mode==="candidates"){
    const [q,l]=await Promise.all([
-    db.from("rental_candidate_review_queue").select("candidate_url,source_key,title,observed_at,last_seen,price_guess,surface_guess,furnished_guess,geo_relation,geo_precision,review_status,review_priority_reason").order("observed_at",{ascending:false}).limit(800),
+    db.from("rental_candidate_review_queue").select("candidate_url,source_key,title,observed_at,last_seen,price_guess,surface_guess,furnished_guess,geo_relation,geo_precision,review_status,review_priority_reason,latitude_guess,longitude_guess,geo_label_guess,geo_radius_m,geo_source,geo_evidence,geo_checked_at,geo_distance_m").order("observed_at",{ascending:false}).limit(800),
     db.from("rental_listings").select("source_url").limit(1000)
    ]);
    if(q.error||l.error)return json({error:q.error?.message||l.error?.message},500);
@@ -36,7 +36,7 @@ Deno.serve(async(req:Request)=>{
   }
   if(mode==="blocked"){
    const q=await db.from("rental_collector_candidates")
-    .select("candidate_url,source_key,title,observed_at,price_guess,surface_guess,review_status")
+    .select("candidate_url,source_key,title,observed_at,price_guess,surface_guess,review_status,latitude_guess,longitude_guess,geo_label_guess,geo_radius_m,geo_relation,geo_precision,geo_distance_m")
     .in("review_status",["verification_blocked","needs_manual_url_review"]).order("observed_at",{ascending:false}).limit(500);
    if(q.error)return json({error:q.error.message},500);
    const entries=q.data||[];
