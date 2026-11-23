@@ -30,6 +30,7 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
 
 /* Rental monitoring v2: explicit candidate and collection views; no unverified map pins. */
 body.monitor-view main{display:block;max-width:1300px}
+body:not(.monitor-view) #showDistant,body.monitor-view:has(#tabHealth.active) #showDistant{display:none}
 body.monitor-view .map-shell{display:none}
 body.monitor-view .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:12px;max-width:1260px;margin:auto}
 .monitor-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:17px;min-width:0;box-shadow:0 2px 8px #10182808}
@@ -75,6 +76,7 @@ body.monitor-view .list{display:grid;grid-template-columns:repeat(auto-fit,minma
       <button id="favorites">★ Favoris / visites</button>
       <button id="mapSize">↔ Carte XXL</button>
       <button id="refreshMonitoring" type="button">↻ Actualiser</button>
+      <button id="showDistant" type="button" title="Inclure les pistes dont le secteur semble éloigné de Montparnasse">◌ Inclure hors secteur</button>
     </div>
     <div class="view-tabs">
       <button class="view-tab active" id="tabLocated" data-view="located">📍 Sur la carte</button>
@@ -119,7 +121,7 @@ body.monitor-view .list{display:grid;grid-template-columns:repeat(auto-fit,minma
 const API="https://hemanobijzarxvnktccn.supabase.co/functions/v1/rental-search";
 const MONITOR_API="https://hemanobijzarxvnktccn.supabase.co/functions/v1/rental-monitor";
 const MONITOR_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhlbWFub2Jpanphcnh2bmt0Y2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1NDE2MzQsImV4cCI6MjEwMjExNzYzNH0.3ooIBrjLIA9FAhRwxeMXHeGnWbuhSj4k3WII8XknGYU";
-let candidateFeed=[],monitorHealth=null,monitorError="",monitorLoaded=false;
+let candidateFeed=[],monitorHealth=null,monitorError="",monitorLoaded=false,showDistant=false;
 async function fetchMonitor(mode){
  const r=await fetch(MONITOR_API+"?mode="+encodeURIComponent(mode),{headers:{Authorization:"Bearer "+MONITOR_ANON,apikey:MONITOR_ANON},cache:"no-store"});
  if(!r.ok)throw new Error("Surveillance HTTP "+r.status);
@@ -336,13 +338,21 @@ function renderCandidates(){
  const query=document.getElementById("search").value.trim().toLowerCase();
  const list=document.getElementById("list");
  if(!monitorLoaded){list.innerHTML='<div class="empty">'+(monitorError?"Impossible de charger les pistes : "+esc(monitorError):"Chargement des pistes…")+'</div>';return;}
+ const explicitFar=x=>{
+  const name=String(x.title||"");
+  if(/(?:le touquet|lille|bordeaux|lyon|marseille|nantes|toulouse|strasbourg)/i.test(name))return true;
+  const m=name.match(/\bParis[\s-]+(\d{1,2})(?:e|è|ème|eme|\b)/i);
+  if(!m)return false;
+  const d=Number(m[1]);return d>=1&&d<=20&&![5,6,7,13,14,15].includes(d);
+ };
  const eligible=candidateFeed.filter(x=>Number(x.surface_guess)>=37&&Number(x.price_guess)<=budget&&Number(x.price_guess)>0)
+   .filter(x=>showDistant||!explicitFar(x))
    .filter(x=>!query||(String(x.title||"")+" "+String(x.source_key||"")).toLowerCase().includes(query));
  const priority=x=>/paris[- ]?(?:14|15|6|7)(?:e|è|ème|eme)?\b|750(?:14|15|06|07)|montparnasse|pernety|pasteur/i.test(x.title||"")?0:1;
  eligible.sort((a,b)=>priority(a)-priority(b)||new Date(b.observed_at)-new Date(a.observed_at));
  document.getElementById("summary").innerHTML='<span class="pill"><b>'+eligible.length+'</b> pistes brutes</span><span class="pill">0 piste automatiquement certifiée</span>';
  list.innerHTML='<div class="monitor-heading"><div><h2>Pistes détectées, à qualifier</h2><p>Résultats automatiques, distincts des annonces confirmées. Le prix est une estimation non certifiée CC. Une adresse inconnue ne doit jamais créer un pin approximatif.</p></div></div>'+
- '<div class="monitor-alert">⚠ Ces pistes ne sont pas des annonces validées : le caractère non meublé, la disponibilité, le loyer CC et l’appartenance au polygone original + 500 m restent à vérifier sur la fiche d’origine. Certains résultats peuvent se situer hors zone.</div>'+
+ '<div class="monitor-alert">⚠ Ces pistes ne sont pas des annonces validées : le caractère non meublé, la disponibilité, le loyer CC et l’appartenance au polygone original + 500 m restent à vérifier sur la fiche d’origine. Certains résultats peuvent se situer hors zone. '+(showDistant?'Les pistes éloignées sont incluses.':'Les secteurs manifestement éloignés sont masqués par défaut; ils restent consultables avec le bouton dédié.')+'</div>'+
  (eligible.length?eligible.map(x=>{
   const central=priority(x)===0;
   const source=(x.source_key||"").split("-").slice(-2).join(" ");
@@ -538,7 +548,8 @@ async function init(){
 }
 document.querySelectorAll("#budget,#status,#elevator,#sort").forEach(el=>el.addEventListener("change",render));
 document.getElementById("search").addEventListener("input",render);
-document.getElementById("refreshMonitoring").addEventListener("click",()=>{monitorLoaded=false;monitorError="";loadMonitorData()});
+document.getElementById("refreshMonitoring").addEventListener("click",()=>{if(viewMode==="candidates"||viewMode==="health"){monitorLoaded=false;monitorError="";loadMonitorData()}else init()});
+document.getElementById("showDistant").addEventListener("click",e=>{showDistant=!showDistant;e.currentTarget.classList.toggle("active",showDistant);render()});
 document.getElementById("favorites").addEventListener("click",e=>{favoritesOnly=!favoritesOnly;e.currentTarget.classList.toggle("active",favoritesOnly);render()});
 document.getElementById("mapSize").addEventListener("click",e=>{document.body.classList.toggle("map-xxl");e.currentTarget.classList.toggle("active");setTimeout(()=>{map.invalidateSize();fitMapToPins()},150)});
 document.querySelectorAll(".view-tab").forEach(btn=>btn.addEventListener("click",e=>{
