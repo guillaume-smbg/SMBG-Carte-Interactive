@@ -141,7 +141,7 @@ body.list-only .list-toolbar,body.list-only .list-warning,body.list-only .load-m
       <select id="budget"><option value="1600">≤ 1 600 € CC</option><option value="1800" selected>≤ 1 800 € CC</option></select>
       <select id="status"><option value="live" selected>Disponibles + à vérifier</option><option value="available">Disponibles</option><option value="uncertain">À vérifier</option><option value="all">Toutes les annonces suivies (hors retirées)</option></select>
       <select id="elevator"><option value="all">Ascenseur indifférent</option><option value="yes">Ascenseur uniquement</option></select>
-      <select id="sort"><option value="score">Pertinence</option><option value="price">Prix croissant</option><option value="sqm">Prix au m² croissant</option><option value="surface">Surface décroissante</option><option value="walk">Distance Montparnasse</option></select>
+      <select id="sort"><option value="score">Pertinence</option><option value="newest">Ajoutées récemment</option><option value="checked">Contrôlées récemment</option><option value="price">Prix croissant</option><option value="sqm">Prix au m² croissant</option><option value="surface">Surface décroissante</option><option value="walk">Distance Montparnasse</option></select>
       <input id="search" placeholder="Rue, quartier, source…">
       <button id="favorites">★ Favoris / visites</button>
       <button id="mapSize">↔ Carte XXL</button>
@@ -558,6 +558,8 @@ function render(){
     return true;
   });
   filtered.sort((a,b)=>{
+    if(sort==="newest")return Date.parse(b.first_seen||b.created_at||0)-Date.parse(a.first_seen||a.created_at||0);
+    if(sort==="checked")return Date.parse(b.last_checked||0)-Date.parse(a.last_checked||0);
     if(sort==="price")return Number(a.rent_cc)-Number(b.rent_cc);
     if(sort==="sqm")return (psm(a.rent_cc,a.surface)??9999)-(psm(b.rent_cc,b.surface)??9999);
     if(sort==="surface")return Number(b.surface)-Number(a.surface);
@@ -582,7 +584,7 @@ function render(){
     return '<article class="card" data-id="'+esc(x.id)+'">'+
       '<div class="photo"><div class="photo-fallback" style="display:flex">Photos non vérifiées masquées. Voir l’annonce originale.</div>'+
       '<span class="tag '+esc(isStaleListing(x)?"uncertain":x.available_status)+'">'+esc(currentStateLabel(x))+'</span>'+
-      (viewMode==="rejected"?'<button class="quick-delete" data-restore="'+esc(x.id)+'" title="Restaurer">↺</button>':'<button class="quick-delete" data-delete="'+esc(x.id)+'" title="Supprimer cette annonce">×</button>')+'</div>'+
+      (viewMode==="rejected"?'<button class="quick-delete" data-restore="'+esc(x.id)+'" title="Restaurer">↺</button>':'<button class="quick-delete" data-delete="'+esc(x.id)+'" title="Écarter cette annonce">×</button>')+'</div>'+
       '<div class="body"><div class="row"><div class="price">'+euro(x.rent_cc)+' CC</div><div class="score">'+score(x)+'/100</div></div>'+
       '<div class="loc">'+esc(x.location_label)+'</div>'+
       '<div class="facts"><span class="fact">'+num(x.surface)+' m²</span><span class="fact">'+psmText(x.rent_cc,x.surface)+' CC</span><span class="fact">'+(x.rooms||"—")+' pièce'+(Number(x.rooms)>1?"s":"")+'</span>'+
