@@ -140,6 +140,7 @@ body.candidate-map-view .monitor-card,body.candidate-map-view .monitor-alert{mar
 .candidate-location{background:#fbf4ea;color:#85581d;border-radius:8px;padding:8px 10px;font-size:11px;line-height:1.5;margin:8px 0}
 @media(max-width:900px){body.candidate-map-view main{grid-template-columns:1fr;padding:11px}body.candidate-map-view .map-shell{position:relative;top:auto;height:360px;min-height:0}}
 .candidate-pin.blocked{background:#77889d;border-style:dashed}.candidate-pin.blocked.active{outline-color:#a5bad0}
+body.monitor-view #toggleCandidatePins,body.list-only #toggleCandidatePins{display:none}
 </style>
 </head>
 <body>
@@ -531,7 +532,13 @@ function fitCandidates(items){
 }
 function drawCandidateMap(items,focus=false){
  clearCandidateMap();
- if(!monitorLoaded||!items.length)return;
+ if(!monitorLoaded||!items?.length){
+  if(viewMode==="candidates"||viewMode==="blocked"){
+   document.getElementById("mapReport").textContent=monitorLoaded?"Aucun repère indicatif avec les filtres actuels.":"Chargement des localisations indicatives…";
+   fitCandidates([]);
+  }
+  return;
+ }
  const allowed=items.filter(candidateLocated).filter(candidateAreaPlausible);
  allowed.forEach(x=>{
   const lat=Number(x.latitude_guess),lon=Number(x.longitude_guess),radius=Math.min(1800,Math.max(75,Number(x.geo_radius_m)||650));
