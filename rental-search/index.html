@@ -377,7 +377,7 @@ function renderHealth(){
  const stats=[["Sources actives",m.sources_active],["Tentatives distinctes",m.sources_attempted],["Sources avec fiches inspectées",m.with_listing_pages],["Sources bloquées",(m.inaccessible||0)+(m.login_required||0)],["Limites techniques",m.technical_limit],["Catalogues exhaustifs",m.catalogues_exhaustive],["Pages HTML",m.html_pages],["Fiches présumées",m.listing_pages_inspected],["Liens repérés",m.candidate_links_seen]];
  document.getElementById("summary").innerHTML='<span class="pill">Collecte '+esc(h.run_key||"non disponible")+'</span>';
  list.innerHTML='<div class="monitor-heading"><div><h2>État des collectes</h2><p>Dernier passage : '+esc(date)+' · '+esc(h.run_key||"—")+'</p></div></div>'+
- '<div class="monitor-alert">Un job réussi ou une page HTML reçue ne garantit pas un catalogue parcouru. Les sources journalisées mais techniquement limitées ne sont pas certifiées exhaustives.</div>'+
+ '<div class="monitor-alert">'+(monitorHealth.run_predates_configuration?"⚠ Dernière collecte antérieure aux modifications des sources. Les nouveaux chiffres viendront au prochain passage. ":"")+"Un job réussi ou une page HTML reçue ne garantit pas un catalogue parcouru. Les sources journalisées mais techniquement limitées ne sont pas certifiées exhaustives.</div>'+
  stats.map(([label,value])=>'<div class="monitor-kpi"><strong>'+num(value??0)+'</strong><span>'+esc(label)+'</span></div>').join("")+
  '<div class="monitor-card monitor-wide"><h3>Détail des sources · '+sites.length+' actives</h3>'+
  sites.sort((a,b)=>(b.listing_pages_inspected||0)-(a.listing_pages_inspected||0)).map(x=>'<div class="monitor-source"><span>'+esc(x.name)+'</span><small>'+num(x.listing_pages_inspected||0)+' fiches présumées · '+esc(x.outcome)+'</small></div>').join("")+'</div>';
@@ -434,6 +434,8 @@ function render(){
   if(!filtered.length){list.innerHTML='<div class="empty">'+(viewMode==="unlocated"?"Aucune annonce sans localisation.":viewMode==="rejected"?"Aucune annonce écartée.":"Aucune annonce ne correspond aux filtres actuels.")+'</div>';drawMarkers();fitMapToPins();return}
   list.innerHTML=filtered.map(x=>{
     const st=userStatus(x);
+    const daysOld=x.last_checked?Math.max(0,Math.floor((Date.now()-new Date(x.last_checked).getTime())/86400000)):999;
+    const freshNote=daysOld>21?"À recontrôler · "+daysOld+" j":"Vérifié "+(x.last_checked?new Date(x.last_checked).toLocaleDateString("fr-FR"):"—");
     return '<article class="card" data-id="'+esc(x.id)+'">'+
       '<div class="photo"><div class="photo-fallback" style="display:flex">Photos non vérifiées masquées. Voir l’annonce originale.</div>'+
       '<span class="tag '+esc(isStaleListing(x)?"uncertain":x.available_status)+'">'+esc(currentStateLabel(x))+'</span>'+
@@ -447,7 +449,7 @@ function render(){
       (locationPrecisionLabel(x)?'<span class="fact location-approx">'+esc(locationPrecisionLabel(x))+'</span>':'')+
       (zoneEnabled()&&x.longitude==null?'<span class="fact near-zone">Localisation à confirmer</span>':'')+
       (zoneEnabled()&&x.longitude!=null&&x.latitude!=null&&distanceToZoneMeters(Number(x.longitude),Number(x.latitude))>0?'<span class="fact near-zone">Hors zone proche · '+Math.round(distanceToZoneMeters(Number(x.longitude),Number(x.latitude)))+' m</span>':'')+'</div>'+
-      '<div class="foot"><span>'+esc(x.source_name)+' · '+esc(st)+'</span><span>vérifié '+new Date(x.last_checked).toLocaleDateString("fr-FR")+'</span></div></div></article>';
+      '<div class="foot"><span>'+esc(x.source_name)+' · '+esc(st)+'</span><span>'+esc(freshNote)+'</span></div></div></article>';
   }).join("");
   list.querySelectorAll(".card").forEach(c=>c.addEventListener("click",()=>openDetail(c.dataset.id)));
   list.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setUserAction(b.dataset.delete,"rejected")}));
