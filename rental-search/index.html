@@ -321,7 +321,7 @@ function drawMarkers(){
       lon+=Math.cos(angle)*radius/Math.cos(baseLat*Math.PI/180);
     }
     placed.push({baseLat,baseLon});
-    const cls=(x.available_status==="uncertain"?"warn":x.available_status==="removed"?"off":"")+(x.location_precision&&x.location_precision!=="exact"?" approx":"");
+    const cls=(x.available_status==="removed"?"off":(x.available_status==="uncertain"||isStaleListing(x))?"warn":"")+(x.location_precision&&x.location_precision!=="exact"?" approx":"");
     const icon=L.divIcon({className:"price-marker-wrap",html:'<div class="marker '+cls+'">'+Math.round(Number(x.rent_cc))+' €</div>',iconSize:[66,37],iconAnchor:[33,37]});
     const m=L.marker([lat,lon],{icon,riseOnHover:true,zIndexOffset:100}).addTo(map);
     m.bindTooltip(esc(x.location_label)+" · "+euro(x.rent_cc)+(nearby?" · pin légèrement décalé pour lisibilité":""));
@@ -333,6 +333,11 @@ function drawMarkers(){
   document.getElementById("recenterPins").addEventListener("click",fitMapToPins);
 }
 
+function isStaleListing(x){
+ const last=Date.parse(x.last_checked||"");
+ return !Number.isFinite(last)||Date.now()-last>7*86400000;
+}
+function currentStateLabel(x){return isStaleListing(x)?"À recontrôler":stateLabel(x.available_status)}
 function renderCandidates(){
  const budget=Number(document.getElementById("budget").value);
  const query=document.getElementById("search").value.trim().toLowerCase();
@@ -399,8 +404,8 @@ function render(){
       if(viewMode==="unlocated"&&(x.longitude!=null&&x.latitude!=null))return false;
     }
     if(viewMode!=="rejected"){
-      if(status==="available"&&x.available_status!=="available")return false;
-      if(status==="uncertain"&&x.available_status!=="uncertain")return false;
+      if(status==="available"&&(x.available_status!=="available"||isStaleListing(x)))return false;
+      if(status==="uncertain"&&x.available_status!=="uncertain"&&!isStaleListing(x))return false;
       if(status==="live"&&x.available_status==="removed")return false;
       if(elevator==="yes"&&x.elevator!==true)return false;
       if(favoritesOnly&&!["favorite","visit"].includes(us))return false;
@@ -416,8 +421,8 @@ function render(){
     if(sort==="walk")return Number(a.walk_min_high||99)-Number(b.walk_min_high||99);
     return score(b)-score(a);
   });
-  const available=filtered.filter(x=>x.available_status==="available").length;
-  const uncertain=filtered.filter(x=>x.available_status==="uncertain").length;
+  const available=filtered.filter(x=>x.available_status==="available"&&!isStaleListing(x)).length;
+  const uncertain=filtered.filter(x=>x.available_status==="uncertain"||isStaleListing(x)).length;
   document.getElementById("summary").innerHTML=
     '<span class="pill"><b>'+filtered.length+'</b> affichées</span>'+
     '<span class="pill"><b>'+available+'</b> disponibles</span>'+
@@ -431,7 +436,7 @@ function render(){
     const st=userStatus(x);
     return '<article class="card" data-id="'+esc(x.id)+'">'+
       '<div class="photo"><div class="photo-fallback" style="display:flex">Photos non vérifiées masquées. Voir l’annonce originale.</div>'+
-      '<span class="tag '+esc(x.available_status)+'">'+stateLabel(x.available_status)+'</span>'+
+      '<span class="tag '+esc(isStaleListing(x)?"uncertain":x.available_status)+'">'+esc(currentStateLabel(x))+'</span>'+
       (viewMode==="rejected"?'<button class="quick-delete" data-restore="'+esc(x.id)+'" title="Restaurer">↺</button>':'<button class="quick-delete" data-delete="'+esc(x.id)+'" title="Supprimer cette annonce">×</button>')+'</div>'+
       '<div class="body"><div class="row"><div class="price">'+euro(x.rent_cc)+' CC</div><div class="score">'+score(x)+'/100</div></div>'+
       '<div class="loc">'+esc(x.location_label)+'</div>'+
@@ -465,7 +470,7 @@ async function openDetail(id){
    '</div>'+
    '<div class="section"><h3>Description synthétique</h3><p>'+esc(x.description_summary||"")+'</p></div>'+
    '<div class="section"><h3>Coin bureau</h3><p><b>'+officeLabel(x.office_fit)+'.</b> '+esc(x.office_note||"")+'</p></div>'+
-   '<div class="section"><h3>Disponibilité et contrôles</h3><p><b>'+stateLabel(x.available_status)+'.</b> '+esc(x.availability_note||"")+' Dernière vérification : '+new Date(x.last_checked).toLocaleString("fr-FR")+'. '+esc(x.publication_note||"")+'</p></div>'+
+   '<div class="section"><h3>Disponibilité et contrôles</h3><p><b>'+esc(currentStateLabel(x))+'.</b> '+(isStaleListing(x)?'Contrôle antérieur à 7 jours ; disponibilité non recertifiée. ':'')+esc(x.availability_note||"")+' Dernière vérification : '+new Date(x.last_checked).toLocaleString("fr-FR")+'. '+esc(x.publication_note||"")+'</p></div>'+
    '<div class="actions">'+
       '<button data-s="favorite">★ Favori</button><button data-s="visit">✓ À visiter</button><button data-s="rejected">🗑 Supprimer</button><button data-s="active">↺ Réactiver</button>'+
       '<a href="'+esc(x.source_url)+'" target="_blank" rel="noopener noreferrer">Annonce originale ↗</a>'+
