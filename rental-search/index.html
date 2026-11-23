@@ -241,7 +241,7 @@ const psmText=(rent,surface)=>{const v=psm(rent,surface);return v==null?"—":ne
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const apiUrl=(extra="")=>API+"?k="+encodeURIComponent(KEY)+(extra?"&"+extra:"");
 let prefs={};try{prefs=JSON.parse(localStorage.getItem("rentalPrefsV1")||"{}")||{}}catch{prefs={}}
-let listings=[],filtered=[],markers=[],favoritesOnly=false,viewMode="located";
+let listings=[],filtered=[],markers=[],favoritesOnly=false,viewMode="located",shownCards=12;
 let savedPolygon=null,pendingPolygon=null,zoneLayer=null;
 let nearZoneBufferM=500;
 // Keep a second, browser-local backup. This never replaces the original polygon silently.
@@ -476,6 +476,7 @@ function renderHealth(){
  sites.sort((a,b)=>(b.listing_pages_inspected||0)-(a.listing_pages_inspected||0)).map(x=>'<div class="monitor-source"><span>'+esc(x.name)+'</span><small>'+num(x.listing_pages_inspected||0)+' fiches présumées · '+esc(x.outcome)+'</small></div>').join("")+'</div>';
 }
 function render(){
+ document.body.classList.toggle("list-only",viewMode==="unlocated"||viewMode==="rejected");
  const inMonitor=viewMode==="candidates"||viewMode==="health";
  document.body.classList.toggle("monitor-view",inMonitor);
  if(inMonitor){if(viewMode==="candidates")renderCandidates();else renderHealth();return;}
@@ -525,7 +526,7 @@ function render(){
     (viewMode==="rejected"?'<span class="pill">🗑 Écartées</span>':'');
   const list=document.getElementById("list");
   if(!filtered.length){list.innerHTML='<div class="empty">'+(viewMode==="unlocated"?"Aucune annonce sans localisation.":viewMode==="rejected"?"Aucune annonce écartée.":"Aucune annonce ne correspond aux filtres actuels.")+'</div>';drawMarkers();fitMapToPins();return}
-  list.innerHTML=filtered.map(x=>{
+  list.innerHTML=filtered.slice(0,shownCards).map(x=>{
     const st=userStatus(x);
     const daysOld=x.last_checked?Math.max(0,Math.floor((Date.now()-new Date(x.last_checked).getTime())/86400000)):999;
     const freshNote=daysOld>21?"À recontrôler · "+daysOld+" j":"Vérifié "+(x.last_checked?new Date(x.last_checked).toLocaleDateString("fr-FR"):"—");
@@ -544,6 +545,11 @@ function render(){
       (zoneEnabled()&&x.longitude!=null&&x.latitude!=null&&distanceToZoneMeters(Number(x.longitude),Number(x.latitude))>0?'<span class="fact near-zone">Hors zone proche · '+Math.round(distanceToZoneMeters(Number(x.longitude),Number(x.latitude)))+' m</span>':'')+'</div>'+
       '<div class="foot"><span>'+esc(x.source_name)+' · '+esc(st)+'</span><span>'+esc(freshNote)+'</span></div></div></article>';
   }).join("");
+  const remaining=Math.max(0,filtered.length-shownCards);
+  const intro='<div class="list-toolbar"><div><h2>'+(viewMode==="located"?"Annonces sur la carte":viewMode==="unlocated"?"Annonces sans localisation":"Annonces écartées")+'</h2><p>Les annonces non confirmées restent à revérifier sur leur source originale.</p></div><small>'+Math.min(filtered.length,shownCards)+' / '+filtered.length+'</small></div>';
+  const warning=available===0&&viewMode!=="rejected"?'<div class="list-warning">Aucune disponibilité actuellement confirmée parmi ces annonces. Les fiches restent consultables à titre de pistes.</div>':'';
+  list.innerHTML=intro+warning+list.innerHTML+(remaining?'<button class="load-more" type="button" id="loadMore">Afficher 12 annonces supplémentaires · '+remaining+' restantes</button>':'');
+  document.getElementById("loadMore")?.addEventListener("click",()=>{shownCards+=12;render()});
   list.querySelectorAll(".card").forEach(c=>c.addEventListener("click",()=>openDetail(c.dataset.id)));
   list.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setUserAction(b.dataset.delete,"rejected")}));
   list.querySelectorAll("[data-restore]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setUserAction(b.dataset.restore,"active")}));
@@ -650,8 +656,8 @@ async function init(){
     document.getElementById("retryLoad").addEventListener("click",init);
   }
 }
-document.querySelectorAll("#budget,#status,#elevator,#sort").forEach(el=>el.addEventListener("change",render));
-document.getElementById("search").addEventListener("input",render);
+document.querySelectorAll("#budget,#status,#elevator,#sort").forEach(el=>el.addEventListener("change",()=>{shownCards=12;render()}));
+document.getElementById("search").addEventListener("input",()=>{shownCards=12;render()});
 document.getElementById("logoutRental").addEventListener("click",()=>{
  try{
   localStorage.removeItem(KEY_STORAGE);
@@ -663,12 +669,12 @@ document.getElementById("logoutRental").addEventListener("click",()=>{
 });
 document.getElementById("refreshMonitoring").addEventListener("click",()=>{if(viewMode==="candidates"||viewMode==="health"){monitorLoaded=false;monitorError="";loadMonitorData()}else init()});
 document.getElementById("showDistant").addEventListener("click",e=>{showDistant=!showDistant;e.currentTarget.classList.toggle("active",showDistant);render()});
-document.getElementById("favorites").addEventListener("click",e=>{favoritesOnly=!favoritesOnly;e.currentTarget.classList.toggle("active",favoritesOnly);render()});
+document.getElementById("favorites").addEventListener("click",e=>{favoritesOnly=!favoritesOnly;shownCards=12;e.currentTarget.classList.toggle("active",favoritesOnly);render()});
 document.getElementById("mapSize").addEventListener("click",e=>{document.body.classList.toggle("map-xxl");e.currentTarget.classList.toggle("active");setTimeout(()=>{map.invalidateSize();fitMapToPins()},150)});
 document.querySelectorAll(".view-tab").forEach(btn=>btn.addEventListener("click",e=>{
   e.preventDefault();
   e.stopPropagation();
-  viewMode=btn.dataset.view||"located";
+  viewMode=btn.dataset.view||"located";shownCards=12;
   document.querySelectorAll(".view-tab").forEach(z=>z.classList.toggle("active",z===btn));
   if(viewMode!=="located"){
     document.body.classList.remove("map-xxl");
