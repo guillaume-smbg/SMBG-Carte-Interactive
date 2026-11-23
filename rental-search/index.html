@@ -579,15 +579,16 @@ function renderCandidates(){
  const priority=x=>/paris[- ]?(?:14|15|6|7)(?:e|è|ème|eme)?\b|750(?:14|15|06|07)|montparnasse|pernety|pasteur/i.test(x.title||"")?0:1;
  eligible.sort((a,b)=>priority(a)-priority(b)||new Date(b.observed_at)-new Date(a.observed_at));
  document.getElementById("summary").innerHTML='<span class="pill"><b>'+eligible.length+'</b> fiches accessibles</span><span class="pill">0 piste automatiquement certifiée</span>';
- list.innerHTML='<div class="monitor-heading"><div><h2>Fiches individuelles accessibles à qualifier</h2><p>Liens contrôlés sur le site d’origine ; disponibilité du logement, loyer CC et secteur restent à confirmer. Le prix est une estimation non certifiée CC. Une adresse inconnue ne doit jamais créer un pin approximatif.</p></div></div>'+
+ list.innerHTML='<div class="monitor-heading"><div><h2>Fiches individuelles accessibles à qualifier</h2><p>Les fiches peuvent maintenant apparaître sur la carte avec un repère de rue ou un cercle de quartier. La position du logement et la disponibilité ne sont pas certifiées.</p></div></div>'+
  '<div class="monitor-alert">⚠ Ces pistes ne sont pas des annonces validées : le caractère non meublé, la disponibilité, le loyer CC et l’appartenance au polygone original + 500 m restent à vérifier sur la fiche d’origine. Certains résultats peuvent se situer hors zone. '+(showDistant?'Les pistes éloignées sont incluses.':'Les secteurs manifestement éloignés sont masqués par défaut; ils restent consultables avec le bouton dédié.')+'</div>'+
  (eligible.length?eligible.map(x=>{
   const central=priority(x)===0;
   const source=(x.source_key||"").split("-").slice(-2).join(" ");
   const date=x.observed_at?new Date(x.observed_at).toLocaleDateString("fr-FR"):"—";
-  return '<article class="monitor-card monitor-pending"><div class="row"><span class="pill">'+esc(central?"Secteur plausible · à confirmer":"Zone potentiellement éloignée")+'</span><span class="pill">'+esc(date)+'</span></div>'+
+  return '<article class="monitor-card monitor-pending" data-candidate-url="'+esc(x.candidate_url)+'"><div class="row"><span class="pill">'+esc(central?"Secteur plausible · à confirmer":"Zone potentiellement éloignée")+'</span><span class="pill">'+esc(date)+'</span></div>'+
    '<h3>'+esc(x.title||"Annonce sans titre")+'</h3><div class="big">'+euro(x.price_guess)+' <small style="font-size:11px;color:#697586">extrait, CC non confirmé</small></div>'+
-   '<div class="chips"><span>'+num(x.surface_guess)+' m² extraits</span><span>'+esc(x.furnished_guess==="unfurnished"?"Vide présumé":"Ameublement inconnu")+'</span><span>Localisation non certifiée</span></div>'+
+   '<div class="chips"><span>'+num(x.surface_guess)+' m² extraits</span><span>'+esc(x.furnished_guess==="unfurnished"?"Vide présumé":"Ameublement inconnu")+'</span><span>'+(candidateLocated(x)?esc(x.geo_precision==="street"?"Rue indicative":x.geo_precision==="neighborhood"?"Quartier indicatif":"Position indicative"):"Sans position exploitable")+'</span></div>'+
+   (candidateLocated(x)?'<div class="candidate-location">◌ '+esc(x.geo_label_guess||"Lieu indicatif")+' · cercle indicatif '+num(x.geo_radius_m||650)+' m. L’adresse réelle et le périmètre du logement restent à vérifier.</div>':'<p>Localisation suffisamment précise non identifiée : aucun pin inventé.</p>')+
    '<p>Source : '+esc(source)+'. Aucune validation automatique ; ouverture de l’annonce originale nécessaire.</p>'+
    '<a class="link" href="'+esc(x.candidate_url)+'" target="_blank" rel="noopener noreferrer">Ouvrir l’annonce originale ↗</a></article>';
  }).join(""):'<div class="empty">Aucune piste dans ces filtres. Modifie le budget ou le champ de recherche.</div>');
@@ -631,8 +632,9 @@ function render(){
  updateOverview();
  document.body.classList.toggle("list-only",viewMode==="unlocated"||viewMode==="rejected");
  const inMonitor=viewMode==="candidates"||viewMode==="health"||viewMode==="blocked";
+ document.body.classList.toggle("candidate-map-view",viewMode==="candidates");
  document.body.classList.toggle("monitor-view",inMonitor);
- if(inMonitor){if(viewMode==="candidates")renderCandidates();else if(viewMode==="blocked")renderBlocked();else renderHealth();return;}
+ if(inMonitor){if(viewMode==="candidates"){clearMarkers();renderCandidates();drawCandidateMap(candidateOptions(),true)}else{clearCandidateMap();if(viewMode==="blocked")renderBlocked();else renderHealth()}return;}
 
   const budget=Number(document.getElementById("budget").value);
   const status=document.getElementById("status").value;
@@ -680,7 +682,7 @@ function render(){
     (viewMode==="unlocated"?'<span class="pill">◌ Sans pin</span>':'')+
     (viewMode==="rejected"?'<span class="pill">🗑 Écartées</span>':'');
   const list=document.getElementById("list");
-  if(!filtered.length){list.innerHTML='<div class="empty">'+(viewMode==="unlocated"?"Aucune annonce sans localisation.":viewMode==="rejected"?"Aucune annonce écartée.":"Aucune annonce ne correspond aux filtres actuels.")+'</div>';drawMarkers();fitMapToPins();return}
+  if(!filtered.length){list.innerHTML='<div class="empty">'+(viewMode==="unlocated"?"Aucune annonce sans localisation.":viewMode==="rejected"?"Aucune annonce écartée.":"Aucune annonce ne correspond aux filtres actuels.")+'</div>';drawMarkers();drawCandidateMap(showCandidatePins?candidateOptions():[],false);fitMapToPins();return}
   list.innerHTML=filtered.slice(0,shownCards).map(x=>{
     const st=userStatus(x);
     const daysOld=x.last_checked?Math.max(0,Math.floor((Date.now()-new Date(x.last_checked).getTime())/86400000)):999;
@@ -714,6 +716,7 @@ function render(){
   list.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setUserAction(b.dataset.delete,"rejected")}));
   list.querySelectorAll("[data-restore]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setUserAction(b.dataset.restore,"active")}));
   drawMarkers();
+  drawCandidateMap(showCandidatePins?candidateOptions():[],false);
   fitMapToPins();
 }
 
@@ -840,6 +843,7 @@ document.getElementById("logoutRental").addEventListener("click",()=>{
  const next=new URL(location.href);next.searchParams.delete("k");
  location.assign(next.pathname+next.search+next.hash);
 });
+document.getElementById("toggleCandidatePins").addEventListener("click",e=>{showCandidatePins=!showCandidatePins;e.currentTarget.classList.toggle("active",showCandidatePins);e.currentTarget.textContent=showCandidatePins?"◌ Pistes sur carte":"◌ Pistes masquées";render()});
 document.getElementById("refreshMonitoring").addEventListener("click",()=>{if(viewMode==="candidates"||viewMode==="health"||viewMode==="blocked"){monitorLoaded=false;monitorError="";loadMonitorData()}else init()});
 document.getElementById("showDistant").addEventListener("click",e=>{showDistant=!showDistant;e.currentTarget.classList.toggle("active",showDistant);render()});
 document.getElementById("favorites").addEventListener("click",e=>{favoritesOnly=!favoritesOnly;shownCards=12;e.currentTarget.classList.toggle("active",favoritesOnly);render()});
