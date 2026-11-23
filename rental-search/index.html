@@ -139,6 +139,7 @@ body.candidate-map-view .list{display:block!important;max-width:none!important;w
 body.candidate-map-view .monitor-card,body.candidate-map-view .monitor-alert{margin-bottom:10px}
 .candidate-location{background:#fbf4ea;color:#85581d;border-radius:8px;padding:8px 10px;font-size:11px;line-height:1.5;margin:8px 0}
 @media(max-width:900px){body.candidate-map-view main{grid-template-columns:1fr;padding:11px}body.candidate-map-view .map-shell{position:relative;top:auto;height:360px;min-height:0}}
+.candidate-pin.blocked{background:#77889d;border-style:dashed}.candidate-pin.blocked.active{outline-color:#a5bad0}
 </style>
 </head>
 <body>
@@ -523,7 +524,7 @@ function highlightCandidate(url){
  card?.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 function fitCandidates(items){
- requestAnimationFrame(()=>{if(viewMode!=="candidates")return;map.invalidateSize();
+ requestAnimationFrame(()=>{if(viewMode!=="candidates"&&viewMode!=="blocked")return;map.invalidateSize();
   if(items.length)map.fitBounds(L.latLngBounds(items.map(x=>[Number(x.latitude_guess),Number(x.longitude_guess)])).pad(.25),{padding:[40,40],maxZoom:14});
   else if(zoneLayer)map.fitBounds(zoneLayer.getBounds(),{padding:[30,30]});
  });
@@ -534,20 +535,21 @@ function drawCandidateMap(items,focus=false){
  const allowed=items.filter(candidateLocated).filter(candidateAreaPlausible);
  allowed.forEach(x=>{
   const lat=Number(x.latitude_guess),lon=Number(x.longitude_guess),radius=Math.min(1800,Math.max(75,Number(x.geo_radius_m)||650));
-  const kind=x.geo_precision==="neighborhood"?"neighborhood":"street",color=kind==="neighborhood"?"#8964a7":"#b8751b";
+  const blocked=x.review_status!=="link_verified";
+  const kind=blocked?"blocked":x.geo_precision==="neighborhood"?"neighborhood":"street",color=blocked?"#77889d":kind==="neighborhood"?"#8964a7":"#b8751b";
   const ring=L.circle([lat,lon],{radius,color,weight:1.5,opacity:.6,fillColor:color,fillOpacity:.05,dashArray:"5 6",interactive:false}).addTo(map);
   candidateLayers.push(ring);
   const m=L.marker([lat,lon],{riseOnHover:true,icon:L.divIcon({className:"candidate-marker-wrap",html:'<div class="candidate-pin '+kind+'">'+esc(euro(x.price_guess))+' ~</div>',iconSize:[88,36],iconAnchor:[44,20]})}).addTo(map);
   const label=String(x.geo_label_guess||"Localisation indicative");
-  m.bindTooltip(esc(label)+" · piste non confirmée · cercle graphique "+radius+" m");
+  m.bindTooltip(esc(label)+(blocked?" · lien à contrôler manuellement":" · piste non confirmée")+" · cercle indicatif "+radius+" m");
   m.on("click",()=>{
-   if(viewMode==="candidates")highlightCandidate(x.candidate_url);
+   if(viewMode==="candidates"||viewMode==="blocked")highlightCandidate(x.candidate_url);
    else m.bindPopup('<b>'+esc(x.title||"Piste non confirmée")+'</b><p>'+esc(label)+' : position indicative, disponibilité et adresse non validées.</p><a href="'+esc(x.candidate_url)+'" target="_blank" rel="noopener noreferrer">Fiche originale ↗</a>').openPopup();
   });
   candidateLayers.push(m);candidateMarkerByUrl.set(x.candidate_url,m);
  });
  document.getElementById("candidateLegend").hidden=allowed.length===0;
- if(viewMode==="candidates"){
+ if(viewMode==="candidates"||viewMode==="blocked"){
   document.getElementById("mapReport").innerHTML='<span>'+allowed.length+' repères indicatifs · '+(items.length-allowed.length)+' sans position utilisable</span><button type="button" id="recenterCandidates">Recentrer ↗</button>';
   document.getElementById("recenterCandidates")?.addEventListener("click",()=>fitCandidates(allowed));
   if(focus)fitCandidates(allowed);
@@ -607,8 +609,9 @@ function renderBlocked(){
   const check=x.last_check||{};
   const status=x.review_status==="verification_blocked"?"Accès bloqué":"Fiche non confirmée";
   const date=check.checked_at?new Date(check.checked_at).toLocaleDateString("fr-FR"):"—";
-  return '<article class="monitor-card monitor-pending"><div class="row"><span class="pill">'+esc(status)+'</span><span class="pill">HTTP '+esc(check.http_status??"—")+'</span></div>'+
+  return '<article class="monitor-card monitor-pending" data-candidate-url="'+esc(x.candidate_url)+'"><div class="row"><span class="pill">'+esc(status)+'</span><span class="pill">HTTP '+esc(check.http_status??"—")+'</span></div>'+
    '<h3>'+esc(x.title||"Lien sans titre")+'</h3><div class="chips"><span>'+num(x.surface_guess||0)+' m² extraits</span><span>'+euro(x.price_guess||0)+' CC non confirmé</span><span>Contrôle '+esc(date)+'</span></div>'+
+   (candidateLocated(x)?'<div class="candidate-location">◌ '+esc(x.geo_label_guess||"Repère indicatif")+' · cercle de rue/quartier. Le lien original reste non vérifié.</div>':'')+
    '<p>'+esc((check.evidence||"Contrôle non concluant").slice(0,200))+'</p>'+
    '<a class="link" href="'+esc(x.candidate_url)+'" target="_blank" rel="noopener noreferrer">Ouvrir le lien original ↗</a></article>';
  }).join(""):'<div class="empty">Aucun résultat dans les filtres actuels.</div>')+
@@ -632,9 +635,17 @@ function render(){
  updateOverview();
  document.body.classList.toggle("list-only",viewMode==="unlocated"||viewMode==="rejected");
  const inMonitor=viewMode==="candidates"||viewMode==="health"||viewMode==="blocked";
- document.body.classList.toggle("candidate-map-view",viewMode==="candidates");
+ document.body.classList.toggle("candidate-map-view",viewMode==="candidates"||viewMode==="blocked");
  document.body.classList.toggle("monitor-view",inMonitor);
- if(inMonitor){if(viewMode==="candidates"){clearMarkers();renderCandidates();drawCandidateMap(candidateOptions(),true)}else{clearCandidateMap();if(viewMode==="blocked")renderBlocked();else renderHealth()}return;}
+ if(inMonitor){
+  if(viewMode==="candidates"){clearMarkers();renderCandidates();drawCandidateMap(candidateOptions(),true)}
+  else if(viewMode==="blocked"){
+   clearMarkers();renderBlocked();
+   const budget=Number(document.getElementById("budget").value);
+   drawCandidateMap(monitorBlockedFeed.filter(x=>Number(x.price_guess)>0&&Number(x.price_guess)<=budget&&Number(x.surface_guess)>=37),true);
+  }else{clearCandidateMap();renderHealth()}
+  return;
+ }
 
   const budget=Number(document.getElementById("budget").value);
   const status=document.getElementById("status").value;
