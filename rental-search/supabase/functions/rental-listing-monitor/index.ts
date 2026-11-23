@@ -5,7 +5,7 @@ let secret = "";
 try { secret = JSON.parse(raw).default || ""; } catch {}
 secret = secret || Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
 const sb = createClient(Deno.env.get("SUPABASE_URL") || "",secret,{auth:{persistSession:false,autoRefreshToken:false}});
-const VERSION = "1.0.0";
+const VERSION = "2.0.0";
 const HEADERS = {"user-agent":"Mozilla/5.0 (compatible; MontparnasseRentalStatus/1.0; contact via original source)","accept":"text/html,application/xhtml+xml","accept-language":"fr-FR,fr;q=0.9"};
 function safe(url:string) {
  try {
@@ -58,10 +58,13 @@ async function one(listing:any) {
     const size=Number(response.headers.get("content-length")||0);
     if(size>3000000){outcome="ambiguous";proof="HTML too large to verify safely";}else{
      const html=(await response.text()).slice(0,340000);
+     const title=strip(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]||"").slice(0,250);
      const definitive=removalProof(html);
+     const generic=/^(?:page non trouv[ée]e|page introuvable|annonce introuvable|recherche immobili[èe]re|annonces immobili[èe]res)/i.test(title);
      if(definitive&&individualUrl(target.href)){outcome="explicitly_removed";proof="Original page states: "+definitive;}
+     else if(generic){outcome="non_listing";proof="Verified generic page title: "+title;}
      else if(individualUrl(target.href)&&/appartement|studio|logement|location/i.test(strip(html.slice(0,24000)))) {
-      outcome="online";proof="Original listing URL responds with property/rental HTML; availability and eligibility NOT certified";
+      outcome="online";proof="Original individual URL responds with property/rental HTML; availability and eligibility NOT certified";
      }else{outcome="ambiguous";proof="HTTP 2xx but no individual property content confirmed";}
     }
    }
