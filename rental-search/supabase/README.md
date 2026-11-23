@@ -46,3 +46,29 @@ IMPORTANT : ces tests **ne sont pas** une première ronde complète de contrôle
 ## Sécurité et déploiement
 
 Ne jamais ajouter d'identifiants de service, de tokens cron, de secrets d'accès personnel ni de clés `service_role` dans le dépôt, le navigateur ou les logs publics. L'API de consultation `rental-search` (avec sa configuration privée) n'est pas copiée dans ce dossier. Les autres fichiers de ce dossier sont des sources sans secrets. Les écritures restent limitées aux tables `public.rental_*`.
+
+## Audit individuel des candidats — 23 novembre 2026
+
+Le fichier `functions/rental-candidate-url-audit/index.ts` est déployé comme fonction Edge `rental-candidate-url-audit`. L'outil exécute une vraie requête HTTP GET pour chaque URL enregistrée dans `rental_collector_candidates`, avec contrôle du domaine, des redirections, du code HTTP, du titre et de la surface. Les résultats vérifiables sont historisés dans `public.rental_candidate_url_checks` (référence de l'annonce, date, HTTP, titre, URL finale, motif et verdict). Les données historiques sont conservées.
+
+Le 23/11, **189 URL candidates ont été testées individuellement**, puis triées : 18 liens de fiches individuelles accessibles (mais disponibilité et éligibilité *non certifiées*), 15 réponses HTTP 404/410, 1 page indiquant explicitement une indisponibilité, 11 redirections génériques, 2 pages sans annonce individuelle, 14 offres manifestement hors secteur, 15 loyers confirmés au-delà de 1 800 €, 85 blocages techniques (dont 81 réponses HTTP 429) et 28 vérifications ambiguës. Ces chiffres constituent un **instantané historique**, à ne pas recopier dans les futurs rapports.
+
+Statuts préservés par le déclencheur lors des redécouvertes :
+- `link_verified` : vraie URL de fiche individuelle accessible ; entre dans `rental_candidate_review_queue` / onglet « Pistes à qualifier » ; ne signifie ni disponibilité ni conformité au polygone.
+- `link_gone`, `unavailable_confirmed`, `not_individual_listing`, `discarded_out_of_area`, `discarded_out_of_budget` : exclues de la file principale, sans effacer l'historique ni les preuves.
+- `verification_blocked` : site protégé (HTTP 403/429, échec réseau) ; non supposé supprimé, conservé dans « Liens non vérifiables ».
+- `needs_manual_url_review` : page HTTP reçue sans preuve suffisante de fiche individuelle ; conservée dans « Liens non vérifiables ».
+
+L'API privée `rental-monitor?mode=candidates` renvoie la file de fiches accessibles ; `mode=blocked` renvoie les liens bloqués et ambigus avec leur motif. L'API est protégée par le code d'accès personnel et l'authentification côté serveur. Ne jamais exposer un token cron, une clé service ou le code d'accès personnel dans le dépôt.
+
+### Automatisation
+
+**Huit nouveaux jobs pg_cron** `rental-candidate-audit-batch-0` à `7` sont ajoutés à la surveillance historique, à raison de deux batches par minute entre hh:04 et hh:07 aux quatre créneaux de collecte (9h, 13h, 16h, 19h, fuseau Europe/Paris). La fonction analyse les nouvelles URL et ne recontrôle pas inutilement les liens déjà visités : délai de 1 jour pour une fiche accessible, 2 jours pour une incertitude, 3 jours pour un blocage ordinaire, 7 jours en cas de HTTP 429. Cela évite d'insister sur un portail anti-robot.
+
+Les quatre jobs `rental-listing-monitor-batch-0..3` restent actifs : les annonces **déjà publiées** sont archivées logiquement si l'URL redirige vers un accueil/catalogue confirmé ou si les règles exigeantes des HTTP 404/410 répétés sont satisfaites. La procédure SQL `rental_record_listing_verification` a été adaptée aux redirections génériques. Les erreurs 403, 429 ou les pages ambiguës ne constituent pas des preuves de retrait.
+
+Les fiches archives restent dans `public.rental_listings` avec `available_status='removed'`, `retired_at` et `retirement_reason`. Les actions utilisateur sont conservées, et l'API `rental-search` exclut toujours ces fiches.
+
+La tâche de compte rendu existante `Veille locative Montparnasse` reste prévue aux quatre horaires : 9h10, 13h10, 16h10, 19h10, heure de Paris. Sa consigne inclut maintenant les 8 jobs d'audit des candidats et les 4 jobs de vérification d'annonces publiées.
+
+**Limite essentielle :** une fiche accessible n'est pas forcément disponible, vide, au bon loyer CC ou dans le polygone. La validation finale demeure fondée sur la fiche originale et le périmètre sauvegardé + 500 mètres. Le statut des jobs programmés doit être confirmé après leur premier passage planifié ; un lancement manuel ne prouve pas la réussite d'une future exécution automatique.
