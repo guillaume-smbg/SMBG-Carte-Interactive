@@ -35,12 +35,14 @@ Deno.serve(async(req:Request)=>{
    return json({candidates:items,raw_review_count:all.length,shown_count:items.length,warning:"Pistes non vérifiées : disponibilité, adresse exacte, loyer CC et location vide restent à confirmer",generated_at:new Date().toISOString()});
   }
   if(mode==="health"){
-   const [h,s,l]=await Promise.all([
+   const [h,s,l,states,events]=await Promise.all([
     db.from("rental_collection_health").select("*").like("run_key","edge-%").order("last_check",{ascending:false}).limit(1),
     db.from("rental_search_sources").select("source_key,name,priority,active,updated_at").eq("active",true).limit(500),
-    db.from("rental_listings").select("created_at").order("created_at",{ascending:false}).limit(1)
+    db.from("rental_listings").select("created_at").order("created_at",{ascending:false}).limit(1),
+    db.from("rental_listings").select("id,available_status").limit(500),
+    db.from("rental_listing_verification_events").select("listing_id,checked_at,led_to_retirement,outcome").gte("checked_at",new Date(Date.now()-86400000).toISOString()).order("checked_at",{ascending:false}).limit(1200)
    ]);
-   if(h.error||s.error||l.error)return json({error:h.error?.message||s.error?.message||l.error?.message},500);
+   if(h.error||s.error||l.error||states.error||events.error)return json({error:h.error?.message||s.error?.message||l.error?.message||states.error?.message||events.error?.message},500);
    const health=h.data?.[0]||null;
    const x=health?await db.from("rental_source_checks").select("source_key,outcome,html_pages,listing_pages_inspected,candidate_links_seen,catalogue_exhaustive").eq("run_key",health.run_key).limit(500):{data:[],error:null};
    if(x.error)return json({error:x.error.message},500);
@@ -51,7 +53,12 @@ Deno.serve(async(req:Request)=>{
    const runPredatesConfiguration=health?new Date(health.last_check||0).getTime()<latestSourceUpdate:false;
    const count=(pred:(x:any)=>boolean)=>new Set(rows.filter(pred).map(x=>x.source_key)).size;
    const summary={sources_active:sources.length,sources_attempted:count(()=>true),with_listing_pages:count(z=>z.listing_pages_inspected>0),inaccessible:count(z=>z.outcome==="inaccessible"),login_required:count(z=>z.outcome==="login_required"),technical_limit:count(z=>z.outcome==="not_checked_technical_limit"),catalogues_exhaustive:count(z=>z.catalogue_exhaustive===true),html_pages:rows.reduce((n,z)=>n+(z.html_pages||0),0),listing_pages_inspected:rows.reduce((n,z)=>n+(z.listing_pages_inspected||0),0),candidate_links_seen:rows.reduce((n,z)=>n+(z.candidate_links_seen||0),0)};
-   const bykey=new Map(rows.map(z=>[z.source_key,z]));
+   const checkedLast24h=new Set((events.data||[]).map(z=>z.listing_id)).size;
+    const retiredLast24h=(events.data||[]).filter(z=>z.led_to_retirement).length;
+    const retiredTotal=(states.data||[]).filter(z=>z.available_status==="removed").length;
+    const activeListings=(states.data||[]).filter(z=>z.available_status!=="removed").length;
+    Object.assign(summary,{listings_checked_24h:checkedLast24h,listings_retired_24h:retiredLast24h,listings_retired_total:retiredTotal,listings_followed:activeListings});
+    const bykey=new Map(rows.map(z=>[z.source_key,z]));
    const sites=sources.map(z=>{const c:any=bykey.get(z.source_key);return {name:z.name,outcome:c?.outcome||"not_attempted",listing_pages_inspected:c?.listing_pages_inspected||0,html_pages:c?.html_pages||0};});
    return json({health,summary,sites,run_predates_configuration:runPredatesConfiguration,latest_listing_created_at:l.data?.[0]?.created_at||null,generated_at:new Date().toISOString()});
   }
