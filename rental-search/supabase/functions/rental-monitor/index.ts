@@ -34,6 +34,22 @@ Deno.serve(async(req:Request)=>{
    });
    return json({candidates:items,raw_review_count:all.length,shown_count:items.length,warning:"Pistes non vérifiées : disponibilité, adresse exacte, loyer CC et location vide restent à confirmer",generated_at:new Date().toISOString()});
   }
+  if(mode==="blocked"){
+   const q=await db.from("rental_collector_candidates")
+    .select("candidate_url,source_key,title,observed_at,price_guess,surface_guess,review_status")
+    .in("review_status",["verification_blocked","needs_manual_url_review"]).order("observed_at",{ascending:false}).limit(500);
+   if(q.error)return json({error:q.error.message},500);
+   const entries=q.data||[];
+   const latest=await db.from("rental_candidate_url_checks")
+    .select("candidate_url,checked_at,outcome,http_status,evidence")
+    .order("checked_at",{ascending:false}).limit(500);
+   const seen=new Map();
+   for(const v of latest.data||[])if(!seen.has(v.candidate_url))seen.set(v.candidate_url,v);
+   return json({candidates:entries.map(x=>({...x,last_check:seen.get(x.candidate_url)||null})),
+    blocked:entries.filter(x=>x.review_status==="verification_blocked").length,
+    ambiguous:entries.filter(x=>x.review_status==="needs_manual_url_review").length,
+    warning:"Ces liens ont été testés mais restent techniquement inaccessibles ou non concluants. Ils ne sont pas considérés comme supprimés.",generated_at:new Date().toISOString()});
+  }
   if(mode==="health"){
    const [h,s,l,states,events]=await Promise.all([
     db.from("rental_collection_health").select("*").like("run_key","edge-%").order("last_check",{ascending:false}).limit(1),
@@ -58,7 +74,19 @@ Deno.serve(async(req:Request)=>{
     const retiredTotal=(states.data||[]).filter(z=>z.available_status==="removed").length;
     const activeListings=(states.data||[]).filter(z=>z.available_status!=="removed").length;
     Object.assign(summary,{listings_checked_24h:checkedLast24h,listings_retired_24h:retiredLast24h,listings_retired_total:retiredTotal,listings_followed:activeListings});
-    const bykey=new Map(rows.map(z=>[z.source_key,z]));
+    const cs=await db.from("rental_collector_candidates").select("review_status").limit(600);
+   if(cs.error)return json({error:cs.error.message},500);
+   const ss=cs.data||[];
+   Object.assign(summary,{
+    candidate_individual_links:ss.filter(x=>x.review_status==="link_verified").length,
+    candidate_blocked:ss.filter(x=>x.review_status==="verification_blocked").length,
+    candidate_ambiguous:ss.filter(x=>x.review_status==="needs_manual_url_review").length,
+    candidate_dead:ss.filter(x=>["link_gone","unavailable_confirmed"].includes(x.review_status)).length,
+    candidate_nonlisting:ss.filter(x=>x.review_status==="not_individual_listing").length,
+    candidate_outside_area:ss.filter(x=>x.review_status==="discarded_out_of_area").length,
+    candidate_over_budget:ss.filter(x=>x.review_status==="discarded_out_of_budget").length
+   });
+   const bykey=new Map(rows.map(z=>[z.source_key,z]));
    const sites=sources.map(z=>{const c:any=bykey.get(z.source_key);return {name:z.name,outcome:c?.outcome||"not_attempted",listing_pages_inspected:c?.listing_pages_inspected||0,html_pages:c?.html_pages||0};});
    return json({health,summary,sites,run_predates_configuration:runPredatesConfiguration,latest_listing_created_at:l.data?.[0]?.created_at||null,generated_at:new Date().toISOString()});
   }
