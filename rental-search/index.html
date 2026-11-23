@@ -117,6 +117,14 @@ body.list-only .list-toolbar,body.list-only .list-warning,body.list-only .load-m
 .overview-card.pending .n{color:#ae741c}
 .overview-card.candidates .n{color:#315fa6}
 @media(max-width:700px){.overview{padding:0 12px;gap:6px}.overview-card{min-height:88px;padding:9px;gap:5px;flex-direction:column;align-items:flex-start}.overview-card .n{font-size:24px}.overview-card .meta strong{font-size:10px}.overview-card .meta span{font-size:9px}}
+
+/* Map/list interactive selection */
+.marker{min-width:62px;width:auto;height:29px;padding:0 9px;background:#273f5f;border-radius:9px;font-size:11px;box-shadow:0 3px 8px #10243a42}
+.marker.warn{background:#bb802e}
+.marker.warn:after{border-top-color:#bb802e}
+.marker.selected{background:#2457b5;outline:3px solid #8db5ee;outline-offset:2px;transform:scale(1.08)}
+.marker.selected:after{border-top-color:#2457b5}
+.card.is-selected{border-color:#6da1db;box-shadow:0 3px 16px #225aa525}
 </style>
 </head>
 <body>
@@ -259,7 +267,8 @@ const psmText=(rent,surface)=>{const v=psm(rent,surface);return v==null?"—":ne
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const apiUrl=(extra="")=>API+"?k="+encodeURIComponent(KEY)+(extra?"&"+extra:"");
 let prefs={};try{prefs=JSON.parse(localStorage.getItem("rentalPrefsV1")||"{}")||{}}catch{prefs={}}
-let listings=[],filtered=[],markers=[],favoritesOnly=false,viewMode="located",shownCards=12;
+let listings=[],filtered=[],markers=[],favoritesOnly=false,viewMode="located",shownCards=12,selectedListingId=null;
+const markerById=new Map();
 let savedPolygon=null,pendingPolygon=null,zoneLayer=null;
 let nearZoneBufferM=500;
 // Keep a second, browser-local backup. This never replaces the original polygon silently.
@@ -416,9 +425,21 @@ document.getElementById("saveZone").addEventListener("click",saveZone);
 document.getElementById("clearZone").addEventListener("click",clearZone);
 document.getElementById("zoneFilter").addEventListener("change",render);
 
-function clearMarkers(){markers.forEach(m=>map.removeLayer(m));markers=[]}
+function clearMarkers(){markers.forEach(m=>map.removeLayer(m));markers=[];markerById.clear()}
+function selectListing(id,scroll=false){
+ selectedListingId=id;
+ document.querySelectorAll(".card").forEach(c=>c.classList.toggle("is-selected",c.dataset.id===id));
+ for(const [key,marker] of markerById.entries())marker.getElement()?.querySelector(".marker")?.classList.toggle("selected",key===id);
+ if(scroll){
+  const index=filtered.findIndex(x=>x.id===id);
+  if(index>=shownCards){shownCards=Math.ceil((index+1)/12)*12;render()}
+  const card=[...document.querySelectorAll(".card")].find(c=>c.dataset.id===id);
+  card?.scrollIntoView({behavior:"smooth",block:"nearest"});
+ }
+}
 function fitMapToPins(){
   requestAnimationFrame(()=>{
+    if(viewMode!=="located")return;
     map.invalidateSize();
     if(markers.length)map.fitBounds(L.latLngBounds(markers.map(m=>m.getLatLng())),{padding:[50,50],maxZoom:15});
     else if(zoneLayer)map.fitBounds(zoneLayer.getBounds(),{padding:[35,35]});
@@ -441,11 +462,12 @@ function drawMarkers(){
     }
     placed.push({baseLat,baseLon});
     const cls=(x.available_status==="removed"?"off":(x.available_status==="uncertain"||isStaleListing(x))?"warn":"")+(x.location_precision&&x.location_precision!=="exact"?" approx":"");
-    const icon=L.divIcon({className:"price-marker-wrap",html:'<div class="marker '+cls+'">'+Math.round(Number(x.rent_cc))+' €</div>',iconSize:[66,37],iconAnchor:[33,37]});
+    const icon=L.divIcon({className:"price-marker-wrap",html:'<div class="marker '+cls+(selectedListingId===x.id?' selected':'')+'">'+Math.round(Number(x.rent_cc)).toLocaleString("fr-FR")+' €</div>',iconSize:[74,37],iconAnchor:[37,37]});
     const m=L.marker([lat,lon],{icon,riseOnHover:true,zIndexOffset:100}).addTo(map);
     m.bindTooltip(esc(x.location_label)+" · "+euro(x.rent_cc)+(nearby?" · pin légèrement décalé pour lisibilité":""));
-    m.on("click",()=>openDetail(x.id));
-    markers.push(m);
+    m.on("click",()=>{selectListing(x.id,true);openDetail(x.id)});
+    m.on("mouseover",()=>selectListing(x.id));
+    markers.push(m);markerById.set(x.id,m);
   });
   const missing=filtered.length-markers.length;
   document.getElementById("mapReport").innerHTML='<span>'+markers.length+' pins sur la carte · '+missing+' sans position</span><button type="button" id="recenterPins" aria-label="Voir tous les repères">Recentrer ↗</button>';
@@ -577,7 +599,12 @@ function render(){
   const warning=available===0&&viewMode!=="rejected"?'<div class="list-warning">Aucune disponibilité actuellement confirmée parmi ces annonces. Les fiches restent consultables à titre de pistes.</div>':'';
   list.innerHTML=intro+warning+list.innerHTML+(remaining?'<button class="load-more" type="button" id="loadMore">Afficher 12 annonces supplémentaires · '+remaining+' restantes</button>':'');
   document.getElementById("loadMore")?.addEventListener("click",()=>{shownCards+=12;render()});
-  list.querySelectorAll(".card").forEach(c=>c.addEventListener("click",()=>openDetail(c.dataset.id)));
+  list.querySelectorAll(".card").forEach(c=>{
+    c.addEventListener("click",()=>{selectListing(c.dataset.id);openDetail(c.dataset.id)});
+    c.addEventListener("mouseenter",()=>selectListing(c.dataset.id));
+    c.setAttribute("tabindex","0");c.setAttribute("role","button");
+    c.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectListing(c.dataset.id);openDetail(c.dataset.id)}});
+  });
   list.querySelectorAll("[data-delete]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setUserAction(b.dataset.delete,"rejected")}));
   list.querySelectorAll("[data-restore]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setUserAction(b.dataset.restore,"active")}));
   drawMarkers();
@@ -586,6 +613,7 @@ function render(){
 
 async function openDetail(id){
   const x=listings.find(v=>v.id===id); if(!x)return;
+  selectListing(id);
   const d=document.getElementById("detail");
   d.innerHTML=
    '<div class="detail-banner"><span>'+esc(currentStateLabel(x))+'</span><small>Photos non vérifiées · voir la source originale</small></div>'+
