@@ -69,7 +69,7 @@ body.monitor-view .list{display:grid;grid-template-columns:repeat(auto-fit,minma
     </div>
     <div class="filters">
       <select id="budget"><option value="1600">≤ 1 600 € CC</option><option value="1800" selected>≤ 1 800 € CC</option></select>
-      <select id="status"><option value="live" selected>Disponibles + à vérifier</option><option value="available">Disponibles</option><option value="uncertain">À vérifier</option><option value="all">Tout l'historique</option></select>
+      <select id="status"><option value="live" selected>Disponibles + à vérifier</option><option value="available">Disponibles</option><option value="uncertain">À vérifier</option><option value="all">Toutes les annonces suivies (hors retirées)</option></select>
       <select id="elevator"><option value="all">Ascenseur indifférent</option><option value="yes">Ascenseur uniquement</option></select>
       <select id="sort"><option value="score">Pertinence</option><option value="price">Prix croissant</option><option value="sqm">Prix au m² croissant</option><option value="surface">Surface décroissante</option><option value="walk">Distance Montparnasse</option></select>
       <input id="search" placeholder="Rue, quartier, source…">
@@ -123,7 +123,7 @@ const MONITOR_API="https://hemanobijzarxvnktccn.supabase.co/functions/v1/rental-
 const MONITOR_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhlbWFub2Jpanphcnh2bmt0Y2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1NDE2MzQsImV4cCI6MjEwMjExNzYzNH0.3ooIBrjLIA9FAhRwxeMXHeGnWbuhSj4k3WII8XknGYU";
 let candidateFeed=[],monitorHealth=null,monitorError="",monitorLoaded=false,showDistant=false;
 async function fetchMonitor(mode){
- const r=await fetch(MONITOR_API+"?mode="+encodeURIComponent(mode),{headers:{Authorization:"Bearer "+MONITOR_ANON,apikey:MONITOR_ANON},cache:"no-store"});
+ const r=await fetch(MONITOR_API+"?mode="+encodeURIComponent(mode)+"&k="+encodeURIComponent(KEY),{headers:{Authorization:"Bearer "+MONITOR_ANON,apikey:MONITOR_ANON},cache:"no-store"});
  if(!r.ok)throw new Error("Surveillance HTTP "+r.status);
  const data=await r.json();
  if(data.error)throw new Error(data.error);
