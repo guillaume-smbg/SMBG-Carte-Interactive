@@ -31,7 +31,7 @@ body.map-xxl main{grid-template-columns:minmax(760px,72%) minmax(300px,28%)}
 
 /* Rental monitoring v2: explicit candidate and collection views; no unverified map pins. */
 body.monitor-view main{display:block;max-width:1300px}
-body:not(.monitor-view) #showDistant,body.monitor-view:has(#tabHealth.active) #showDistant{display:none}
+body:not(.monitor-view) #showDistant,body.monitor-view:has(#tabHealth.active) #showDistant,body.monitor-view:has(#tabBlocked.active) #showDistant{display:none}
 body.monitor-view .map-shell{display:none}
 body.monitor-view .list{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:12px;max-width:1260px;margin:auto}
 .monitor-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:17px;min-width:0;box-shadow:0 2px 8px #10182808}
@@ -153,7 +153,8 @@ body.list-only .list-toolbar,body.list-only .list-warning,body.list-only .load-m
       <button class="view-tab active" id="tabLocated" data-view="located">📍 Sur la carte</button>
       <button class="view-tab" id="tabUnlocated" data-view="unlocated">◌ Sans localisation</button>
       <button class="view-tab" id="tabRejected" data-view="rejected">🗑 Écartées</button>
-      <button class="view-tab" id="tabCandidates" data-view="candidates">◷ Pistes non vérifiées <span id="candidateCounter"></span></button>
+      <button class="view-tab" id="tabCandidates" data-view="candidates">◷ Pistes à qualifier <span id="candidateCounter"></span></button>
+      <button class="view-tab" id="tabBlocked" data-view="blocked">⚠ Liens non vérifiables <span id="blockedCounter"></span></button>
       <button class="view-tab" id="tabHealth" data-view="health">▤ État des collectes</button>
     </div>
   </div>
@@ -197,7 +198,7 @@ body.list-only .list-toolbar,body.list-only .list-warning,body.list-only .load-m
 const API="https://hemanobijzarxvnktccn.supabase.co/functions/v1/rental-search";
 const MONITOR_API="https://hemanobijzarxvnktccn.supabase.co/functions/v1/rental-monitor";
 const MONITOR_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhlbWFub2Jpanphcnh2bmt0Y2NuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1NDE2MzQsImV4cCI6MjEwMjExNzYzNH0.3ooIBrjLIA9FAhRwxeMXHeGnWbuhSj4k3WII8XknGYU";
-let candidateFeed=[],monitorHealth=null,monitorError="",monitorLoaded=false,showDistant=false;
+let candidateFeed=[],monitorBlockedFeed=[],monitorHealth=null,monitorError="",monitorLoaded=false,showDistant=false,shownBlocked=30;
 async function fetchMonitor(mode){
  const r=await fetch(MONITOR_API+"?mode="+encodeURIComponent(mode)+"&k="+encodeURIComponent(KEY),{headers:{Authorization:"Bearer "+MONITOR_ANON,apikey:MONITOR_ANON},cache:"no-store"});
  if(!r.ok)throw new Error("Surveillance HTTP "+r.status);
@@ -207,10 +208,12 @@ async function fetchMonitor(mode){
 }
 async function loadMonitorData(){
  try{
-  const [c,h]=await Promise.all([fetchMonitor("candidates"),fetchMonitor("health")]);
+  const [c,h,b]=await Promise.all([fetchMonitor("candidates"),fetchMonitor("health"),fetchMonitor("blocked")]);
   candidateFeed=Array.isArray(c.candidates)?c.candidates:[];
+   monitorBlockedFeed=Array.isArray(b.candidates)?b.candidates:[];
   monitorHealth=h;monitorLoaded=true;monitorError="";
   document.getElementById("candidateCounter").textContent="("+candidateFeed.length+")";
+   document.getElementById("blockedCounter").textContent="("+monitorBlockedFeed.length+")";
   updateOverview();
  }catch(e){monitorError=String(e.message||e);monitorLoaded=false;}
  render();
@@ -496,8 +499,8 @@ function renderCandidates(){
    .filter(x=>!query||(String(x.title||"")+" "+String(x.source_key||"")).toLowerCase().includes(query));
  const priority=x=>/paris[- ]?(?:14|15|6|7)(?:e|è|ème|eme)?\b|750(?:14|15|06|07)|montparnasse|pernety|pasteur/i.test(x.title||"")?0:1;
  eligible.sort((a,b)=>priority(a)-priority(b)||new Date(b.observed_at)-new Date(a.observed_at));
- document.getElementById("summary").innerHTML='<span class="pill"><b>'+eligible.length+'</b> pistes brutes</span><span class="pill">0 piste automatiquement certifiée</span>';
- list.innerHTML='<div class="monitor-heading"><div><h2>Pistes détectées, à qualifier</h2><p>Résultats automatiques, distincts des annonces confirmées. Le prix est une estimation non certifiée CC. Une adresse inconnue ne doit jamais créer un pin approximatif.</p></div></div>'+
+ document.getElementById("summary").innerHTML='<span class="pill"><b>'+eligible.length+'</b> fiches accessibles</span><span class="pill">0 piste automatiquement certifiée</span>';
+ list.innerHTML='<div class="monitor-heading"><div><h2>Fiches individuelles accessibles à qualifier</h2><p>Liens contrôlés sur le site d’origine ; disponibilité du logement, loyer CC et secteur restent à confirmer. Le prix est une estimation non certifiée CC. Une adresse inconnue ne doit jamais créer un pin approximatif.</p></div></div>'+
  '<div class="monitor-alert">⚠ Ces pistes ne sont pas des annonces validées : le caractère non meublé, la disponibilité, le loyer CC et l’appartenance au polygone original + 500 m restent à vérifier sur la fiche d’origine. Certains résultats peuvent se situer hors zone. '+(showDistant?'Les pistes éloignées sont incluses.':'Les secteurs manifestement éloignés sont masqués par défaut; ils restent consultables avec le bouton dédié.')+'</div>'+
  (eligible.length?eligible.map(x=>{
   const central=priority(x)===0;
@@ -510,12 +513,34 @@ function renderCandidates(){
    '<a class="link" href="'+esc(x.candidate_url)+'" target="_blank" rel="noopener noreferrer">Ouvrir l’annonce originale ↗</a></article>';
  }).join(""):'<div class="empty">Aucune piste dans ces filtres. Modifie le budget ou le champ de recherche.</div>');
 }
+function renderBlocked(){
+ const list=document.getElementById("list");
+ if(!monitorLoaded){list.innerHTML='<div class="empty">'+(monitorError?esc(monitorError):"Chargement des liens en attente…")+'</div>';return;}
+ const query=document.getElementById("search").value.trim().toLowerCase();
+ const rows=monitorBlockedFeed.filter(x=>!query||(String(x.title||"")+" "+String(x.source_key||"")).toLowerCase().includes(query));
+ const display=rows.slice(0,shownBlocked);
+ const blocked=rows.filter(x=>x.review_status==="verification_blocked").length;
+ document.getElementById("summary").innerHTML='<span class="pill"><b>'+rows.length+'</b> vérifications incomplètes</span><span class="pill">'+blocked+' bloqués · '+(rows.length-blocked)+' ambigus</span>';
+ list.innerHTML='<div class="monitor-heading"><div><h2>Liens non vérifiables automatiquement</h2><p>Ces offres ne sont pas considérées comme supprimées. Les plateformes peuvent bloquer les robots ou renvoyer un contenu non concluant.</p></div></div>'+
+ '<div class="monitor-alert">Cette file reste séparée des annonces individuellement accessibles. Une erreur 403 ou 429 ne prouve pas qu’un logement est loué. Tu peux examiner chaque lien dans ton propre navigateur.</div>'+
+ (display.length?display.map(x=>{
+  const check=x.last_check||{};
+  const status=x.review_status==="verification_blocked"?"Accès bloqué":"Fiche non confirmée";
+  const date=check.checked_at?new Date(check.checked_at).toLocaleDateString("fr-FR"):"—";
+  return '<article class="monitor-card monitor-pending"><div class="row"><span class="pill">'+esc(status)+'</span><span class="pill">HTTP '+esc(check.http_status??"—")+'</span></div>'+
+   '<h3>'+esc(x.title||"Lien sans titre")+'</h3><div class="chips"><span>'+num(x.surface_guess||0)+' m² extraits</span><span>'+euro(x.price_guess||0)+' CC non confirmé</span><span>Contrôle '+esc(date)+'</span></div>'+
+   '<p>'+esc((check.evidence||"Contrôle non concluant").slice(0,200))+'</p>'+
+   '<a class="link" href="'+esc(x.candidate_url)+'" target="_blank" rel="noopener noreferrer">Ouvrir le lien original ↗</a></article>';
+ }).join(""):'<div class="empty">Aucun résultat dans les filtres actuels.</div>')+
+ (rows.length>display.length?'<button class="load-more" id="moreBlocked" type="button">Afficher 30 liens supplémentaires · '+(rows.length-display.length)+' restants</button>':'');
+ document.getElementById("moreBlocked")?.addEventListener("click",()=>{shownBlocked+=30;render()});
+}
 function renderHealth(){
  const list=document.getElementById("list");
  if(!monitorLoaded||!monitorHealth){list.innerHTML='<div class="empty">'+(monitorError?esc(monitorError):"Chargement de la collecte…")+'</div>';return;}
  const h=monitorHealth.health||{},m=monitorHealth.summary||{},sites=monitorHealth.sites||[];
  const date=h.last_check?new Date(h.last_check).toLocaleString("fr-FR"):"non communiqué";
- const stats=[["Sources actives",m.sources_active],["Tentatives distinctes",m.sources_attempted],["Sources avec fiches inspectées",m.with_listing_pages],["Sources bloquées",(m.inaccessible||0)+(m.login_required||0)],["Limites techniques",m.technical_limit],["Catalogues exhaustifs",m.catalogues_exhaustive],["Pages HTML",m.html_pages],["Fiches présumées",m.listing_pages_inspected],["Liens repérés",m.candidate_links_seen],["Annonces suivies",m.listings_followed],["Annonces contrôlées (24h)",m.listings_checked_24h],["Retirées automatiquement (24h)",m.listings_retired_24h],["Annonces retirées (total)",m.listings_retired_total]];
+ const stats=[["Sources actives",m.sources_active],["Tentatives distinctes",m.sources_attempted],["Sources avec fiches inspectées",m.with_listing_pages],["Sources bloquées",(m.inaccessible||0)+(m.login_required||0)],["Limites techniques",m.technical_limit],["Catalogues exhaustifs",m.catalogues_exhaustive],["Pages HTML",m.html_pages],["Fiches présumées",m.listing_pages_inspected],["Liens repérés",m.candidate_links_seen],["Annonces suivies",m.listings_followed],["Annonces contrôlées (24h)",m.listings_checked_24h],["Retirées automatiquement (24h)",m.listings_retired_24h],["Annonces retirées (total)",m.listings_retired_total],["Fiches candidates accessibles",m.candidate_individual_links],["Pistes bloquées",m.candidate_blocked],["Pistes au résultat ambigu",m.candidate_ambiguous],["Liens candidats morts",m.candidate_dead],["Catalogues écartés",m.candidate_nonlisting]];
  document.getElementById("summary").innerHTML='<span class="pill">Collecte '+esc(h.run_key||"non disponible")+'</span>';
  list.innerHTML='<div class="monitor-heading"><div><h2>État des collectes</h2><p>Dernier passage : '+esc(date)+' · '+esc(h.run_key||"—")+'</p></div></div>'+
  '<div class="monitor-alert">'+(monitorHealth.run_predates_configuration?"⚠ Dernière collecte antérieure aux modifications des sources. Les nouveaux chiffres viendront au prochain passage. ":"")+"Un job réussi ou une page HTML reçue ne garantit pas un catalogue parcouru. Les sources journalisées mais techniquement limitées ne sont pas certifiées exhaustives.</div>"+
@@ -526,9 +551,9 @@ function renderHealth(){
 function render(){
  updateOverview();
  document.body.classList.toggle("list-only",viewMode==="unlocated"||viewMode==="rejected");
- const inMonitor=viewMode==="candidates"||viewMode==="health";
+ const inMonitor=viewMode==="candidates"||viewMode==="health"||viewMode==="blocked";
  document.body.classList.toggle("monitor-view",inMonitor);
- if(inMonitor){if(viewMode==="candidates")renderCandidates();else renderHealth();return;}
+ if(inMonitor){if(viewMode==="candidates")renderCandidates();else if(viewMode==="blocked")renderBlocked();else renderHealth();return;}
 
   const budget=Number(document.getElementById("budget").value);
   const status=document.getElementById("status").value;
@@ -736,14 +761,14 @@ document.getElementById("logoutRental").addEventListener("click",()=>{
  const next=new URL(location.href);next.searchParams.delete("k");
  location.assign(next.pathname+next.search+next.hash);
 });
-document.getElementById("refreshMonitoring").addEventListener("click",()=>{if(viewMode==="candidates"||viewMode==="health"){monitorLoaded=false;monitorError="";loadMonitorData()}else init()});
+document.getElementById("refreshMonitoring").addEventListener("click",()=>{if(viewMode==="candidates"||viewMode==="health"||viewMode==="blocked"){monitorLoaded=false;monitorError="";loadMonitorData()}else init()});
 document.getElementById("showDistant").addEventListener("click",e=>{showDistant=!showDistant;e.currentTarget.classList.toggle("active",showDistant);render()});
 document.getElementById("favorites").addEventListener("click",e=>{favoritesOnly=!favoritesOnly;shownCards=12;e.currentTarget.classList.toggle("active",favoritesOnly);render()});
 document.getElementById("mapSize").addEventListener("click",e=>{document.body.classList.toggle("map-xxl");e.currentTarget.classList.toggle("active");setTimeout(()=>{map.invalidateSize();fitMapToPins()},150)});
 document.querySelectorAll(".view-tab").forEach(btn=>btn.addEventListener("click",e=>{
   e.preventDefault();
   e.stopPropagation();
-  viewMode=btn.dataset.view||"located";shownCards=12;
+  viewMode=btn.dataset.view||"located";shownCards=12;shownBlocked=30;
   document.querySelectorAll(".view-tab").forEach(z=>z.classList.toggle("active",z===btn));
   if(viewMode!=="located"){
     document.body.classList.remove("map-xxl");
