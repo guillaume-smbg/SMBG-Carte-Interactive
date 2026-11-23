@@ -105,6 +105,18 @@ body.list-only .list-toolbar,body.list-only .list-warning,body.list-only .load-m
 @media(max-width:860px){main,body.map-xxl main{grid-template-columns:1fr}.map-shell{position:relative;top:auto;height:380px;min-height:0}body.list-only .list{grid-template-columns:1fr}}
 @media(max-width:560px){.map-shell{height:340px}.card .price{font-size:20px}.filters input{min-width:100%}}
 
+
+/* Compteurs d'accueil issus des donnees reelles */
+.overview{max-width:1620px;margin:12px auto 0;padding:0 18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.overview-card{display:flex;align-items:center;gap:13px;min-height:83px;padding:13px 16px;border:1px solid #dde5ee;border-radius:13px;background:#fff;box-shadow:0 2px 6px #0e2e4c0b;cursor:pointer;text-align:left}
+.overview-card:hover,.overview-card:focus-visible{outline:0;border-color:#a3bfde;box-shadow:0 3px 12px #1645771b}
+.overview-card .n{font-size:27px;letter-spacing:-1px;line-height:1.1;font-weight:850;color:#234569;min-width:35px}
+.overview-card .meta{min-width:0}
+.overview-card .meta strong{display:block;font-size:12px;color:#283b52;line-height:1.35}
+.overview-card .meta span{display:block;font-size:11px;color:#73859a;line-height:1.5;margin-top:3px}
+.overview-card.pending .n{color:#ae741c}
+.overview-card.candidates .n{color:#315fa6}
+@media(max-width:700px){.overview{padding:0 12px;gap:6px}.overview-card{min-height:88px;padding:9px;gap:5px;flex-direction:column;align-items:flex-start}.overview-card .n{font-size:24px}.overview-card .meta strong{font-size:10px}.overview-card .meta span{font-size:9px}}
 </style>
 </head>
 <body>
@@ -138,6 +150,11 @@ body.list-only .list-toolbar,body.list-only .list-warning,body.list-only .load-m
     </div>
   </div>
 </header>
+<section class="overview" aria-label="Synthèse des annonces" id="overview">
+ <button type="button" class="overview-card" data-overview="available"><span id="overviewAvailable" class="n">—</span><span class="meta"><strong>Disponibles confirmées</strong><span>Contrôlées récemment</span></span></button>
+ <button type="button" class="overview-card pending" data-overview="uncertain"><span id="overviewUncertain" class="n">—</span><span class="meta"><strong>À revérifier</strong><span>Pas de disponibilité certifiée</span></span></button>
+ <button type="button" class="overview-card candidates" data-overview="candidates"><span id="overviewCandidates" class="n">—</span><span class="meta"><strong>Pistes à qualifier</strong><span>Jamais affichées comme confirmées</span></span></button>
+</section>
 <main id="app">
   <div class="map-shell">
     <div id="map" class="map"></div>
@@ -186,6 +203,7 @@ async function loadMonitorData(){
   candidateFeed=Array.isArray(c.candidates)?c.candidates:[];
   monitorHealth=h;monitorLoaded=true;monitorError="";
   document.getElementById("candidateCounter").textContent="("+candidateFeed.length+")";
+  updateOverview();
  }catch(e){monitorError=String(e.message||e);monitorLoaded=false;}
  render();
 }
@@ -256,6 +274,14 @@ function readZoneBackup(key){
 }
 
 function userStatus(x){return x.user_action||prefs[x.id]||"active"}
+function updateOverview(){
+ const eligible=listings.filter(x=>x.available_status!=="removed"&&userStatus(x)!=="rejected"&&x.furnished_status!=="furnished"&&Number(x.surface)>=37&&Number(x.rent_cc)<=1800);
+ const confirmed=eligible.filter(x=>x.available_status==="available"&&!isStaleListing(x)).length;
+ const pending=eligible.length-confirmed;
+ document.getElementById("overviewAvailable").textContent=confirmed.toLocaleString("fr-FR");
+ document.getElementById("overviewUncertain").textContent=pending.toLocaleString("fr-FR");
+ document.getElementById("overviewCandidates").textContent=monitorLoaded?candidateFeed.length.toLocaleString("fr-FR"):"…";
+}
 async function setUserAction(id,action){
   const x=listings.find(v=>v.id===id);
   if(x)x.user_action=action;
@@ -476,6 +502,7 @@ function renderHealth(){
  sites.sort((a,b)=>(b.listing_pages_inspected||0)-(a.listing_pages_inspected||0)).map(x=>'<div class="monitor-source"><span>'+esc(x.name)+'</span><small>'+num(x.listing_pages_inspected||0)+' fiches présumées · '+esc(x.outcome)+'</small></div>').join("")+'</div>';
 }
 function render(){
+ updateOverview();
  document.body.classList.toggle("list-only",viewMode==="unlocated"||viewMode==="rejected");
  const inMonitor=viewMode==="candidates"||viewMode==="health";
  document.body.classList.toggle("monitor-view",inMonitor);
@@ -658,6 +685,18 @@ async function init(){
 }
 document.querySelectorAll("#budget,#status,#elevator,#sort").forEach(el=>el.addEventListener("change",()=>{shownCards=12;render()}));
 document.getElementById("search").addEventListener("input",()=>{shownCards=12;render()});
+document.querySelectorAll("[data-overview]").forEach(btn=>btn.addEventListener("click",()=>{
+ const next=btn.dataset.overview;
+ if(next==="candidates"){
+  viewMode="candidates";
+  document.querySelectorAll(".view-tab").forEach(el=>el.classList.toggle("active",el.dataset.view==="candidates"));
+ }else{
+  document.getElementById("status").value=next;
+  viewMode="located";
+  document.querySelectorAll(".view-tab").forEach(el=>el.classList.toggle("active",el.dataset.view==="located"));
+ }
+ shownCards=12;render();
+}));
 document.getElementById("logoutRental").addEventListener("click",()=>{
  try{
   localStorage.removeItem(KEY_STORAGE);
